@@ -5,7 +5,7 @@ namespace mdm\auth;
  *
  * @author MDMunir
  */
-class Module extends yii\base\Module
+class Module extends \yii\base\Module
 {
 	//put your code here
 }
