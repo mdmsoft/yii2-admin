@@ -1,5 +1,5 @@
 {
-        "name": "mdmunir/mdm-auth",
+        "name": "mdm-yii2/mdm-auth",
         "description": "Entar gan... ",
         "keywords": ["yii", "admin", "auth"],
         "type": "yii2-extension",
