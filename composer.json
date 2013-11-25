@@ -18,5 +18,8 @@
                 "yiisoft/yii2": "*",
                 "yiisoft/yii2-bootstrap": "*"
         },
+        "autoload": {
+                "psr-0": { "mdm\\auth\\": "" }
+        },
         "target-dir": "mdm/auth"
 }
