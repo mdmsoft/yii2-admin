@@ -3,24 +3,46 @@
 namespace mdm\auth\components;
 
 use yii\db\Query;
+use yii\db\Connection;
+use yii\web\Application;
+use yii\base\InvalidConfigException;
 use Yii;
 
 /**
  * Description of AccessControl
  *
  * @author MDMunir
+ * @property \yii\db\Connection $db Database connection.
  */
 class AccessControl extends \yii\base\Behavior
 {
 
 	public $tableAccess = 'm_access_route';
 	public $tableMenu = 'm_menu';
+	public $db = 'db';
+	private static $_routeMenuLike = [
+		'mysql' => "[[m.route]] like concat([[a.route]],'%')",
+	];
+	private static $_routeActionLike = [
+		'mysql' => ":action_id like concat([[route]],'%')",
+	];
 
 	public function events()
 	{
 		return[
-				//Application::EVENT_BEFORE_ACTION => 'beforeAction'
+			Application::EVENT_BEFORE_ACTION => 'beforeAction'
 		];
+	}
+
+	public function init()
+	{
+		if (is_string($this->db)) {
+			$this->db = Yii::$app->getComponent($this->db);
+		}
+		if (!$this->db instanceof Connection) {
+			throw new InvalidConfigException("DbManager::db must be either a DB connection instance or the application component ID of a DB connection.");
+		}
+		parent::init();
 	}
 
 	/**
@@ -33,18 +55,17 @@ class AccessControl extends \yii\base\Behavior
 		if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
 			return;
 		}
-		$roles = AccessHelper::getItemsRole();
-		$names = array_keys($roles);
-
+		return;
+		
+		$names = AccessHelper::getItemsRole();
 		$query = new Query;
 		$count = $query->from($this->tableAccess)
-				->where(['and', 'name' => $names, [
-						'or', 'route' => $action->uniqueId, 'route' => $action->controller->uniqueId . '/*'
-			]])
-				->count();
-		if ($count == 0) {
-			$this->denyAccess(Yii::$app->user);
-		}
+				->where(['name' => $names])
+				->andWhere(static::$_routeActionLike[$this->db->driverName], [':action_id' => $action->uniqueId])
+				->count('*',$this->db);
+//		if ($count == 0) {
+//			$this->denyAccess(Yii::$app->user);
+//		}
 	}
 
 	/**
@@ -65,21 +86,17 @@ class AccessControl extends \yii\base\Behavior
 
 	public function getMenu()
 	{
-//		$roles = AccessHelper::getItemsRole();
-//		$names = array_keys($roles);
-
+		$names = AccessHelper::getItemsRole();
+		$driver = $this->db->driverName;
 		$query = new Query;
-		$names = ['c', 'b'];
 		$items = $query->distinct()
 				->select(['p.id as p_id', 'm.id', 'm.menu', 'm.route', 'm.priority'])
 				->from($this->tableMenu . ' m')
-				->innerJoin($this->tableAccess . ' a', ['or',
-					'[[m.route]] = [[a.route]]',
-					"[[m.route]] like concat([[a.route]],'%')"])
+				->innerJoin($this->tableAccess . ' a', static::$_routeMenuLike[$driver])
 				->leftJoin($this->tableMenu . ' p', '[[m.parent]]=[[p.id]]')
 				->where(['name' => $names])
 				->orderBy('[[p.id]],[[m.priority]]')
-				->createCommand()
+				->createCommand($this->db)
 				->queryAll();
 		return $this->buildMenuRecrusive($items);
 	}

@@ -16,8 +16,15 @@ $this->params['breadcrumbs'][] = 'Update';
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php echo $this->render('_form', [
+	<div class="col-lg-6">
+		<?php echo $this->render('_form', [
 		'model' => $model,
 	]); ?>
+	</div>
+	<div class="col-lg-3">
+		<div class="row">
+			
+		</div>
+	</div>
 
 </div>

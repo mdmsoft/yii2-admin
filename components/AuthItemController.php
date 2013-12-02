@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\controllers;
+namespace mdm\auth\components;
 
 use mdm\auth\models\AuthItem;
 use mdm\auth\models\AuthItemSearch;
@@ -13,6 +13,16 @@ use yii\web\VerbFilter;
  */
 class AuthItemController extends Controller
 {
+
+	public $type;
+	public $layout = 'manager';
+
+	/**
+	 *
+	 * @var \yii\rbac\Manager;
+	 */
+	private $_authManager;
+
 	public function behaviors()
 	{
 		return [
@@ -25,18 +35,29 @@ class AuthItemController extends Controller
 		];
 	}
 
+	public function init()
+	{
+		parent::init();
+		$this->_authManager = \Yii::$app->authManager;
+	}
+
+	public function getViewPath()
+	{
+		return $this->module->getViewPath() . DIRECTORY_SEPARATOR . 'auth-item';
+	}
+
 	/**
 	 * Lists all AuthItem models.
 	 * @return mixed
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new AuthItemSearch;
+		$searchModel = new AuthItemSearch(['type' => $this->type]);
 		$dataProvider = $searchModel->search($_GET);
 
 		return $this->render('index', [
-			'dataProvider' => $dataProvider,
-			'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
+					'searchModel' => $searchModel,
 		]);
 	}
 
@@ -47,9 +68,7 @@ class AuthItemController extends Controller
 	 */
 	public function actionView($id)
 	{
-		return $this->render('view', [
-			'model' => $this->findModel($id),
-		]);
+		return $this->render('view', ['model' => $this->findModel($id)]);
 	}
 
 	/**
@@ -59,13 +78,13 @@ class AuthItemController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new AuthItem;
+		$model = new AuthItem(null);
 
 		if ($model->load($_POST) && $model->save()) {
 			return $this->redirect(['view', 'id' => $model->name]);
 		} else {
 			return $this->render('create', [
-				'model' => $model,
+						'model' => $model,
 			]);
 		}
 	}
@@ -84,7 +103,7 @@ class AuthItemController extends Controller
 			return $this->redirect(['view', 'id' => $model->name]);
 		} else {
 			return $this->render('update', [
-				'model' => $model,
+						'model' => $model,
 			]);
 		}
 	}
@@ -97,7 +116,7 @@ class AuthItemController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->findModel($id)->delete();
+		$this->_authManager->removeItem($id);
 		return $this->redirect(['index']);
 	}
 
@@ -116,4 +135,5 @@ class AuthItemController extends Controller
 			throw new HttpException(404, 'The requested page does not exist.');
 		}
 	}
+
 }

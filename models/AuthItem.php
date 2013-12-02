@@ -2,6 +2,7 @@
 
 namespace mdm\auth\models;
 
+use Yii;
 use yii\rbac\Item;
 
 /**
@@ -18,15 +19,39 @@ use yii\rbac\Item;
  * @property AuthItem[] $authItemChildren
  * @property AuthItem[] $authItemParents
  */
-class AuthItem extends \yii\db\ActiveRecord
+class AuthItem extends \yii\base\Model
 {
 
+	public $name;
+	public $type;
+	public $description;
+	public $biz_rule;
+	public $data;
+
 	/**
-	 * @inheritdoc
+	 *
+	 * @var Item 
 	 */
-	public static function tableName()
+	private $_item;
+	
+	private $_children;
+
+	/**
+	 * 
+	 * @param Item $item
+	 * @param array $config
+	 */
+	public function __construct($item, $config = array())
 	{
-		return 'tbl_auth_item';
+		$this->_item = $item;
+		if ($item !== null) {
+			$this->name = $item->name;
+			$this->type = $item->type;
+			$this->description = $item->description;
+			$this->biz_rule = $item->bizRule;
+			$this->data = $this->data;
+		}
+		parent::__construct($config);
 	}
 
 	/**
@@ -56,48 +81,78 @@ class AuthItem extends \yii\db\ActiveRecord
 		];
 	}
 
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getAuthAssignment()
+	public function getIsNewRecord()
 	{
-		return $this->hasOne(AuthAssignment::className(), ['item_name' => 'name']);
+		return $this->_item === null;
 	}
 
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getUsers()
+	public static function find($id)
 	{
-		return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('tbl_auth_assignment', ['item_name' => 'name']);
+		$item = Yii::$app->authManager->getItem($id);
+		if ($item !== null) {
+			return new self($item);
+		}
+		return null;
 	}
 
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getAuthItemChildren()
+	public function save()
 	{
-		return $this->hasMany(AuthItem::className(), ['name' => 'child'])->viaTable('tbl_auth_item_child', ['child' => 'name']);
+		if ($this->_item === null) {
+			$this->_item = Yii::$app->authManager->createItem($this->name, $this->type, $this->description, $this->biz_rule, $this->data);
+		} else {
+			$this->_item->name = $this->name;
+			$this->_item->type = $this->type;
+			$this->_item->description = $this->description;
+			$this->_item->bizRule = $this->biz_rule;
+			$this->_item->data = $this->data;
+			$this->_item->save();
+		}
+		return true;
 	}
 
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getAuthItemParents()
+	public function __call($name, $params)
 	{
-		return $this->hasMany(AuthItem::className(), ['name' => 'parent'])->viaTable('tbl_auth_item_child', ['child' => 'parent']);
+		if($this->_item !== null && $this->_item->hasMethod($name)){
+			return call_user_func_array([$this->_item,$name], $params);
+		}
+		parent::__call($name, $params);
 	}
 
-	public static function getTypeName($type=null)
+	
+	public static function getTypeName($type = null)
 	{
 		$result = [
 			Item::TYPE_OPERATION => 'Operation',
 			Item::TYPE_TASK => 'Task',
 			Item::TYPE_ROLE => 'Role'
 		];
-		if($type === null)
+		if ($type === null)
 			return $result;
 		return $result[$type];
 	}
 
+	private function prepareChildren(){
+		$this->_children = ['children'=>[],'routes'=>[]];
+		foreach ($this->_item->getChildren() as $item) {
+			if($item->type === Item::TYPE_OPERATION){
+				$this->_children['routes'][]=$item;
+			}else{
+				$this->_children['children'][]=$item;
+			}
+		}
+	}
+
+	public function getChildren(){
+		if($this->_children === null){
+			$this->prepareChildren();
+		}
+		return $this->_children['children'];
+	}
+
+	public function getRoutes(){
+		if($this->_children === null){
+			$this->prepareChildren();
+		}
+		return $this->_children['routes'];
+	}
 }

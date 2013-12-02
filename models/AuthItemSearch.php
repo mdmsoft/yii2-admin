@@ -2,15 +2,18 @@
 
 namespace mdm\auth\models;
 
+use Yii;
 use yii\base\Model;
+use yii\db\Query;
 use yii\data\ActiveDataProvider;
-use mdm\auth\models\AuthItem;
+use yii\data\ArrayDataProvider;
 
 /**
  * AuthItemSearch represents the model behind the search form about AuthItem.
  */
 class AuthItemSearch extends Model
 {
+
 	public $name;
 	public $type;
 	public $description;
@@ -20,7 +23,7 @@ class AuthItemSearch extends Model
 	public function rules()
 	{
 		return [
-			[['name', 'description', 'biz_rule', 'data'], 'safe'],
+			[['name', 'description',], 'safe'],
 			[['type'], 'integer'],
 		];
 	}
@@ -39,36 +42,28 @@ class AuthItemSearch extends Model
 		];
 	}
 
+	/**
+	 * 
+	 * @param array $params
+	 * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
+	 */
 	public function search($params)
 	{
-		$query = AuthItem::find();
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
+		/* @var \yii\rbac\Manager $authManager */
+		$authManager = Yii::$app->authManager;
+		$items = $authManager->getItems(null, $this->type);
+		if ($this->load($params) && $this->validate()) {
+			$items = array_filter($items, function($item) {
+						if (trim($this->name) === '') {
+							return true;
+						}
+						$search = strtolower($this->name);
+						return strpos(strtolower($item->name), $search) !== false or strpos(strtolower($item->description), $search) !== false;
+					});
+		}
+		return new ArrayDataProvider([
+			'allModels' => $items,
 		]);
-
-		if (!($this->load($params) && $this->validate())) {
-			return $dataProvider;
-		}
-
-		$this->addCondition($query, 'name', true);
-		$this->addCondition($query, 'type');
-		$this->addCondition($query, 'description', true);
-		$this->addCondition($query, 'biz_rule', true);
-		$this->addCondition($query, 'data', true);
-		return $dataProvider;
 	}
 
-	protected function addCondition($query, $attribute, $partialMatch = false)
-	{
-		$value = $this->$attribute;
-		if (trim($value) === '') {
-			return;
-		}
-		if ($partialMatch) {
-			$value = '%' . strtr($value, ['%'=>'\%', '_'=>'\_', '\\'=>'\\\\']) . '%';
-			$query->andWhere(['like', $attribute, $value]);
-		} else {
-			$query->andWhere([$attribute => $value]);
-		}
-	}
 }

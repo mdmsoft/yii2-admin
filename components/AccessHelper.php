@@ -15,7 +15,7 @@ class AccessHelper
 
 	/**
 	 * 
-	 * @return yii\rbac\Item[] 
+	 * @return string[] 
 	 */
 	public static function getItemsRole()
 	{
@@ -32,7 +32,7 @@ class AccessHelper
 			$result = $cache ? $cache->get($key_cache) : false;
 			if ($result === false) {
 				$result = self::getMenuItemRecrusive($items);
-				$cache && $cache->set($key_cache, $result);
+				$cache && $cache->set($key_cache, $result,0,new AccessDependency('role'));
 			}
 			return $result;
 		}
@@ -41,8 +41,8 @@ class AccessHelper
 
 	/**
 	 * 
-	 * @param yii\rbac\Item[] $items
-	 * @return yii\rbac\Item[]
+	 * @param \yii\rbac\Item[] $items
+	 * @return string[]
 	 */
 	protected static function getMenuItemRecrusive($items)
 	{

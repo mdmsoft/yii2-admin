@@ -1,33 +1,54 @@
 <?php
+
+use yii\bootstrap\NavBar;
+use yii\bootstrap\Nav;
 use yii\helpers\Html;
 
 /**
  * @var \yii\web\View $this
  * @var string $content
  */
-$menus = [
-	['label'=>'User','url'=>['/admin/user']],
-	['label'=>'Auth Item','url'=>['/admin/auth-item']],
-	['label'=>'Route','url'=>['/admin/route']],
-	['label'=>'Admin','url'=>['/admin/default']],
-];
+$asset = yii\gii\GiiAsset::register($this);
 ?>
-<?php $this->beginContent('@app/views/layouts/main.php'); ?>
-<div class="row">
-	<div class="col-lg-3">
-		<div class="list-group">
-			<?php
-			foreach ($menus as $menu) {
-				$label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menu['label']);
-				echo Html::a($label, $menu['url'], [
-					'class' => strpos(Yii::$app->controller->route,trim($menu['url'][0],'/'))===0 ? 'list-group-item active' : 'list-group-item',
-				]);
-			}
-			?>
+<?php $this->beginPage(); ?>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title><?= Html::encode($this->title) ?></title>
+<?php $this->head(); ?>
+	</head>
+	<body>
+		<?php $this->beginBody(); ?>
+		<?php
+		NavBar::begin([
+			'brandLabel' => Html::img($asset->baseUrl . '/logo.png'),
+			'brandUrl' => ['default/index'],
+			'options' => ['class' => 'navbar-inverse navbar-fixed-top'],
+		]);
+		echo Nav::widget([
+			'options' => ['class' => 'nav navbar-nav navbar-right'],
+			'items' => [
+				['label' => 'Home', 'url' => ['default/index']],
+				['label' => 'Help', 'url' => 'http://www.yiiframework.com/doc/guide/topics.gii'],
+				['label' => 'Application', 'url' => Yii::$app->homeUrl],
+			],
+		]);
+		NavBar::end();
+		?>
+
+		<div class="container">
+<?= $content ?>
 		</div>
-	</div>
-	<div class="col-lg-9">
-		<?= $content ?>
-	</div>
-</div>
-<?php $this->endContent(); ?>
+
+		<footer class="footer">
+			<div class="container">
+				<p class="pull-left">A Product of <a href="http://www.yiisoft.com/">Yii Software LLC</a></p>
+				<p class="pull-right"><?= Yii::powered() ?></p>
+			</div>
+		</footer>
+
+<?php $this->endBody(); ?>
+	</body>
+</html>
+<?php $this->endPage(); ?>

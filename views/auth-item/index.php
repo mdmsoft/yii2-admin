@@ -41,7 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			'description:ntext',
 
-			['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'urlCreator' => function($model, $action){
+					return Yii::$app->controller->createUrl($action, ['id' => $model->name]);
+				}],
 		],
 	]); ?>
 

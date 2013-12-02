@@ -8,7 +8,6 @@ use yii\grid\GridView;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var mdm\auth\models\UserSearch $searchModel
  */
-
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,25 +15,37 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+	<?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
 	<p>
 		<?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
-	<?php echo GridView::widget([
+	<?php
+	echo GridView::widget([
 		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
+		//'filterModel' => $searchModel,
 		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
-
-			'id',
-			'username',
-			'password',
-			'email:email',
-
-			['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'yii\grid\SerialColumn',
+				'headerOptions' => ['width' => '24px']
+			],
+			[
+				'class' => 'yii\grid\DataColumn',
+				'attribute'=>'username',
+				'headerOptions' => ['width' => '35%']
+			], [
+				'class' => 'yii\grid\DataColumn',
+				'attribute'=>'roles',
+				'headerOptions' => []
+			],
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{view} {delete}',
+				'headerOptions' => ['width' => '64px']
+				],
 		],
-	]); ?>
+	]);
+	?>
 
 </div>

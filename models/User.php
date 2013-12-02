@@ -2,17 +2,24 @@
 
 namespace mdm\auth\models;
 
+use yii\db\ActiveRecord;
+use yii\helpers\Security;
+use yii\web\IdentityInterface;
+
 /**
  * This is the model class for table "tbl_user".
  *
  * @property integer $id
  * @property string $username
  * @property string $password
+ * @property string $password_hash
  * @property string $email
  */
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class User extends ActiveRecord implements IdentityInterface
 {
 
+	public $password;
+	public $retypePassword;
 	/**
 	 * @inheritdoc
 	 */
@@ -27,9 +34,18 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	public function rules()
 	{
 		return [
-			[['username', 'password', 'email'], 'required'],
-			[['username', 'password'], 'string', 'max' => 32],
-			[['email'], 'string', 'max' => 64]
+			[['username', 'email'], 'filter', 'filter' => 'trim'],
+			[['username', 'email'], 'required'],
+			[['username','password'], 'string', 'min' => 6, 'max' => 32],
+
+			['email', 'filter', 'filter' => 'trim'],
+			['email', 'required'],
+			['email', 'email'],
+			['email', 'unique', 'message' => 'This email address has already been taken.', 'on' => 'signup'],
+			['email', 'exist', 'message' => 'There is no user with such email.', 'on' => 'requestPasswordResetToken'],
+
+			['password', 'required'],
+			['password', 'string', 'min' => 6],
 		];
 	}
 
@@ -42,26 +58,30 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			'id' => 'ID',
 			'username' => 'Username',
 			'password' => 'Password',
+			'retypePassword' => 'Retype Password',
 			'email' => 'Email',
 		];
 	}
 
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getAuthAssignment()
+	public function beforeSave($insert)
 	{
-		return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
+		if(parent::beforeSave($insert)){
+			if (($this->isNewRecord || $this->getScenario() === 'resetPassword') && !empty($this->password)) {
+				$this->password_hash = Security::generatePasswordHash($this->password);
+			}
+			return true;
+		}
+		return false;
 	}
 
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getItemNames()
+	public function getRoles()
 	{
-		return $this->hasMany(AuthItem::className(), ['name' => 'item_name'])->viaTable('tbl_auth_assignment', ['user_id' => 'id']);
+		$roles = \Yii::$app->authManager->getItems($this->id);
+		return implode(', ', array_keys($roles));
 	}
 
+	// Inherited from IdentityInterface
+	
 	public static function findIdentity($id)
 	{
 		return self::find($id);
@@ -79,17 +99,17 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	public function getAuthKey()
 	{
-		return md5('AUTHKEY#' . $this->password);
+		return md5('AUTHKEY#' . $this->password_hash);
 	}
 
 	public function validateAuthKey($authKey)
 	{
-		return md5('AUTHKEY#' . $this->password) === $authKey;
+		return md5('AUTHKEY#' . $this->password_hash) === $authKey;
 	}
 
 	public function validatePassword($password)
 	{
-		return $this->password === md5($password);
+		return Security::validatePassword($password, $this->password_hash);
 	}
 
 }
