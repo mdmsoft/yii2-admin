@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use mdm\select2\Select2;
 
 /**
  * @var yii\web\View $this
@@ -25,7 +26,10 @@ $this->params['breadcrumbs'][] = 'Update';
 	<div class="col-lg-6">
 		<div class="row">
 			Children:<br>
-			
+			<?php echo Select2::widget([
+				'name'=>'test',
+				'data'=>['a'=>'satu','b'=>'dua','c'=>'tiga']
+				]); ?>
 			<?php
 			echo GridView::widget([
 				'dataProvider' => new yii\data\ArrayDataProvider(['allModels' => $model->getChildren(),]),
