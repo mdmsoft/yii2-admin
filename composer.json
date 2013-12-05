@@ -1,6 +1,6 @@
 {
         "name": "mdm-yii2/mdm-auth",
-        "description": "Entar gan... ",
+        "description": "Auth manager for Yii2 ",
         "keywords": ["yii", "admin", "auth"],
         "type": "yii2-extension",
         "license": "BSD-3-Clause",
@@ -16,7 +16,8 @@
         ],
         "require": {
                 "yiisoft/yii2": "*",
-                "yiisoft/yii2-bootstrap": "*"
+                "yiisoft/yii2-bootstrap": "*",
+                "mdm-yii2/mdm-select2":"*"
         },
         "autoload": {
                 "psr-0": { "mdm\\auth\\": "" }
