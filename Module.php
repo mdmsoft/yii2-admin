@@ -19,9 +19,9 @@ class Module extends \yii\base\Module
 	public function init()
 	{
 		parent::init();
-		$this->controllerMap['role'] = ['class' => 'mdm\auth\components\AuthItemController', 'type' => Item::TYPE_ROLE];
-		$this->controllerMap['task'] = ['class' => 'mdm\auth\components\AuthItemController', 'type' => Item::TYPE_TASK];
-		$this->controllerMap['operation'] = ['class' => 'mdm\auth\components\AuthItemController', 'type' => Item::TYPE_OPERATION];
+//		$this->controllerMap['role'] = ['class' => 'mdm\auth\components\AuthItemController', 'type' => Item::TYPE_ROLE];
+//		$this->controllerMap['task'] = ['class' => 'mdm\auth\components\AuthItemController', 'type' => Item::TYPE_TASK];
+//		$this->controllerMap['operation'] = ['class' => 'mdm\auth\components\AuthItemController', 'type' => Item::TYPE_OPERATION];
 		
 		if($this->userModel === null){
 			$this->userModel = \Yii::$app->user->identityClass;

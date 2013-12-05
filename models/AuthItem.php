@@ -132,21 +132,21 @@ class AuthItem extends \yii\base\Model
 	}
 
 	private function prepareChildren(){
-		$this->_children = ['children'=>[],'routes'=>[]];
+		$this->_children = ['roles'=>[],'routes'=>[]];
 		foreach ($this->_item->getChildren() as $item) {
-			if($item->type === Item::TYPE_OPERATION){
-				$this->_children['routes'][]=$item;
+			if($item->type == Item::TYPE_ROLE){
+				$this->_children['roles'][]=$item;
 			}else{
-				$this->_children['children'][]=$item;
+				$this->_children['routes'][]=$item;
 			}
 		}
 	}
 
-	public function getChildren(){
+	public function getRoles(){
 		if($this->_children === null){
 			$this->prepareChildren();
 		}
-		return $this->_children['children'];
+		return $this->_children['roles'];
 	}
 
 	public function getRoutes(){

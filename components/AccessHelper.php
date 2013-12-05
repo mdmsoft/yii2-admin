@@ -32,7 +32,7 @@ class AccessHelper
 			$result = $cache ? $cache->get($key_cache) : false;
 			if ($result === false) {
 				$result = self::getMenuItemRecrusive($items);
-				$cache && $cache->set($key_cache, $result,0,new AccessDependency('role'));
+				$cache && $cache->set($key_cache, $result, 0, new AccessDependency('role'));
 			}
 			return $result;
 		}
@@ -66,23 +66,34 @@ class AccessHelper
 	 */
 	public static function getRoutes($module = null)
 	{
-		$result = [];
-		if ($module === null)
+		$result = [
+			'task' => [],
+			'operation' => []
+		];
+		if ($module === null) {
 			$module = Yii::$app;
+		}
+
+		$result['task'][] = $module instanceof \yii\base\Application ? '*' : $module->uniqueId . '/*';
+
 		foreach ($module->getModules() as $id => $child) {
 			if (($child = $module->getModule($id)) === null) {
 				continue;
 			}
-			foreach (self::getRoutes($child) as $route) {
-				$result[] = $route;
+			$_result = self::getRoutes($child);
+			foreach ($_result['task'] as $route) {
+				$result['task'][] = $route;
+			}
+			foreach ($_result['operation'] as $route) {
+				$result['operation'][] = $route;
 			}
 		}
 		/* @var $controller \yii\base\Controller */
 		foreach ($module->controllerMap as $id => $value) {
 			$controller = Yii::createObject($value, $id, $module);
-			$result[] = $controller->uniqueId . '/';
+			$result['task'][] = $controller->uniqueId . '/*';
 			foreach (self::getActions($controller) as $route) {
-				$result[] = $route;
+				$result['operation'][] = $route;
 			}
 		}
 
@@ -97,9 +108,9 @@ class AccessHelper
 				$className = ltrim($namespace . $className, '\\');
 				if (is_subclass_of($className, 'yii\base\Controller')) {
 					$controller = new $className($id, $module);
-					$result[] = $controller->uniqueId . '/';
+					$result['task'][] = $controller->uniqueId . '/*';
 					foreach (self::getActions($controller) as $route) {
-						$result[] = $route;
+						$result['operation'][] = $route;
 					}
 				}
 			}
@@ -129,4 +140,25 @@ class AccessHelper
 		return $result;
 	}
 
+	public static function getAvaliableRoutes()
+	{
+		$routes = self::getRoutes();
+		$result = ['task'=>[],'operation'=>[]];
+		foreach ($routes['task'] as $route) {
+			$result['task'][$route] = $route;
+		}
+		foreach ($routes['operation'] as $route) {
+			$result['operation'][$route] = $route;
+		}
+		return $result;
+	}
+
+	public static function getAvaliableRoles(){
+		$result = [];
+		foreach (Yii::$app->authManager->getRoles() as $item) {
+			$result[$item->name] = $item->name;
+		}
+		return $result;
+	}
 }
+

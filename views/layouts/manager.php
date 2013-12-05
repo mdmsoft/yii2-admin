@@ -7,7 +7,7 @@ use yii\helpers\Html;
  */
 $menus = [
 	['label'=>'User','url'=>['/admin/user']],
-	['label'=>'Auth Item','url'=>['/admin/auth-item']],
+	['label'=>'Role','url'=>['/admin/role']],
 	['label'=>'Route','url'=>['/admin/route']],
 	['label'=>'Admin','url'=>['/admin/default']],
 ];

@@ -10,7 +10,7 @@ use mdm\auth\models\AuthItem;
  * @var mdm\auth\models\AuthItemSearch $searchModel
  */
 
-$this->title = 'Auth Items';
+$this->title = 'Roles';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-index">
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 	<p>
-		<?= Html::a('Create AuthItem', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
 	<?php 
@@ -32,13 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 
 			'name',
-			[
-				'attribute'=>'type',
-				'filter'=>  $typeNames,
-				'value'=>function($model) use($typeNames){
-					return $typeNames[$model->type];
-				}
-			],
 			'description:ntext',
 
 			['class' => 'yii\grid\ActionColumn',],

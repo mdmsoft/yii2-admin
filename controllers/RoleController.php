@@ -1,20 +1,22 @@
 <?php
 
-namespace mdm\auth\components;
+namespace mdm\auth\controllers;
 
 use mdm\auth\models\AuthItem;
 use mdm\auth\models\AuthItemSearch;
+use mdm\auth\models\AppendChild;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\rbac\Item;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
  */
-class AuthItemController extends Controller
+class RoleController extends Controller
 {
 
-	public $type;
 	public $layout = 'manager';
 
 	/**
@@ -41,18 +43,13 @@ class AuthItemController extends Controller
 		$this->_authManager = \Yii::$app->authManager;
 	}
 
-	public function getViewPath()
-	{
-		return $this->module->getViewPath() . DIRECTORY_SEPARATOR . 'auth-item';
-	}
-
 	/**
 	 * Lists all AuthItem models.
 	 * @return mixed
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new AuthItemSearch(['type' => $this->type]);
+		$searchModel = new AuthItemSearch(['type' => Item::TYPE_ROLE]);
 		$dataProvider = $searchModel->search($_GET);
 
 		return $this->render('index', [
@@ -68,7 +65,19 @@ class AuthItemController extends Controller
 	 */
 	public function actionView($id)
 	{
-		return $this->render('view', ['model' => $this->findModel($id)]);
+		$_map = ['roles' => 'routes', 'routes' => 'roles'];
+		$values = ['roles' => [], 'routes' => []];
+		$active = 'roles';
+		if (isset($_POST['Submit'])) {
+			list($type, $action) = explode(':', $_POST['Submit']);
+			$values[$_map[$type]] = ArrayHelper::getValue($_POST, $_map[$type], []);
+			$active = $type;
+		}
+		return $this->render('view', [
+					'model' => $this->findModel($id),
+					'values' => $values,
+					'active' => $active,
+		]);
 	}
 
 	/**
@@ -79,7 +88,7 @@ class AuthItemController extends Controller
 	public function actionCreate()
 	{
 		$model = new AuthItem(null);
-
+		$model->type = Item::TYPE_ROLE;
 		if ($model->load($_POST) && $model->save()) {
 			return $this->redirect(['view', 'id' => $model->name]);
 		} else {
@@ -99,13 +108,20 @@ class AuthItemController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		if ($model->load($_POST) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->name]);
-		} else {
-			return $this->render('update', [
-						'model' => $model,
-			]);
+		$appendModel = new AppendChild;
+
+		if ($appendModel->load($_POST)) {
+			$appendModel->id = $id;
+			$appendModel->save();
 		}
+
+		if ($model->load($_POST)) {
+			//$model->save();
+		}
+		return $this->render('update', [
+					'model' => $model,
+					'appendModel' => $appendModel,
+		]);
 	}
 
 	/**
