@@ -13,7 +13,7 @@ use mdm\auth\models\AuthItem;
 $this->title = 'Roles';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="auth-item-index">
+<div class="role-index">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
