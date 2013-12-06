@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mdm\select2\Select2;
-use mdm\auth\models\AppendChild;
+use mdm\admin\models\AppendChild;
 
 /**
  * @var yii\web\View $this
- * @var mdm\auth\models\AppendChild $model
+ * @var mdm\admin\models\AppendChild $model
  * @var ActiveForm $form
  */
 ?>

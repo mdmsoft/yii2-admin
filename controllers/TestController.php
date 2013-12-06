@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\controllers;
+namespace mdm\admin\controllers;
 use yii\helpers\Console;
 /**
  * Description of TestController

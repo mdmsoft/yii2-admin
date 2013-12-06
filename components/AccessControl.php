@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\components;
+namespace mdm\admin\components;
 
 use yii\db\Query;
 use yii\db\Connection;

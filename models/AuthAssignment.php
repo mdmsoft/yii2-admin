@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\models;
+namespace mdm\admin\models;
 
 /**
  * This is the model class for table "tbl_auth_assignment".

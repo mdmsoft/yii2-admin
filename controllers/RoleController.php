@@ -1,9 +1,9 @@
 <?php
 
-namespace mdm\auth\controllers;
+namespace mdm\admin\controllers;
 
-use mdm\auth\models\AuthItem;
-use mdm\auth\models\AuthItemSearch;
+use mdm\admin\models\AuthItem;
+use mdm\admin\models\AuthItemSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\VerbFilter;

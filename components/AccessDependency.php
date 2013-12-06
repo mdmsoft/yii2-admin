@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\components;
+namespace mdm\admin\components;
 
 /**
  * Description of AccessDependency

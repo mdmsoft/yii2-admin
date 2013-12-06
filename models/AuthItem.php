@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\models;
+namespace mdm\admin\models;
 
 use Yii;
 use yii\rbac\Item;

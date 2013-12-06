@@ -1,10 +1,10 @@
 <?php
 
-namespace mdm\auth\models;
+namespace mdm\admin\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use mdm\auth\models\User;
+use mdm\admin\models\User;
 
 /**
  * UserSearch represents the model behind the search form about User.

@@ -1,9 +1,9 @@
 <?php
 
-namespace mdm\auth\controllers;
+namespace mdm\admin\controllers;
 
-use mdm\auth\models\User;
-use mdm\auth\models\UserSearch;
+use mdm\admin\models\User;
+use mdm\admin\models\UserSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\HttpException;

@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var mdm\auth\models\AuthItemSearch $model
+ * @var mdm\admin\models\AuthItemSearch $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

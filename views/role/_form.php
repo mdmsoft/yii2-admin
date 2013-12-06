@@ -1,12 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-use mdm\auth\models\AuthItem;
+use mdm\admin\models\AuthItem;
 use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var mdm\auth\models\AuthItem $model
+ * @var mdm\admin\models\AuthItem $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

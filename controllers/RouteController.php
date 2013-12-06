@@ -1,8 +1,8 @@
 <?php
 
-namespace mdm\auth\controllers;
+namespace mdm\admin\controllers;
 
-use mdm\auth\components\AccessHelper;
+use mdm\admin\components\AccessHelper;
 use yii\rbac\Item;
 use Yii;
 

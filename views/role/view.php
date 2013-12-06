@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
-use mdm\auth\components\AccessHelper;
+use mdm\admin\components\AccessHelper;
 use yii\bootstrap\Tabs;
 
 /**
  * @var yii\web\View $this
- * @var mdm\auth\models\AuthItem $model
+ * @var mdm\admin\models\AuthItem $model
  */
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];

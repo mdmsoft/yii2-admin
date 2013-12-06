@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\controllers;
+namespace mdm\admin\controllers;
 
 class DefaultController extends \yii\web\Controller
 {

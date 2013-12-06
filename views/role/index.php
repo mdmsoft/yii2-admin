@@ -2,12 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use mdm\auth\models\AuthItem;
+use mdm\admin\models\AuthItem;
 
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var mdm\auth\models\AuthItemSearch $searchModel
+ * @var mdm\admin\models\AuthItemSearch $searchModel
  */
 
 $this->title = 'Roles';

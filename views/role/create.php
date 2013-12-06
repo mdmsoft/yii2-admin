@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var mdm\auth\models\AuthItem $model
+ * @var mdm\admin\models\AuthItem $model
  */
 
 $this->title = 'Create Role';

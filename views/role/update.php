@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use mdm\auth\components\AccessHelper;
+use mdm\admin\components\AccessHelper;
 
 /**
  * @var yii\web\View $this
- * @var mdm\auth\models\AuthItem $model
+ * @var mdm\admin\models\AuthItem $model
  */
 $this->title = 'Update Role: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];

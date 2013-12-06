@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\auth\models;
+namespace mdm\admin\models;
 
 use yii\db\ActiveRecord;
 use yii\helpers\Security;
