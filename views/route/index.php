@@ -6,7 +6,7 @@ use yii\bootstrap\Tabs;
  * @var yii\web\View $this
  */
 ?>
-<h1>route/index</h1>
+<h1>Routes</h1>
 
 <?php
 if (count($new)) {

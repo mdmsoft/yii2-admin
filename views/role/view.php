@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'items' => AccessHelper::getAvaliableRoles(),
 					'data' => $model->getRoles(),
 					'type' => 'roles',
-					'values' => $values['roles']]),
+					'values' => $states['roles']]),
 				'active' => ($active == 'roles'),
 			],
 			[
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'items' => AccessHelper::getAvaliableRoutes(),
 					'data' => $model->getRoutes(),
 					'type' => 'routes',
-					'values' => $values['routes']]),
+					'values' => $states['routes']]),
 				'active' => ($active == 'routes'),
 			],
 		]

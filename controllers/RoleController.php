@@ -4,7 +4,6 @@ namespace mdm\auth\controllers;
 
 use mdm\auth\models\AuthItem;
 use mdm\auth\models\AuthItemSearch;
-use mdm\auth\models\AppendChild;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\VerbFilter;
@@ -65,17 +64,32 @@ class RoleController extends Controller
 	 */
 	public function actionView($id)
 	{
+		$model = $this->findModel($id);
 		$_map = ['roles' => 'routes', 'routes' => 'roles'];
-		$values = ['roles' => [], 'routes' => []];
+		$states = ['roles' => [], 'routes' => []];
 		$active = 'roles';
 		if (isset($_POST['Submit'])) {
 			list($type, $action) = explode(':', $_POST['Submit']);
-			$values[$_map[$type]] = ArrayHelper::getValue($_POST, $_map[$type], []);
+			$states[$_map[$type]] = ArrayHelper::getValue($_POST, $_map[$type], []);
+			
+			$values = ArrayHelper::getValue($_POST, "{$action}_{$type}", []);
+			if($action == 'append'){
+				foreach ($values as $child){
+					$model->addChild($child);
+				}
+				$this->_authManager->save();
+			}  else {
+				foreach ($values as $child){
+					$model->removeChild($child);
+				}
+				$this->_authManager->save();				
+			}
 			$active = $type;
+			
 		}
 		return $this->render('view', [
-					'model' => $this->findModel($id),
-					'values' => $values,
+					'model' => $model,
+					'states' => $states,
 					'active' => $active,
 		]);
 	}
@@ -108,19 +122,11 @@ class RoleController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$appendModel = new AppendChild;
-
-		if ($appendModel->load($_POST)) {
-			$appendModel->id = $id;
-			$appendModel->save();
-		}
-
 		if ($model->load($_POST)) {
 			//$model->save();
 		}
 		return $this->render('update', [
 					'model' => $model,
-					'appendModel' => $appendModel,
 		]);
 	}
 
@@ -133,6 +139,7 @@ class RoleController extends Controller
 	public function actionDelete($id)
 	{
 		$this->_authManager->removeItem($id);
+		$this->_authManager->save();
 		return $this->redirect(['index']);
 	}
 

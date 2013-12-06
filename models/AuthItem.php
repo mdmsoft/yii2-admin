@@ -107,6 +107,7 @@ class AuthItem extends \yii\base\Model
 			$this->_item->data = $this->data;
 			$this->_item->save();
 		}
+		Yii::$app->authManager->save();
 		return true;
 	}
 

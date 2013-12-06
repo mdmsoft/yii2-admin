@@ -10,7 +10,7 @@ use yii\data\ArrayDataProvider;
 	<div class="col-lg-10">
 		<?php
 		echo Select2::widget([
-			'name' => $type,
+			'name' => 'append_'.$type,
 			'value' => $values,
 			'options' => ['style' => 'width:98%'],
 			'data' => $items,
@@ -31,6 +31,7 @@ use yii\data\ArrayDataProvider;
 		'columns' => [
 			[
 				'class' => 'yii\grid\CheckboxColumn',
+				'name'=>'delete_'.$type,
 			],
 			'name',
 		],
