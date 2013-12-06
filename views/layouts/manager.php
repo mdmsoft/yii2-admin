@@ -12,7 +12,7 @@ $menus = [
 	['label'=>'Admin','url'=>['/admin/default']],
 ];
 ?>
-<?php $this->beginContent('@mdm/auth/views/layouts/main.php'); ?>
+<?php $this->beginContent('@mdm/admin/views/layouts/main.php'); ?>
 <div class="row">
 	<div class="col-lg-3">
 		<div class="list-group">

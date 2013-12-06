@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use mdm\select2\Select2;
+use mdm\widgets\Select2;
 use mdm\admin\models\AppendChild;
 
 /**
