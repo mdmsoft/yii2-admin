@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use mdm\widgets\Select2;
+use mdm\admin\components\Select2;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use mdm\admin\components\AccessHelper;
