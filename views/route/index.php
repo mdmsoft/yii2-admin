@@ -5,6 +5,8 @@ use yii\bootstrap\Tabs;
 /**
  * @var yii\web\View $this
  */
+
+$this->title = 'Routes';
 ?>
 <h1>Routes</h1>
 

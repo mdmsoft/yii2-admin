@@ -32,7 +32,7 @@ echo GridView::widget([
 			'class' => 'yii\\grid\\DataColumn',
 			'attribute' => 'name',
 			'contentOptions' => function ($model) {
-				return ArrayHelper::getValue($model, 'exists', true)?[]:['style'=>'text-decoration: line-through;'];
+				return ArrayHelper::getValue($model, 'exists', true) ? [] : ['style' => 'text-decoration: line-through;'];
 			}
 		]
 	]

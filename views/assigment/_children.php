@@ -4,51 +4,56 @@ use yii\helpers\Html;
 use mdm\widgets\Select2;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
-use yii\helpers\ArrayHelper;
+use mdm\admin\components\AccessHelper;
 ?>
 <br>
+<?= Html::beginForm() ?>
 <div class="form-group col-lg-12">
 	<div class="col-lg-10">
 		<?php
 		echo Select2::widget([
-			'name' => 'append_' . $type,
+			'name' => 'append',
 			'value' => $append,
 			'options' => ['style' => 'width:98%'],
-			'data' => $items,
-			'placeholder' => 'Select gan ... ',
+			'data' => AccessHelper::getAvaliableRoles(),
 			'multiple' => true,
 		]);
 		?>
 	</div>
 	<div class="col-lg-2">
-		<?= Html::submitButton('Append', ['class' => 'btn btn-primary', 'name' => 'Submit', 'value' => $type . ':append']); ?>
+		<?= Html::submitButton('Append', ['class' => 'btn btn-primary', 'name' => 'Submit', 'value' => 'append']); ?>
 	</div>
 </div>
 <br><br>
 <div class="col-lg-12">
 	<?php
 	echo GridView::widget([
-		'dataProvider' => new ArrayDataProvider(['allModels' => $data,]),
+		'dataProvider' => new ArrayDataProvider(['allModels' => $assigments,]),
 		'columns' => [
 			[
 				'class' => 'yii\grid\CheckboxColumn',
-				'name' => 'delete_' . $type,
+				'name' => 'delete',
 				'checkboxOptions' => function($model) use($delete) {
-					$name = ArrayHelper::getValue($model, 'name');
 					return[
-						'value' => $name,
-						'checked' => in_array($name, $delete),
+						'value' => $model,
+						'checked' => in_array($model, $delete),
 					];
+				},
+			],
+			[
+				'class'=>'yii\grid\DataColumn',
+				'label'=>'Roles',
+				'value'=>function($model){
+					return $model;
 				}
 			],
-			'name',
 		],
 	]);
 	echo Html::submitButton('Delete', [
 		'class' => 'btn btn-danger',
 		'name' => 'Submit',
-		'value' => $type . ':delete',
-			//'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
+		'value' => 'delete',
 	]);
 	?>
 </div>
+<?= Html::endForm() ?>

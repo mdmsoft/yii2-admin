@@ -4,6 +4,7 @@ namespace mdm\admin\controllers;
 
 use mdm\admin\components\AccessHelper;
 use yii\rbac\Item;
+use yii\helpers\ArrayHelper;
 use Yii;
 
 class RouteController extends \yii\web\Controller
@@ -47,7 +48,7 @@ class RouteController extends \yii\web\Controller
 		foreach ($operation as $route) {
 			$exists[$route] = ['type' => Item::TYPE_OPERATION, 'name' => $route, 'exists' => in_array($route, $routes['operation'])];
 		}
-
+		ArrayHelper::multisort($exists, 'exists');
 		return $this->render('index', ['new' => $new, 'exists' => $exists]);
 	}
 

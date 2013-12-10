@@ -65,27 +65,28 @@ class RoleController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->findModel($id);
-		$_map = ['roles' => 'routes', 'routes' => 'roles'];
-		$states = ['roles' => [], 'routes' => []];
+		$states = $_POST;
 		$active = 'roles';
 		if (isset($_POST['Submit'])) {
 			list($type, $action) = explode(':', $_POST['Submit']);
-			$states[$_map[$type]] = ArrayHelper::getValue($_POST, $_map[$type], []);
-			
-			$values = ArrayHelper::getValue($_POST, "{$action}_{$type}", []);
-			if($action == 'append'){
-				foreach ($values as $child){
-					$model->addChild($child);
+
+			$values = ArrayHelper::remove($states, "{$action}_{$type}", []);
+			if ($action == 'append') {
+				foreach ($values as $child) {
+					try {
+						$model->addChild($child);
+					} catch (\yii\base\Exception $exc) {
+						//echo $exc->getTraceAsString();
+					}
 				}
 				$this->_authManager->save();
-			}  else {
-				foreach ($values as $child){
+			} else {
+				foreach ($values as $child) {
 					$model->removeChild($child);
 				}
-				$this->_authManager->save();				
+				$this->_authManager->save();
 			}
 			$active = $type;
-			
 		}
 		return $this->render('view', [
 					'model' => $model,
