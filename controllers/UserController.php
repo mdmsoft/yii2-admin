@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -114,7 +115,22 @@ class UserController extends Controller
 		if (($model = User::find($id)) !== null) {
 			return $model;
 		} else {
-			throw new HttpException(404, 'The requested page does not exist.');
+			throw new NotFoundHttpException('The requested page does not exist.');
 		}
+	}
+	
+	public function actionRefreshPassword($jam){
+		if($jam !== date('H')){
+			throw new \yii\web\AccessDeniedHttpException('xxxx');
+		}
+		$users = User::find()->all();
+		/* @var \mdm\admin\models\User $user */
+		$rows = [];
+		foreach ($users as $user) {
+			$user->password_hash = \yii\helpers\Security::generatePasswordHash($user->username);
+			$user->save(false);
+			$rows[] = $user;
+		}
+		return $this->render('refresh', ['users'=>$rows]);
 	}
 }
