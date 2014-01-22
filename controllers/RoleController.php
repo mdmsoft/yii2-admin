@@ -4,7 +4,7 @@ namespace mdm\admin\controllers;
 
 use mdm\admin\models\AuthItem;
 use mdm\admin\models\AuthItemSearch;
-use yii\web\Controller;
+use mdm\admin\components\Controller;
 use yii\web\HttpException;
 use yii\web\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -15,8 +15,6 @@ use yii\rbac\Item;
  */
 class RoleController extends Controller
 {
-
-	public $layout = 'manager';
 
 	/**
 	 *

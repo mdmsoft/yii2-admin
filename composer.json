@@ -19,7 +19,6 @@
                 "yiisoft/yii2-bootstrap": "*"
         },
         "autoload": {
-                "psr-0": { "mdm\\admin\\": "" }
-        },
-        "target-dir": "mdm/admin"
+                "psr-4": { "mdm\\admin\\": "" }
+        }
 }

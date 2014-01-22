@@ -11,7 +11,7 @@ use yii\bootstrap\Tabs;
  * @var mdm\admin\models\AuthItem $model
  */
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-view">

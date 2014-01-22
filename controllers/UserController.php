@@ -5,7 +5,7 @@ namespace mdm\admin\controllers;
 use mdm\admin\models\User;
 use mdm\admin\models\UserSearch;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use mdm\admin\components\Controller;
 use yii\web\HttpException;
 use yii\web\VerbFilter;
 use yii\web\NotFoundHttpException;

@@ -14,9 +14,7 @@ class Module extends \yii\base\Module
 	public $useridField='id';
 	public $usernameField='username';
 	public $appLayout = '@app/views/layouts/main.php';
-
-	public $layout = 'manager';
-
+	
 	public function init()
 	{
 		parent::init();

@@ -7,10 +7,9 @@ use yii\rbac\Item;
 use yii\helpers\ArrayHelper;
 use Yii;
 
-class RouteController extends \yii\web\Controller
+class RouteController extends \mdm\admin\components\Controller
 {
 
-	public $layout = 'manager';
 	public function actionIndex()
 	{
 		if (isset($_POST['Submit'])) {

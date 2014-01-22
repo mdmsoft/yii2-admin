@@ -9,7 +9,7 @@ use mdm\admin\components\AccessHelper;
  * @var mdm\admin\models\AuthItem $model
  */
 $this->title = 'Update Role: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

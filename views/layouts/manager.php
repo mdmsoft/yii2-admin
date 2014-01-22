@@ -16,10 +16,10 @@ $menus = [
 ];
 ?>
 <?php
-$mainLayout = $this->context->module->appLayout;
-if ($mainLayout) {
-	$this->beginContent($mainLayout);
-}
+//$mainLayout = $this->context->module->appLayout;
+//if ($mainLayout) {
+//	$this->beginContent($mainLayout);
+//}
 ?>
 
 <div class="row">
@@ -36,11 +36,11 @@ if ($mainLayout) {
 		</div>
 	</div>
 	<div class="col-lg-9">
-		<?= $content ?>
+		<?= $this->render($view,$params) ?>
 	</div>
 </div>
 <?php
-if ($mainLayout) {
-	$this->endContent();
-}
+//if ($mainLayout) {
+//	$this->endContent();
+//}
 ?>

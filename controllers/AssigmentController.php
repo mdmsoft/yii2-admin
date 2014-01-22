@@ -4,7 +4,7 @@ namespace mdm\admin\controllers;
 
 use mdm\admin\models\Assigment;
 use mdm\admin\models\AssigmentSearch;
-use yii\web\Controller;
+use mdm\admin\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -24,7 +24,6 @@ class AssigmentController extends Controller
 	 * @var \yii\rbac\Manager
 	 */
 	private $_authManager;
-	public $layout = 'manager';
 
 	public function behaviors()
 	{
