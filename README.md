@@ -34,6 +34,12 @@ return [
 		...
 	],
 	...
+	'components' => [
+		....
+		'authManager' => [
+			'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+		]
+	],
 	'as access' => 'mdm\admin\components\AccessControl',
 ];
 ```
