@@ -15,7 +15,8 @@
                 }
         ],
         "require": {
-                "yiisoft/yii2": "*"
+                "yiisoft/yii2": "*",
+                "mdm-yii2/mdm-easyui": "*"
         },
         "autoload": {
                 "psr-4": { "mdm\\admin\\": "" }
