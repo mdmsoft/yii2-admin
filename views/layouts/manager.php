@@ -15,13 +15,6 @@ $menus = [
 	['label' => 'Admin', 'url' => ['/admin/default']],
 ];
 ?>
-<?php
-//$mainLayout = $this->context->module->appLayout;
-//if ($mainLayout) {
-//	$this->beginContent($mainLayout);
-//}
-?>
-
 <div class="row">
 	<div class="col-lg-3">
 		<div class="list-group">
@@ -39,8 +32,3 @@ $menus = [
 		<?= $this->render($view,$params) ?>
 	</div>
 </div>
-<?php
-//if ($mainLayout) {
-//	$this->endContent();
-//}
-?>
