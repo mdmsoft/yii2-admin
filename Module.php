@@ -18,7 +18,7 @@ class Module extends \yii\base\Module
 	public function init()
 	{
 		parent::init();
-		if($this->userModel === null){
+		if($this->userModel === null && \Yii::$app instanceof \yii\web\Application){
 			$this->userModel = \Yii::$app->user->identityClass;
 		}
 	}
