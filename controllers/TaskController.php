@@ -13,7 +13,7 @@ use yii\rbac\Item;
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
  */
-class RoleController extends Controller
+class TaskController extends Controller
 {
 
 	/**
@@ -46,7 +46,7 @@ class RoleController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new AuthItemSearch(['type' => Item::TYPE_ROLE]);
+		$searchModel = new AuthItemSearch(['type' => Item::TYPE_TASK]);
 		$dataProvider = $searchModel->search($_GET);
 
 		return $this->render('index', [
@@ -98,7 +98,7 @@ class RoleController extends Controller
 	public function actionCreate()
 	{
 		$model = new AuthItem(null);
-		$model->type = Item::TYPE_ROLE;
+		$model->type = Item::TYPE_TASK;
 		if ($model->load($_POST) && $model->save()) {
 			return $this->redirect(['view', 'id' => $model->name]);
 		} else {

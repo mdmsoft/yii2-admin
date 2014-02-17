@@ -4,6 +4,7 @@ namespace mdm\admin\components;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii\rbac\Item;
 
 /**
  * Description of AccessHelper
@@ -64,7 +65,7 @@ class AccessHelper
 	 * @param \yii\base\Module $module
 	 * @return mixed List of all controller action.
 	 */
-	public static function getRoutes($module = null)
+	public static function getRoutesX($module = null)
 	{
 		$result = [
 			'task' => [],
@@ -118,6 +119,55 @@ class AccessHelper
 		return $result;
 	}
 
+	public static function getRoutes($module = null)
+	{
+		$result = [];
+		if ($module === null) {
+			$module = Yii::$app;
+		}
+
+		$result[] = $module instanceof \yii\base\Application ? '*' : $module->uniqueId . '/*';
+
+		foreach ($module->getModules() as $id => $child) {
+			if (($child = $module->getModule($id)) === null) {
+				continue;
+			}
+			
+			foreach (self::getRoutes($child) as $route) {
+				$result[] = $route;
+			}
+		}
+		/* @var $controller \yii\base\Controller */
+		foreach ($module->controllerMap as $id => $value) {
+			$controller = Yii::createObject($value, $id, $module);
+			$result[] = $controller->uniqueId . '/*';
+			foreach (self::getActions($controller) as $route) {
+				$result[] = $route;
+			}
+		}
+
+		$path = $module->getControllerPath();
+		$namespace = $module->controllerNamespace . '\\';
+		$files = scandir($path);
+		foreach ($files as $file) {
+			if (strcmp(substr($file, -14), 'Controller.php') === 0) {
+				$id = Inflector::camel2id(substr(basename($file), 0, -14));
+				$className = Inflector::id2camel($id) . 'Controller';
+				Yii::$classMap[$className] = $path . DIRECTORY_SEPARATOR . $className . '.php';
+				$className = ltrim($namespace . $className, '\\');
+				if (is_subclass_of($className, 'yii\base\Controller')) {
+					$controller = new $className($id, $module);
+					$result[] = $controller->uniqueId . '/*';
+					foreach (self::getActions($controller) as $route) {
+						$result[] = $route;
+					}
+				}
+			}
+		}
+		return $result;
+	}
+
+	
 	/**
 	 * 
 	 * @param \yii\base\Controller $controller
@@ -153,10 +203,26 @@ class AccessHelper
 		return $result;
 	}
 
-	public static function getAvaliableRoles(){
-		$result = [];
-		foreach (Yii::$app->authManager->getRoles() as $item) {
-			$result[$item->name] = $item->name;
+	public static function getAvaliableChild($type =  Item::TYPE_ROLE){
+		$result = ['role'=>[],'task'=>[],'operation'=>[]];
+		foreach (Yii::$app->authManager->getItems() as $item) {
+			if($item->type > $type){
+				continue;
+			}
+			switch ($item->type) {
+				case Item::TYPE_OPERATION:
+					$result['operation'][$item->name] = $item->name;
+					break;
+
+				case Item::TYPE_TASK:
+					$result['task'][$item->name] = $item->name;
+					break;
+
+				case Item::TYPE_ROLE:
+					$result['role'][$item->name] = $item->name;
+					break;
+
+			}
 		}
 		return $result;
 	}

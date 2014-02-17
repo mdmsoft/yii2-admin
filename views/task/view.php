@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'name' => 'append',
 			'value' => empty($states['append'])?[]:$states['append'],
 			'options' => ['style' => 'width:98%'],
-			'data' => AccessHelper::getAvaliableChild(Item::TYPE_ROLE),
+			'data' => AccessHelper::getAvaliableChild(Item::TYPE_TASK),
 			'placeholder' => 'Select gan ... ',
 			'multiple' => true,
 		]);

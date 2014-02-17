@@ -11,7 +11,9 @@ $asset = mdm\admin\AdminAsset::register($this);
 $menus = [
 	['label' => 'Assigment', 'url' => ['/admin/assigment']],
 	['label' => 'Role', 'url' => ['/admin/role']],
-	['label' => 'Route', 'url' => ['/admin/route']],
+	['label' => 'Task', 'url' => ['/admin/task']],
+	['label' => 'Operation', 'url' => ['/admin/route']],
+	['label' => 'Menu', 'url' => ['/admin/menu']],
 	['label' => 'Admin', 'url' => ['/admin/default']],
 ];
 ?>

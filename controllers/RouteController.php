@@ -13,49 +13,49 @@ class RouteController extends \mdm\admin\components\Controller
 	public function actionIndex()
 	{
 		if (isset($_POST['Submit'])) {
-			if ($_POST['Submit'] == 'New') {
-				if (!empty($_POST['selection'])) {
-					$this->saveNew($_POST['selection']);
-				}
-			}  else {
-				if (!empty($_POST['selection'])) {
-					$this->saveDel($_POST['selection']);
-				}
-			}
+			$this->saveDel($_POST['selection']);
 		}
 		$routes = AccessHelper::getRoutes();
-		$task = array_keys(Yii::$app->authManager->getTasks());
+		
 		$operation = array_keys(Yii::$app->authManager->getOperations());
 
-		$new_task = array_diff($routes['task'], $task);
-		$new_operation = array_diff($routes['operation'], $operation);
+		$new_operation = array_diff($routes, $operation);
 
-		$new = [];
-		foreach ($new_task as $route) {
-			$new[$route] = ['type' => Item::TYPE_TASK, 'name' => $route];
+		$exists = [];
+		foreach ($operation as $route) {
+			$exists[$route] = ['type' => Item::TYPE_OPERATION, 'name' => $route, 'exists' => in_array($route, $routes)];
 		}
+		ArrayHelper::multisort($exists, 'exists');
+		return $this->render('index', ['new' => count($new_operation), 'exists' => $exists]);
+	}
 
+	public function actionGenerate()
+	{
+		if (isset($_POST['Submit'])) {
+			$this->saveNew($_POST['selection']);
+		}
+		$routes = AccessHelper::getRoutes();
+		
+		$operation = array_keys(Yii::$app->authManager->getOperations());
+
+		$new_operation = array_diff($routes, $operation);
+		if(isset($_POST['Submit']) && count($new_operation)==0){
+			$this->redirect(['index']);
+		}
+		
+		$new = [];
 		foreach ($new_operation as $route) {
 			$new[$route] = ['type' => Item::TYPE_OPERATION, 'name' => $route];
 		}
-
-		$exists = [];
-		foreach ($task as $route) {
-			$exists[$route] = ['type' => Item::TYPE_TASK, 'name' => $route, 'exists' => in_array($route, $routes['task'])];
-		}
-
-		foreach ($operation as $route) {
-			$exists[$route] = ['type' => Item::TYPE_OPERATION, 'name' => $route, 'exists' => in_array($route, $routes['operation'])];
-		}
-		ArrayHelper::multisort($exists, 'exists');
-		return $this->render('index', ['new' => $new, 'exists' => $exists]);
+		
+		return $this->render('generate', ['new' => $new]);
 	}
 
 	protected function saveNew($selections)
 	{
 		$authManager = Yii::$app->authManager;
 		foreach ($selections as $route) {
-			$authManager->createItem($route, strpos($route, '*') === strlen($route) - 1 ? Item::TYPE_TASK : Item::TYPE_OPERATION);
+			$authManager->createItem($route, Item::TYPE_OPERATION);
 		}
 		$authManager->save();
 	}
