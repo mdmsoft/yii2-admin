@@ -16,7 +16,7 @@ class RouteController extends \mdm\admin\components\Controller
 			$this->saveDel($_POST['selection']);
 		}
 		$routes = AccessHelper::getRoutes();
-		
+
 		$operation = array_keys(Yii::$app->authManager->getOperations());
 
 		$new_operation = array_diff($routes, $operation);
@@ -35,27 +35,41 @@ class RouteController extends \mdm\admin\components\Controller
 			$this->saveNew($_POST['selection']);
 		}
 		$routes = AccessHelper::getRoutes();
-		
+
 		$operation = array_keys(Yii::$app->authManager->getOperations());
 
 		$new_operation = array_diff($routes, $operation);
-		if(isset($_POST['Submit']) && count($new_operation)==0){
+		if (isset($_POST['Submit']) && count($new_operation) == 0) {
 			$this->redirect(['index']);
 		}
-		
+
 		$new = [];
 		foreach ($new_operation as $route) {
 			$new[$route] = ['type' => Item::TYPE_OPERATION, 'name' => $route];
 		}
-		
+
 		return $this->render('generate', ['new' => $new]);
+	}
+
+	public function actionCreate()
+	{
+		$model = new \mdm\admin\models\Route;
+
+		if ($model->load($_POST)) {
+			if ($model->validate()) {
+				$routes = explode(',', $model->route);
+				$this->saveNew($routes);
+				$this->redirect(['index']);
+			}
+		}
+		return $this->render('create', ['model' => $model]);
 	}
 
 	protected function saveNew($selections)
 	{
 		$authManager = Yii::$app->authManager;
 		foreach ($selections as $route) {
-			$authManager->createItem($route, Item::TYPE_OPERATION);
+			$authManager->createItem(trim($route), Item::TYPE_OPERATION);
 		}
 		$authManager->save();
 	}

@@ -4,15 +4,20 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
+
 /**
  * @var yii\web\View $this
  */
-
 $this->title = 'Operations';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1>Operations</h1>
-<?= $new ?Html::a("Generate route ($new)", ['generate']).'<br/>':'' ?>
+<p>
+	<?= $new ? Html::a("Generate route ($new)", ['generate'], ['class' => 'btn btn-success']) : ''?> 
+	<?= Html::a('Create route', ['create'], ['class' => 'btn btn-success'])?>
+</p>
+
+
 <?php
 echo Html::beginForm();
 echo GridView::widget([
@@ -23,7 +28,7 @@ echo GridView::widget([
 	'columns' => [
 		[
 			'class' => 'yii\\grid\\CheckboxColumn',
-			'checkboxOptions' => function($model){
+			'checkboxOptions' => function($model) {
 				return [
 					'value' => ArrayHelper::getValue($model, 'name'),
 					'checked' => !ArrayHelper::getValue($model, 'exists', false)
@@ -39,6 +44,6 @@ echo GridView::widget([
 		]
 	]
 ]);
-echo Html::submitButton('Delete', ['name' => 'Submit','class' => 'btn btn-danger']);
+echo Html::submitButton('Delete', ['name' => 'Submit', 'class' => 'btn btn-danger']);
 echo Html::endForm();
 ?>

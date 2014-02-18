@@ -1,6 +1,5 @@
 <?php
 
-use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
@@ -9,11 +8,11 @@ use yii\helpers\ArrayHelper;
  * @var yii\web\View $this
  */
 
-$this->title = 'New Operations';
+$this->title = 'Generate Operations';
 $this->params['breadcrumbs'][] = ['label' => 'Operation', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>New Operations</h1>
+<h1>Generate Operations</h1>
 
 <?php
 echo Html::beginForm();

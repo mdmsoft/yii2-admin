@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute'=>'menu_parent',
 				'label' => 'Parent',
 				'value' => function($model) {
-					return \yii\helpers\ArrayHelper::getValue($model->parent, 'menu_name');
+					return \yii\helpers\ArrayHelper::getValue($model->menuParent, 'menu_name');
 				}
 			],
 			'menu_url',

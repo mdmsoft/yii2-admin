@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 				'model'=>$model,
 				'attribute'=>'menu_parent',
 				'data'=>  Menu::parents(),
-				'options'=>ArrayHelper::merge(['prompt'=>'Parent'], $field->inputOptions),
+				'options'=>ArrayHelper::merge(['prompt'=>'Parent Menu'], $field->inputOptions),
 			]);
 			echo $field; 
 		?>
@@ -36,7 +36,7 @@ use yii\helpers\ArrayHelper;
 				'model'=>$model,
 				'attribute'=>'menu_url',
 				'data'=>  Menu::routes(),
-				'options'=>ArrayHelper::merge(['prompt'=>'Parent'], $field->inputOptions),
+				'options'=>ArrayHelper::merge(['prompt'=>'Route'], $field->inputOptions),
 			]);
 			echo $field; 
 		?>
