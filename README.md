@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require mdm-yii2/mdm-admin "*"
+php composer.phar require mdmsoft/yii2-admin "*"
 ```
 
 or add
 
 ```
-"mdm-yii2/mdm-admin": "*"
+"mdmsoft/yii2-admin": "*"
 ```
 
 to the require section of your `composer.json` file.
