@@ -1,12 +1,12 @@
 {
-        "name": "mdm-yii2/mdm-admin",
+        "name": "mdmsoft/yii2-admin",
         "description": "Auth manager for Yii2 ",
         "keywords": ["yii", "admin", "auth"],
         "type": "yii2-extension",
         "license": "BSD-3-Clause",
         "support": {
-                "issues": "https://github.com/mdm-yii2/mdm-admin/issues",
-                "source": "https://github.com/mdm-yii2/mdm-admin"
+                "issues": "https://github.com/mdmsoft/yii2-admin/issues",
+                "source": "https://github.com/mdmsoft/yii2-admin"
         },
         "authors": [
                 {
@@ -16,7 +16,7 @@
         ],
         "require": {
                 "yiisoft/yii2": "*",
-                "yiisoft/yii2-bootstrap": "*"
+                "kartik-v/yii2-widgets": "*"
         },
         "autoload": {
                 "psr-4": { "mdm\\admin\\": "" }
