@@ -64,7 +64,7 @@ class AccessControl extends \yii\base\Behavior
 		if ($user->getIsGuest()) {
 			$user->loginRequired();
 		} else {
-			throw new AccessDeniedHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+			throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
 		}
 	}
 
