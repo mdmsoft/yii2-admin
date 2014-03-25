@@ -3,7 +3,7 @@
 namespace mdm\admin\components;
 
 use yii\web\Application;
-use yii\web\AccessDeniedHttpException;
+use yii\web\ForbiddenHttpException;
 use Yii;
 
 /**
