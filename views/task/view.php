@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use mdm\admin\components\AccessHelper;
-use mdm\admin\components\Select2;
+use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;

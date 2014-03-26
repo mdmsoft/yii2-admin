@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use mdm\admin\components\Select2;
+use kartik\widgets\Select2;
 use mdm\admin\models\AppendChild;
 
 /**
@@ -14,21 +14,23 @@ use mdm\admin\models\AppendChild;
 <div class="append_child">
 
 	<?php $form = ActiveForm::begin(); ?>
-		<div class="form-group">
-			<?php
-			echo Select2::widget([
-				'model' => $model,
-				'attribute' => 'children',
-				'options' => ['class' => 'form-control'],
-				'data' => AppendChild::avaliableRoles(),
-				'placeholder'=>'Select gan ... ',
-				'multiple'=>true,
-			]);
-			?>
-		</div>
-		<div class="form-group">
-			<?= Html::submitButton('Append', ['class' => 'btn btn-primary']) ?>
-		</div>
+	<div class="form-group">
+		<?php
+		echo Select2::widget([
+			'model' => $model,
+			'attribute' => 'children',
+			'options' => [
+				'class' => 'form-control',
+				'placeholder' => 'Select gan ... ',
+				'multiple' => true
+			],
+			'data' => AppendChild::avaliableRoles(),
+		]);
+		?>
+	</div>
+	<div class="form-group">
+		<?= Html::submitButton('Append', ['class' => 'btn btn-primary']) ?>
+	</div>
 
 	<?php ActiveForm::end(); ?>
 

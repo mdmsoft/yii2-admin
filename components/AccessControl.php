@@ -14,7 +14,7 @@ use Yii;
  */
 class AccessControl extends \yii\base\Behavior
 {
-
+	public $allowActions = [];
 	public function events()
 	{
 		return[
@@ -29,6 +29,9 @@ class AccessControl extends \yii\base\Behavior
 	public function beforeAction($event)
 	{
 		$action = $event->action;
+		if(in_array($action->uniqueId, $this->allowActions)){
+			return true;
+		}
 		if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
 			return true;
 		}

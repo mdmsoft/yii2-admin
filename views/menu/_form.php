@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mdm\admin\models\Menu;
-use mdm\admin\components\Select2;
+use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -20,25 +20,21 @@ use yii\helpers\ArrayHelper;
 		<?= $form->field($model, 'menu_name')->textInput(['maxlength' => 64]) ?>
 
 		<?php
-			$field = $form->field($model, 'menu_parent');
-			$field->parts['{input}'] = Select2::widget([
+			echo $field = $form->field($model, 'menu_parent')->widget(Select2::classname(),[
 				'model'=>$model,
 				'attribute'=>'menu_parent',
 				'data'=>  Menu::parents(),
 				'options'=>ArrayHelper::merge(['prompt'=>'Parent Menu'], $field->inputOptions),
 			]);
-			echo $field; 
 		?>
 
 		<?php
-			$field = $form->field($model, 'menu_url');
-			$field->parts['{input}'] = Select2::widget([
+			echo $field = $form->field($model, 'menu_url')->widget(Select2::classname(),[
 				'model'=>$model,
 				'attribute'=>'menu_url',
 				'data'=>  Menu::routes(),
 				'options'=>ArrayHelper::merge(['prompt'=>'Route'], $field->inputOptions),
 			]);
-			echo $field; 
 		?>
 
 		<div class="form-group">

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use mdm\admin\components\Select2;
+use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use mdm\admin\components\AccessHelper;
@@ -16,9 +16,11 @@ use yii\rbac\Item;
 		echo Select2::widget([
 			'name' => 'append',
 			'value' => $append,
-			'options' => ['style' => 'width:98%'],
+			'options' => [
+				'multiple' => true,
+				'style' => 'width:98%',
+				],
 			'data' => AccessHelper::getAvaliableChild(Item::TYPE_ROLE),
-			'multiple' => true,
 		]);
 		?>
 	</div>

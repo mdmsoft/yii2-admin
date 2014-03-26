@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use mdm\admin\components\AccessHelper;
-use mdm\admin\components\Select2;
+use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -48,51 +48,53 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php $form = ActiveForm::begin(); ?>
 	<br>
-<div class="form-group col-lg-12">
-	<div class="col-lg-10">
+	<div class="form-group col-lg-12">
+		<div class="col-lg-10">
+			<?php
+			echo Select2::widget([
+				'name' => 'append',
+				'value' => empty($states['append']) ? [] : $states['append'],
+				'options' => [
+					'style' => 'width:98%',
+					'placeholder' => 'Select gan ... ',
+					'multiple' => true
+				],
+				'data' => AccessHelper::getAvaliableChild(Item::TYPE_ROLE),
+			]);
+			?>
+		</div>
+		<div class="col-lg-2">
+			<?= Html::submitButton('Append', ['class' => 'btn btn-primary', 'name' => 'Submit', 'value' => 'append']); ?>
+		</div>
+	</div>
+	<br><br>
+	<div class="col-lg-12">
 		<?php
-		echo Select2::widget([
-			'name' => 'append',
-			'value' => empty($states['append'])?[]:$states['append'],
-			'options' => ['style' => 'width:98%'],
-			'data' => AccessHelper::getAvaliableChild(Item::TYPE_ROLE),
-			'placeholder' => 'Select gan ... ',
-			'multiple' => true,
+		$deleted = empty($states['delete']) ? [] : $states['delete'];
+		echo GridView::widget([
+			'dataProvider' => new ArrayDataProvider(['allModels' => $model->getChildren(),]),
+			'columns' => [
+				[
+					'class' => 'yii\grid\CheckboxColumn',
+					'name' => 'delete',
+					'checkboxOptions' => function($model) use($deleted) {
+						$name = ArrayHelper::getValue($model, 'name');
+						return[
+							'value' => $name,
+							'checked' => in_array($name, $deleted),
+						];
+					}
+				],
+				'name',
+			],
+		]);
+		echo Html::submitButton('Delete', [
+			'class' => 'btn btn-danger',
+			'name' => 'Submit',
+			'value' => 'delete',
+			'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
 		]);
 		?>
 	</div>
-	<div class="col-lg-2">
-		<?= Html::submitButton('Append', ['class' => 'btn btn-primary', 'name' => 'Submit', 'value'=>'append']); ?>
-	</div>
-</div>
-<br><br>
-<div class="col-lg-12">
-	<?php
-	$deleted = empty($states['delete'])?[]:$states['delete'];
-	echo GridView::widget([
-		'dataProvider' => new ArrayDataProvider(['allModels' => $model->getChildren(),]),
-		'columns' => [
-			[
-				'class' => 'yii\grid\CheckboxColumn',
-				'name' => 'delete',
-				'checkboxOptions' => function($model) use($deleted){
-					$name = ArrayHelper::getValue($model, 'name');
-					return[
-						'value' => $name,
-						'checked' => in_array($name, $deleted),
-					];
-				}
-			],
-			'name',
-		],
-	]);
-	echo Html::submitButton('Delete', [
-		'class' => 'btn btn-danger',
-		'name' => 'Submit',
-		'value'=>'delete',
-		'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
-	]);
-	?>
-</div>
 	<?php ActiveForm::end(); ?>
 </div>

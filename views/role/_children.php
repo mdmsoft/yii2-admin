@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use mdm\admin\components\Select2;
+use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -13,10 +13,12 @@ use yii\helpers\ArrayHelper;
 		echo Select2::widget([
 			'name' => 'append_' . $type,
 			'value' => $append,
-			'options' => ['style' => 'width:98%'],
+			'options' => [
+				'style' => 'width:98%',
+				'placeholder' => 'Select gan ... ',
+				'multiple' => true,
+			],
 			'data' => $items,
-			'placeholder' => 'Select gan ... ',
-			'multiple' => true,
 		]);
 		?>
 	</div>
