@@ -40,7 +40,7 @@ class AccessControl extends \yii\base\Behavior
 		if ($user->checkAccess($route)) {
 			return;
 		}
-
+		
 		if ($user->checkAccess($action->controller->uniqueId . '/*')) {
 			return;
 		}
