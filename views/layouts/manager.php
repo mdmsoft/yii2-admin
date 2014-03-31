@@ -31,6 +31,6 @@ $menus = [
 		</div>
 	</div>
 	<div class="col-lg-9">
-		<?= $this->render('/'.Yii::$app->controller->id.'/'.$view,$params) ?>
+		<?= $this->render($view,$params,Yii::$app->controller) ?>
 	</div>
 </div>
