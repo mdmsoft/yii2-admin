@@ -15,8 +15,7 @@
                 }
         ],
         "require": {
-                "yiisoft/yii2": "*",
-                "kartik-v/yii2-widgets": "*"
+                "yiisoft/yii2": "*"
         },
         "autoload": {
                 "psr-4": { "mdm\\admin\\": "" }
