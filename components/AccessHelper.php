@@ -133,7 +133,7 @@ class AccessHelper
 				continue;
 			}
 			
-			foreach (self::getRoutes($child) as $route) {
+			foreach (@self::getRoutes($child) as $route) {
 				$result[] = $route;
 			}
 		}
