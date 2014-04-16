@@ -3,7 +3,7 @@
 use yii\db\Schema;
 
 return [
-	['createTable', 'tbl_auth_item', [
+	['createTable', '{{%auth_item}}', [
 			'name' => Schema::TYPE_STRING . '(64) NOT NULL',
 			'type' => Schema::TYPE_STRING . ' NOT NULL',
 			'description' => Schema::TYPE_TEXT,
@@ -11,12 +11,12 @@ return [
 			'data' => Schema::TYPE_TEXT,
 		],
 	],
-	['createTable', 'tbl_auth_item_child', [
+	['createTable', '{{%auth_item_child}}', [
 			'parent' => Schema::TYPE_STRING . '(64) NOT NULL',
 			'child' => Schema::TYPE_STRING . '(64) NOT NULL',
 		],
 	],
-	['createTable', 'tbl_auth_assignment', [
+	['createTable', '{{%auth_assignment}}', [
 			'item_name' => Schema::TYPE_STRING . '(64) NOT NULL',
 			'user_id' => Schema::TYPE_STRING . '(64) NOT NULL',
 			'biz_rule' => Schema::TYPE_TEXT,

@@ -3,7 +3,7 @@
 class m140215_034804_create_rbac_tables extends \yii\db\Migration
 {
 
-	public function up()
+	public function safeUp()
 	{
 		switch ($driver = $this->db->driverName) {
 			case 'mysql':
@@ -19,13 +19,15 @@ class m140215_034804_create_rbac_tables extends \yii\db\Migration
 			$method = array_shift($action);
 			call_user_func_array([$this, $method], $action);
 		}
+		return true;
 	}
 
-	public function down()
+	public function safeDown()
 	{
 		$this->dropTable('tbl_auth_item_child');
 		$this->dropTable('tbl_auth_assignment');
 		$this->dropTable('tbl_auth_item');
+		return true;
 	}
 
 }
