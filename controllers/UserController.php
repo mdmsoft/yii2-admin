@@ -7,7 +7,7 @@ use mdm\admin\models\UserSearch;
 use yii\data\ActiveDataProvider;
 use mdm\admin\components\Controller;
 use yii\web\HttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
 /**

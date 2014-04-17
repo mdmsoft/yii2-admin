@@ -1,22 +1,52 @@
 <?php
 
+use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\web\JsExpression;
+
 /**
  * @var yii\web\View $this
- * @var mdm\admin\models\Assigment $model
+ * @var yii\data\ActiveDataProvider $dataProvider
+ * @var mdm\admin\models\AssigmentSearch $searchModel
  */
-
-$this->title = ArrayHelper::getValue($model, $usernameField);
-$this->params['breadcrumbs'][] = ['label' => 'Assigments', 'url' => ['index']];
+$this->title = 'Assigments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="assigment-view">
+<div class="assigment-index">
+    <h1>User: <?= $model->username ?></h1>
 
-	<h1>Assigment User <b><?= ArrayHelper::getValue($model, $usernameField) ?></b></h1>
-
-	<?php echo $this->render('_children',[
-		'assigments'=>$assigments,
-		'append'=>  ArrayHelper::getValue($values, 'append',[]),
-		'delete'=>  ArrayHelper::getValue($values, 'delete',[]),
-	]); ?>
+    <div class="col-lg-5">
+        Avaliable: 
+        <?php
+        echo Html::textInput('search', '', ['class' => 'role-search', 'data-target' => 'avaliable']) . '<br>';
+        echo Html::listBox('roles', '', $avaliable, [
+            'id' => 'avaliable',
+            'multiple' => true,
+            'size' => 20,
+            'style' => 'width:100%']);
+        ?>
+    </div>
+    <div class="col-lg-1">
+        &nbsp;<br><br>
+        <?php
+        echo Html::a('>>', '#', ['class' => 'btn btn-success', 'data-action' => 'assign']) . '<br>';
+        echo Html::a('<<', '#', ['class' => 'btn btn-success', 'data-action' => 'delete']) . '<br>';
+        ?>
+    </div>
+    <div class="col-lg-5">
+        Assigned: 
+        <?php
+        echo Html::textInput('search', '', ['class' => 'role-search', 'data-userid' => $model->id,
+            'data-target' => 'assigned']) . '<br>';
+        echo Html::listBox('roles', '', $assigned, [
+            'id' => 'assigned',
+            'multiple' => true,
+            'size' => 20,
+            'style' => 'width:100%']);
+        ?>
+    </div>
 </div>
+<?php
+$this->render('_script',['userId'=>$model->id]);

@@ -32,23 +32,29 @@ class AccessControl extends \yii\base\Behavior
 		if(in_array($action->uniqueId, $this->allowActions)){
 			return true;
 		}
+        foreach ($this->allowActions as $route) {
+            $route = rtrim($route, "*");
+            if(empty($route) || strpos($action->uniqueId, $route)===0){
+                return true;
+            }
+        }
 		if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
 			return true;
 		}
 		$user = Yii::$app->user;
 		$route = $action->uniqueId;
-		if ($user->checkAccess($route)) {
-			return;
+		if ($user->can($route)) {
+			return true;
 		}
 		
-		if ($user->checkAccess($action->controller->uniqueId . '/*')) {
-			return;
+		if ($user->can($action->controller->uniqueId . '/*')) {
+			return true;
 		}
 		$module = $action->controller->module;
 		while ($module !== null) {
 			$id = $module->uniqueId;
-			if ($user->checkAccess($id === '' ? '*' : $id . '/*')) {
-				return;
+			if ($user->can($id === '' ? '*' : $id . '/*')) {
+				return true;
 			}
 			$module = $module->module;
 		}
