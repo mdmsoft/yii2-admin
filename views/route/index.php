@@ -13,37 +13,40 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1>Operations</h1>
 <p>
-	<?= $new ? Html::a("Generate route ($new)", ['generate'], ['class' => 'btn btn-success']) : ''?> 
-	<?= Html::a('Create route', ['create'], ['class' => 'btn btn-success'])?>
+    <?= Html::a('Create route', ['create'], ['class' => 'btn btn-success']) ?>
 </p>
 
-
+<div>
+    <div class="col-lg-5">
+        New: 
+        <?php
+        echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'new']) . '<br>';
+        echo Html::listBox('routes', '', $new, [
+            'id' => 'new',
+            'multiple' => true,
+            'size' => 20,
+            'style' => 'width:100%']);
+        ?>
+    </div>
+    <div class="col-lg-1">
+        &nbsp;<br><br>
+        <?php
+        echo Html::a('>>', '#', ['class' => 'btn btn-success', 'data-action' => 'assign']) . '<br>';
+        echo Html::a('<<', '#', ['class' => 'btn btn-success', 'data-action' => 'delete']) . '<br>';
+        ?>
+    </div>
+    <div class="col-lg-5">
+        Exists: 
+        <?php
+        echo Html::textInput('search_asgn', '', ['class' => 'role-search', 'data-target' => 'exists']) . '<br>';
+        echo Html::listBox('routes', '', $exists, [
+            'id' => 'exists',
+            'multiple' => true,
+            'size' => 20,
+            'style' => 'width:100%',
+            'options'=>$existsOptions]);
+        ?>
+    </div>
+</div>
 <?php
-echo Html::beginForm();
-echo GridView::widget([
-	'dataProvider' => new ArrayDataProvider([
-		//'id' => $type == 1 ? 'new' : 'exists',
-		'allModels' => $exists,
-			]),
-	'columns' => [
-		[
-			'class' => 'yii\\grid\\CheckboxColumn',
-			'checkboxOptions' => function($model) {
-				return [
-					'value' => ArrayHelper::getValue($model, 'name'),
-					'checked' => !ArrayHelper::getValue($model, 'exists', false)
-				];
-			},
-		],
-		[
-			'class' => 'yii\\grid\\DataColumn',
-			'attribute' => 'name',
-			'contentOptions' => function ($model) {
-				return ArrayHelper::getValue($model, 'exists', true) ? [] : ['style' => 'text-decoration: line-through;'];
-			}
-		]
-	]
-]);
-echo Html::submitButton('Delete', ['name' => 'Submit', 'class' => 'btn btn-danger']);
-echo Html::endForm();
-?>
+$this->render('_script');

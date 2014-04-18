@@ -26,29 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'class' => 'yii\grid\DataColumn',
 				'attribute' => 'username',
-				'value' => function ($model) use($usernameField) {
-					return ArrayHelper::getValue($model, $usernameField);
-				}
 			],
 			[
-				'class' => 'yii\grid\DataColumn',
-				'label' => 'Roles',
-				'value' => function($model) use($manager, $useridField) {
-					$roles = array_keys($manager->getRoles($model->{$useridField}));
-					if (count($roles) > 5) {
-						$roles = array_slice($roles, 0, 5);
-						$roles[] = '...';
-					} elseif (empty($roles)) {
-						$roles = ['&minus;'];
-					}
-					return Html::a(implode(', ', $roles), ['view', 'id' => $model->{$useridField}]);
-				},
-				'format' => 'raw',
+				'class' => 'yii\grid\ActionColumn',
+                'template'=>'{view}'
 			],
 		],
 	]);
-	
-//echo \mdm\easyui\Datagrid::widget([]);
 	?>
 
 </div>

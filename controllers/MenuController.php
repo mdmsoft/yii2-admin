@@ -7,7 +7,7 @@ use mdm\admin\models\Menu;
 use mdm\admin\models\MenuSearch;
 use mdm\admin\components\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * MenuController implements the CRUD actions for Menu model.

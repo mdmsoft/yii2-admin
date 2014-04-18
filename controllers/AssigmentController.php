@@ -6,8 +6,11 @@ use mdm\admin\models\Assigment;
 use mdm\admin\models\AssigmentSearch;
 use mdm\admin\components\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use common\models\User;
+use Yii;
+use yii\helpers\Html;
 
 /**
  * AssigmentController implements the CRUD actions for Assigment model.
@@ -15,107 +18,120 @@ use yii\helpers\ArrayHelper;
 class AssigmentController extends Controller
 {
 
-	private $_userModel;
-	private $_useridField;
-	private $_usernameField;
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
 
-	/**
-	 *
-	 * @var \yii\rbac\Manager
-	 */
-	private $_authManager;
+    /**
+     * Lists all Assigment models.
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        $searchModel = new AssigmentSearch;
 
-	public function behaviors()
-	{
-		return [
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['post'],
-				],
-			],
-		];
-	}
+        $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams());
+        return $this->render('index', [
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+        ]);
+    }
 
-	public function init()
-	{
-		parent::init();
-		/* @var \mdm\admin\Module $module */
-		$module = $this->module;
-		$this->_userModel = $module->userModel;
-		$this->_useridField = $module->useridField;
-		$this->_usernameField = $module->usernameField;
-		$this->_authManager = \Yii::$app->authManager;
-	}
+    /**
+     * Displays a single Assigment model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        $authManager = Yii::$app->authManager;
+        $avaliable = [];
+        foreach ($authManager->getRoles() as $role) {
+            $avaliable[$role->name] = $role->name;
+        }
+        $assigned = [];
+        foreach ($authManager->getRolesByUser($id) as $role) {
+            $assigned[$role->name] = $role->name;
+            unset($avaliable[$role->name]);
+        }
+        return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
+    }
 
-	/**
-	 * Lists all Assigment models.
-	 * @return mixed
-	 */
-	public function actionIndex()
-	{
-		$searchModel = new AssigmentSearch;
+    public function actionAssign($id, $action)
+    {
+        $post = Yii::$app->request->post();
+        $roles = $post['roles'];
+        $manager = Yii::$app->authManager;
+        if ($action == 'assign') {
+            foreach ($roles as $role) {
+                try {
+                    $manager->assign($manager->getRole($role), $id);
+                } catch (\Exception $exc) {
+                    
+                }
+            }
+        } else {
+            foreach ($roles as $role) {
+                try {
+                    $manager->revoke($manager->getRole($role), $id);
+                } catch (\Exception $exc) {
+                    
+                }
+            }
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
+            $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
+    }
 
-		$dataProvider = $searchModel->search($this->_userModel, $this->_usernameField, $_GET);
-		return $this->render('index', [
-					'dataProvider' => $dataProvider,
-					'searchModel' => $searchModel,
-					'useridField' => $this->_useridField,
-					'usernameField' => $this->_usernameField,
-		]);
-	}
+    public function actionRoleSearch($id, $target, $term = '')
+    {
+        $authManager = Yii::$app->authManager;
+        $avaliable = [];
+        foreach ($authManager->getRoles() as $role) {
+            $avaliable[$role->name] = $role->name;
+        }
+        $assigned = [];
+        foreach ($authManager->getRolesByUser($id) as $role) {
+            $assigned[$role->name] = $role->name;
+            unset($avaliable[$role->name]);
+        }
+        $result = [];
+        if (!empty($term)) {
+            foreach (${$target} as $role) {
+                if (strpos($role, $term) !== false) {
+                    $result[$role] = $role;
+                }
+            }
+        } else {
+            $result = ${$target};
+        }
+        return Html::renderSelectOptions('', $result);
+    }
 
-	/**
-	 * Displays a single Assigment model.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionView($id)
-	{
-		$model = $this->findModel($id);
-		$values = [];
-		if (isset($_POST['Submit'])) {
-			$values = $_POST;
-			if ($_POST['Submit'] == 'append') {
-				foreach (ArrayHelper::getValue($values, 'append', []) as $itemName) {
-					$this->_authManager->assign($id, $itemName);
-				}
-				$this->_authManager->save();
-				ArrayHelper::remove($values, 'append');
-			} else {
-				foreach (ArrayHelper::getValue($values, 'delete', []) as $itemName) {
-					$this->_authManager->revoke($id, $itemName);
-				}
-				$this->_authManager->save();
-				ArrayHelper::remove($values, 'delete');
-			}
-		}
-		$assigments = array_keys($this->_authManager->getItems($id));
-
-		return $this->render('view', [
-					'model' => $model,
-					'useridField' => $this->_useridField,
-					'usernameField' => $this->_usernameField,
-					'values' => $values,
-					'assigments' => $assigments,
-		]);
-	}
-
-	/**
-	 * Finds the Assigment model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
-	 * @param integer $id
-	 * @return Assigment the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
-	 */
-	protected function findModel($id)
-	{
-		$class = $this->_userModel;
-		if (($model = $class::findIdentity($id)) !== null) {
-			return $model;
-		} else {
-			throw new NotFoundHttpException('The requested page does not exist.');
-		}
-	}
+    /**
+     * Finds the Assigment model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Assigment the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = User::findIdentity($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 
 }

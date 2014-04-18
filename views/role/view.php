@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use mdm\admin\components\AccessHelper;
-use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -20,81 +19,60 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-view">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<p>
-		<?= Html::a('Update', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']) ?>
-		<?php
-		echo Html::a('Delete', ['delete', 'id' => $model->name], [
-			'class' => 'btn btn-danger',
-			'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
-			'data-method' => 'post',
-		]);
-		?>
-	</p>
+    <p>
+        <?= Html::a('Update', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']) ?>
+        <?php
+        echo Html::a('Delete', ['delete', 'id' => $model->name], [
+            'class' => 'btn btn-danger',
+            'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
+            'data-method' => 'post',
+        ]);
+        ?>
+    </p>
 
-	<?php
-	echo DetailView::widget([
-		'model' => $model,
-		'attributes' => [
-			'name',
-			'type',
-			'description:ntext',
-			'biz_rule:ntext',
-			'data:ntext',
-		],
-	]);
-	?>
-
-	<?php $form = ActiveForm::begin(); ?>
-	<br>
-	<div class="form-group col-lg-12">
-		<div class="col-lg-10">
-			<?php
-			echo Select2::widget([
-				'name' => 'append',
-				'value' => empty($states['append']) ? [] : $states['append'],
-				'options' => [
-					'style' => 'width:98%',
-					'placeholder' => 'Select gan ... ',
-					'multiple' => true
-				],
-				'data' => AccessHelper::getAvaliableChild(Item::TYPE_ROLE),
-			]);
-			?>
-		</div>
-		<div class="col-lg-2">
-			<?= Html::submitButton('Append', ['class' => 'btn btn-primary', 'name' => 'Submit', 'value' => 'append']); ?>
-		</div>
-	</div>
-	<br><br>
-	<div class="col-lg-12">
-		<?php
-		$deleted = empty($states['delete']) ? [] : $states['delete'];
-		echo GridView::widget([
-			'dataProvider' => new ArrayDataProvider(['allModels' => $model->getChildren(),]),
-			'columns' => [
-				[
-					'class' => 'yii\grid\CheckboxColumn',
-					'name' => 'delete',
-					'checkboxOptions' => function($model) use($deleted) {
-						$name = ArrayHelper::getValue($model, 'name');
-						return[
-							'value' => $name,
-							'checked' => in_array($name, $deleted),
-						];
-					}
-				],
-				'name',
-			],
-		]);
-		echo Html::submitButton('Delete', [
-			'class' => 'btn btn-danger',
-			'name' => 'Submit',
-			'value' => 'delete',
-			'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
-		]);
-		?>
-	</div>
-	<?php ActiveForm::end(); ?>
+    <?php
+    echo DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'name',
+            'description:ntext',
+            'biz_rule',
+            'data:ntext',
+        ],
+    ]);
+    ?>
+    <div class="col-lg-5">
+        Avaliable: 
+        <?php
+        echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'avaliable']) . '<br>';
+        echo Html::listBox('roles', '', $avaliable, [
+            'id' => 'avaliable',
+            'multiple' => true,
+            'size' => 20,
+            'style' => 'width:100%']);
+        ?>
+    </div>
+    <div class="col-lg-1">
+        &nbsp;<br><br>
+        <?php
+        echo Html::a('>>', '#', ['class' => 'btn btn-success', 'data-action' => 'assign']) . '<br>';
+        echo Html::a('<<', '#', ['class' => 'btn btn-success', 'data-action' => 'delete']) . '<br>';
+        ?>
+    </div>
+    <div class="col-lg-5">
+        Assigned: 
+        <?php
+        echo Html::textInput('search_asgn', '', ['class' => 'role-search','data-target' => 'assigned']) . '<br>';
+        echo Html::listBox('roles', '', $assigned, [
+            'id' => 'assigned',
+            'multiple' => true,
+            'size' => 20,
+            'style' => 'width:100%']);
+        ?>
+    </div>
 </div>
+<?php
+$this->render('_script',['name'=>$model->name]);
+
