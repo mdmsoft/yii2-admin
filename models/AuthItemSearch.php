@@ -15,6 +15,8 @@ use yii\rbac\Item;
 class AuthItemSearch extends Model
 {
 
+    const TYPE_ROUTE = 101;
+
     public $name;
     public $type;
     public $description;
@@ -55,14 +57,26 @@ class AuthItemSearch extends Model
         if ($this->type == Item::TYPE_ROLE) {
             $items = $authManager->getRoles();
         } else {
-            $items = $authManager->getPermissions();
+            $items = [];
+            if ($this->type == Item::TYPE_PERMISSION) {
+                foreach ($authManager->getPermissions() as $name => $item) {
+                    if ($name[0] !== '/') {
+                        $items[$name] = $item;
+                    }
+                }
+            }  else {
+                foreach ($authManager->getPermissions() as $name => $item) {
+                    if ($name[0] === '/') {
+                        $items[$name] = $item;
+                    }
+                }
+            }
         }
         if ($this->load($params) && $this->validate() && (trim($this->name) !== '' || trim($this->description) !== '')) {
             $search = strtolower(trim($this->name));
             $desc = strtolower(trim($this->description));
             $items = array_filter($items, function($item) use($search, $desc) {
-                return (empty($search) || strpos(strtolower($item->name), $search) !== false) 
-                    && ( empty($desc) || strpos(strtolower($item->description), $desc) !== false);
+                return (empty($search) || strpos(strtolower($item->name), $search) !== false) && ( empty($desc) || strpos(strtolower($item->description), $desc) !== false);
             });
         }
         return new ArrayDataProvider([

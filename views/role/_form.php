@@ -27,10 +27,7 @@ use yii\widgets\ActiveForm;
 	<div class="form-group">
 		<?php
 		echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', [
-			'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-			'name' => 'Submit',
-			'value' => 'update',
-		])
+			'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'])
 		?>
 	</div>
 

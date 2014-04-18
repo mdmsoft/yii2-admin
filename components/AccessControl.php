@@ -14,67 +14,67 @@ use Yii;
  */
 class AccessControl extends \yii\base\Behavior
 {
-	public $allowActions = [];
-	public function events()
-	{
-		return[
-			Application::EVENT_BEFORE_ACTION => 'beforeAction'
-		];
-	}
 
-	/**
-	 * 
-	 * @param \yii\base\ActionEvent $event
-	 */
-	public function beforeAction($event)
-	{
-		$action = $event->action;
-		if(in_array($action->uniqueId, $this->allowActions)){
-			return true;
-		}
-        foreach ($this->allowActions as $route) {
-            $route = rtrim($route, "*");
-            if(empty($route) || strpos($action->uniqueId, $route)===0){
-                return true;
+    public $allowActions = [];
+
+    public function events()
+    {
+        return[
+            Application::EVENT_BEFORE_ACTION => 'beforeAction'
+        ];
+    }
+
+    /**
+     * 
+     * @param \yii\base\ActionEvent $event
+     */
+    public function beforeAction($event)
+    {
+        $action = $event->action;
+        $actionId = $action->uniqueId;
+        if ($this->checkAccessRoutes($this->allowActions, $actionId)) {
+            return true;
+        }
+        if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
+            return true;
+        }
+        $user = Yii::$app->user;
+        if ($this->checkAccessRoutes(AccessHelper::getUserRoutes($user->getId()), $actionId)) {
+            return true;
+        }
+        $this->denyAccess($user);
+    }
+
+    protected function checkAccessRoutes($routes, $actionId)
+    {
+        if (in_array($actionId, $routes)) {
+            return true;
+        }
+        foreach ($routes as $route) {
+            if (substr($route, -1) === '*') {
+                $route = rtrim($route, "*");
+                if ($route === '' || strpos($actionId, $route) === 0) {
+                    return true;
+                }
             }
         }
-		if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
-			return true;
-		}
-		$user = Yii::$app->user;
-		$route = $action->uniqueId;
-		if ($user->can($route)) {
-			return true;
-		}
-		
-		if ($user->can($action->controller->uniqueId . '/*')) {
-			return true;
-		}
-		$module = $action->controller->module;
-		while ($module !== null) {
-			$id = $module->uniqueId;
-			if ($user->can($id === '' ? '*' : $id . '/*')) {
-				return true;
-			}
-			$module = $module->module;
-		}
-		$this->denyAccess($user);
-	}
+        return false;
+    }
 
-	/**
-	 * Denies the access of the user.
-	 * The default implementation will redirect the user to the login page if he is a guest;
-	 * if the user is already logged, a 403 HTTP exception will be thrown.
-	 * @param yii\web\User $user the current user
-	 * @throws yii\web\AccessDeniedHttpException if the user is already logged in.
-	 */
-	protected function denyAccess($user)
-	{
-		if ($user->getIsGuest()) {
-			$user->loginRequired();
-		} else {
-			throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
-		}
-	}
+    /**
+     * Denies the access of the user.
+     * The default implementation will redirect the user to the login page if he is a guest;
+     * if the user is already logged, a 403 HTTP exception will be thrown.
+     * @param yii\web\User $user the current user
+     * @throws yii\web\AccessDeniedHttpException if the user is already logged in.
+     */
+    protected function denyAccess($user)
+    {
+        if ($user->getIsGuest()) {
+            $user->loginRequired();
+        } else {
+            throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+        }
+    }
 
 }

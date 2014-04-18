@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use common\models\User;
 use Yii;
 use yii\helpers\Html;
+use mdm\admin\components\AccessDependency;
 
 /**
  * AssigmentController implements the CRUD actions for Assigment model.
@@ -88,6 +89,7 @@ class AssigmentController extends Controller
                 }
             }
         }
+        AccessDependency::resetDependency();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];

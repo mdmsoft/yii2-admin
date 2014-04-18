@@ -8,7 +8,7 @@ use mdm\admin\components\AccessHelper;
  * @var yii\web\View $this
  * @var mdm\admin\models\AuthItem $model
  */
-$this->title = 'Update Role: ' . $model->name;
+$this->title = 'Update Permission: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
 $this->params['breadcrumbs'][] = 'Update';

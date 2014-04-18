@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\widgets\Pjax;
 
 /**
  * @var yii\web\View $this
@@ -17,7 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<?php
-	$manager = Yii::$app->authManager;
+    Pjax::begin([
+        'enablePushState'=>false,
+    ]);
 	echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
@@ -33,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 		],
 	]);
+    Pjax::end();
 	?>
 
 </div>

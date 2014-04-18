@@ -11,15 +11,7 @@ class AccessDependency extends \yii\caching\Dependency
 {
 	//put your code here
 
-	const KEY_DEPENDENCY = 'MDM-AUTH-CACHE';
-
-	public $for = 'role';
-
-	public function __construct($for, $config = array())
-	{
-		$this->for = $for;
-		parent::__construct($config);
-	}
+	const DEPENDENCY_KEY = '_AUTH_DEPENDENCY';
 
 	/**
 	 * Generates the data needed to determine if dependency has been changed.
@@ -29,7 +21,7 @@ class AccessDependency extends \yii\caching\Dependency
 	 */
 	protected function generateDependencyData($cache)
 	{
-		$key = [static::KEY_DEPENDENCY, $this->for];
+		$key = static::DEPENDENCY_KEY;
 		$result = $cache->get($key);
 		if ($result === false) {
 			$result = time();
@@ -38,11 +30,11 @@ class AccessDependency extends \yii\caching\Dependency
 		return $result;
 	}
 
-	public static function resetDependency($for, $cache = null)
+	public static function resetDependency($cache = null)
 	{
-		$cache = $cache === null ? \Yii::$app->getCache() : $cache;
+		$cache = $cache === null ? \Yii::$app->cache: $cache;
 		if ($cache !== null) {
-			$cache->set([static::KEY_DEPENDENCY, $for], time());
+			$cache->set(static::DEPENDENCY_KEY, time());
 		}
 	}
 

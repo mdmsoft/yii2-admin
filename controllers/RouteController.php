@@ -8,6 +8,9 @@ use yii\helpers\ArrayHelper;
 use Yii;
 use mdm\admin\models\Route;
 use yii\web\Response;
+use yii\helpers\Html;
+use Exception;
+use mdm\admin\components\AccessDependency;
 
 class RouteController extends \mdm\admin\components\Controller
 {
@@ -21,6 +24,9 @@ class RouteController extends \mdm\admin\components\Controller
             $routes[$route] = $route;
         }
         foreach ($manager->getPermissions() as $name => $permission) {
+            if ($name[0] !== '/') {
+                continue;
+            }
             $exists[$name] = $name;
             if (isset($routes[$name])) {
                 unset($routes[$name]);
@@ -57,11 +63,12 @@ class RouteController extends \mdm\admin\components\Controller
                 $child = $manager->getPermission($route);
                 try {
                     $manager->remove($child);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     
                 }
             }
         }
+        AccessDependency::resetDependency();
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [$this->actionRouteSearch('new', $post['search_av']),
             $this->actionRouteSearch('exists', $post['search_asgn'])];
@@ -95,7 +102,7 @@ class RouteController extends \mdm\admin\components\Controller
             }
         }
         $options = $target == 'new' ? [] : ['options' => $existsOptions];
-        return \yii\helpers\Html::renderSelectOptions('', $result, $options);
+        return Html::renderSelectOptions('', $result, $options);
     }
 
     private function saveNew($routes)
@@ -103,8 +110,8 @@ class RouteController extends \mdm\admin\components\Controller
         $manager = Yii::$app->authManager;
         foreach ($routes as $route) {
             try {
-                $manager->add($manager->createPermission(trim($route)));
-            } catch (\Exception $e) {
+                $manager->add($manager->createPermission('/' . trim($route, ' /')));
+            } catch (Exception $e) {
                 
             }
         }
