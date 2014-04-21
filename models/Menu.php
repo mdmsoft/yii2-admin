@@ -33,7 +33,7 @@ class Menu extends \yii\db\ActiveRecord
 			[['menu_parent'], 'integer'],
 			[['menu_parent'], 'exist','targetAttribute'=>'menu_id'],
 			[['menu_parent'], 'detectLoop'],
-			[['menu_name', 'menu_url'], 'string', 'max' => 64]
+			[['menu_name', 'menu_route'], 'string', 'max' => 64]
 		];
 	}
 
@@ -45,8 +45,7 @@ class Menu extends \yii\db\ActiveRecord
 		return [
 			'menu_name' => 'Menu Name',
 			'menu_parent' => 'Menu Parent',
-			'menu_url' => 'Menu Url',
-			'menu_id' => 'Menu ID',
+			'menu_route' => 'Menu Route',
 		];
 	}
 

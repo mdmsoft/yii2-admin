@@ -14,7 +14,7 @@ $menus = [
     ['label' => 'Permission', 'url' => ['/admin/permission']],
     ['label' => 'Route', 'url' => ['/admin/route']],
 //    ['label' => 'Rule', 'url' => ['/admin/rule']],
-//    ['label' => 'Menu', 'url' => ['/admin/menu']],
+    ['label' => 'Menu', 'url' => ['/admin/menu']],
     ['label' => 'Admin', 'url' => ['/admin/default']],
 ];
 ?>

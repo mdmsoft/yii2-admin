@@ -1,6 +1,8 @@
 <?php
 namespace mdm\admin\components;
 
+use yii\db\Query;
+use mdm\admin\models\Menu;
 /**
  * Description of MenuHelper
  *
@@ -8,10 +10,14 @@ namespace mdm\admin\components;
  */
 class MenuHelper
 {
-	public static function getMenu($modul=false){
-		$routes = AccessHelper::getItemsRole();
-		\Yii::$app->authManager->getOperations($routes);
-	}
-	
-	
+	public static function getMenus()
+    {
+        $result = [];
+        $parents = Menu::find(['menu_parent'=>null])->all();
+    }
+    
+    protected static function getMenuChildren($parent,&$result)
+    {
+        $children = Menu::find(['menu_parent'=>$parent])->all();
+    }
 }

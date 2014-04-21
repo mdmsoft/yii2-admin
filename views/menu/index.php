@@ -8,37 +8,32 @@ use yii\grid\GridView;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var mdm\admin\models\MenuSearch $searchModel
  */
+
 $this->title = 'Menus';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-index">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-	<p>
-		<?= Html::a('Create Menu', ['create'], ['class' => 'btn btn-success']) ?>
-	</p>
+    <p>
+        <?= Html::a('Create Menu', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
-	<?php
-	echo GridView::widget([
-		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
-		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
-			'menu_name',
-			[
-				'attribute'=>'menu_parent',
-				'label' => 'Parent',
-				'value' => function($model) {
-					return \yii\helpers\ArrayHelper::getValue($model->menuParent, 'menu_name');
-				}
-			],
-			'menu_url',
-			['class' => 'yii\grid\ActionColumn','template' => '{update} {delete}'],
-		],
-	]);
-	?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'menu_name',
+            'menu_parent',
+            'menu_route',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
 </div>
