@@ -122,7 +122,7 @@ class PermissionController extends Controller
         $post = Yii::$app->request->post();
         $roles = $post['roles'];
         $manager = Yii::$app->authManager;
-        $parent = $manager->getRole($id);
+        $parent = $manager->getPermission($id);
         if ($action == 'assign') {
             foreach ($roles as $role) {
                 $child = $manager->getPermission($role);
