@@ -7,7 +7,6 @@ use mdm\admin\models\AssigmentSearch;
 use mdm\admin\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use common\models\User;
 use Yii;
 use yii\helpers\Html;

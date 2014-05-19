@@ -7,7 +7,6 @@ use mdm\admin\models\AuthItemSearch;
 use mdm\admin\components\Controller;
 use yii\web\HttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use yii\rbac\Item;
 use Yii;
 use mdm\admin\components\AccessDependency;
@@ -54,7 +53,11 @@ class RoleController extends Controller
     {
         $model = $this->findModel($id);
         $authManager = Yii::$app->authManager;
-        $avaliable = [];
+        $avaliable = $assigned = [
+            'Roles' => [],
+            'Permission' => [],
+            'Routes' => [],
+        ];
         $children = array_keys($authManager->getChildren($id));
         $children[] = $id;
         foreach ($authManager->getRoles() as $name => $role) {
@@ -69,7 +72,7 @@ class RoleController extends Controller
             }
             $avaliable[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
         }
-        $assigned = [];
+
         foreach ($authManager->getChildren($id) as $name => $child) {
             if ($child->type == Item::TYPE_ROLE) {
                 $assigned['Roles'][$name] = $name;
@@ -77,7 +80,8 @@ class RoleController extends Controller
                 $assigned[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
             }
         }
-
+        $avaliable = array_filter($avaliable);
+        $assigned = array_filter($assigned);
         return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
     }
 
@@ -162,7 +166,11 @@ class RoleController extends Controller
 
     public function actionRoleSearch($id, $target, $term = '')
     {
-        $result = [];
+        $result = [
+            'Roles' => [],
+            'Permission' => [],
+            'Routes' => [],
+        ];
         $authManager = Yii::$app->authManager;
         if ($target == 'avaliable') {
             $children = array_keys($authManager->getChildren($id));
@@ -194,7 +202,7 @@ class RoleController extends Controller
                 }
             }
         }
-        return \yii\helpers\Html::renderSelectOptions('', $result);
+        return \yii\helpers\Html::renderSelectOptions('', array_filter($result));
     }
 
     /**
@@ -213,5 +221,4 @@ class RoleController extends Controller
             throw new HttpException(404, 'The requested page does not exist.');
         }
     }
-
 }

@@ -7,7 +7,6 @@ use mdm\admin\models\AuthItemSearch;
 use mdm\admin\components\Controller;
 use yii\web\HttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use yii\rbac\Item;
 use Yii;
 use mdm\admin\components\AccessDependency;
@@ -54,7 +53,10 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         $authManager = Yii::$app->authManager;
-        $avaliable = [];
+        $avaliable = $assigned = [
+            'Permission' => [],
+            'Routes' => [],
+        ];
         $children = array_keys($authManager->getChildren($id));
         $children[] = $id;
         foreach ($authManager->getPermissions() as $name => $role) {
@@ -63,11 +65,12 @@ class PermissionController extends Controller
             }
             $avaliable[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
         }
-        $assigned = [];
         foreach ($authManager->getChildren($id) as $name => $child) {
             $assigned[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
         }
 
+        $avaliable = array_filter($avaliable);
+        $assigned = array_filter($assigned);
         return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
     }
 
@@ -150,7 +153,10 @@ class PermissionController extends Controller
 
     public function actionRoleSearch($id, $target, $term = '')
     {
-        $result = [];
+        $result = [
+            'Permission' => [],
+            'Routes' => [],
+        ];
         $authManager = Yii::$app->authManager;
         if ($target == 'avaliable') {
             $children = array_keys($authManager->getChildren($id));
@@ -170,7 +176,7 @@ class PermissionController extends Controller
                 }
             }
         }
-        return \yii\helpers\Html::renderSelectOptions('', $result);
+        return \yii\helpers\Html::renderSelectOptions('', array_filter($result));
     }
 
     /**
