@@ -4,6 +4,8 @@ namespace mdm\admin\components;
  * Description of Controller
  *
  * @author MDMunir
+ * 
+ * @property \mdm\admin\Module $module
  */
 class Controller extends \yii\web\Controller
 {

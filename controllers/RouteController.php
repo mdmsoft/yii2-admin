@@ -66,7 +66,7 @@ class RouteController extends \mdm\admin\components\Controller
                 }
             }
         }
-        AccessDependency::resetDependency();
+        $this->module->resetCache();
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [$this->actionRouteSearch('new', $post['search_av']),
             $this->actionRouteSearch('exists', $post['search_asgn'])];

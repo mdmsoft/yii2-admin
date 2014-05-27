@@ -2,10 +2,12 @@
 /**
  * @var yii\web\View $this
  */
-?>
-<h1>default/index</h1>
 
-<p>
-	You may change the content of this page by modifying
-	the file <code><?php echo __FILE__; ?></code>.
-</p>
+$markdown = <<< TEXT
+RBAC Manager
+------------
+
+See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-authorization.html) for more detail.
+TEXT;
+
+echo yii\helpers\Markdown::process($markdown);

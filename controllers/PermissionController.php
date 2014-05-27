@@ -3,7 +3,7 @@
 namespace mdm\admin\controllers;
 
 use mdm\admin\models\AuthItem;
-use mdm\admin\models\AuthItemSearch;
+use mdm\admin\models\searchs\AuthItem as AuthItemSearch;
 use mdm\admin\components\Controller;
 use yii\web\HttpException;
 use yii\filters\VerbFilter;
@@ -100,7 +100,7 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            AccessDependency::resetDependency();
+            $this->module->resetCache();
             return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
@@ -116,7 +116,7 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
-        AccessDependency::resetDependency();
+        $this->module->resetCache();
         return $this->redirect(['index']);
     }
 
@@ -145,7 +145,7 @@ class PermissionController extends Controller
                 }
             }
         }
-        AccessDependency::resetDependency();
+        $this->module->resetCache();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];

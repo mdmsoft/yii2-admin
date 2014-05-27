@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\models;
+namespace mdm\admin\models\searchs;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -9,7 +9,7 @@ use common\models\User;
 /**
  * AssigmentSearch represents the model behind the search form about Assigment.
  */
-class AssigmentSearch extends Model
+class Assigment extends Model
 {
 
     public $id;

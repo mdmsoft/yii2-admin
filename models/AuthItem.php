@@ -18,7 +18,6 @@ use yii\rbac\Item;
  */
 class AuthItem extends \yii\base\Model
 {
-
     public $name;
     public $type;
     public $description;
@@ -37,7 +36,7 @@ class AuthItem extends \yii\base\Model
      * @param Item $item
      * @param array $config
      */
-    public function __construct($item, $config = array())
+    public function __construct($item, $config = [])
     {
         $this->_item = $item;
         if ($item !== null) {
@@ -45,7 +44,7 @@ class AuthItem extends \yii\base\Model
             $this->type = $item->type;
             $this->description = $item->description;
             $this->biz_rule = $item->ruleName;
-            $this->data = $this->data;
+            $this->data = empty($item->data) ? null : json_encode($item->data);
         }
         parent::__construct($config);
     }
@@ -56,14 +55,24 @@ class AuthItem extends \yii\base\Model
     public function rules()
     {
         return [
-            [['biz_rule'], 'filter', 'filter' => function($val) {
-                return empty($val) ? null : $val;
-            }],
+            [['biz_rule'], 'checkRule'],
             [['name', 'type'], 'required'],
             [['type'], 'integer'],
             [['description', 'data'], 'string'],
             [['name'], 'string', 'max' => 64]
         ];
+    }
+
+    public function checkRule($attribute)
+    {
+        if (empty($this->{$attribute})) {
+            $this->{$attribute} = null;
+        } else {
+            $name = $this->{$attribute};
+            if (Yii::$app->authManager->getRule($name) === null) {
+                $this->addError($attribute, "Rule {$name} not found");
+            }
+        }
     }
 
     /**
@@ -87,7 +96,7 @@ class AuthItem extends \yii\base\Model
 
     public static function find($id)
     {
-        $item = Yii::$app->authManager->getRole($name);
+        $item = Yii::$app->authManager->getRole($id);
         if ($item !== null) {
             return new self($item);
         }
@@ -112,7 +121,7 @@ class AuthItem extends \yii\base\Model
             $this->_item->name = $this->name;
             $this->_item->description = $this->description;
             $this->_item->ruleName = $this->biz_rule;
-            $this->_item->data = $this->data;
+            $this->_item->data = empty($this->data) ? null : json_decode($this->data);
             if ($isNew) {
                 $manager->add($this->_item);
             } else {
@@ -123,7 +132,7 @@ class AuthItem extends \yii\base\Model
             return false;
         }
     }
-    
+
     /**
      * 
      * @return Item
@@ -144,5 +153,4 @@ class AuthItem extends \yii\base\Model
         }
         return $result[$type];
     }
-
 }

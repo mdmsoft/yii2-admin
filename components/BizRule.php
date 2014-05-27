@@ -13,7 +13,7 @@ class BizRule extends \yii\rbac\Rule
     /**
      * @inheritdoc
      */
-    public function execute($item, $params)
+    public function execute($user, $item, $params)
     {
         if($this->expresion){
             return eval('return '.  trim($this->expresion).';');

@@ -1,18 +1,16 @@
 <?php
 
-namespace mdm\admin\models;
+namespace mdm\admin\models\searchs;
 
 use Yii;
 use yii\base\Model;
-use yii\db\Query;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\rbac\Item;
 
 /**
  * AuthItemSearch represents the model behind the search form about AuthItem.
  */
-class AuthItemSearch extends Model
+class AuthItem extends Model
 {
 
     const TYPE_ROUTE = 101;

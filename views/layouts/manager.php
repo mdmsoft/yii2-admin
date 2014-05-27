@@ -9,13 +9,12 @@ use yii\helpers\Html;
 $asset = mdm\admin\AdminAsset::register($this);
 
 $menus = [
+    ['label' => 'Admin', 'url' => ['/admin/default']],
     ['label' => 'Assigment', 'url' => ['/admin/assigment']],
     ['label' => 'Role', 'url' => ['/admin/role']],
     ['label' => 'Permission', 'url' => ['/admin/permission']],
     ['label' => 'Route', 'url' => ['/admin/route']],
-//    ['label' => 'Rule', 'url' => ['/admin/rule']],
-    ['label' => 'Menu', 'url' => ['/admin/menu']],
-    ['label' => 'Admin', 'url' => ['/admin/default']],
+    ['label' => 'Rule', 'url' => ['/admin/rule']],
 ];
 ?>
 <div class="row">

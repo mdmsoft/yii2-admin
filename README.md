@@ -1,4 +1,4 @@
-Auth Extension for Yii 2
+RBAC Manager for Yii 2
 ========================
 
 
@@ -29,8 +29,17 @@ Once the extension is installed, simply modify your application configuration as
 
 ```php
 return [
+	'bootstrap' => [
+		'admin',
+		...
+	],
 	'modules' => [
-		'admin' => 'mdm\admin\Module',
+		'admin' => [
+			'class' => 'mdm\admin\Module',
+			'allowActions' => [
+				'admin/*', // add or remove allowed actions to this list
+			]
+		]
 		...
 	],
 	...
@@ -40,10 +49,10 @@ return [
 			'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
 		]
 	],
-	'as access' => 'mdm\admin\components\AccessControl',
 ];
 ```
 
+See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-authorization.html#role-based-access-control-rbac) for more detail.
 You can then access Auth manager through the following URL:
 
 ```

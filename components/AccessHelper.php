@@ -4,7 +4,6 @@ namespace mdm\admin\components;
 
 use Yii;
 use yii\helpers\Inflector;
-use yii\rbac\Item;
 
 /**
  * Description of AccessHelper
@@ -13,26 +12,6 @@ use yii\rbac\Item;
  */
 class AccessHelper
 {
-
-    const CACHE_USER_ROUTES_KEY = '_USER_ROUTES';
-
-    public static function getUserRoutes($userId)
-    {
-        $key = [static::CACHE_USER_ROUTES_KEY, $userId];
-        if (($cache = Yii::$app->cache) === null || ($data = $cache->get($key))===false) {
-            $result = [];
-            foreach (Yii::$app->authManager->getPermissionsByUser($userId) as $name => $permission) {
-                if ($name[0] === '/') {
-                    $result[] = substr($name, 1);
-                }
-            }
-            if($cache !== null){
-                $cache->set($key, $result, 0, new AccessDependency());
-            }
-            return $result;
-        }
-        return $data;
-    }
 
     /**
      * 
@@ -50,7 +29,7 @@ class AccessHelper
      * @param \yii\base\Module $module
      * @param array $result
      */
-    protected static function getRouteRecrusive($module, &$result)
+    private static function getRouteRecrusive($module, &$result)
     {
         foreach ($module->getModules() as $id => $child) {
             if (($child = $module->getModule($id)) !== null) {
@@ -69,7 +48,7 @@ class AccessHelper
         $result[] = $module->uniqueId . '/*';
     }
 
-    protected static function getControllerRoutes($module, $namespace, $prefix, &$result)
+    private static function getControllerRoutes($module, $namespace, $prefix, &$result)
     {
         $path = Yii::getAlias('@' . str_replace('\\', '/', $namespace));
         foreach (scandir($path) as $file) {
@@ -95,7 +74,7 @@ class AccessHelper
      * @param \yii\base\Controller $controller
      * @param Array $result all controller action.
      */
-    protected static function getActionRoutes($controller, &$result)
+    private static function getActionRoutes($controller, &$result)
     {
         $prefix = '/' . $controller->uniqueId . '/';
         foreach ($controller->actions() as $id => $value) {
@@ -109,5 +88,4 @@ class AccessHelper
             }
         }
     }
-
 }
