@@ -36,32 +36,6 @@ class AccessControl extends \yii\base\Behavior
 
     /**
      * 
-     * @param \yii\web\User $user
-     * @return array
-     */
-    public function getUserRoutes($user)
-    {
-        $key = [__CLASS__, $user->id];
-        if (($cache = $this->module->cache) === null || ($result = $cache->get($key)) === false) {
-            $result = [];
-            foreach (Yii::$app->authManager->getPermissionsByUser($user->id) as $name => $permission) {
-                if ($name[0] === '/') {
-                    $result[] = substr($name, 1);
-                }
-            }
-            if ($cache !== null) {
-                $cache->set($key, $result, 3600, new AccessDependency());
-            }
-        }
-        if ($user->getIsGuest() && is_array($user->loginUrl) && isset($user->loginUrl[0])) {
-            $result[] = $user->loginUrl[0];
-        }
-        $result[] = Yii::$app->errorHandler->errorAction;
-        return $result;
-    }
-
-    /**
-     * 
      * @param \yii\base\ActionEvent $event
      */
     public function beforeAction($event)
@@ -74,11 +48,23 @@ class AccessControl extends \yii\base\Behavior
         if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
             return true;
         }
-        
-        $user = Yii::$app->user;
-        if ($this->checkAccessRoutes($this->getUserRoutes($user), $actionId)) {
+        if ($actionId === Yii::$app->errorHandler->errorAction) {
             return true;
         }
+        $user = Yii::$app->user;
+        if ($user->getIsGuest() && is_array($user->loginUrl) && isset($user->loginUrl[0]) && $actionId === trim($user->loginUrl[0], '/')) {
+            return true;
+        }
+        if ($user->can('/' . $actionId)) {
+            return true;
+        }
+        $obj = $action->controller;
+        do {
+            if ($user->can('/' . ltrim($obj->uniqueId . '/*', '/'))) {
+                return true;
+            }
+            $obj = $obj->module;
+        } while ($obj !== null);
         $this->denyAccess($user);
     }
 
