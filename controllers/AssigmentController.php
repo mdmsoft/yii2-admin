@@ -10,7 +10,6 @@ use yii\filters\VerbFilter;
 use common\models\User;
 use Yii;
 use yii\helpers\Html;
-use mdm\admin\components\AccessDependency;
 
 /**
  * AssigmentController implements the CRUD actions for Assigment model.

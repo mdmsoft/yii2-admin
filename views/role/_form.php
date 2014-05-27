@@ -29,7 +29,10 @@ use yii\widgets\ActiveForm;
     ])
     ?>
 
-        <?= $form->field($model, 'data')->textarea(['rows' => 2]) ?>
+    <?= $form->field($model, 'data')
+        ->textarea(['rows' => 2])
+        ->hint('Use JSON format to assign this field')
+    ?>
 
     <div class="form-group">
         <?php

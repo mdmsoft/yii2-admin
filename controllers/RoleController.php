@@ -9,7 +9,6 @@ use yii\web\HttpException;
 use yii\filters\VerbFilter;
 use yii\rbac\Item;
 use Yii;
-use mdm\admin\components\AccessDependency;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.

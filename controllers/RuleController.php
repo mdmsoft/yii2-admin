@@ -5,7 +5,6 @@ namespace mdm\admin\controllers;
 use Yii;
 use mdm\admin\models\BizRule;
 use mdm\admin\components\Controller;
-use mdm\admin\components\AccessDependency;
 use mdm\admin\models\searchs\BizRule as BizRuleSearch;
 use yii\filters\VerbFilter;
 

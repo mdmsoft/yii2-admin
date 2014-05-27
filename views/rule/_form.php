@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use mdm\admin\models\AuthItem;
 use yii\widgets\ActiveForm;
 
 /**
@@ -18,7 +17,9 @@ use yii\widgets\ActiveForm;
 
 	<?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
 
-	<?= $form->field($model, 'expresion')->textarea(['rows' => 2]) ?>
+	<?= $form->field($model, 'expresion')
+        ->textarea(['rows' => 2])
+        ->hint('Simple PHP expresion') ?>
 
 	<div class="form-group">
 		<?php

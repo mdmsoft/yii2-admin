@@ -8,7 +8,6 @@ use mdm\admin\models\Route;
 use yii\web\Response;
 use yii\helpers\Html;
 use Exception;
-use mdm\admin\components\AccessDependency;
 
 class RouteController extends \mdm\admin\components\Controller
 {
