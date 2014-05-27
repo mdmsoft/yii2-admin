@@ -21,7 +21,7 @@ class BizRule extends Model
     public function rules()
     {
         return [
-            [['name', 'expresion', 'createdAt', 'updatedAt'], 'safe']
+            [['name'], 'safe']
         ];
     }
 
