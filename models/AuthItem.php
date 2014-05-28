@@ -29,7 +29,6 @@ class AuthItem extends \yii\base\Model
      * @var Item 
      */
     private $_item;
-    private $_children;
 
     /**
      * 
@@ -55,7 +54,7 @@ class AuthItem extends \yii\base\Model
     public function rules()
     {
         return [
-            [['biz_rule'], 'checkRule'],
+            [['biz_rule'], 'checkRule', 'skipOnEmpty' => false],
             [['name', 'type'], 'required'],
             [['type'], 'integer'],
             [['description', 'data'], 'string'],
