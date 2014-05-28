@@ -87,7 +87,6 @@ class AssigmentController extends Controller
                 }
             }
         }
-        $this->module->resetCache();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];

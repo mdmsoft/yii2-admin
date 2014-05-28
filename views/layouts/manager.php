@@ -8,18 +8,20 @@ use yii\helpers\Html;
  */
 $asset = mdm\admin\AdminAsset::register($this);
 
+$moduleId = '/' . trim($this->context->module->uniqueId, '/');
+
 $menus = [
-    ['label' => 'Admin', 'url' => ['/admin/default']],
-    ['label' => 'Assigment', 'url' => ['/admin/assigment']],
-    ['label' => 'Role', 'url' => ['/admin/role']],
-    ['label' => 'Permission', 'url' => ['/admin/permission']],
-    ['label' => 'Route', 'url' => ['/admin/route']],
-    ['label' => 'Rule', 'url' => ['/admin/rule']],
+    ['label' => 'Admin', 'url' => [$moduleId . '/default']],
+    ['label' => 'Assigment', 'url' => [$moduleId . '/assigment']],
+    ['label' => 'Role', 'url' => [$moduleId . '/role']],
+    ['label' => 'Permission', 'url' => [$moduleId . '/permission']],
+    ['label' => 'Route', 'url' => [$moduleId . '/route']],
+    ['label' => 'Rule', 'url' => [$moduleId . '/rule']],
 ];
 ?>
 <div class="row">
     <div class="col-lg-3">
-        <div class="list-group">
+        <div id="manager-menu" class="list-group">
             <?php
             foreach ($menus as $menu) {
                 $label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menu['label']);

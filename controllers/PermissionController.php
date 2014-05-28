@@ -99,7 +99,6 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->module->resetCache();
             return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
@@ -115,7 +114,6 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
-        $this->module->resetCache();
         return $this->redirect(['index']);
     }
 
@@ -144,7 +142,6 @@ class PermissionController extends Controller
                 }
             }
         }
-        $this->module->resetCache();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];

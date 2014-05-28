@@ -81,7 +81,6 @@ class RuleController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->name]);
         }
-        $this->module->resetCache();
         return $this->render('update', ['model' => $model,]);
     }
 
@@ -95,7 +94,6 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
-        $this->module->resetCache();
         return $this->redirect(['index']);
     }
 
