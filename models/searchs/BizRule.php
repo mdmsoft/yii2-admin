@@ -5,6 +5,7 @@ namespace mdm\admin\models\searchs;
 use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
+use mdm\admin\models\BizRule as MBizRule;
 
 /**
  * Description of BizRule
@@ -34,15 +35,15 @@ class BizRule extends Model
     {
         /* @var \yii\rbac\Manager $authManager */
         $authManager = Yii::$app->authManager;
-        $rules = $authManager->getRules();
-        if ($this->load($params) && $this->validate() && trim($this->name) !== '') {
-            $search = strtolower(trim($this->name));
-            $rules = array_filter($rules, function($item) use($search) {
-                return (empty($search) || strpos(strtolower($item->name), $search) !== false);
-            });
+        $models = [];
+        $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
+        foreach ($authManager->getRules() as $name=>$item) {
+            if($included || stripos($item->name, $this->name) !== false){
+                $models[$name] = new MBizRule($item);
+            }
         }
         return new ArrayDataProvider([
-            'allModels' => $rules,
+            'allModels' => $models,
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace mdm\admin\components;
 
 /**
@@ -9,15 +10,12 @@ namespace mdm\admin\components;
 class BizRule extends \yii\rbac\Rule
 {
     public $expresion;
-    
+
     /**
      * @inheritdoc
      */
     public function execute($user, $item, $params)
     {
-        if($this->expresion){
-            return eval('return '.  trim($this->expresion).';');
-        }
-        return true;
+        return $this->expresion === '' || $this->expresion === null || @eval($this->expresion) != 0;
     }
 }

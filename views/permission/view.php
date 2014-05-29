@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             'description:ntext',
-            'biz_rule',
+            'ruleName',
             'data:ntext',
         ],
     ]);

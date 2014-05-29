@@ -2,6 +2,8 @@
 
 namespace mdm\admin\models;
 
+use mdm\admin\components\BizRule as TBizRule;
+use yii\rbac\Rule;
 use Yii;
 
 /**
@@ -25,17 +27,23 @@ class BizRule extends \yii\base\Model
      * @var integer UNIX timestamp representing the rule updating time
      */
     public $updatedAt;
-    public $expresion;
 
     /**
      *
-     * @var \mdm\admin\components\BizRule 
+     * @var string 
+     */
+    public $expresion;
+    public $className;
+
+    /**
+     *
+     * @var Rule 
      */
     private $_item;
 
     /**
      * 
-     * @param \mdm\admin\components\BizRule $item
+     * @param \yii\rbac\Rule $item
      * @param array $config
      */
     public function __construct($item, $config = [])
@@ -43,7 +51,10 @@ class BizRule extends \yii\base\Model
         $this->_item = $item;
         if ($item !== null) {
             $this->name = $item->name;
-            $this->expresion = $item->expresion;
+            $this->className = get_class($item);
+            if ($this->className === TBizRule::className()) {
+                $this->expresion = $item->expresion;
+            }
         }
         parent::__construct($config);
     }
@@ -56,7 +67,15 @@ class BizRule extends \yii\base\Model
         return [
             [['name'], 'required'],
             [['expresion'], 'string'],
+            [['className'], 'classExists']
         ];
+    }
+
+    public function classExists()
+    {
+        if (!class_exists($this->className) || !is_subclass_of($this->className, Rule::className())) {
+            $this->addError('className', "Unknown Class: {$this->className}");
+        }
     }
 
     /**
@@ -88,15 +107,19 @@ class BizRule extends \yii\base\Model
     {
         if ($this->validate()) {
             $manager = Yii::$app->authManager;
+            $this->className = $class = $this->className ? $this->className : TBizRule::className();
             if ($this->_item === null) {
-                $this->_item = new \mdm\admin\components\BizRule();
+                $this->_item = new $class();
                 $isNew = true;
             } else {
                 $isNew = false;
                 $oldName = $this->_item->name;
             }
             $this->_item->name = $this->name;
-            $this->_item->expresion = $this->expresion;
+            if ($class === TBizRule::className()) {
+                $this->_item->expresion = $this->expresion;
+            }
+
             if ($isNew) {
                 $manager->add($this->_item);
             } else {

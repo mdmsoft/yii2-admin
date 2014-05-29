@@ -4,6 +4,7 @@ namespace mdm\admin\models;
 
 use Yii;
 use yii\rbac\Item;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "tbl_auth_item".
@@ -11,7 +12,7 @@ use yii\rbac\Item;
  * @property string $name
  * @property integer $type
  * @property string $description
- * @property string $biz_rule
+ * @property string $ruleName
  * @property string $data
  *
  * @property Item $item
@@ -21,7 +22,7 @@ class AuthItem extends \yii\base\Model
     public $name;
     public $type;
     public $description;
-    public $biz_rule;
+    public $ruleName;
     public $data;
 
     /**
@@ -42,8 +43,8 @@ class AuthItem extends \yii\base\Model
             $this->name = $item->name;
             $this->type = $item->type;
             $this->description = $item->description;
-            $this->biz_rule = $item->ruleName;
-            $this->data = empty($item->data) ? null : json_encode($item->data);
+            $this->ruleName = $item->ruleName;
+            $this->data = $item->data === null ? null : VarDumper::export($item->data);
         }
         parent::__construct($config);
     }
@@ -54,24 +55,14 @@ class AuthItem extends \yii\base\Model
     public function rules()
     {
         return [
-            [['biz_rule'], 'checkRule', 'skipOnEmpty' => false],
+            [['ruleName'], 'in',
+                'range' => array_keys(Yii::$app->authManager->getRules()),
+                'message' => 'Rule not exists'],
             [['name', 'type'], 'required'],
             [['type'], 'integer'],
-            [['description', 'data'], 'string'],
+            [['description', 'data', 'ruleName'], 'default'],
             [['name'], 'string', 'max' => 64]
         ];
-    }
-
-    public function checkRule($attribute)
-    {
-        if (empty($this->{$attribute})) {
-            $this->{$attribute} = null;
-        } else {
-            $name = $this->{$attribute};
-            if (Yii::$app->authManager->getRule($name) === null) {
-                $this->addError($attribute, "Rule {$name} not found");
-            }
-        }
     }
 
     /**
@@ -83,7 +74,7 @@ class AuthItem extends \yii\base\Model
             'name' => 'Name',
             'type' => 'Type',
             'description' => 'Description',
-            'biz_rule' => 'Biz Rule',
+            'ruleName' => 'Rule Name',
             'data' => 'Data',
         ];
     }
@@ -119,8 +110,8 @@ class AuthItem extends \yii\base\Model
             }
             $this->_item->name = $this->name;
             $this->_item->description = $this->description;
-            $this->_item->ruleName = $this->biz_rule;
-            $this->_item->data = empty($this->data) ? null : json_decode($this->data);
+            $this->_item->ruleName = $this->ruleName;
+            $this->_item->data = $this->data === null || $this->data === '' ? null : @eval('return ' . $this->data . ';');
             if ($isNew) {
                 $manager->add($this->_item);
             } else {

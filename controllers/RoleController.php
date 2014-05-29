@@ -5,7 +5,7 @@ namespace mdm\admin\controllers;
 use mdm\admin\models\AuthItem;
 use mdm\admin\models\searchs\AuthItem as AuthItemSearch;
 use mdm\admin\components\Controller;
-use yii\web\HttpException;
+use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\rbac\Item;
 use Yii;
@@ -214,7 +214,7 @@ class RoleController extends Controller
         if ($item) {
             return new AuthItem($item);
         } else {
-            throw new HttpException(404, 'The requested page does not exist.');
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 }

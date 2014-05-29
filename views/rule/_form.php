@@ -16,7 +16,9 @@ use yii\widgets\ActiveForm;
 
 
 	<?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
-
+    
+    <?= $form->field($model, 'className')->textInput() ?>
+    
 	<?= $form->field($model, 'expresion')
         ->textarea(['rows' => 2])
         ->hint('Simple PHP expresion') ?>

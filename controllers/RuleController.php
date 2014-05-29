@@ -7,6 +7,7 @@ use mdm\admin\models\BizRule;
 use mdm\admin\components\Controller;
 use mdm\admin\models\searchs\BizRule as BizRuleSearch;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * Description of RuleController
@@ -110,7 +111,7 @@ class RuleController extends Controller
         if ($item) {
             return new BizRule($item);
         } else {
-            throw new HttpException(404, 'The requested page does not exist.');
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 }

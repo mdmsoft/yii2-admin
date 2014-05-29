@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
 
     <?=
-    $form->field($model, 'biz_rule')->widget('yii\jui\AutoComplete', [
+    $form->field($model, 'ruleName')->widget('yii\jui\AutoComplete', [
         'options' => [
             'class' => 'form-control',
         ],
@@ -29,10 +29,7 @@ use yii\widgets\ActiveForm;
     ])
     ?>
 
-    <?= $form->field($model, 'data')
-        ->textarea(['rows' => 2])
-        ->hint('Use JSON format to assign this field')
-    ?>
+    <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
         <?php
@@ -41,5 +38,5 @@ use yii\widgets\ActiveForm;
         ?>
     </div>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 </div>
