@@ -15,7 +15,7 @@ $this->title = 'Assigments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="assigment-index">
-    <h1>User: <?= $model->username ?></h1>
+    <h1>User: <?= $model->{$usernameField} ?></h1>
 
     <div class="col-lg-5">
         Avaliable: 
@@ -48,4 +48,4 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <?php
-$this->render('_script',['id'=>$model->id]);
+$this->render('_script',['id'=>$model->{$idField}]);

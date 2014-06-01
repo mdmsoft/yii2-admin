@@ -51,6 +51,9 @@ class AccessHelper
     private static function getControllerRoutes($module, $namespace, $prefix, &$result)
     {
         $path = Yii::getAlias('@' . str_replace('\\', '/', $namespace));
+        if(!is_dir($path)){
+            return;
+        }
         foreach (scandir($path) as $file) {
             if ($file == '.' || $file == '..') {
                 continue;

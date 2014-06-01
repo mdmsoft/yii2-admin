@@ -2,12 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\widgets\ActiveForm;
-use mdm\admin\components\AccessHelper;
-use yii\grid\GridView;
-use yii\data\ArrayDataProvider;
-use yii\helpers\ArrayHelper;
-use yii\rbac\Item;
 
 /**
  * @var yii\web\View $this

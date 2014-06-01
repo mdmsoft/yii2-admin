@@ -7,17 +7,7 @@ use yii\helpers\Html;
  * @var string $content
  */
 $asset = mdm\admin\AdminAsset::register($this);
-
-$moduleId = '/' . trim($this->context->module->uniqueId, '/');
-
-$menus = [
-    ['label' => 'Admin', 'url' => [$moduleId . '/default']],
-    ['label' => 'Assigment', 'url' => [$moduleId . '/assigment']],
-    ['label' => 'Role', 'url' => [$moduleId . '/role']],
-    ['label' => 'Permission', 'url' => [$moduleId . '/permission']],
-    ['label' => 'Route', 'url' => [$moduleId . '/route']],
-    ['label' => 'Rule', 'url' => [$moduleId . '/rule']],
-];
+$menus = $this->context->module->menus;
 ?>
 <div class="row">
     <div class="col-lg-3">

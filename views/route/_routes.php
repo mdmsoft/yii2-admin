@@ -42,4 +42,3 @@ echo Html::submitButton($type == 1 ? 'Append' : 'Delete', [
 	'value' => $type == 1 ? 'New' : 'Del',
 	'class' => 'btn btn-primary']);
 echo Html::endForm();
-?>

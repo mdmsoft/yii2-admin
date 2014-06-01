@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\controllers;
+namespace mdm\admin\items;
 
 class DefaultController extends \mdm\admin\components\Controller
 {

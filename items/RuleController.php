@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\controllers;
+namespace mdm\admin\items;
 
 use Yii;
 use mdm\admin\models\BizRule;

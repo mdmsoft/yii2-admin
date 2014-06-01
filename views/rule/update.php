@@ -1,8 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use mdm\admin\components\AccessHelper;
 
 /**
  * @var yii\web\View $this

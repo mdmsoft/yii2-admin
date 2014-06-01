@@ -7,7 +7,7 @@ namespace mdm\admin;
  */
 class AdminAsset extends \yii\web\AssetBundle
 {
-	public $sourcePath = '@mdm/admin/assets/main';
+	public $sourcePath = '@mdm/admin/assets';
 	/**
 	 * @inheritdoc
 	 */

@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use mdm\admin\models\AuthItem;
 use yii\widgets\Pjax;
 
 /**

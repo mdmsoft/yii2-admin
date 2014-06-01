@@ -37,8 +37,8 @@ class BizRule extends Model
         $authManager = Yii::$app->authManager;
         $models = [];
         $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
-        foreach ($authManager->getRules() as $name=>$item) {
-            if($included || stripos($item->name, $this->name) !== false){
+        foreach ($authManager->getRules() as $name => $item) {
+            if ($included || stripos($item->name, $this->name) !== false) {
                 $models[$name] = new MBizRule($item);
             }
         }

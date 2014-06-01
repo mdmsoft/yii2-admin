@@ -4,14 +4,12 @@ namespace mdm\admin\models\searchs;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\User;
 
 /**
  * AssigmentSearch represents the model behind the search form about Assigment.
  */
 class Assigment extends Model
 {
-
     public $id;
     public $username;
 
@@ -33,9 +31,9 @@ class Assigment extends Model
         ];
     }
 
-    public function search($params)
+    public function search($params, $class, $usernameField)
     {
-        $query = User::find();
+        $query = $class::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -46,9 +44,8 @@ class Assigment extends Model
 
         $value = $this->username;
         if (trim($value) !== '') {
-            $query->andWhere(['like', 'username', $value]);
+            $query->andWhere(['like', $usernameField, $value]);
         }
         return $dataProvider;
     }
-
 }

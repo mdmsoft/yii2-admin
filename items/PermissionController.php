@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\controllers;
+namespace mdm\admin\items;
 
 use mdm\admin\models\AuthItem;
 use mdm\admin\models\searchs\AuthItem as AuthItemSearch;

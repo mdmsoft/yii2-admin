@@ -1,13 +1,12 @@
 <?php
 
-namespace mdm\admin\controllers;
+namespace mdm\admin\items;
 
 use mdm\admin\models\Assigment;
 use mdm\admin\models\searchs\Assigment as AssigmentSearch;
 use mdm\admin\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\User;
 use Yii;
 use yii\helpers\Html;
 
@@ -16,6 +15,18 @@ use yii\helpers\Html;
  */
 class AssigmentController extends Controller
 {
+    public $userClassName;
+    public $idField = 'id';
+    public $usernameField = 'username';
+
+    public function init()
+    {
+        parent::init();
+        if ($this->userClassName === null) {
+            $this->userClassName = Yii::$app->getUser()->identityClass;
+            $this->userClassName = $this->userClassName ? : 'common\models\User';
+        }
+    }
 
     public function behaviors()
     {
@@ -23,7 +34,7 @@ class AssigmentController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'assign' => ['post'],
                 ],
             ],
         ];
@@ -37,10 +48,12 @@ class AssigmentController extends Controller
     {
         $searchModel = new AssigmentSearch;
 
-        $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams());
+        $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
+                'idField' => $this->idField,
+                'usernameField' => $this->usernameField,
         ]);
     }
 
@@ -62,7 +75,13 @@ class AssigmentController extends Controller
             $assigned[$role->name] = $role->name;
             unset($avaliable[$role->name]);
         }
-        return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
+        return $this->render('view', [
+                'model' => $model,
+                'avaliable' => $avaliable,
+                'assigned' => $assigned,
+                'idField' => $this->idField,
+                'usernameField' => $this->usernameField,
+        ]);
     }
 
     public function actionAssign($id, $action)
@@ -126,11 +145,11 @@ class AssigmentController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::findIdentity($id)) !== null) {
+        $class = $this->userClassName;
+        if (($model = $class::findIdentity($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

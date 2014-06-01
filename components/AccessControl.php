@@ -2,86 +2,41 @@
 
 namespace mdm\admin\components;
 
-use yii\web\Application;
 use yii\web\ForbiddenHttpException;
-use mdm\admin\Module;
+use yii\base\Module;
 use Yii;
 
 /**
  * Description of AccessControl
  *
  * @author MDMunir
- * @property \yii\db\Connection $db Database connection.
  */
-class AccessControl extends \yii\base\Behavior
+class AccessControl extends \yii\base\ActionFilter
 {
     /**
      *
-     * @var Module 
+     * @var array 
      */
-    public $module;
-
-    public function __construct(Module $module, $config = [])
-    {
-        $this->module = $module;
-        parent::__construct($config);
-    }
-
-    public function events()
-    {
-        return[
-            Application::EVENT_BEFORE_ACTION => 'beforeAction'
-        ];
-    }
+    public $allowActions = [];
 
     /**
-     * 
-     * @param \yii\base\ActionEvent $event
+     * @inheritdoc
      */
-    public function beforeAction($event)
+    public function beforeAction($action)
     {
-        $action = $event->action;
-        $actionId = $action->uniqueId;
-        if ($this->checkAccessRoutes($this->module->allowActions, $actionId)) {
-            return true;
-        }
-        if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
-            return true;
-        }
-        if ($actionId === Yii::$app->errorHandler->errorAction) {
-            return true;
-        }
+        $actionId = $action->getUniqueId();
         $user = Yii::$app->user;
-        if ($user->getIsGuest() && is_array($user->loginUrl) && isset($user->loginUrl[0]) && $actionId === trim($user->loginUrl[0], '/')) {
-            return true;
-        }
         if ($user->can('/' . $actionId)) {
             return true;
         }
         $obj = $action->controller;
         do {
-            if ($user->can('/' . ltrim($obj->uniqueId . '/*', '/'))) {
+            if ($user->can('/' . ltrim($obj->getUniqueId() . '/*', '/'))) {
                 return true;
             }
             $obj = $obj->module;
         } while ($obj !== null);
         $this->denyAccess($user);
-    }
-
-    protected function checkAccessRoutes($routes, $actionId)
-    {
-        if (in_array($actionId, $routes)) {
-            return true;
-        }
-        foreach ($routes as $route) {
-            if (substr($route, -1) === '*') {
-                $route = rtrim($route, "*");
-                if ($route === '' || strpos($actionId, $route) === 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -98,5 +53,50 @@ class AccessControl extends \yii\base\Behavior
         } else {
             throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function isActive($action)
+    {
+        $uniqueId = $action->getUniqueId();
+        if ($uniqueId === Yii::$app->getErrorHandler()->errorAction) {
+            return false;
+        }
+
+        $user = Yii::$app->user;
+        if ($user->getIsGuest() && is_array($user->loginUrl) && isset($user->loginUrl[0]) && $uniqueId === trim($user->loginUrl[0], '/')) {
+            return false;
+        }
+
+        if ($this->owner instanceof Module) {
+            // convert action uniqueId into an ID relative to the module
+            $mid = $this->owner->getUniqueId();
+            $id = $uniqueId;
+            if ($mid !== '' && strpos($id, $mid . '/') === 0) {
+                $id = substr($id, strlen($mid) + 1);
+            }
+        } else {
+            $id = $action->id;
+        }
+
+        foreach ($this->allowActions as $route) {
+            if (substr($route, -1) === '*') {
+                $route = rtrim($route, "*");
+                if ($route === '' || strpos($id, $route) === 0) {
+                    return false;
+                }
+            } else {
+                if ($id === $route) {
+                    return false;
+                }
+            }
+        }
+
+        if ($action->controller->hasMethod('allowAction') && in_array($action->id, $action->controller->allowAction())) {
+            return false;
+        }
+        return true;
     }
 }
