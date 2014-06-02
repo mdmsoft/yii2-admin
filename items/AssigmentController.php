@@ -9,6 +9,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Yii;
 use yii\helpers\Html;
+use mdm\admin\components\AccessHelper;
+use yii\web\Response;
 
 /**
  * AssigmentController implements the CRUD actions for Assigment model.
@@ -106,7 +108,8 @@ class AssigmentController extends Controller
                 }
             }
         }
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        AccessHelper::refeshAuthCache();
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
     }

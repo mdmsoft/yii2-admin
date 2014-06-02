@@ -9,6 +9,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\rbac\Item;
 use Yii;
+use mdm\admin\components\AccessHelper;
+use yii\web\Response;
+use yii\helpers\Html;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
@@ -35,7 +38,7 @@ class PermissionController extends Controller
     public function actionIndex()
     {
         $searchModel = new AuthItemSearch(['type' => Item::TYPE_PERMISSION]);
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
 
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
@@ -51,7 +54,7 @@ class PermissionController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $authManager = Yii::$app->authManager;
+        $authManager = Yii::$app->getAuthManager();
         $avaliable = $assigned = [
             'Permission' => [],
             'Routes' => [],
@@ -82,7 +85,8 @@ class PermissionController extends Controller
     {
         $model = new AuthItem(null);
         $model->type = Item::TYPE_PERMISSION;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            AccessHelper::refeshAuthCache();
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
@@ -98,7 +102,8 @@ class PermissionController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            AccessHelper::refeshAuthCache();
             return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
@@ -113,15 +118,16 @@ class PermissionController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->authManager->remove($model->item);
+        Yii::$app->getAuthManager()->remove($model->item);
+        AccessHelper::refeshAuthCache();
         return $this->redirect(['index']);
     }
 
     public function actionAssign($id, $action)
     {
-        $post = Yii::$app->request->post();
+        $post = Yii::$app->getRequest()->post();
         $roles = $post['roles'];
-        $manager = Yii::$app->authManager;
+        $manager = Yii::$app->getAuthManager();
         $parent = $manager->getPermission($id);
         if ($action == 'assign') {
             foreach ($roles as $role) {
@@ -142,7 +148,8 @@ class PermissionController extends Controller
                 }
             }
         }
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        AccessHelper::refeshAuthCache();
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
     }
@@ -153,7 +160,7 @@ class PermissionController extends Controller
             'Permission' => [],
             'Routes' => [],
         ];
-        $authManager = Yii::$app->authManager;
+        $authManager = Yii::$app->getAuthManager();
         if ($target == 'avaliable') {
             $children = array_keys($authManager->getChildren($id));
             $children[] = $id;
@@ -172,7 +179,7 @@ class PermissionController extends Controller
                 }
             }
         }
-        return \yii\helpers\Html::renderSelectOptions('', array_filter($result));
+        return Html::renderSelectOptions('', array_filter($result));
     }
 
     /**
@@ -184,12 +191,11 @@ class PermissionController extends Controller
      */
     protected function findModel($id)
     {
-        $item = Yii::$app->authManager->getPermission($id);
+        $item = Yii::$app->getAuthManager()->getPermission($id);
         if ($item) {
             return new AuthItem($item);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

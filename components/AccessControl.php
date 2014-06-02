@@ -5,6 +5,8 @@ namespace mdm\admin\components;
 use yii\web\ForbiddenHttpException;
 use yii\base\Module;
 use Yii;
+use yii\web\User;
+use yii\di\Instance;
 
 /**
  * Description of AccessControl
@@ -15,9 +17,21 @@ class AccessControl extends \yii\base\ActionFilter
 {
     /**
      *
+     * @var User 
+     */
+    public $user = 'user';
+
+    /**
+     *
      * @var array 
      */
     public $allowActions = [];
+
+    public function init()
+    {
+        parent::init();
+        $this->user = Instance::ensure($this->user, User::className());
+    }
 
     /**
      * @inheritdoc
@@ -25,7 +39,7 @@ class AccessControl extends \yii\base\ActionFilter
     public function beforeAction($action)
     {
         $actionId = $action->getUniqueId();
-        $user = Yii::$app->user;
+        $user = $this->user;
         if ($user->can('/' . $actionId)) {
             return true;
         }
@@ -65,7 +79,7 @@ class AccessControl extends \yii\base\ActionFilter
             return false;
         }
 
-        $user = Yii::$app->user;
+        $user = $this->user;
         if ($user->getIsGuest() && is_array($user->loginUrl) && isset($user->loginUrl[0]) && $uniqueId === trim($user->loginUrl[0], '/')) {
             return false;
         }

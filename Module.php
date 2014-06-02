@@ -57,6 +57,9 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             'rule' => [
                 'class' => 'mdm\admin\items\RuleController'
             ],
+            'menu' => [
+                'class' => 'mdm\admin\items\MenuController'
+            ],
         ];
     }
 

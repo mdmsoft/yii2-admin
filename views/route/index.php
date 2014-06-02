@@ -17,7 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-lg-5">
         New: 
         <?php
-        echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'new']) . '<br>';
+        echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'new']).' ';
+        echo Html::a('<span class="glyphicon glyphicon-refresh"></span>', '', ['id'=>'btn-refresh']);
+        echo '<br>';
         echo Html::listBox('routes', '', $new, [
             'id' => 'new',
             'multiple' => true,
@@ -41,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'multiple' => true,
             'size' => 20,
             'style' => 'width:100%',
-            'options'=>$existsOptions]);
+            'options' => $existsOptions]);
         ?>
     </div>
 </div>

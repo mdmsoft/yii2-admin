@@ -3,17 +3,28 @@
 use yii\helpers\Url;
 ?>
 <style>
-    <?php $this->beginBlock('CSS') ?>
+<?php $this->beginBlock('CSS') ?>
     option.lost{
         text-decoration: line-through;
     }
-    <?php $this->endBlock() ?>
+<?php $this->endBlock() ?>
 </style>
 <script type="text/javascript">
 <?php $this->beginBlock('JS_END') ?>
     yii.process = (function($) {
         var _onSearch = false;
         var pub = {
+            refresh: function() {
+                $.get('<?= Url::toRoute(['route-search']) ?>', {
+                    target: 'new',
+                    term: $('input[name="search_av"]').val(),
+                    refresh: '1',
+                },
+                    function(html) {
+                        $('#new').html(html);
+                    });
+                return false;
+            },
             roleSearch: function() {
                 if (!_onSearch) {
                     _onSearch = true;
@@ -21,7 +32,7 @@ use yii\helpers\Url;
                     setTimeout(function() {
                         _onSearch = false;
                         var data = {
-                            target:$th.data('target'),
+                            target: $th.data('target'),
                             term: $th.val(),
                         };
                         var target = '#' + $th.data('target');
@@ -34,12 +45,12 @@ use yii\helpers\Url;
             },
             action: function() {
                 var action = $(this).data('action');
-                var params = $((action == 'assign' ? '#new' : '#exists')+', .role-search').serialize();
-                $.post('<?= Url::toRoute(['assign']) ?>&action='+action,
-                params,function(r){
-                    $('#new').html(r[0]);
-                    $('#exists').html(r[1]);
-                },'json');
+                var params = $((action == 'assign' ? '#new' : '#exists') + ', .role-search').serialize();
+                $.post('<?= Url::toRoute(['assign']) ?>&action=' + action,
+                    params, function(r) {
+                        $('#new').html(r[0]);
+                        $('#exists').html(r[1]);
+                    }, 'json');
                 return false;
             }
         }
@@ -50,6 +61,7 @@ use yii\helpers\Url;
 <?php $this->beginBlock('JS_READY') ?>
     $('.role-search').keydown(yii.process.roleSearch);
     $('a[data-action]').click(yii.process.action);
+    $('#btn-refresh').click(yii.process.refresh);
 <?php $this->endBlock(); ?>
 </script>
 <?php

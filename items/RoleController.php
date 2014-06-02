@@ -9,6 +9,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\rbac\Item;
 use Yii;
+use mdm\admin\components\AccessHelper;
+use yii\helpers\Html;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
@@ -51,7 +53,7 @@ class RoleController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $authManager = Yii::$app->authManager;
+        $authManager = Yii::$app->getAuthManager();
         $avaliable = $assigned = [
             'Roles' => [],
             'Permission' => [],
@@ -93,7 +95,8 @@ class RoleController extends Controller
     {
         $model = new AuthItem(null);
         $model->type = Item::TYPE_ROLE;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            AccessHelper::refeshAuthCache();
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
@@ -109,7 +112,8 @@ class RoleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            AccessHelper::refeshAuthCache();
             return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
@@ -124,15 +128,16 @@ class RoleController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->authManager->remove($model->item);
+        Yii::$app->getAuthManager()->remove($model->item);
+        AccessHelper::refeshAuthCache();
         return $this->redirect(['index']);
     }
 
     public function actionAssign($id, $action)
     {
-        $post = Yii::$app->request->post();
+        $post = Yii::$app->getRequest()->post();
         $roles = $post['roles'];
-        $manager = Yii::$app->authManager;
+        $manager = Yii::$app->getAuthManager();
         $parent = $manager->getRole($id);
         if ($action == 'assign') {
             foreach ($roles as $role) {
@@ -155,6 +160,7 @@ class RoleController extends Controller
                 }
             }
         }
+        AccessHelper::refeshAuthCache();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
@@ -198,7 +204,7 @@ class RoleController extends Controller
                 }
             }
         }
-        return \yii\helpers\Html::renderSelectOptions('', array_filter($result));
+        return Html::renderSelectOptions('', array_filter($result));
     }
 
     /**
@@ -210,7 +216,7 @@ class RoleController extends Controller
      */
     protected function findModel($id)
     {
-        $item = Yii::$app->authManager->getRole($id);
+        $item = Yii::$app->getAuthManager()->getRole($id);
         if ($item) {
             return new AuthItem($item);
         } else {

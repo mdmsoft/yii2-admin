@@ -14,7 +14,7 @@ class RouteController extends \mdm\admin\components\Controller
 
     public function actionIndex()
     {
-        $manager = Yii::$app->authManager;
+        $manager = Yii::$app->getAuthManager();
 
         $exists = $existsOptions = $routes = [];
         foreach (AccessHelper::getRoutes() as $route) {
@@ -38,10 +38,11 @@ class RouteController extends \mdm\admin\components\Controller
     public function actionCreate()
     {
         $model = new Route;
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->getRequest()->post())) {
             if ($model->validate()) {
                 $routes = explode(',', $model->route);
                 $this->saveNew($routes);
+                AccessHelper::refeshAuthCache();
                 $this->redirect(['index']);
             }
         }
@@ -50,9 +51,9 @@ class RouteController extends \mdm\admin\components\Controller
 
     public function actionAssign($action)
     {
-        $post = Yii::$app->request->post();
+        $post = Yii::$app->getRequest()->post();
         $routes = $post['routes'];
-        $manager = Yii::$app->authManager;
+        $manager = Yii::$app->getAuthManager();
         if ($action == 'assign') {
             $this->saveNew($routes);
         } else {
@@ -65,15 +66,19 @@ class RouteController extends \mdm\admin\components\Controller
                 }
             }
         }
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        AccessHelper::refeshAuthCache();
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         return [$this->actionRouteSearch('new', $post['search_av']),
             $this->actionRouteSearch('exists', $post['search_asgn'])];
     }
 
-    public function actionRouteSearch($target, $term = '')
+    public function actionRouteSearch($target, $term = '', $refresh = '0')
     {
+        if ($refresh == '1') {
+            AccessHelper::refeshFileCache();
+        }
         $result = [];
-        $manager = Yii::$app->authManager;
+        $manager = Yii::$app->getAuthManager();
 
         $existsOptions = [];
         $exists = array_keys($manager->getPermissions());
@@ -103,7 +108,7 @@ class RouteController extends \mdm\admin\components\Controller
 
     private function saveNew($routes)
     {
-        $manager = Yii::$app->authManager;
+        $manager = Yii::$app->getAuthManager();
         foreach ($routes as $route) {
             try {
                 $manager->add($manager->createPermission('/' . trim($route, ' /')));
@@ -112,5 +117,4 @@ class RouteController extends \mdm\admin\components\Controller
             }
         }
     }
-
 }

@@ -8,6 +8,7 @@ use mdm\admin\components\Controller;
 use mdm\admin\models\searchs\BizRule as BizRuleSearch;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
+use mdm\admin\components\AccessHelper;
 
 /**
  * Description of RuleController
@@ -64,6 +65,7 @@ class RuleController extends Controller
     {
         $model = new BizRule(null);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            AccessHelper::refeshAuthCache();
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
@@ -80,6 +82,7 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            AccessHelper::refeshAuthCache();
             return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
@@ -95,6 +98,7 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
+        AccessHelper::refeshAuthCache();
         return $this->redirect(['index']);
     }
 
