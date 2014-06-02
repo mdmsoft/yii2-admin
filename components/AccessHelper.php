@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\Inflector;
 use yii\caching\GroupDependency;
 use ReflectionClass;
+use mdm\admin\models\Menu;
 
 /**
  * Description of AccessHelper
@@ -118,6 +119,85 @@ class AccessHelper
                 $cache->set($key, $result, 0, new GroupDependency([
                     'group' => static::getGroup(static::AUTH_GROUP)
                 ]));
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 
+     * @param \yii\web\User $user
+     */
+    public static function getAssignedMenu($user)
+    {
+        $manager = \Yii::$app->getAuthManager();
+        $routes = $filter1 = $filter2 = [];
+        foreach ($manager->getPermissionsByUser($user->id) as $name => $value) {
+            if ($name[0] === '/') {
+                if (substr($name, -2) === '/*') {
+                    $name = substr($name, 0, -1);
+                }
+                $routes[] = $name;
+            }
+        }
+        $prefix = '\\';
+        sort($routes);
+        foreach ($routes as $route) {
+            if (strpos($route, $prefix) !== 0) {
+                if (substr($route, -1) === '/') {
+                    $prefix = $route;
+                    $filter1[] = $route . '%';
+                } else {
+                    $filter2[] = $route;
+                }
+            }
+        }
+        $assigned = [];
+        $query = Menu::find()->select(['menu_id'])->asArray();
+        if (count($filter2)) {
+            $assigned = $query->where(['menu_route' => $filter2])->column();
+        }
+        if (count($filter1)) {
+            $query->where('menu_route like :filter');
+            foreach ($filter1 as $filter) {
+                $assigned = array_merge($assigned, $query->params([':filter' => $filter])->column());
+            }
+        }
+        $menus = Menu::find()->asArray()->indexBy('menu_id')->all();
+        $assigned = static::requiredParent($assigned, $menus);
+        return static::normalizeMenu($assigned, $menus);
+    }
+
+    private static function requiredParent($assigned, &$menus)
+    {
+        $parents = [];
+        foreach ($assigned as $id) {
+            $parent_id = $menus[$id]['menu_parent'];
+            if ($parent_id !== null && !in_array($parent_id, $assigned) && !in_array($parent_id, $parents)) {
+                $parents[] = $parent_id;
+            }
+        }
+        if (count($parents)) {
+            $assigned = static::requiredParent(array_merge($assigned, $parents), $menus);
+        }
+        return $assigned;
+    }
+
+    private static function normalizeMenu(&$assigned, &$menus, $parent = null)
+    {
+        $result = [];
+        foreach ($assigned as $id) {
+            $menu = $menus[$id];
+            if ($menu['menu_parent'] == $parent) {
+                $item = [
+                    'label' => $menu['menu_name'],
+                    'url' => empty($menu['menu_route']) ? '#' : [$menu['menu_route']],
+                    'items' => static::normalizeMenu($assigned, $menus, $id)
+                ];
+                if (empty($item['items'])) {
+                    unset($item['items']);
+                }
+                $result[] = $item;
             }
         }
         return $result;
