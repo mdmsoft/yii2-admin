@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /**
  * @var yii\web\View $this
  */
-$this->title = 'Operations';
+$this->title = 'Routes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1>Operations</h1>

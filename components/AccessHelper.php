@@ -45,7 +45,7 @@ class AccessHelper
 
         $namespace = trim($module->controllerNamespace, '\\') . '\\';
         self::getControllerRoutes($module, $namespace, '', $result);
-        $result[] = $module->uniqueId . '/*';
+        $result[] = ($module->uniqueId===''?'':'/'.$module->uniqueId) . '/*';
     }
 
     private static function getControllerRoutes($module, $namespace, $prefix, &$result)
