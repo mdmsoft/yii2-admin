@@ -58,3 +58,8 @@ You can then access Auth manager through the following URL:
 ```
 http://localhost/path/to/index.php?r=admin
 ```
+
+To use menu manager (optional). Execute yii migration
+```
+yii migrate --migrationPath=@mdm/admin/migration
+```

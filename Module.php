@@ -2,9 +2,11 @@
 
 namespace mdm\admin;
 
+use Yii;
 use mdm\admin\components\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
+use yii\db\Connection;
 
 /**
  * Description of Module
@@ -20,12 +22,29 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
      * @var array 
      */
     public $allowActions = [];
+
+    /**
+     *
+     * @var array 
+     */
     public $items = [];
+
+    /**
+     *
+     * @var array 
+     */
     public $menus;
+
+    /**
+     *
+     * @var Connection 
+     */
+    public $db = 'db';
 
     public function init()
     {
         parent::init();
+        $this->db = $this->db instanceof Connection ? $this->db : Yii::$app->get($this->db, false);
     }
 
     /**
@@ -41,6 +60,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 
     protected function getCoreItems()
     {
+
         return [
             'assigment' => [
                 'class' => 'mdm\admin\items\AssigmentController'
@@ -58,7 +78,8 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
                 'class' => 'mdm\admin\items\RuleController'
             ],
             'menu' => [
-                'class' => 'mdm\admin\items\MenuController'
+                'class' => 'mdm\admin\items\MenuController',
+                'visible' => $this->db !== null && $this->db->schema->getTableSchema('{{%menu}}') !== null
             ],
         ];
     }
@@ -70,13 +91,14 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
         $mid = '/' . $this->getUniqueId() . '/';
         $items = ArrayHelper::merge($this->getCoreItems(), $this->items);
         foreach ($items as $id => $config) {
-            if (empty($config)) {
-                continue;
+            $label = Inflector::humanize($id);
+            $visible = true;
+            if (is_array($config)) {
+                $label = ArrayHelper::remove($config, 'label', $label);
+                $visible = ArrayHelper::remove($config, 'visible', true);
             }
-            $label = is_array($config) ? ArrayHelper::remove($config, 'label') : null;
-            $label = $label !== null ? $label : Inflector::humanize($id);
-            $this->menus[] = ['label' => $label, 'url' => [$mid . $id]];
-            if ($config !== true) {
+            if ($visible) {
+                $this->menus[] = ['label' => $label, 'url' => [$mid . $id]];
                 $controllers[$id] = $config;
             }
         }

@@ -126,59 +126,65 @@ class AccessHelper
 
     /**
      * 
-     * @param \yii\web\User $user
+     * @param mixed $userId
      */
-    public static function getAssignedMenu($user)
+    public static function getAssignedMenu($userId)
     {
-        $manager = \Yii::$app->getAuthManager();
-        $routes = $filter1 = $filter2 = [];
-        foreach ($manager->getPermissionsByUser($user->id) as $name => $value) {
-            if ($name[0] === '/') {
-                if (substr($name, -2) === '/*') {
-                    $name = substr($name, 0, -1);
-                }
-                $routes[] = $name;
-            }
-        }
-        $prefix = '\\';
-        sort($routes);
-        foreach ($routes as $route) {
-            if (strpos($route, $prefix) !== 0) {
-                if (substr($route, -1) === '/') {
-                    $prefix = $route;
-                    $filter1[] = $route . '%';
-                } else {
-                    $filter2[] = $route;
+        $key = static::buildKey([__METHOD__, $userId]);
+        if (($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
+            $manager = \Yii::$app->getAuthManager();
+            $routes = $filter1 = $filter2 = [];
+            foreach ($manager->getPermissionsByUser($userId) as $name => $value) {
+                if ($name[0] === '/') {
+                    if (substr($name, -2) === '/*') {
+                        $name = substr($name, 0, -1);
+                    }
+                    $routes[] = $name;
                 }
             }
-        }
-        $assigned = [];
-        $query = Menu::find()->select(['menu_id'])->asArray();
-        if (count($filter2)) {
-            $assigned = $query->where(['menu_route' => $filter2])->column();
-        }
-        if (count($filter1)) {
-            $query->where('menu_route like :filter');
-            foreach ($filter1 as $filter) {
-                $assigned = array_merge($assigned, $query->params([':filter' => $filter])->column());
+            $prefix = '\\';
+            sort($routes);
+            foreach ($routes as $route) {
+                if (strpos($route, $prefix) !== 0) {
+                    if (substr($route, -1) === '/') {
+                        $prefix = $route;
+                        $filter1[] = $route . '%';
+                    } else {
+                        $filter2[] = $route;
+                    }
+                }
+            }
+            $assigned = [];
+            $query = Menu::find()->select(['menu_id'])->asArray();
+            if (count($filter2)) {
+                $assigned = $query->where(['menu_route' => $filter2])->column();
+            }
+            if (count($filter1)) {
+                $query->where('menu_route like :filter');
+                foreach ($filter1 as $filter) {
+                    $assigned = array_merge($assigned, $query->params([':filter' => $filter])->column());
+                }
+            }
+            $menus = Menu::find()->asArray()->indexBy('menu_id')->all();
+            $assigned = static::requiredParent($assigned, $menus);
+            $result = static::normalizeMenu($assigned, $menus);
+            if ($cache !== null) {
+                $cache->set($key, $result, 0, new GroupDependency([
+                    'group' => static::getGroup(static::AUTH_GROUP)
+                ]));
             }
         }
-        $menus = Menu::find()->asArray()->indexBy('menu_id')->all();
-        $assigned = static::requiredParent($assigned, $menus);
-        return static::normalizeMenu($assigned, $menus);
+        return $result;
     }
 
     private static function requiredParent($assigned, &$menus)
     {
-        $parents = [];
-        foreach ($assigned as $id) {
+        $l = strlen($assigned);
+        for ($i = 0; $i < $l; $i++) {
             $parent_id = $menus[$id]['menu_parent'];
-            if ($parent_id !== null && !in_array($parent_id, $assigned) && !in_array($parent_id, $parents)) {
-                $parents[] = $parent_id;
+            if ($parent_id !== null && !in_array($parent_id, $assigned)) {
+                $assigned[$l++] = $parent_id;
             }
-        }
-        if (count($parents)) {
-            $assigned = static::requiredParent(array_merge($assigned, $parents), $menus);
         }
         return $assigned;
     }

@@ -8,31 +8,12 @@ use mdm\admin\models\searchs\Menu as MenuSearch;
 use mdm\admin\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\db\Connection;
-use yii\di\Instance;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
  */
 class MenuController extends Controller
 {
-    /**
-     *
-     * @var Connection 
-     */
-    public $db = 'db';
-
-    public function init()
-    {
-        parent::init();
-        $this->db = Instance::ensure($this->db, Connection::className());
-        if ($this->db->schema->getTableSchema('{{%menu}}') === null) {
-            $message = 'You have not required table ' . $this->db->quoteSql('{{%menu}}')
-                . "\nTry to execute data migration"
-                . "\nyii migrate --migrationPath=@mdm/admin/migration";
-            throw new \yii\base\UserException($message);
-        }
-    }
 
     public function behaviors()
     {
