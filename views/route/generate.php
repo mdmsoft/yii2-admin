@@ -8,11 +8,11 @@ use yii\helpers\ArrayHelper;
  * @var yii\web\View $this
  */
 
-$this->title = 'Generate Operations';
-$this->params['breadcrumbs'][] = ['label' => 'Operation', 'url' => ['index']];
+$this->title = 'Generate Routes';
+$this->params['breadcrumbs'][] = ['label' => 'Routes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Generate Operations</h1>
+<h1>Generate Routes</h1>
 
 <?php
 echo Html::beginForm();

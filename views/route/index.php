@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Routes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Operations</h1>
+<h1>Routes</h1>
 <p>
     <?= Html::a('Create route', ['create'], ['class' => 'btn btn-success']) ?>
 </p>

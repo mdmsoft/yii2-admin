@@ -63,3 +63,5 @@ To use menu manager (optional). Execute yii migration
 ```
 yii migrate --migrationPath=@mdm/admin/migration
 ```
+
+[screenshots](https://picasaweb.google.com/105012704576561549351/Yii2Admin?authuser=0&feat=directlink)
