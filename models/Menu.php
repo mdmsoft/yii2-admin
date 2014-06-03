@@ -35,6 +35,9 @@ class Menu extends \yii\db\ActiveRecord
         return [
             [['menu_name'], 'required'],
             [['menu_parent_name'], 'filterParent'],
+            [['menu_parent_name'], 'in', 
+                'range' => self::find()->select(['menu_name'])->column(),
+                'message' => 'Menu "{value}" not found.'],
             [['menu_parent'], 'default'],
             [['menu_name'], 'string', 'max' => 128],
             [['menu_route'], 'string', 'max' => 256]
@@ -50,14 +53,12 @@ class Menu extends \yii\db\ActiveRecord
             $parent_id = $parent->menu_id;
             while ($parent) {
                 if ($parent->menu_id == $id) {
-                    $this->addError('menu_parent_name','Loop detected.');
+                    $this->addError('menu_parent_name', 'Loop detected.');
                     return;
                 }
                 $parent = $parent->menuParent;
             }
             $this->menu_parent = $parent_id;
-        } else {
-            $this->addError('menu_parent_name', "Parent menu {$value} not found.");
         }
     }
 
