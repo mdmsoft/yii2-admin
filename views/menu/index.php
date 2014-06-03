@@ -29,14 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute' => 'menuParent.menu_name',
-                'filter' => Html::activeTextInput($searchModel, 'menu_parent_name', [
+                'attribute' => 'menuParent.name',
+                'filter' => Html::activeTextInput($searchModel, 'parent_name', [
                     'class' => 'form-control', 'id' => null
                 ]),
-                'label'=>'Menu Parent'
+                'label'=>'Parent'
             ],
-            'menu_name',
-            'menu_route',
+            'name',
+            'route',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);

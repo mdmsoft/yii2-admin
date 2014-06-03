@@ -12,3 +12,6 @@ Yii2 Admin Change Log
 - Add: Custom side menu via `mdm\admin\Module::items` (mdmunir).
 - Add: Added menu manager (mdmunir).
 - Add: Migration for table menu (mdmunir).
+- Chg: Remove prefix `menu_` from column name of table `menu` (mdmunir).
+- Chg: Added column `data` to table `menu` (mdmunir).
+- Chg: Can customize return of `mdm\admin\components\AccessHelper::getAssignedMenu()` with provide a callback to method (mdmunir). 

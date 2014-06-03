@@ -17,21 +17,23 @@ use mdm\admin\models\Menu;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'menu_name')->textInput(['maxlength' => 128]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 128]) ?>
 
-    <?= $form->field($model, 'menu_parent_name')->widget(AutoComplete::className(),[
+    <?= $form->field($model, 'parent_name')->widget(AutoComplete::className(),[
         'options'=>['class'=>'form-control'],
         'clientOptions'=>[
-            'source'=>  Menu::find()->select(['menu_name'])->column()
+            'source'=>  Menu::find()->select(['name'])->column()
         ]
     ]) ?>
 
-    <?= $form->field($model, 'menu_route')->widget(AutoComplete::className(),[
+    <?= $form->field($model, 'route')->widget(AutoComplete::className(),[
         'options'=>['class'=>'form-control'],
         'clientOptions'=>[
             'source'=>  AccessHelper::getSavedRoutes()
         ]
     ]) ?>
+
+    <?= $form->field($model, 'data')->textarea(['rows' => 4]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -127,8 +127,10 @@ class AccessHelper
     /**
      * 
      * @param mixed $userId
+     * @param \Closure $callback function($menu){}
+     * 
      */
-    public static function getAssignedMenu($userId)
+    public static function getAssignedMenu($userId, $callback = null)
     {
         $key = static::buildKey([__METHOD__, $userId]);
         if (($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
@@ -155,19 +157,19 @@ class AccessHelper
                 }
             }
             $assigned = [];
-            $query = Menu::find()->select(['menu_id'])->asArray();
+            $query = Menu::find()->select(['id'])->asArray();
             if (count($filter2)) {
-                $assigned = $query->where(['menu_route' => $filter2])->column();
+                $assigned = $query->where(['route' => $filter2])->column();
             }
             if (count($filter1)) {
-                $query->where('menu_route like :filter');
+                $query->where('route like :filter');
                 foreach ($filter1 as $filter) {
                     $assigned = array_merge($assigned, $query->params([':filter' => $filter])->column());
                 }
             }
-            $menus = Menu::find()->asArray()->indexBy('menu_id')->all();
+            $menus = Menu::find()->asArray()->indexBy('id')->all();
             $assigned = static::requiredParent($assigned, $menus);
-            $result = static::normalizeMenu($assigned, $menus);
+            $result = static::normalizeMenu($assigned, $menus, $callback);
             if ($cache !== null) {
                 $cache->set($key, $result, 0, new GroupDependency([
                     'group' => static::getGroup(static::AUTH_GROUP)
@@ -181,7 +183,7 @@ class AccessHelper
     {
         $l = strlen($assigned);
         for ($i = 0; $i < $l; $i++) {
-            $parent_id = $menus[$id]['menu_parent'];
+            $parent_id = $menus[$id]['parent'];
             if ($parent_id !== null && !in_array($parent_id, $assigned)) {
                 $assigned[$l++] = $parent_id;
             }
@@ -189,19 +191,23 @@ class AccessHelper
         return $assigned;
     }
 
-    private static function normalizeMenu(&$assigned, &$menus, $parent = null)
+    private static function normalizeMenu(&$assigned, &$menus, $callback, $parent = null)
     {
         $result = [];
         foreach ($assigned as $id) {
             $menu = $menus[$id];
-            if ($menu['menu_parent'] == $parent) {
-                $item = [
-                    'label' => $menu['menu_name'],
-                    'url' => empty($menu['menu_route']) ? '#' : [$menu['menu_route']],
-                    'items' => static::normalizeMenu($assigned, $menus, $id)
-                ];
-                if (empty($item['items'])) {
-                    unset($item['items']);
+            if ($menu['parent'] == $parent) {
+                $menu['children'] = static::normalizeMenu($assigned, $menus, $callback, $id);
+                if ($callback !== null) {
+                    $item = call_user_func($callback, $menu);
+                } else {
+                    $item = [
+                        'label' => $menu['name'],
+                        'url' => empty($menu['route']) ? '#' : [$menu['route']]
+                    ];
+                    if ($menu['children'] != []) {
+                        $item['items'] = $menu['children'];
+                    }
                 }
                 $result[] = $item;
             }

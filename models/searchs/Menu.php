@@ -16,8 +16,8 @@ class Menu extends MenuModel
     public function rules()
     {
         return [
-            [['menu_id', 'menu_parent'], 'integer'],
-            [['menu_name', 'menu_route', 'menu_parent_name'], 'safe'],
+            [['id', 'parent'], 'integer'],
+            [['name', 'route', 'parent_name'], 'safe'],
         ];
     }
 
@@ -35,11 +35,11 @@ class Menu extends MenuModel
             'query' => $query
         ]);
 
-        $query->leftJoin(['parent' => 'menu'], 'menu.menu_parent=parent.menu_id');
-        $dataProvider->getSort()->attributes['menuParent.menu_name'] = [
-            'asc' => ['parent.menu_name' => SORT_ASC],
-            'desc' => ['parent.menu_name' => SORT_DESC],
-            'label' => 'menu_parent',
+        $query->leftJoin(['parent' => 'menu'], 'menu.parent=parent.id');
+        $dataProvider->getSort()->attributes['menuParent.name'] = [
+            'asc' => ['parent.name' => SORT_ASC],
+            'desc' => ['parent.name' => SORT_DESC],
+            'label' => 'parent',
         ];
 
         if (!($this->load($params) && $this->validate())) {
@@ -47,13 +47,13 @@ class Menu extends MenuModel
         }
 
         $query->andFilterWhere([
-            'menu_id' => $this->menu_id,
-            'menu_parent' => $this->menu_parent,
+            'id' => $this->id,
+            'parent' => $this->parent,
         ]);
 
-        $query->andFilterWhere(['like', 'menu_name', $this->menu_name])
-            ->andFilterWhere(['like', 'menu_route', $this->menu_route])
-            ->andFilterWhere(['like', 'parent.menu_name', $this->menu_parent_name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'route', $this->route])
+            ->andFilterWhere(['like', 'parent.name', $this->parent_name]);
 
 
         return $dataProvider;

@@ -7,9 +7,9 @@ use yii\helpers\Html;
  * @var mdm\admin\models\Menu $model
  */
 
-$this->title = 'Update Menu: ' . ' ' . $model->menu_name;
+$this->title = 'Update Menu: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Menus', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->menu_name, 'url' => ['view', 'id' => $model->menu_id]];
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="menu-update">
