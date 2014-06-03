@@ -1,6 +1,7 @@
 RBAC Manager for Yii 2
 ========================
 
+See [change log](CHANGELOG.md)
 
 Installation
 ------------
