@@ -18,7 +18,8 @@ Click button '>>' to save it and button '<<' to delete.
 
 Rule
 ----
-see [Rules](http://www.yiiframework.com/doc-2.0/guide-authorization.html#using-rules)
+see [Rules](http://www.yiiframework.com/doc-2.0/guide-authorization.html#using-rules).
+
 You can used `mdm\admin\components\BizRule` or you create your own Rule class.
 If you are using `mdm\admin\components\BizRule`, keep `Class Name` field blank and fill the `Expression` with
 php statement that return `boolean` value.
