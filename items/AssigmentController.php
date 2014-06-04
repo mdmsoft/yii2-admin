@@ -20,6 +20,7 @@ class AssigmentController extends Controller
     public $userClassName;
     public $idField = 'id';
     public $usernameField = 'username';
+    public $searchClass;
 
     public function init()
     {
@@ -48,7 +49,13 @@ class AssigmentController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AssigmentSearch;
+        
+        if($this->searchClass === null){
+            $searchModel = new AssigmentSearch;
+        }  else {
+            $class = $this->searchClass;
+            $searchModel = new $class;
+        }       
 
         $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
         return $this->render('index', [

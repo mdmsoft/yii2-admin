@@ -31,6 +31,13 @@ class Assigment extends Model
         ];
     }
 
+    /**
+     * 
+     * @param array $params
+     * @param \yii\db\ActiveRecord $class
+     * @param string $usernameField
+     * @return \yii\data\ActiveDataProvider
+     */
     public function search($params, $class, $usernameField)
     {
         $query = $class::find();
@@ -42,10 +49,7 @@ class Assigment extends Model
             return $dataProvider;
         }
 
-        $value = $this->username;
-        if (trim($value) !== '') {
-            $query->andWhere(['like', $usernameField, $value]);
-        }
+        $query->andFilterWhere(['like', $usernameField, $this->username]);
         return $dataProvider;
     }
 }
