@@ -61,4 +61,4 @@ $callback = function($menu){
 
 $items = AccessHelper::getAssignedMenu(Yii::$app->user->id,$callback);
 ```
-Default result is get from `cache`. If you want to force recalculate, provide boolean `true` as third parameter.
+Default result is get from `cache`. If you want to force regenerate, provide boolean `true` as third parameter.
