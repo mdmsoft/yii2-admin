@@ -15,3 +15,4 @@ Yii2 Admin Change Log
 - Chg: Remove prefix `menu_` from column name of table `menu` (mdmunir).
 - Chg: Added column `data` to table `menu` (mdmunir).
 - Chg: Can customize return of `mdm\admin\components\AccessHelper::getAssignedMenu()` with provide a callback to method (mdmunir). 
+- Add: Added Menu order (mdmunir).

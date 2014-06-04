@@ -22,10 +22,10 @@ class AccessHelper
      * 
      * @return array
      */
-    public static function getRoutes()
+    public static function getRoutes($refresh = false)
     {
         $key = static::buildKey(__METHOD__);
-        if (($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
+        if ($refresh || ($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
             $result = [];
             self::getRouteRecrusive(Yii::$app, $result);
             if ($cache !== null) {
@@ -105,10 +105,10 @@ class AccessHelper
         }
     }
 
-    public static function getSavedRoutes()
+    public static function getSavedRoutes($refresh = false)
     {
         $key = static::buildKey(__METHOD__);
-        if (($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
+        if ($refresh || ($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
             $result = [];
             foreach (Yii::$app->getAuthManager()->getPermissions() as $name => $value) {
                 if ($name[0] === '/' && substr($name, -1) != '*') {
@@ -130,10 +130,10 @@ class AccessHelper
      * @param \Closure $callback function($menu){}
      * 
      */
-    public static function getAssignedMenu($userId, $callback = null)
+    public static function getAssignedMenu($userId, $callback = null, $refresh = false)
     {
         $key = static::buildKey([__METHOD__, $userId]);
-        if (($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
+        if ($refresh || ($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
             $manager = \Yii::$app->getAuthManager();
             $routes = $filter1 = $filter2 = [];
             foreach ($manager->getPermissionsByUser($userId) as $name => $value) {
@@ -169,6 +169,7 @@ class AccessHelper
             }
             $menus = Menu::find()->asArray()->indexBy('id')->all();
             $assigned = static::requiredParent($assigned, $menus);
+            var_dump($callback);
             $result = static::normalizeMenu($assigned, $menus, $callback);
             if ($cache !== null) {
                 $cache->set($key, $result, 0, new GroupDependency([
@@ -181,8 +182,9 @@ class AccessHelper
 
     private static function requiredParent($assigned, &$menus)
     {
-        $l = strlen($assigned);
+        $l = count($assigned);
         for ($i = 0; $i < $l; $i++) {
+            $id = $assigned[$i];
             $parent_id = $menus[$id]['parent'];
             if ($parent_id !== null && !in_array($parent_id, $assigned)) {
                 $assigned[$l++] = $parent_id;
@@ -193,7 +195,9 @@ class AccessHelper
 
     private static function normalizeMenu(&$assigned, &$menus, $callback, $parent = null)
     {
+        var_dump($callback);
         $result = [];
+        $order = [];
         foreach ($assigned as $id) {
             $menu = $menus[$id];
             if ($menu['parent'] == $parent) {
@@ -210,12 +214,16 @@ class AccessHelper
                     }
                 }
                 $result[] = $item;
+                $order[] = $menu['order'];
             }
+        }
+        if ($result != []) {
+            array_multisort($order, $result);
         }
         return $result;
     }
 
-    public static function getGroup($group)
+    private static function getGroup($group)
     {
         return md5(serialize([__CLASS__, $group]));
     }

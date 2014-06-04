@@ -33,10 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Html::activeTextInput($searchModel, 'parent_name', [
                     'class' => 'form-control', 'id' => null
                 ]),
-                'label'=>'Parent'
+                'label' => 'Parent'
             ],
             'name',
             'route',
+            'order',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
@@ -44,3 +45,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 </div>
+<pre>
+    <?php
+    $menus = \mdm\admin\components\AccessHelper::getAssignedMenu(Yii::$app->user->id);
+    print_r($menus);
+    ?>
+</pre>

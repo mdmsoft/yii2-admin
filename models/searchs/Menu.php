@@ -16,7 +16,7 @@ class Menu extends MenuModel
     public function rules()
     {
         return [
-            [['id', 'parent'], 'integer'],
+            [['id', 'parent', 'order'], 'integer'],
             [['name', 'route', 'parent_name'], 'safe'],
         ];
     }
@@ -36,11 +36,18 @@ class Menu extends MenuModel
         ]);
 
         $query->leftJoin(['parent' => 'menu'], 'menu.parent=parent.id');
-        $dataProvider->getSort()->attributes['menuParent.name'] = [
+        $sort = $dataProvider->getSort();
+        $sort->attributes['menuParent.name'] = [
             'asc' => ['parent.name' => SORT_ASC],
             'desc' => ['parent.name' => SORT_DESC],
             'label' => 'parent',
         ];
+        $sort->attributes['order'] = [
+            'asc' => ['parent.order' => SORT_ASC, 'menu.order' => SORT_ASC],
+            'desc' => ['parent.order' => SORT_DESC, 'menu.order' => SORT_DESC],
+            'label' => 'order',
+        ];
+        $sort->defaultOrder = ['menuParent.name' => SORT_ASC];
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

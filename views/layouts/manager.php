@@ -6,7 +6,7 @@ use yii\helpers\Html;
  * @var \yii\web\View $this
  * @var string $content
  */
-$asset = mdm\admin\AdminAsset::register($this);
+//$asset = mdm\admin\AdminAsset::register($this);
 $menus = $this->context->module->menus;
 ?>
 <div class="row">
@@ -14,7 +14,7 @@ $menus = $this->context->module->menus;
         <div id="manager-menu" class="list-group">
             <?php
             foreach ($menus as $menu) {
-                $label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menu['label']);
+                $label = '<i class="glyphicon glyphicon-chevron-right pull-right"></i>' . Html::encode($menu['label']);
                 echo Html::a($label, $menu['url'], [
                     'class' => strpos(Yii::$app->controller->route, trim($menu['url'][0], '/')) === 0 ? 'list-group-item active' : 'list-group-item',
                 ]);
@@ -23,6 +23,6 @@ $menus = $this->context->module->menus;
         </div>
     </div>
     <div class="col-lg-9">
-        <?= $this->render($view, $params, Yii::$app->controller) ?>
+        <?= $this->render($view, $params, $this->context) ?>
     </div>
 </div>

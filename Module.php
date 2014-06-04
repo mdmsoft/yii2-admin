@@ -15,7 +15,16 @@ use yii\db\Connection;
  */
 class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 {
+    
     public $defaultRoute = 'assigment';
+    
+    /**
+     *
+     * @var string
+     * Position of menu. Avaliable value are left, top, right and false.
+     * Default to left 
+     */
+    public $positionMenu = 'left';
 
     /**
      *

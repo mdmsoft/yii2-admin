@@ -1,5 +1,7 @@
 <?php
+
 namespace mdm\admin\components;
+
 /**
  * Description of Controller
  *
@@ -9,9 +11,14 @@ namespace mdm\admin\components;
  */
 class Controller extends \yii\web\Controller
 {
-	//put your code here
-	public function render($view, $params = array())
-	{
-		return parent::render('/layouts/manager', ['view'=>$view,'params'=>$params]);
-	}
+
+    public function render($view, $params = [])
+    {
+        $position = $this->module->positionMenu;
+        if (in_array($position, ['left', 'top', 'right'])) {
+            return parent::render("/layouts/{$position}-menu", ['view' => $view, 'params' => $params]);
+        } else {
+            return parent::render($view, $params);
+        }
+    }
 }

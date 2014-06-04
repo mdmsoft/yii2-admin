@@ -39,7 +39,8 @@ class Menu extends \yii\db\ActiveRecord
             [['parent_name'], 'in',
                 'range' => self::find()->select(['name'])->column(),
                 'message' => 'Menu "{value}" not found.'],
-            [['parent', 'route', 'data'], 'default'],
+            [['parent', 'route', 'data', 'order'], 'default'],
+            [['priority'], 'integer'],
             [['route'], 'in',
                 'range' => AccessHelper::getSavedRoutes(),
                 'message' => 'Route "{value}" not found.']

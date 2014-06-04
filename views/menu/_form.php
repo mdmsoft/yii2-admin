@@ -33,6 +33,8 @@ use mdm\admin\models\Menu;
         ]
     ]) ?>
 
+    <?= $form->field($model, 'order')->input('number') ?>
+
     <?= $form->field($model, 'data')->textarea(['rows' => 4]) ?>
 
     <div class="form-group">
