@@ -774,7 +774,7 @@ class DbManager extends \yii\rbac\BaseManager
     private function invalidate($part)
     {
         $time = time();
-        file_put_contents($this->getFileName($part), $time . '');
+        @file_put_contents($this->getFileName($part), $time . '');
         $this->_flags[$part] = $time;
     }
 
