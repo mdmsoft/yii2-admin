@@ -215,12 +215,13 @@ class DbManager extends \yii\rbac\BaseManager
         if (in_array($child->name, $this->_children[$parent->name])) {
             throw new InvalidCallException("The item '{$parent->name}' already has a child '{$child->name}'.");
         }
-        $this->_children[$parent->name][] = $child->name;
 
         $this->db->createCommand()
             ->insert($this->itemChildTable, ['parent' => $parent->name, 'child' => $child->name])
             ->execute();
 
+        $this->_children[$parent->name][] = $child->name;
+        
         $this->invalidate(static::PART_CHILDREN);
         return true;
     }
@@ -323,7 +324,6 @@ class DbManager extends \yii\rbac\BaseManager
         $result = $this->db->createCommand()
                 ->delete($this->assignmentTable, ['user_id' => $userId])
                 ->execute() > 0;
-        ;
 
         $this->_assignments[$userId] = [];
         $this->invalidate(static::PART_ASSIGMENTS);
@@ -768,6 +768,10 @@ class DbManager extends \yii\rbac\BaseManager
     private function isExpire($part)
     {
         $time = @file_get_contents($this->getFileName($part));
+        if($time === false){
+            $this->invalidate($part); // ensure next request has checking file :D
+            return true;
+        }
         return !isset($this->_flags[$part]) || (int) $time > $this->_flags[$part];
     }
 
@@ -780,17 +784,21 @@ class DbManager extends \yii\rbac\BaseManager
 
     private function getFileName($part)
     {
-        return "{$this->flagDir}/part-{$part}.flag";
+        return "{$this->flagDir}/part-{$part}.dat";
+    }
+    
+    private function buidKey($part)
+    {
+        return[
+            __CLASS__,
+            $part
+        ];
     }
 
     private function getFromCache($part)
     {
         if ($this->enableCaching) {
-            $key = [
-                __CLASS__,
-                $part
-            ];
-            return $this->cache->get($key);
+            return $this->cache->get($this->buidKey($part));
         }
         return false;
     }
@@ -798,11 +806,7 @@ class DbManager extends \yii\rbac\BaseManager
     private function saveToCache($part, $data)
     {
         if ($this->enableCaching) {
-            $key = [
-                __CLASS__,
-                $part
-            ];
-            $this->cache->set($key, $data, $this->cacheDuration, new FileDependency([
+            $this->cache->set($this->buidKey($part), $data, $this->cacheDuration, new FileDependency([
                 'fileName' => $this->getFileName($part)
             ]));
         }
