@@ -59,6 +59,7 @@ class DbManager extends \yii\rbac\BaseManager
     /**
      *
      * @var string the directory of flag file. 
+     * use to check is memory or cache expired.
      */
     public $flagDir = '@runtime/rbac';
 
@@ -93,7 +94,7 @@ class DbManager extends \yii\rbac\BaseManager
     private $_children;
 
     /**
-     * @var array[] 
+     * @var array
      * userId => itemName[]
      */
     private $_assignments = [];
@@ -107,6 +108,7 @@ class DbManager extends \yii\rbac\BaseManager
     /**
      *
      * @var array 
+     * Use to check is memory expired.
      */
     private $_flags = [];
 
