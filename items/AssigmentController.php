@@ -18,8 +18,8 @@ use yii\web\Response;
 class AssigmentController extends Controller
 {
     public $userClassName;
-    public $idField = 'id';
-    public $usernameField = 'username';
+    public $idField;
+    public $usernameField;
     public $searchClass;
 
     public function init()

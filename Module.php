@@ -50,6 +50,20 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
      */
     public $db = 'db';
 
+    /**
+     *
+     * @var string
+     * Customize "id" field
+     */
+    public $idField = 'id';
+
+    /**
+     *
+     * @var string
+     * Customize "username" field
+     */
+    public $usernameField = 'username';
+
     public function init()
     {
         parent::init();
