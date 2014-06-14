@@ -50,6 +50,20 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
      */
     public $db = 'db';
 
+    /**
+     *
+     * @var string
+     * Customize "id" field
+     */
+    public $idField = 'id';
+
+    /**
+     *
+     * @var string
+     * Customize "username" field
+     */
+    public $usernameField = 'username';
+
     public function init()
     {
         parent::init();
@@ -117,6 +131,11 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     public function createController($route)
     {
         $this->normalizeController();
-        return parent::createController($route);
+        $controller = parent::createController($route);
+        if ($route == 'assigment') {
+            $controller[0]->idField = $this->idField;
+            $controller[0]->usernameField = $this->usernameField;
+        }
+        return $controller;
     }
 }
