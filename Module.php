@@ -15,38 +15,37 @@ use yii\db\Connection;
  */
 class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 {
-    
     public $defaultRoute = 'assigment';
-    
+
     /**
      *
      * @var string
      * Position of menu. Avaliable value are left, top, right and false.
-     * Default to left 
+     * Default to left
      */
     public $positionMenu = 'left';
 
     /**
      *
-     * @var array 
+     * @var array
      */
     public $allowActions = [];
 
     /**
      *
-     * @var array 
+     * @var array
      */
     public $items = [];
 
     /**
      *
-     * @var array 
+     * @var array
      */
     public $menus;
 
     /**
      *
-     * @var Connection 
+     * @var Connection
      */
     public $db = 'db';
 
@@ -71,14 +70,14 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     }
 
     /**
-     * 
+     *
      * @param \yii\web\Application $app
      */
     public function bootstrap($app)
     {
         $app->attachBehavior(AccessControl::className(), new AccessControl([
-            'allowActions' => $this->allowActions
-        ]));
+                    'allowActions' => $this->allowActions
+                ]));
     }
 
     protected function getCoreItems()
@@ -131,11 +130,6 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     public function createController($route)
     {
         $this->normalizeController();
-        $controller = parent::createController($route);
-        if ($route == 'assigment') {
-            $controller[0]->idField = $this->idField;
-            $controller[0]->usernameField = $this->usernameField;
-        }
-        return $controller;
+        return parent::createController($route);
     }
 }
