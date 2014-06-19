@@ -16,3 +16,4 @@ Yii2 Admin Change Log
 - Chg: Added column `data` to table `menu` (mdmunir).
 - Chg: Can customize return of `mdm\admin\components\AccessHelper::getAssignedMenu()` with provide a callback to method (mdmunir). 
 - Add: Added Menu order (mdmunir).
+- Chg: Add require "yiisoft/yii2-jui" to composer.json (mdmunir, hashie5).
