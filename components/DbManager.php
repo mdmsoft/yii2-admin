@@ -14,8 +14,7 @@ use yii\rbac\Role;
 use yii\rbac\Assignment;
 use yii\rbac\Rule;
 use yii\caching\Cache;
-use yii\caching\FileDependency;
-use yii\helpers\FileHelper;
+use yii\caching\GroupDependency;
 
 /**
  * Description of DbManager
@@ -27,7 +26,6 @@ class DbManager extends \yii\rbac\BaseManager
     const PART_ITEMS = 'items';
     const PART_CHILDREN = 'children';
     const PART_RULES = 'rules';
-    const PART_ASSIGMENTS = 'assigments';
 
     /**
      * @var Connection|string the DB connection object or the application component ID of the DB connection.
@@ -55,13 +53,6 @@ class DbManager extends \yii\rbac\BaseManager
      * @var string the name of the table storing rules. Defaults to "auth_rule".
      */
     public $ruleTable = '{{%auth_rule}}';
-
-    /**
-     *
-     * @var string the directory of flag file. 
-     * use to check is memory or cache expired.
-     */
-    public $flagDir = '@runtime/rbac';
 
     /**
      *
@@ -106,13 +97,6 @@ class DbManager extends \yii\rbac\BaseManager
     private $_rules;
 
     /**
-     *
-     * @var array 
-     * Use to check is memory expired.
-     */
-    private $_flags = [];
-
-    /**
      * Initializes the application component.
      * This method overrides parent implementation by loading the authorization data
      * from PHP script.
@@ -121,10 +105,6 @@ class DbManager extends \yii\rbac\BaseManager
     {
         parent::init();
         $this->db = Instance::ensure($this->db, Connection::className());
-        $this->flagDir = rtrim(Yii::getAlias($this->flagDir), '/');
-        if(!is_dir($this->flagDir)){
-            @FileHelper::createDirectory($this->flagDir);
-        }
         if ($this->enableCaching) {
             $this->cache = Instance::ensure($this->cache, Cache::className());
         } else {
@@ -223,7 +203,7 @@ class DbManager extends \yii\rbac\BaseManager
             ->execute();
 
         $this->_children[$parent->name][] = $child->name;
-        
+
         $this->invalidate(static::PART_CHILDREN);
         return true;
     }
@@ -300,7 +280,6 @@ class DbManager extends \yii\rbac\BaseManager
         if (isset($this->_assignments[$userId]) && !in_array($role->name, $this->_assignments[$userId])) {
             $this->_assignments[$userId][] = $role->name;
         }
-        $this->invalidate(static::PART_ASSIGMENTS);
         return $assignment;
     }
 
@@ -314,7 +293,6 @@ class DbManager extends \yii\rbac\BaseManager
                 ->execute() > 0;
 
         unset($this->_assignments[$userId]);
-        $this->invalidate(static::PART_ASSIGMENTS);
         return $result;
     }
 
@@ -328,7 +306,6 @@ class DbManager extends \yii\rbac\BaseManager
                 ->execute() > 0;
 
         $this->_assignments[$userId] = [];
-        $this->invalidate(static::PART_ASSIGMENTS);
         return $result;
     }
 
@@ -385,7 +362,6 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_children = $this->_items = null;
         $this->invalidate(static::PART_ITEMS);
         $this->invalidate(static::PART_CHILDREN);
-        $this->invalidate(static::PART_ASSIGMENTS);
         return true;
     }
 
@@ -559,7 +535,6 @@ class DbManager extends \yii\rbac\BaseManager
         $this->invalidate(static::PART_ITEMS);
         $this->invalidate(static::PART_CHILDREN);
         $this->invalidate(static::PART_RULES);
-        $this->invalidate(static::PART_ASSIGMENTS);
     }
 
     /**
@@ -610,7 +585,6 @@ class DbManager extends \yii\rbac\BaseManager
 
         $this->invalidate(static::PART_ITEMS);
         $this->invalidate(static::PART_CHILDREN);
-        $this->invalidate(static::PART_ASSIGMENTS);
     }
 
     /**
@@ -639,7 +613,6 @@ class DbManager extends \yii\rbac\BaseManager
     {
         $this->db->createCommand()->delete($this->assignmentTable)->execute();
         $this->_assignments = [];
-        $this->invalidate(static::PART_ASSIGMENTS);
     }
 
     /**
@@ -728,7 +701,6 @@ class DbManager extends \yii\rbac\BaseManager
             $this->_assignments = [];
             $this->_children = null;
             $this->invalidate(static::PART_CHILDREN);
-            $this->invalidate(static::PART_ASSIGMENTS);
         }
         $this->_items = null;
         $this->invalidate(static::PART_RULES);
@@ -767,40 +739,27 @@ class DbManager extends \yii\rbac\BaseManager
         return true;
     }
 
-    private function isExpire($part)
-    {
-        $time = @file_get_contents($this->getFileName($part));
-        if($time === false){
-            $this->invalidate($part); // ensure next request has checking file :D
-            return true;
-        }
-        return !isset($this->_flags[$part]) || (int) $time > $this->_flags[$part];
-    }
-
     private function invalidate($part)
     {
-        $time = time();
-        @file_put_contents($this->getFileName($part), $time . '');
-        $this->_flags[$part] = $time;
+        if ($this->enableCaching) {
+            GroupDependency::invalidate($this->cache, $this->buildGroup($part));
+        }
     }
 
-    private function getFileName($part)
+    private function buildKey($part)
     {
-        return "{$this->flagDir}/part-{$part}.dat";
+        return [__CLASS__, $part];
     }
-    
-    private function buidKey($part)
+
+    private function buildGroup($part)
     {
-        return[
-            __CLASS__,
-            $part
-        ];
+        return md5(serialize([__CLASS__, $part]));
     }
 
     private function getFromCache($part)
     {
         if ($this->enableCaching) {
-            return $this->cache->get($this->buidKey($part));
+            return $this->cache->get($this->buildKey($part));
         }
         return false;
     }
@@ -808,8 +767,8 @@ class DbManager extends \yii\rbac\BaseManager
     private function saveToCache($part, $data)
     {
         if ($this->enableCaching) {
-            $this->cache->set($this->buidKey($part), $data, $this->cacheDuration, new FileDependency([
-                'fileName' => $this->getFileName($part)
+            $this->cache->set($this->buildKey($part), $data, $this->cacheDuration, new GroupDependency([
+                'group' => $this->buildGroup($part)
             ]));
         }
     }
@@ -817,7 +776,7 @@ class DbManager extends \yii\rbac\BaseManager
     private function loadItems()
     {
         $part = static::PART_ITEMS;
-        if (($this->_items === null && ($this->_items = $this->getFromCache($part)) === false) || $this->isExpire($part)) {
+        if ($this->_items === null && ($this->_items = $this->getFromCache($part)) === false) {
             $query = (new Query)->from($this->itemTable);
 
             $this->_items = [];
@@ -825,14 +784,13 @@ class DbManager extends \yii\rbac\BaseManager
                 $this->_items[$row['name']] = $this->populateItem($row);
             }
             $this->saveToCache($part, $this->_items);
-            $this->_flags[$part] = time();
         }
     }
 
     private function loadChildren()
     {
         $part = static::PART_CHILDREN;
-        if (($this->_children === null && ($this->_children = $this->getFromCache($part)) === false) || $this->isExpire($part)) {
+        if ($this->_children === null && ($this->_children = $this->getFromCache($part)) === false) {
             $query = (new Query)->from($this->itemChildTable);
 
             $this->_children = [];
@@ -842,14 +800,13 @@ class DbManager extends \yii\rbac\BaseManager
                 }
             }
             $this->saveToCache($part, $this->_children);
-            $this->_flags[$part] = time();
         }
     }
 
     private function loadRules()
     {
         $part = static::PART_RULES;
-        if (($this->_rules === null && ($this->_rules = $this->getFromCache($part)) === false) || $this->isExpire($part)) {
+        if ($this->_rules === null && ($this->_rules = $this->getFromCache($part)) === false) {
             $query = (new Query)->from($this->ruleTable);
 
             $this->_rules = [];
@@ -860,21 +817,18 @@ class DbManager extends \yii\rbac\BaseManager
                 }
             }
             $this->saveToCache($part, $this->_rules);
-            $this->_flags[static::PART_RULES] = time();
         }
     }
 
     private function loadAssigments($userId)
     {
-        $part = static::PART_ASSIGMENTS;
-        if (!isset($this->_assignments[$userId]) || $this->isExpire($part)) {
+        if (!isset($this->_assignments[$userId])) {
             $query = (new Query)
                 ->select('item_name')
                 ->from($this->assignmentTable)
                 ->where(['user_id' => $userId]);
 
             $this->_assignments[$userId] = $query->column($this->db);
-            $this->_flags[$part] = time();
         }
     }
 
