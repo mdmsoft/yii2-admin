@@ -242,6 +242,7 @@ class DbManager extends \yii\rbac\BaseManager
                 ->execute() > 0;
         if ($this->_children !== null) {
             $query = (new Query)
+                ->select('child')
                 ->from($this->itemChildTable)
                 ->where(['parent' => $parent->name]);
             $this->_children[$parent->name] = $query->column($this->db);
