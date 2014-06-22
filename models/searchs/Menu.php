@@ -35,7 +35,7 @@ class Menu extends MenuModel
             'query' => $query
         ]);
 
-        $query->leftJoin(['parent' => 'menu'], 'menu.parent=parent.id');
+        $query->leftJoin(['parent' => '{{%menu}}'], '{{%menu}}.parent=parent.id');
         $sort = $dataProvider->getSort();
         $sort->attributes['menuParent.name'] = [
             'asc' => ['parent.name' => SORT_ASC],
@@ -43,8 +43,8 @@ class Menu extends MenuModel
             'label' => 'parent',
         ];
         $sort->attributes['order'] = [
-            'asc' => ['parent.order' => SORT_ASC, 'menu.order' => SORT_ASC],
-            'desc' => ['parent.order' => SORT_DESC, 'menu.order' => SORT_DESC],
+            'asc' => ['parent.order' => SORT_ASC, '{{%menu}}.order' => SORT_ASC],
+            'desc' => ['parent.order' => SORT_DESC, '{{%menu}}.order' => SORT_DESC],
             'label' => 'order',
         ];
         $sort->defaultOrder = ['menuParent.name' => SORT_ASC];

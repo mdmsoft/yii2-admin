@@ -17,3 +17,5 @@ Yii2 Admin Change Log
 - Chg: Can customize return of `mdm\admin\components\AccessHelper::getAssignedMenu()` with provide a callback to method (mdmunir). 
 - Add: Added Menu order (mdmunir).
 - Chg: Add require "yiisoft/yii2-jui" to composer.json (mdmunir, hashie5).
+- Bug: #19: Added table prefix to table `menu` for some query (mdmunir, liu0472).
+- Chg: #21: Force set allow `null` to column `parent` in database migration (mdmunir).

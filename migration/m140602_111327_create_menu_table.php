@@ -10,7 +10,7 @@ class m140602_111327_create_menu_table extends \yii\db\Migration
         $this->createTable('{{%menu}}', [
             'id' => Schema::TYPE_PK,
             'name' => Schema::TYPE_STRING . '(128) NOT NULL',
-            'parent' => Schema::TYPE_INTEGER,
+            'parent' => Schema::TYPE_INTEGER. ' NULL',
             'route' => Schema::TYPE_STRING . '(256)',
             'order' => Schema::TYPE_INTEGER,
             'data' => Schema::TYPE_TEXT,
