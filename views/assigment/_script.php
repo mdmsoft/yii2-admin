@@ -29,7 +29,9 @@ use yii\helpers\Url;
             action: function() {
                 var action = $(this).data('action');
                 var params = $((action == 'assign' ? '#avaliable' : '#assigned') + ', .role-search').serialize();
-                $.post('<?= Url::toRoute(['assign', 'id' => $id]) ?>&action=' + action,
+                var urlAssign = '<?= Url::toRoute(['assign', 'id' => $id,'action'=>'assign']) ?>';
+                var urlDelete = '<?= Url::toRoute(['assign', 'id' => $id,'action'=>'delete']) ?>';
+                $.post(action=='assign'?urlAssign : urlDelete,
                     params, function(r) {
                         $('#avaliable').html(r[0]);
                         $('#assigned').html(r[1]);
