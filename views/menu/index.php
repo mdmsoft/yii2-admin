@@ -45,9 +45,3 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 </div>
-<pre>
-    <?php
-    $menus = \mdm\admin\components\AccessHelper::getAssignedMenu(Yii::$app->user->id);
-    print_r($menus);
-    ?>
-</pre>

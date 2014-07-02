@@ -169,9 +169,8 @@ class AccessHelper
             }
             $menus = Menu::find()->asArray()->indexBy('id')->all();
             $assigned = static::requiredParent($assigned, $menus);
-            var_dump($callback);
             $result = static::normalizeMenu($assigned, $menus, $callback);
-            if ($cache !== null) {
+            if (isset($cache)) {
                 $cache->set($key, $result, 0, new GroupDependency([
                     'group' => static::getGroup(static::AUTH_GROUP)
                 ]));
@@ -195,7 +194,6 @@ class AccessHelper
 
     private static function normalizeMenu(&$assigned, &$menus, $callback, $parent = null)
     {
-        var_dump($callback);
         $result = [];
         $order = [];
         foreach ($assigned as $id) {
