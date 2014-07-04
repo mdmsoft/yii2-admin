@@ -5,6 +5,7 @@ namespace mdm\admin\models;
 use Yii;
 use yii\rbac\Item;
 use yii\helpers\VarDumper;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "tbl_auth_item".
@@ -44,7 +45,7 @@ class AuthItem extends \yii\base\Model
             $this->type = $item->type;
             $this->description = $item->description;
             $this->ruleName = $item->ruleName;
-            $this->data = $item->data === null ? null : VarDumper::export($item->data);
+            $this->data = $item->data === null ? null : Json::encode($item->data);
         }
         parent::__construct($config);
     }
@@ -111,7 +112,7 @@ class AuthItem extends \yii\base\Model
             $this->_item->name = $this->name;
             $this->_item->description = $this->description;
             $this->_item->ruleName = $this->ruleName;
-            $this->_item->data = $this->data === null || $this->data === '' ? null : @eval('return ' . $this->data . ';');
+            $this->_item->data = $this->data === null || $this->data === '' ? null : Json::decode($this->data);
             if ($isNew) {
                 $manager->add($this->_item);
             } else {
