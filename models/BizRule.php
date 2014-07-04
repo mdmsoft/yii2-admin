@@ -2,7 +2,6 @@
 
 namespace mdm\admin\models;
 
-use mdm\admin\components\BizRule as TBizRule;
 use yii\rbac\Rule;
 use Yii;
 
@@ -32,7 +31,6 @@ class BizRule extends \yii\base\Model
      *
      * @var string 
      */
-    public $expresion;
     public $className;
 
     /**
@@ -52,9 +50,6 @@ class BizRule extends \yii\base\Model
         if ($item !== null) {
             $this->name = $item->name;
             $this->className = get_class($item);
-            if ($this->className === TBizRule::className()) {
-                $this->expresion = $item->expresion;
-            }
         }
         parent::__construct($config);
     }
@@ -65,8 +60,8 @@ class BizRule extends \yii\base\Model
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['expresion'], 'string'],
+            [['name', 'className'], 'required'],
+            [['className'], 'string'],
             [['className'], 'classExists']
         ];
     }
@@ -85,7 +80,6 @@ class BizRule extends \yii\base\Model
     {
         return [
             'name' => 'Name',
-            'expresion' => 'Expresion',
         ];
     }
 
@@ -107,7 +101,7 @@ class BizRule extends \yii\base\Model
     {
         if ($this->validate()) {
             $manager = Yii::$app->authManager;
-            $this->className = $class = $this->className ? $this->className : TBizRule::className();
+            $class = $this->className;
             if ($this->_item === null) {
                 $this->_item = new $class();
                 $isNew = true;
@@ -116,9 +110,6 @@ class BizRule extends \yii\base\Model
                 $oldName = $this->_item->name;
             }
             $this->_item->name = $this->name;
-            if ($class === TBizRule::className()) {
-                $this->_item->expresion = $this->expresion;
-            }
 
             if ($isNew) {
                 $manager->add($this->_item);

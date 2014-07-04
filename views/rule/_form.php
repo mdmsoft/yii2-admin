@@ -19,13 +19,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'className')->textInput() ?>
 
-    <?=
-        $form->field($model, 'expresion')
-        ->textarea(['rows' => 2,
-            'disabled' => $model->className != '' && $model->className != 'mdm\admin\components\BizRule'])
-        ->hint('Simple PHP expresion')
-    ?>
-
     <div class="form-group">
         <?php
         echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', [
@@ -35,18 +28,3 @@ use yii\widgets\ActiveForm;
 
 <?php ActiveForm::end(); ?>
 </div>
-<?php
-$js = <<< JS
-\$('#bizrule-classname').change(function(){
-    var val = this.value;
-    var className = 'mdm\\\\admin\\\\components\\\\BizRule';
-    if(val=='' || val==className){
-        \$('#bizrule-expresion').removeAttr('disabled');
-    }else{
-        \$('#bizrule-expresion').prop('disabled',true);
-    }
-    
-})
-JS;
-
-$this->registerJs($js);

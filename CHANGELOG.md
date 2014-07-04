@@ -20,3 +20,4 @@ Yii2 Admin Change Log
 - Bug: #19: Added table prefix to table `menu` for some query (mdmunir, liu0472).
 - Chg: #21: Force set allow `null` to column `parent` in database migration (mdmunir).
 - Bug: #24: change `$cache === null` to `isset($cache)` (mdmunir).
+- Chg: Remove `mdm\admin\components\BizRule` (mdmunir).
