@@ -22,3 +22,4 @@ Yii2 Admin Change Log
 - Bug: #24: change `$cache === null` to `isset($cache)` (mdmunir).
 - Chg: Remove `mdm\admin\components\BizRule` (mdmunir).
 - Chg: Change convert string to `yii\rbac\Item::$data` with `Json::decode()` (mdmunir).
+- Chg: Add extra param to route (mdmunir).
