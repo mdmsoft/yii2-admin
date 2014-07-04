@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'name',
-            'expresion:ntext',
             ['class' => 'yii\grid\ActionColumn',],
         ],
     ]);

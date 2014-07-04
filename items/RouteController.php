@@ -20,15 +20,19 @@ class RouteController extends \mdm\admin\components\Controller
         foreach (AccessHelper::getRoutes() as $route) {
             $routes[$route] = $route;
         }
+        $allRoutes = $routes;
         foreach ($manager->getPermissions() as $name => $permission) {
             if ($name[0] !== '/') {
                 continue;
             }
             $exists[$name] = $name;
-            if (isset($routes[$name])) {
+            if (isset($allRoutes[$name])) {
                 unset($routes[$name]);
             } else {
-                $existsOptions[$name] = ['class' => 'lost'];
+                $r = explode('&', $name);
+                if (!isset($allRoutes[$r[0]])) {
+                    $existsOptions[$name] = ['class' => 'lost'];
+                }
             }
         }
 
@@ -40,7 +44,7 @@ class RouteController extends \mdm\admin\components\Controller
         $model = new Route;
         if ($model->load(Yii::$app->getRequest()->post())) {
             if ($model->validate()) {
-                $routes = explode(',', $model->route);
+                $routes = preg_split('/\s*,\s*/', trim($model->route), -1, PREG_SPLIT_NO_EMPTY);
                 $this->saveNew($routes);
                 AccessHelper::refeshAuthCache();
                 $this->redirect(['index']);
@@ -97,7 +101,10 @@ class RouteController extends \mdm\admin\components\Controller
                 if (empty($term) or strpos($name, $term) !== false) {
                     $result[$name] = $name;
                 }
-                if (!in_array($name, $routes)) {
+
+                // extract route part from $name
+                $r = explode('&', $name);
+                if (empty($r[0]) || !in_array($r[0], $routes)) {
                     $existsOptions[$name] = ['class' => 'lost'];
                 }
             }
@@ -111,7 +118,26 @@ class RouteController extends \mdm\admin\components\Controller
         $manager = Yii::$app->getAuthManager();
         foreach ($routes as $route) {
             try {
-                $manager->add($manager->createPermission('/' . trim($route, ' /')));
+                $r = explode('&', $route);
+                $item = $manager->createPermission('/' . trim($route, '/'));
+                if (count($r) > 1) {
+                    $action = '/' . trim($r[0], '/');
+                    if (($itemAction = $manager->getPermission($action)) === null) {
+                        $itemAction = $manager->createPermission($action);
+                        $manager->add($itemAction);
+                    }
+                    unset($r[0]);
+                    foreach ($r as $part) {
+                        $part = explode('=', $part);
+                        $item->data['params'][$part[0]] = isset($part[1]) ? $part[1] : '';
+                    }
+                    AccessHelper::setDefaultRouteRule();
+                    $item->ruleName = AccessHelper::ROUTE_RULE_NAME;
+                    $manager->add($item);
+                    $manager->addChild($item, $itemAction);
+                } else {
+                    $manager->add($item);
+                }
             } catch (Exception $e) {
                 
             }

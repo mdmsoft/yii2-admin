@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             'className',
-            'expresion:ntext',
         ],
     ]);
     ?>

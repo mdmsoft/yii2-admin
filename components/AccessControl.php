@@ -52,7 +52,7 @@ class AccessControl extends \yii\base\ActionFilter
         } while ($obj !== null);
         $this->denyAccess($user);
     }
-
+    
     /**
      * Denies the access of the user.
      * The default implementation will redirect the user to the login page if he is a guest;
