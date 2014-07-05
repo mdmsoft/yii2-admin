@@ -23,3 +23,4 @@ Yii2 Admin Change Log
 - Chg: Remove `mdm\admin\components\BizRule` (mdmunir).
 - Chg: Change convert string to `yii\rbac\Item::$data` with `Json::decode()` (mdmunir).
 - Chg: Add extra param to route (mdmunir).
+- Chg: Add ability to get sparated menu. See [Using Menu](docs/guide/using-menu.md) (mdmunir).

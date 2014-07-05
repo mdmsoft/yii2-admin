@@ -50,15 +50,40 @@ $callback = function($menu){
         'label' => $menu['name'], 
         'url' => [$menu['route']],
         'options' => $data,
-        'items' => [
-			[
-				'label' => $menu['name'], 
-				'url' => [$menu['route']]
-            ]
+        'items' => $menu['children']
         ]
     ]
 }
 
-$items = AccessHelper::getAssignedMenu(Yii::$app->user->id,$callback);
+$items = AccessHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
 ```
-Default result is get from `cache`. If you want to force regenerate, provide boolean `true` as third parameter.
+Default result is get from `cache`. If you want to force regenerate, provide boolean `true` as forth parameter.
+
+
+Second parameter of `mdm\admin\components\AccessHelper::getAssignedMenu()` used to get menu on it's own hierarchy.
+E.g. Your menu structure:
+
+* Side Menu // id = 1
+  * Menu 1
+    * Menu 1.1
+    * Menu 1.2
+    * Menu 1.3
+  * Menu 2
+    * Menu 2.1
+    * Menu 2.2
+    * Menu 2.3
+* Top Menu // id = 2
+  * Top Menu 1
+    * Top Menu 1.1
+    * Top Menu 1.2
+    * Top Menu 1.3
+  * Top Menu 2
+  * Top Menu 3
+  * Top Menu 4
+
+You can get 'Side Menu' chldren by calling
+```php
+$items = AccessHelper::getAssignedMenu(Yii::$app->user->id, 1);
+// assume that '1' is id of 'Side Menu' 
+```
+

@@ -138,14 +138,17 @@ class AccessHelper
     /**
      * 
      * @param mixed $userId
+     * @param integer $root
      * @param \Closure $callback function($menu){}
      * @param boolean $refresh
      * @return array
      * 
      */
-    public static function getAssignedMenu($userId, $callback = null, $refresh = false)
+    public static function getAssignedMenu($userId, $root = null, $callback = null, $refresh = false)
     {
-        $key = static::buildKey([__METHOD__, $userId]);
+        $key = static::buildKey([__METHOD__, $userId, $root]);
+        $refresh = $refresh || $callback !== null;
+
         if ($refresh || ($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
             $manager = \Yii::$app->getAuthManager();
             $routes = $filter1 = $filter2 = [];
@@ -182,7 +185,7 @@ class AccessHelper
             }
             $menus = Menu::find()->asArray()->indexBy('id')->all();
             $assigned = static::requiredParent($assigned, $menus);
-            $result = static::normalizeMenu($assigned, $menus, $callback);
+            $result = static::normalizeMenu($assigned, $menus, $callback, $root);
             if (isset($cache)) {
                 $cache->set($key, $result, 0, new GroupDependency([
                     'group' => static::getGroup(self::AUTH_GROUP)
