@@ -28,6 +28,14 @@ class Menu extends \yii\db\ActiveRecord
         return '{{%menu}}';
     }
 
+    /**     
+     * return \yii\db\Connection the database connection used by this AR class.
+     */
+    public static function getDb()
+    {
+        return Yii::$app->controller->module->db;
+    }
+
     /**
      * @inheritdoc
      */
