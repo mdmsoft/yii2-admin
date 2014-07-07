@@ -98,6 +98,9 @@ class RouteController extends \mdm\admin\components\Controller
             }
         } else {
             foreach ($exists as $name) {
+                if ($name[0] !== '/') {
+                    continue;
+                }
                 if (empty($term) or strpos($name, $term) !== false) {
                     $result[$name] = $name;
                 }
