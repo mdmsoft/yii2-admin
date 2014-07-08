@@ -2,7 +2,6 @@
 
 namespace mdm\admin\items;
 
-use mdm\admin\models\Assigment;
 use mdm\admin\models\searchs\Assigment as AssigmentSearch;
 use mdm\admin\components\Controller;
 use yii\web\NotFoundHttpException;
@@ -18,8 +17,6 @@ use yii\web\Response;
 class AssigmentController extends Controller
 {
     public $userClassName;
-    public $idField = 'id';
-    public $usernameField = 'username';
     public $searchClass;
 
     public function init()
@@ -49,21 +46,27 @@ class AssigmentController extends Controller
      */
     public function actionIndex()
     {
-        
-        if($this->searchClass === null){
+        if ($this->searchClass === null) {
             $searchModel = new AssigmentSearch;
-        }  else {
+        } else {
             $class = $this->searchClass;
             $searchModel = new $class;
-        }       
+        }
 
-        $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
-        return $this->render('index', [
+        $dataProvider = $searchModel->search(
+            \Yii::$app->request->getQueryParams(),
+            $this->userClassName,
+            $this->module->usernameField
+        );
+        return $this->render(
+            'index',
+            [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
-                'idField' => $this->idField,
-                'usernameField' => $this->usernameField,
-        ]);
+                'idField' => $this->module->idField,
+                'usernameField' => $this->module->usernameField,
+            ]
+        );
     }
 
     /**
@@ -84,13 +87,16 @@ class AssigmentController extends Controller
             $assigned[$role->name] = $role->name;
             unset($avaliable[$role->name]);
         }
-        return $this->render('view', [
+        return $this->render(
+            'view',
+            [
                 'model' => $model,
                 'avaliable' => $avaliable,
                 'assigned' => $assigned,
-                'idField' => $this->idField,
-                'usernameField' => $this->usernameField,
-        ]);
+                'idField' => $this->module->idField,
+                'usernameField' => $this->module->usernameField,
+            ]
+        );
     }
 
     public function actionAssign($id, $action)
@@ -103,7 +109,7 @@ class AssigmentController extends Controller
                 try {
                     $manager->assign($manager->getRole($role), $id);
                 } catch (\Exception $exc) {
-                    
+
                 }
             }
         } else {
@@ -111,14 +117,16 @@ class AssigmentController extends Controller
                 try {
                     $manager->revoke($manager->getRole($role), $id);
                 } catch (\Exception $exc) {
-                    
+
                 }
             }
         }
         AccessHelper::refeshAuthCache();
         Yii::$app->response->format = Response::FORMAT_JSON;
-        return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
+        return [
+            $this->actionRoleSearch($id, 'avaliable', $post['search_av']),
+            $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])
+        ];
     }
 
     public function actionRoleSearch($id, $target, $term = '')
