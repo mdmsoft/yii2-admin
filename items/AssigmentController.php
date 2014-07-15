@@ -4,12 +4,12 @@ namespace mdm\admin\items;
 
 use mdm\admin\models\Assigment;
 use mdm\admin\models\searchs\Assigment as AssigmentSearch;
-use mdm\admin\components\Controller;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Yii;
 use yii\helpers\Html;
-use mdm\admin\components\AccessHelper;
+use mdm\admin\components\MenuHelper;
 use yii\web\Response;
 
 /**
@@ -115,7 +115,7 @@ class AssigmentController extends Controller
                 }
             }
         }
-        AccessHelper::refeshAuthCache();
+        MenuHelper::invalidate();
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];

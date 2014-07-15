@@ -4,12 +4,12 @@ namespace mdm\admin\items;
 
 use mdm\admin\models\AuthItem;
 use mdm\admin\models\searchs\AuthItem as AuthItemSearch;
-use mdm\admin\components\Controller;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\rbac\Item;
 use Yii;
-use mdm\admin\components\AccessHelper;
+use mdm\admin\components\MenuHelper;
 use yii\web\Response;
 use yii\helpers\Html;
 
@@ -86,7 +86,7 @@ class PermissionController extends Controller
         $model = new AuthItem(null);
         $model->type = Item::TYPE_PERMISSION;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            AccessHelper::refeshAuthCache();
+            MenuHelper::invalidate();
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
@@ -103,7 +103,7 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            AccessHelper::refeshAuthCache();
+            MenuHelper::invalidate();
             return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
@@ -119,7 +119,7 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
-        AccessHelper::refeshAuthCache();
+        MenuHelper::invalidate();
         return $this->redirect(['index']);
     }
 
@@ -148,7 +148,7 @@ class PermissionController extends Controller
                 }
             }
         }
-        AccessHelper::refeshAuthCache();
+        MenuHelper::invalidate();
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];

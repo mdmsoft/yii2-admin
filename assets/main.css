@@ -1,3 +1,18 @@
-#manager-menu .glyphicon {
-	float: right;
+body {
+    padding-top: 70px;
+}
+
+.footer {
+    border-top: 1px solid #ddd;
+    margin-top: 30px;
+    padding: 15px 0 30px;
+}
+
+.navbar-brand {
+    padding: 0;
+    margin: 0;
+}
+
+.list-group .glyphicon {
+    float: right;
 }

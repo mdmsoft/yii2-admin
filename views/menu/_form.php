@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\AutoComplete;
-use mdm\admin\components\AccessHelper;
+use mdm\admin\components\MenuHelper;
 use mdm\admin\models\Menu;
 
 /**
@@ -29,7 +29,7 @@ use mdm\admin\models\Menu;
     <?= $form->field($model, 'route')->widget(AutoComplete::className(),[
         'options'=>['class'=>'form-control'],
         'clientOptions'=>[
-            'source'=>  AccessHelper::getSavedRoutes()
+            'source'=> Menu::getSavedRoutes()
         ]
     ]) ?>
 

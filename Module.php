@@ -6,7 +6,6 @@ use Yii;
 use mdm\admin\components\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
-use yii\db\Connection;
 
 /**
  * Description of Module
@@ -17,14 +16,6 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 {
     
     public $defaultRoute = 'assigment';
-    
-    /**
-     *
-     * @var string
-     * Position of menu. Avaliable value are left, top, right and false.
-     * Default to left 
-     */
-    public $positionMenu = 'left';
 
     /**
      *
@@ -43,18 +34,12 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
      * @var array 
      */
     public $menus;
-
+        
     /**
      *
-     * @var Connection 
+     * @var string 
      */
-    public $db = 'db';
-
-    public function init()
-    {
-        parent::init();
-        $this->db = $this->db instanceof Connection ? $this->db : Yii::$app->get($this->db, false);
-    }
+    public $mainLayout = '@mdm/admin/views/layouts/main.php';
 
     /**
      * 
@@ -69,7 +54,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 
     protected function getCoreItems()
     {
-
+        $config = components\Configs::instance();
         return [
             'assigment' => [
                 'class' => 'mdm\admin\items\AssigmentController'
@@ -88,7 +73,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             ],
             'menu' => [
                 'class' => 'mdm\admin\items\MenuController',
-                'visible' => $this->db !== null && $this->db->schema->getTableSchema('{{%menu}}') !== null
+                'visible' => $config->db !== null && $config->db->schema->getTableSchema('{{%menu}}') !== null
             ],
         ];
     }

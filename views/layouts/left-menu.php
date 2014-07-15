@@ -2,14 +2,18 @@
 
 use yii\helpers\Html;
 
-/**
- * @var \yii\web\View $this
- * @var string $content
- */
+/* @var $this \yii\web\View */
+/* @var $content string */
+
 $controller = $this->context;
 $menus = $controller->module->menus;
 $route = $controller->route;
+foreach ($menus as $i => $menu) {
+    $menus[$i]['active'] = strpos($route, trim($menu['url'][0], '/')) === 0;
+}
+$this->params['nav-items'] = $menus;
 ?>
+<?php $this->beginContent($controller->module->mainLayout) ?>
 <div class="row">
     <div class="col-lg-3">
         <div id="manager-menu" class="list-group">
@@ -17,7 +21,7 @@ $route = $controller->route;
             foreach ($menus as $menu) {
                 $label = Html::tag('i', '', ['class' => 'glyphicon glyphicon-chevron-right pull-right']) .
                     Html::tag('span', Html::encode($menu['label']), []);
-                $active = strpos($route, trim($menu['url'][0], '/')) === 0 ? ' active' : '';
+                $active = $menu['active'] ? ' active' : '';
                 echo Html::a($label, $menu['url'], [
                     'class' => 'list-group-item' . $active,
                 ]);
@@ -26,6 +30,7 @@ $route = $controller->route;
         </div>
     </div>
     <div class="col-lg-9">
-        <?= $this->render($view, $params, $controller) ?>
+        <?= $content ?>
     </div>
 </div>
+<?php $this->endContent(); ?>

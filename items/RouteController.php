@@ -2,14 +2,18 @@
 
 namespace mdm\admin\items;
 
-use mdm\admin\components\AccessHelper;
 use Yii;
 use mdm\admin\models\Route;
+use mdm\admin\components\MenuHelper;
+use yii\caching\GroupDependency;
 use yii\web\Response;
 use yii\helpers\Html;
+use mdm\admin\components\RouteRule;
+use mdm\admin\components\Configs;
+use yii\helpers\Inflector;
 use Exception;
 
-class RouteController extends \mdm\admin\components\Controller
+class RouteController extends \yii\web\Controller
 {
 
     public function actionIndex()
@@ -17,7 +21,7 @@ class RouteController extends \mdm\admin\components\Controller
         $manager = Yii::$app->getAuthManager();
 
         $exists = $existsOptions = $routes = [];
-        foreach (AccessHelper::getRoutes() as $route) {
+        foreach ($this->getAppRoutes() as $route) {
             $routes[$route] = $route;
         }
         $allRoutes = $routes;
@@ -46,7 +50,7 @@ class RouteController extends \mdm\admin\components\Controller
             if ($model->validate()) {
                 $routes = preg_split('/\s*,\s*/', trim($model->route), -1, PREG_SPLIT_NO_EMPTY);
                 $this->saveNew($routes);
-                AccessHelper::refeshAuthCache();
+                MenuHelper::invalidate();
                 $this->redirect(['index']);
             }
         }
@@ -70,7 +74,7 @@ class RouteController extends \mdm\admin\components\Controller
                 }
             }
         }
-        AccessHelper::refeshAuthCache();
+        MenuHelper::invalidate();
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         return [$this->actionRouteSearch('new', $post['search_av']),
             $this->actionRouteSearch('exists', $post['search_asgn'])];
@@ -79,14 +83,14 @@ class RouteController extends \mdm\admin\components\Controller
     public function actionRouteSearch($target, $term = '', $refresh = '0')
     {
         if ($refresh == '1') {
-            AccessHelper::refeshFileCache();
+            $this->invalidate();
         }
         $result = [];
         $manager = Yii::$app->getAuthManager();
 
         $existsOptions = [];
         $exists = array_keys($manager->getPermissions());
-        $routes = AccessHelper::getRoutes();
+        $routes = $this->getAppRoutes();
         if ($target == 'new') {
             foreach ($routes as $route) {
                 if (in_array($route, $exists)) {
@@ -134,8 +138,8 @@ class RouteController extends \mdm\admin\components\Controller
                         $part = explode('=', $part);
                         $item->data['params'][$part[0]] = isset($part[1]) ? $part[1] : '';
                     }
-                    AccessHelper::setDefaultRouteRule();
-                    $item->ruleName = AccessHelper::ROUTE_RULE_NAME;
+                    $this->setDefaultRule();
+                    $item->ruleName = RouteRule::RULE_NAME;
                     $manager->add($item);
                     $manager->addChild($item, $itemAction);
                 } else {
@@ -144,6 +148,107 @@ class RouteController extends \mdm\admin\components\Controller
             } catch (Exception $e) {
                 
             }
+        }
+    }
+
+    public function getAppRoutes()
+    {
+        $key = __METHOD__;
+        $cache = Configs::instance()->cache;
+        if ($cache === null || ($result = $cache->get($key)) === false) {
+            $result = [];
+            $this->getRouteRecrusive(Yii::$app, $result);
+            if ($cache !== null) {
+                $cache->set($key, $result, 0, new GroupDependency([
+                    'group' => md5(__CLASS__)
+                ]));
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 
+     * @param \yii\base\Module $module
+     * @param array $result
+     */
+    private function getRouteRecrusive($module, &$result)
+    {
+        foreach ($module->getModules() as $id => $child) {
+            if (($child = $module->getModule($id)) !== null) {
+                $this->getRouteRecrusive($child, $result);
+            }
+        }
+        /* @var $controller \yii\base\Controller */
+        foreach ($module->controllerMap as $id => $value) {
+            $controller = Yii::createObject($value, [$id, $module]);
+            $this->getActionRoutes($controller, $result);
+            $result[] = '/' . $controller->uniqueId . '/*';
+        }
+
+        $namespace = trim($module->controllerNamespace, '\\') . '\\';
+        $this->getControllerRoutes($module, $namespace, '', $result);
+        $result[] = ($module->uniqueId === '' ? '' : '/' . $module->uniqueId) . '/*';
+    }
+
+    private function getControllerRoutes($module, $namespace, $prefix, &$result)
+    {
+        $path = Yii::getAlias('@' . str_replace('\\', '/', $namespace));
+        if (!is_dir($path)) {
+            return;
+        }
+        foreach (scandir($path) as $file) {
+            if ($file == '.' || $file == '..') {
+                continue;
+            }
+            if (is_dir($path . '/' . $file)) {
+                $this->getControllerRoutes($module, $namespace . $file . '\\', $prefix . $file . '/', $result);
+            } elseif (strcmp(substr($file, -14), 'Controller.php') === 0) {
+                $id = Inflector::camel2id(substr(basename($file), 0, -14));
+                $className = $namespace . Inflector::id2camel($id) . 'Controller';
+                if (strpos($className, '-') === false && class_exists($className) && is_subclass_of($className, 'yii\base\Controller')) {
+                    $controller = Yii::createObject($className, [$prefix . $id, $module]);
+                    $this->getActionRoutes($controller, $result);
+                    $result[] = '/' . $controller->uniqueId . '/*';
+                }
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param \yii\base\Controller $controller
+     * @param Array $result all controller action.
+     */
+    private function getActionRoutes($controller, &$result)
+    {
+        $prefix = '/' . $controller->uniqueId . '/';
+        foreach ($controller->actions() as $id => $value) {
+            $result[] = $prefix . $id;
+        }
+        $class = new \ReflectionClass($controller);
+        foreach ($class->getMethods() as $method) {
+            $name = $method->getName();
+            if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
+                $result[] = $prefix . Inflector::camel2id(substr($name, 6));
+            }
+        }
+    }
+
+    protected function invalidate()
+    {
+        if (Configs::instance()->cache !== null) {
+            GroupDependency::invalidate(Configs::instance()->cache, md5(__CLASS__));
+        }
+    }
+    
+    public function setDefaultRule()
+    {
+        if (Yii::$app->authManager->getRule(RouteRule::RULE_NAME) === null) {
+            Yii::$app->authManager->add(Yii::createObject([
+                    'class' => RouteRule::className(),
+                    'name' => RouteRule::RULE_NAME]
+            ));
         }
     }
 }

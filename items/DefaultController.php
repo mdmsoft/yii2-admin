@@ -2,7 +2,7 @@
 
 namespace mdm\admin\items;
 
-class DefaultController extends \mdm\admin\components\Controller
+class DefaultController extends \yii\web\Controller
 {
 	public function actionIndex()
 	{

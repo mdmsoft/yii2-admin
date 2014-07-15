@@ -9,7 +9,8 @@ namespace mdm\admin\components;
  */
 class RouteRule extends \yii\rbac\Rule
 {
-
+    const RULE_NAME = 'route_rule';
+        
     /**
      * 
      * @param string $user
