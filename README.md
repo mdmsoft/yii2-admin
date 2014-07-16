@@ -66,7 +66,7 @@ http://localhost/path/to/index.php?r=admin
 
 To use menu manager (optional). Execute yii migration
 ```
-yii migrate --migrationPath=@mdm/admin/migration
+yii migrate --migrationPath=@mdm/admin/migrations
 ```
 
 [screenshots](https://picasaweb.google.com/105012704576561549351/Yii2Admin?authuser=0&feat=directlink)
