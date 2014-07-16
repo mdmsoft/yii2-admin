@@ -9,6 +9,7 @@ foreach ($menus as $i => $menu) {
     $menus[$i]['active'] = strpos($route, trim($menu['url'][0], '/')) === 0;
 }
 $this->params['nav-items'] = $menus;
+$this->params['top-menu'] = true;
 ?>
 <?php $this->beginContent($controller->module->mainLayout) ?>
 <div class="row">

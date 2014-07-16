@@ -33,8 +33,9 @@ $this->params['nav-items'] = $menus;
         <?= $content ?>
     </div>
 </div>
-<?php $this->endContent(); ?>
 <?php
 list($path, $url) = Yii::$app->assetManager->publish('@mdm/admin/assets');
 $this->registerCssFile($url . '/list-item.css');
 ?>
+
+<?php $this->endContent(); ?>

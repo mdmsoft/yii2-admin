@@ -27,7 +27,7 @@ mdm\admin\AdminAsset::register($this);
             'options' => ['class' => 'navbar-inverse navbar-fixed-top'],
         ]);
 
-        if (isset($this->params['nav-items'])) {
+        if (!empty($this->params['top-menu']) && isset($this->params['nav-items'])) {
             echo Nav::widget([
                 'options' => ['class' => 'nav navbar-nav'],
                 'items' => $this->params['nav-items'],
