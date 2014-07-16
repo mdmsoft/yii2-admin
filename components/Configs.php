@@ -33,8 +33,20 @@ class Configs extends \yii\base\Object
 
     public function init()
     {
-        $this->db = $this->db instanceof Connection ? $this->db : Yii::$app->get($this->db, false);
-        $this->cache = $this->cache instanceof Cache ? $this->cache : Yii::$app->get($this->cache, false);
+        if($this->db !== null && !($this->db instanceof Connection)){
+            if(is_string($this->db) && strpos($this->db, '\\')===false){
+                $this->db = Yii::$app->get($this->db, false);
+            }  else {
+                $this->db = Yii::createObject($this->db);
+            }
+        }
+        if($this->cache !== null && !($this->cache instanceof Cache)){
+            if(is_string($this->cache) && strpos($this->cache, '\\')===false){
+                $this->cache = Yii::$app->get($this->cache, false);
+            }  else {
+                $this->cache = Yii::createObject($this->cache);
+            }
+        }
         parent::init();
     }
 
