@@ -27,3 +27,4 @@ Yii2 Admin Change Log
 - Chg: Refactor layout (mdmunir).
 - Chg: Change `AccessHelper` to `MenuHelper` (mdmunir).
 - Add: Add `db` and `cache` configuration (mdmunir).
+- Chg: Change migration path name (mdmunir).
