@@ -5,6 +5,7 @@ namespace mdm\admin\components;
 use Yii;
 use yii\db\Connection;
 use yii\caching\Cache;
+use yii\helpers\ArrayHelper;
 
 /**
  * Description of Configs
@@ -57,8 +58,8 @@ class Configs extends \yii\base\Object
     public static function instance()
     {
         if (self::$_instance === null) {
-            $type = isset(Yii::$app->params['mdm.admin.configs']) ? Yii::$app->params['mdm.admin.configs'] : [];
-            if (!isset($type['class'])) {
+            $type = ArrayHelper::getValue(Yii::$app->params, 'mdm.admin.configs', []);
+            if (is_array($type) && !isset($type['class'])) {
                 $type['class'] = self::className();
             }
             return self::$_instance = Yii::createObject($type);
