@@ -28,3 +28,5 @@ Yii2 Admin Change Log
 - Chg: Change `AccessHelper` to `MenuHelper` (mdmunir).
 - Add: Add `db` and `cache` configuration (mdmunir).
 - Chg: Change migration path name (mdmunir).
+- Chg: `db` and `cache` configuration via `$app->params['mdm.admin.configs']` (mdmunir).
+- Chg: #29: Change `yii\caching\GroupDependency` to `yii\caching\TagDependency` (mdmunir).
