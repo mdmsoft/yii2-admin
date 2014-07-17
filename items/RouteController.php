@@ -5,7 +5,7 @@ namespace mdm\admin\items;
 use Yii;
 use mdm\admin\models\Route;
 use mdm\admin\components\MenuHelper;
-use yii\caching\GroupDependency;
+use yii\caching\TagDependency;
 use yii\web\Response;
 use yii\helpers\Html;
 use mdm\admin\components\RouteRule;
@@ -15,6 +15,7 @@ use Exception;
 
 class RouteController extends \yii\web\Controller
 {
+    const CACHE_TAG = 'mdm.admin.route';
 
     public function actionIndex()
     {
@@ -159,8 +160,8 @@ class RouteController extends \yii\web\Controller
             $result = [];
             $this->getRouteRecrusive(Yii::$app, $result);
             if ($cache !== null) {
-                $cache->set($key, $result, 0, new GroupDependency([
-                    'group' => md5(__CLASS__)
+                $cache->set($key, $result, 0, new TagDependency([
+                    'tags' => self::CACHE_TAG
                 ]));
             }
         }
@@ -238,7 +239,7 @@ class RouteController extends \yii\web\Controller
     protected function invalidate()
     {
         if (Configs::instance()->cache !== null) {
-            GroupDependency::invalidate(Configs::instance()->cache, md5(__CLASS__));
+            TagDependency::invalidate(Configs::instance()->cache, self::CACHE_TAG);
         }
     }
     

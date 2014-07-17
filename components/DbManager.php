@@ -14,7 +14,7 @@ use yii\rbac\Role;
 use yii\rbac\Assignment;
 use yii\rbac\Rule;
 use yii\caching\Cache;
-use yii\caching\GroupDependency;
+use yii\caching\TagDependency;
 
 /**
  * Description of DbManager
@@ -23,9 +23,9 @@ use yii\caching\GroupDependency;
  */
 class DbManager extends \yii\rbac\BaseManager
 {
-    const PART_ITEMS = 'items';
-    const PART_CHILDREN = 'children';
-    const PART_RULES = 'rules';
+    const PART_ITEMS = 'mdm.admin.items';
+    const PART_CHILDREN = 'mdm.admin.children';
+    const PART_RULES = 'mdm.admin.rules';
 
     /**
      * @var Connection|string the DB connection object or the application component ID of the DB connection.
@@ -204,7 +204,7 @@ class DbManager extends \yii\rbac\BaseManager
 
         $this->_children[$parent->name][] = $child->name;
 
-        $this->invalidate(static::PART_CHILDREN);
+        $this->invalidate(self::PART_CHILDREN);
         return true;
     }
 
@@ -247,7 +247,7 @@ class DbManager extends \yii\rbac\BaseManager
                 ->where(['parent' => $parent->name]);
             $this->_children[$parent->name] = $query->column($this->db);
         }
-        $this->invalidate(static::PART_CHILDREN);
+        $this->invalidate(self::PART_CHILDREN);
         return $result;
     }
 
@@ -361,8 +361,7 @@ class DbManager extends \yii\rbac\BaseManager
 
         $this->_assignments = [];
         $this->_children = $this->_items = null;
-        $this->invalidate(static::PART_ITEMS);
-        $this->invalidate(static::PART_CHILDREN);
+        $this->invalidate([self::PART_ITEMS,  self::PART_CHILDREN]);
         return true;
     }
 
@@ -399,13 +398,13 @@ class DbManager extends \yii\rbac\BaseManager
 
         if ($rule->name !== $name) {
             $this->_items = null;
-            $this->invalidate(static::PART_ITEMS);
+            $this->invalidate(self::PART_ITEMS);
         }
         if ($this->_rules !== null) {
             unset($this->_rules[$name]);
             $this->_rules[$rule->name] = $rule;
         }
-        $this->invalidate(static::PART_RULES);
+        $this->invalidate(self::PART_RULES);
         return true;
     }
 
@@ -533,9 +532,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->db->createCommand()->delete($this->itemTable)->execute();
         $this->db->createCommand()->delete($this->ruleTable)->execute();
 
-        $this->invalidate(static::PART_ITEMS);
-        $this->invalidate(static::PART_CHILDREN);
-        $this->invalidate(static::PART_RULES);
+        $this->invalidate([self::PART_ITEMS,  self::PART_CHILDREN,  self::PART_RULES]);
     }
 
     /**
@@ -584,8 +581,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_assignments = [];
         $this->_children = $this->_items = null;
 
-        $this->invalidate(static::PART_ITEMS);
-        $this->invalidate(static::PART_CHILDREN);
+        $this->invalidate([self::PART_ITEMS,  self::PART_CHILDREN]);
     }
 
     /**
@@ -603,8 +599,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_rules = [];
         $this->_items = null;
 
-        $this->invalidate(static::PART_ITEMS);
-        $this->invalidate(static::PART_RULES);
+        $this->invalidate([self::PART_ITEMS,  self::PART_RULES]);
     }
 
     /**
@@ -636,8 +631,7 @@ class DbManager extends \yii\rbac\BaseManager
         }
         $this->_items = null;
 
-        $this->invalidate(static::PART_RULES);
-        $this->invalidate(static::PART_ITEMS);
+        $this->invalidate([self::PART_ITEMS, self::PART_RULES]);
         return true;
     }
 
@@ -664,7 +658,7 @@ class DbManager extends \yii\rbac\BaseManager
         if ($this->_rules !== null) {
             $this->_rules[$rule->name] = $rule;
         }
-        $this->invalidate(static::PART_RULES);
+        $this->invalidate(self::PART_RULES);
         return true;
     }
 
@@ -701,10 +695,10 @@ class DbManager extends \yii\rbac\BaseManager
         if ($item->name !== $name) {
             $this->_assignments = [];
             $this->_children = null;
-            $this->invalidate(static::PART_CHILDREN);
+            $this->invalidate(self::PART_CHILDREN);
         }
         $this->_items = null;
-        $this->invalidate(static::PART_RULES);
+        $this->invalidate(self::PART_RULES);
 
         return true;
     }
@@ -736,25 +730,20 @@ class DbManager extends \yii\rbac\BaseManager
         if ($this->_items !== null) {
             $this->_items[$item->name] = $item;
         }
-        $this->invalidate(static::PART_ITEMS);
+        $this->invalidate(self::PART_ITEMS);
         return true;
     }
 
-    private function invalidate($part)
+    private function invalidate($parts)
     {
         if ($this->enableCaching) {
-            GroupDependency::invalidate($this->cache, $this->buildGroup($part));
+            TagDependency::invalidate($this->cache, $parts);
         }
     }
 
     private function buildKey($part)
     {
         return [__CLASS__, $part];
-    }
-
-    private function buildGroup($part)
-    {
-        return md5(serialize([__CLASS__, $part]));
     }
 
     private function getFromCache($part)
@@ -768,15 +757,15 @@ class DbManager extends \yii\rbac\BaseManager
     private function saveToCache($part, $data)
     {
         if ($this->enableCaching) {
-            $this->cache->set($this->buildKey($part), $data, $this->cacheDuration, new GroupDependency([
-                'group' => $this->buildGroup($part)
+            $this->cache->set($this->buildKey($part), $data, $this->cacheDuration, new TagDependency([
+                'tags' => $part
             ]));
         }
     }
 
     private function loadItems()
     {
-        $part = static::PART_ITEMS;
+        $part = self::PART_ITEMS;
         if ($this->_items === null && ($this->_items = $this->getFromCache($part)) === false) {
             $query = (new Query)->from($this->itemTable);
 
@@ -790,7 +779,7 @@ class DbManager extends \yii\rbac\BaseManager
 
     private function loadChildren()
     {
-        $part = static::PART_CHILDREN;
+        $part = self::PART_CHILDREN;
         if ($this->_children === null && ($this->_children = $this->getFromCache($part)) === false) {
             $query = (new Query)->from($this->itemChildTable);
 
@@ -806,7 +795,7 @@ class DbManager extends \yii\rbac\BaseManager
 
     private function loadRules()
     {
-        $part = static::PART_RULES;
+        $part = self::PART_RULES;
         if ($this->_rules === null && ($this->_rules = $this->getFromCache($part)) === false) {
             $query = (new Query)->from($this->ruleTable);
 

@@ -3,7 +3,7 @@
 namespace mdm\admin\components;
 
 use Yii;
-use yii\caching\GroupDependency;
+use yii\caching\TagDependency;
 use mdm\admin\models\Menu;
 
 /**
@@ -13,7 +13,8 @@ use mdm\admin\models\Menu;
  */
 class MenuHelper
 {
-    
+    const CACHE_TAG = 'mdm.admin.menu';
+
     /**
      * 
      * @param mixed $userId
@@ -69,8 +70,8 @@ class MenuHelper
             $assigned = static::requiredParent($assigned, $menus);
             $result = static::normalizeMenu($assigned, $menus, $callback, $root);
             if (!$refresh && $cache !== null) {
-                $cache->set($key, $result, 0, new GroupDependency([
-                    'group' => md5(__CLASS__)
+                $cache->set($key, $result, 0, new TagDependency([
+                    'tags' => self::CACHE_TAG
                 ]));
             }
         }
@@ -134,7 +135,7 @@ class MenuHelper
     public static function invalidate()
     {
         if (Configs::instance()->cache !== null) {
-            GroupDependency::invalidate(Configs::instance()->cache, md5(__CLASS__));
+            TagDependency::invalidate(Configs::instance()->cache, self::CACHE_TAG);
         }
     }
 }
