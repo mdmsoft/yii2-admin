@@ -57,6 +57,30 @@ return [
 ];
 ```
 
+Another way
+```php
+return [
+	'modules' => [
+		'admin' => [
+			'class' => 'mdm\admin\Module',
+		]
+		...
+	],
+	...
+	'components' => [
+		....
+		'authManager' => [
+			'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+		]
+	],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+		'allowActions' => [
+			'admin/*', // add or remove allowed actions to this list
+		]
+    ,
+];
+```
 See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-authorization.html#role-based-access-control-rbac) for more detail.
 You can then access Auth manager through the following URL:
 
