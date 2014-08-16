@@ -3,10 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\AuthItem $model
- */
+/* @var $this yii\web\View */
+/* @var $model mdm\admin\models\AuthItem */
+
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

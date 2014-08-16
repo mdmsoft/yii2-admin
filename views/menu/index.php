@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-/**
- * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var mdm\admin\models\searchs\Menu $searchModel
- */
+
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel mdm\admin\models\searchs\Menu */
+
 $this->title = 'Menus';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

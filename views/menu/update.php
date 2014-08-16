@@ -2,10 +2,8 @@
 
 use yii\helpers\Html;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\Menu $model
- */
+/* @var $this yii\web\View */
+/* @var $model mdm\admin\models\Menu */
 
 $this->title = 'Update Menu: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Menus', 'url' => ['index']];

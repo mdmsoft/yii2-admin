@@ -2,10 +2,8 @@
 
 use yii\helpers\Html;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\AuthItem $model
- */
+/* @var $this yii\web\View */
+/* @var $model mdm\admin\models\AuthItem */
 
 $this->title = 'Create Role';
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];

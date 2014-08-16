@@ -3,10 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\Menu $model
- */
+/* @var $this yii\web\View */
+/* @var $model mdm\admin\models\Menu */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Menus', 'url' => ['index']];

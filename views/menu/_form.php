@@ -2,15 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\jui\AutoComplete;
-use mdm\admin\components\MenuHelper;
 use mdm\admin\models\Menu;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\Menu $model
- * @var yii\widgets\ActiveForm $form
- */
+
+/* @var $this yii\web\View */
+/* @var $model mdm\admin\models\Menu */
+/* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="menu-form">
@@ -19,14 +17,14 @@ use mdm\admin\models\Menu;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 128]) ?>
 
-    <?= $form->field($model, 'parent_name')->widget(AutoComplete::className(),[
+    <?= $form->field($model, 'parent_name')->widget('yii\jui\AutoComplete',[
         'options'=>['class'=>'form-control'],
         'clientOptions'=>[
             'source'=>  Menu::find()->select(['name'])->column()
         ]
     ]) ?>
 
-    <?= $form->field($model, 'route')->widget(AutoComplete::className(),[
+    <?= $form->field($model, 'route')->widget('yii\jui\AutoComplete',[
         'options'=>['class'=>'form-control'],
         'clientOptions'=>[
             'source'=> Menu::getSavedRoutes()

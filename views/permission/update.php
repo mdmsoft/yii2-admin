@@ -2,10 +2,9 @@
 
 use yii\helpers\Html;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\AuthItem $model
- */
+/* @var $this yii\web\View */
+/* @var $model mdm\admin\models\AuthItem */
+
 $this->title = 'Update Permission: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
