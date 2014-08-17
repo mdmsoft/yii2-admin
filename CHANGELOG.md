@@ -30,3 +30,4 @@ Yii2 Admin Change Log
 - Chg: Change migration path name (mdmunir).
 - Chg: `db` and `cache` configuration via `$app->params['mdm.admin.configs']` (mdmunir).
 - Chg: #29: Change `yii\caching\GroupDependency` to `yii\caching\TagDependency` (mdmunir).
+- Chg: Remove `mdm\admin\Module::allowActions`. Set access control directly with `mdm\admin\components\AccessControl` (mdmunir).

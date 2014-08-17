@@ -12,16 +12,10 @@ use yii\helpers\Inflector;
  *
  * @author MDMunir
  */
-class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
+class Module extends \yii\base\Module
 {
 
     public $defaultRoute = 'assigment';
-
-    /**
-     *
-     * @var array
-     */
-    public $allowActions = [];
 
     /**
      *
@@ -40,17 +34,6 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
      * @var string
      */
     public $mainLayout = '@mdm/admin/views/layouts/main.php';
-
-    /**
-     *
-     * @param \yii\web\Application $app
-     */
-    public function bootstrap($app)
-    {
-        $app->attachBehavior(AccessControl::className(), new AccessControl([
-            'allowActions' => $this->allowActions
-        ]));
-    }
 
     protected function getCoreItems()
     {

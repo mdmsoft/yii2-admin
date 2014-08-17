@@ -34,32 +34,6 @@ Once the extension is installed, simply modify your application configuration as
 
 ```php
 return [
-	'bootstrap' => [
-		'admin',
-		...
-	],
-	'modules' => [
-		'admin' => [
-			'class' => 'mdm\admin\Module',
-			'allowActions' => [
-				'admin/*', // add or remove allowed actions to this list
-			]
-		]
-		...
-	],
-	...
-	'components' => [
-		....
-		'authManager' => [
-			'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
-		]
-	],
-];
-```
-
-Another way
-```php
-return [
 	'modules' => [
 		'admin' => [
 			'class' => 'mdm\admin\Module',
