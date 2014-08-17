@@ -56,6 +56,7 @@ class RouteController extends \yii\web\Controller
                 $this->redirect(['index']);
             }
         }
+
         return $this->render('create', ['model' => $model]);
     }
 
@@ -72,12 +73,13 @@ class RouteController extends \yii\web\Controller
                 try {
                     $manager->remove($child);
                 } catch (Exception $e) {
-                    
+
                 }
             }
         }
         MenuHelper::invalidate();
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+
         return [$this->actionRouteSearch('new', $post['search_av']),
             $this->actionRouteSearch('exists', $post['search_asgn'])];
     }
@@ -119,6 +121,7 @@ class RouteController extends \yii\web\Controller
             }
         }
         $options = $target == 'new' ? [] : ['options' => $existsOptions];
+
         return Html::renderSelectOptions('', $result, $options);
     }
 
@@ -148,7 +151,7 @@ class RouteController extends \yii\web\Controller
                     $manager->add($item);
                 }
             } catch (Exception $e) {
-                
+
             }
         }
     }
@@ -166,13 +169,14 @@ class RouteController extends \yii\web\Controller
                 ]));
             }
         }
+
         return $result;
     }
 
     /**
-     * 
+     *
      * @param \yii\base\Module $module
-     * @param array $result
+     * @param array            $result
      */
     private function getRouteRecrusive($module, &$result)
     {
@@ -243,9 +247,9 @@ class RouteController extends \yii\web\Controller
     }
 
     /**
-     * 
+     *
      * @param \yii\base\Controller $controller
-     * @param Array $result all controller action.
+     * @param Array                $result     all controller action.
      */
     private function getActionRoutes($controller, &$result)
     {

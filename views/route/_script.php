@@ -11,25 +11,26 @@ use yii\helpers\Url;
 </style>
 <script type="text/javascript">
 <?php $this->beginBlock('JS_END') ?>
-    yii.process = (function($) {
+    yii.process = (function ($) {
         var _onSearch = false;
         var pub = {
-            refresh: function() {
+            refresh: function () {
                 $.get('<?= Url::toRoute(['route-search']) ?>', {
                     target: 'new',
                     term: $('input[name="search_av"]').val(),
                     refresh: '1',
                 },
-                    function(html) {
+                    function (html) {
                         $('#new').html(html);
                     });
+
                 return false;
             },
-            roleSearch: function() {
+            roleSearch: function () {
                 if (!_onSearch) {
                     _onSearch = true;
                     var $th = $(this);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         _onSearch = false;
                         var data = {
                             target: $th.data('target'),
@@ -37,26 +38,28 @@ use yii\helpers\Url;
                         };
                         var target = '#' + $th.data('target');
                         $.get('<?= Url::toRoute(['route-search']) ?>', data,
-                            function(html) {
+                            function (html) {
                                 $(target).html(html);
                             });
                     }, 500);
                 }
             },
-            action: function() {
+            action: function () {
                 var action = $(this).data('action');
                 var params = $((action == 'assign' ? '#new' : '#exists') + ', .role-search').serialize();
                 var urlAssign = '<?= Url::toRoute(['assign', 'action' => 'assign']) ?>';
                 var urlDelete = '<?= Url::toRoute(['assign', 'action' => 'delete']) ?>';
 
                 $.post(action == 'assign' ? urlAssign : urlDelete,
-                    params, function(r) {
+                    params, function (r) {
                         $('#new').html(r[0]);
                         $('#exists').html(r[1]);
                     }, 'json');
+
                 return false;
             }
         }
+
         return pub;
     })(window.jQuery);
 <?php $this->endBlock(); ?>

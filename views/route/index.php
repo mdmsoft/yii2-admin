@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div>
     <div class="col-lg-5">
-        New: 
+        New:
         <?php
         echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'new']).' ';
         echo Html::a('<span class="glyphicon glyphicon-refresh"></span>', '', ['id'=>'btn-refresh']);
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
     <div class="col-lg-5">
-        Exists: 
+        Exists:
         <?php
         echo Html::textInput('search_asgn', '', ['class' => 'role-search', 'data-target' => 'exists']) . '<br>';
         echo Html::listBox('routes', '', $exists, [

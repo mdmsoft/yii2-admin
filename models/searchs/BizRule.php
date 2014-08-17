@@ -28,8 +28,8 @@ class BizRule extends Model
     }
 
     /**
-     * 
-     * @param array $params
+     *
+     * @param  array                                                    $params
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
      */
     public function search($params)
@@ -43,6 +43,7 @@ class BizRule extends Model
                 $models[$name] = new MBizRule($item);
             }
         }
+
         return new ArrayDataProvider([
             'allModels' => $models,
         ]);

@@ -29,20 +29,20 @@ class BizRule extends \yii\base\Model
 
     /**
      *
-     * @var string 
+     * @var string
      */
     public $className;
 
     /**
      *
-     * @var Rule 
+     * @var Rule
      */
     private $_item;
 
     /**
-     * 
+     *
      * @param \yii\rbac\Rule $item
-     * @param array $config
+     * @param array          $config
      */
     public function __construct($item, $config = [])
     {
@@ -94,6 +94,7 @@ class BizRule extends \yii\base\Model
         if ($item !== null) {
             return new self($item);
         }
+
         return null;
     }
 
@@ -116,6 +117,7 @@ class BizRule extends \yii\base\Model
             } else {
                 $manager->update($oldName, $this->_item);
             }
+
             return true;
         } else {
             return false;
@@ -123,7 +125,7 @@ class BizRule extends \yii\base\Model
     }
 
     /**
-     * 
+     *
      * @return Item
      */
     public function getItem()

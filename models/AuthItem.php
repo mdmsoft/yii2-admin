@@ -4,7 +4,6 @@ namespace mdm\admin\models;
 
 use Yii;
 use yii\rbac\Item;
-use yii\helpers\VarDumper;
 use yii\helpers\Json;
 
 /**
@@ -28,13 +27,13 @@ class AuthItem extends \yii\base\Model
 
     /**
      *
-     * @var Item 
+     * @var Item
      */
     private $_item;
 
     /**
-     * 
-     * @param Item $item
+     *
+     * @param Item  $item
      * @param array $config
      */
     public function __construct($item, $config = [])
@@ -91,6 +90,7 @@ class AuthItem extends \yii\base\Model
         if ($item !== null) {
             return new self($item);
         }
+
         return null;
     }
 
@@ -118,6 +118,7 @@ class AuthItem extends \yii\base\Model
             } else {
                 $manager->update($oldName, $this->_item);
             }
+
             return true;
         } else {
             return false;
@@ -125,7 +126,7 @@ class AuthItem extends \yii\base\Model
     }
 
     /**
-     * 
+     *
      * @return Item
      */
     public function getItem()
@@ -142,6 +143,7 @@ class AuthItem extends \yii\base\Model
         if ($type === null) {
             return $result;
         }
+
         return $result[$type];
     }
 }

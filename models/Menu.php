@@ -69,6 +69,7 @@ class Menu extends \yii\db\ActiveRecord
             while ($parent) {
                 if ($parent->id == $id) {
                     $this->addError('parent_name', 'Loop detected.');
+
                     return;
                 }
                 $parent = $parent->menuParent;
@@ -115,6 +116,7 @@ class Menu extends \yii\db\ActiveRecord
                 $result[] = $name;
             }
         }
+
         return $result;
     }
 }

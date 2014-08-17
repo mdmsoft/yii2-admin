@@ -16,22 +16,22 @@ class MenuHelper
     const CACHE_TAG = 'mdm.admin.menu';
 
     /**
-     * 
-     * @param mixed $userId
-     * @param integer $root
-     * @param \Closure $callback function($menu){}
-     * @param boolean $refresh
+     *
+     * @param  mixed    $userId
+     * @param  integer  $root
+     * @param  \Closure $callback function ($menu) {}
+     * @param  boolean  $refresh
      * @return array
-     * 
+     *
      */
     public static function getAssignedMenu($userId, $root = null, $callback = null, $refresh = false)
     {
         $config = Configs::instance();
-        
+
         $key = [__METHOD__, $userId, $root];
         $refresh = $refresh || $callback !== null;
         $cache = $config->cache;
-        
+
         if ($refresh || ($result = $cache->get($key)) === false) {
             $manager = Yii::$app->getAuthManager();
             $routes = $filter1 = $filter2 = [];
@@ -75,6 +75,7 @@ class MenuHelper
                 ]));
             }
         }
+
         return $result;
     }
 
@@ -88,6 +89,7 @@ class MenuHelper
                 $assigned[$l++] = $parent_id;
             }
         }
+
         return $assigned;
     }
 
@@ -129,6 +131,7 @@ class MenuHelper
         if ($result != []) {
             array_multisort($order, $result);
         }
+
         return $result;
     }
 

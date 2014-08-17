@@ -7,12 +7,12 @@ namespace mdm\admin\models;
  */
 class Route extends \yii\base\Model
 {
-	public $route;
-	
-	public function rules()
-	{
-		return[
-			[['route'],'safe'],
-		];
-	}
+    public $route;
+
+    public function rules()
+    {
+        return[
+            [['route'],'safe'],
+        ];
+    }
 }

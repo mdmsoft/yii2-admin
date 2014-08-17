@@ -16,19 +16,19 @@ class Configs extends \yii\base\Object
 {
     /**
      *
-     * @var Connection 
+     * @var Connection
      */
     public $db = 'db';
 
     /**
      *
-     * @var Cache 
+     * @var Cache
      */
     public $cache = 'cache';
 
     /**
      *
-     * @var self 
+     * @var self
      */
     private static $_instance;
 
@@ -52,7 +52,7 @@ class Configs extends \yii\base\Object
     }
 
     /**
-     * 
+     *
      * @return self
      */
     public static function instance()
@@ -62,8 +62,10 @@ class Configs extends \yii\base\Object
             if (is_array($type) && !isset($type['class'])) {
                 $type['class'] = self::className();
             }
+
             return self::$_instance = Yii::createObject($type);
         }
+
         return self::$_instance;
     }
 }

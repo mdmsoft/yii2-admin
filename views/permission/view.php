@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
     <div class="col-lg-5">
-        Avaliable: 
+        Avaliable:
         <?php
         echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'avaliable']) . '<br>';
         echo Html::listBox('roles', '', $avaliable, [
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
     <div class="col-lg-5">
-        Assigned: 
+        Assigned:
         <?php
         echo Html::textInput('search_asgn', '', ['class' => 'role-search','data-target' => 'assigned']) . '<br>';
         echo Html::listBox('roles', '', $assigned, [
@@ -68,4 +68,3 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php
 $this->render('_script',['name'=>$model->name]);
-

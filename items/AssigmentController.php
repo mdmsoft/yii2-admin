@@ -49,15 +49,16 @@ class AssigmentController extends Controller
      */
     public function actionIndex()
     {
-        
-        if($this->searchClass === null){
+
+        if ($this->searchClass === null) {
             $searchModel = new AssigmentSearch;
-        }  else {
+        } else {
             $class = $this->searchClass;
             $searchModel = new $class;
-        }       
+        }
 
         $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
+
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
@@ -68,7 +69,7 @@ class AssigmentController extends Controller
 
     /**
      * Displays a single Assigment model.
-     * @param integer $id
+     * @param  integer $id
      * @return mixed
      */
     public function actionView($id)
@@ -84,6 +85,7 @@ class AssigmentController extends Controller
             $assigned[$role->name] = $role->name;
             unset($avaliable[$role->name]);
         }
+
         return $this->render('view', [
                 'model' => $model,
                 'avaliable' => $avaliable,
@@ -103,7 +105,7 @@ class AssigmentController extends Controller
                 try {
                     $manager->assign($manager->getRole($role), $id);
                 } catch (\Exception $exc) {
-                    
+
                 }
             }
         } else {
@@ -111,12 +113,13 @@ class AssigmentController extends Controller
                 try {
                     $manager->revoke($manager->getRole($role), $id);
                 } catch (\Exception $exc) {
-                    
+
                 }
             }
         }
         MenuHelper::invalidate();
         Yii::$app->response->format = Response::FORMAT_JSON;
+
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
     }
@@ -143,14 +146,15 @@ class AssigmentController extends Controller
         } else {
             $result = ${$target};
         }
+
         return Html::renderSelectOptions('', $result);
     }
 
     /**
      * Finds the Assigment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Assigment the loaded model
+     * @param  integer               $id
+     * @return Assigment             the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

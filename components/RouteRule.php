@@ -10,12 +10,12 @@ namespace mdm\admin\components;
 class RouteRule extends \yii\rbac\Rule
 {
     const RULE_NAME = 'route_rule';
-        
+
     /**
-     * 
-     * @param string $user
+     *
+     * @param string         $user
      * @param \yii\rbac\Item $item
-     * @param mixed $params
+     * @param mixed          $params
      */
     public function execute($user, $item, $params)
     {
@@ -25,6 +25,7 @@ class RouteRule extends \yii\rbac\Rule
         foreach ($routeParams as $key => $value) {
             $allow = $allow && (!isset($queryParams[$key]) || $queryParams[$key]==$value);
         }
+
         return $allow;
     }
 }

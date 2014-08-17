@@ -48,7 +48,7 @@ class PermissionController extends Controller
 
     /**
      * Displays a single AuthItem model.
-     * @param string $id
+     * @param  string $id
      * @return mixed
      */
     public function actionView($id)
@@ -73,6 +73,7 @@ class PermissionController extends Controller
 
         $avaliable = array_filter($avaliable);
         $assigned = array_filter($assigned);
+
         return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
     }
 
@@ -87,6 +88,7 @@ class PermissionController extends Controller
         $model->type = Item::TYPE_PERMISSION;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             MenuHelper::invalidate();
+
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
@@ -96,7 +98,7 @@ class PermissionController extends Controller
     /**
      * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
+     * @param  string $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -104,15 +106,17 @@ class PermissionController extends Controller
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             MenuHelper::invalidate();
+
             return $this->redirect(['view', 'id' => $model->name]);
         }
+
         return $this->render('update', ['model' => $model,]);
     }
 
     /**
      * Deletes an existing AuthItem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
+     * @param  string $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -120,6 +124,7 @@ class PermissionController extends Controller
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
         MenuHelper::invalidate();
+
         return $this->redirect(['index']);
     }
 
@@ -135,7 +140,7 @@ class PermissionController extends Controller
                 try {
                     $manager->addChild($parent, $child);
                 } catch (\Exception $e) {
-                    
+
                 }
             }
         } else {
@@ -144,12 +149,13 @@ class PermissionController extends Controller
                 try {
                     $manager->removeChild($parent, $child);
                 } catch (\Exception $e) {
-                    
+
                 }
             }
         }
         MenuHelper::invalidate();
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
     }
@@ -179,14 +185,15 @@ class PermissionController extends Controller
                 }
             }
         }
+
         return Html::renderSelectOptions('', array_filter($result));
     }
 
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return AuthItem the loaded model
+     * @param  string        $id
+     * @return AuthItem      the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findModel($id)

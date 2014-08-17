@@ -21,7 +21,7 @@ echo GridView::widget([
     'columns' => [
         [
             'class' => 'yii\\grid\\CheckboxColumn',
-            'checkboxOptions' => function($model) use($type) {
+            'checkboxOptions' => function ($model) use ($type) {
             return [
                 'value' => ArrayHelper::getValue($model, 'name'),
                 'checked' => $type == 1 ? true : !ArrayHelper::getValue($model, 'exists', false)

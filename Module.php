@@ -14,35 +14,35 @@ use yii\helpers\Inflector;
  */
 class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 {
-    
+
     public $defaultRoute = 'assigment';
 
     /**
      *
-     * @var array 
+     * @var array
      */
     public $allowActions = [];
 
     /**
      *
-     * @var array 
+     * @var array
      */
     public $items = [];
 
     /**
      *
-     * @var array 
+     * @var array
      */
     public $menus;
-        
+
     /**
      *
-     * @var string 
+     * @var string
      */
     public $mainLayout = '@mdm/admin/views/layouts/main.php';
 
     /**
-     * 
+     *
      * @param \yii\web\Application $app
      */
     public function bootstrap($app)
@@ -55,6 +55,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     protected function getCoreItems()
     {
         $config = components\Configs::instance();
+
         return [
             'assigment' => [
                 'class' => 'mdm\admin\items\AssigmentController'
@@ -102,6 +103,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     public function createController($route)
     {
         $this->normalizeController();
+
         return parent::createController($route);
     }
 }

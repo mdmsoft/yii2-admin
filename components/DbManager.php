@@ -56,30 +56,30 @@ class DbManager extends \yii\rbac\BaseManager
 
     /**
      *
-     * @var boolean 
+     * @var boolean
      */
     public $enableCaching = false;
 
     /**
      *
-     * @var string|Cache  
+     * @var string|Cache
      */
     public $cache = 'cache';
 
     /**
      *
-     * @var integer 
+     * @var integer
      */
     public $cacheDuration = 0;
 
     /**
-     * @var Item[] 
+     * @var Item[]
      * itemName => item
      */
     private $_items;
 
     /**
-     * @var array 
+     * @var array
      * itemName => childName[]
      */
     private $_children;
@@ -121,6 +121,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->loadChildren();
         $this->loadRules();
         $assignments = $this->getAssignments($userId);
+
         return $this->checkAccessRecursive($userId, $permissionName, $params, $assignments);
     }
 
@@ -130,6 +131,7 @@ class DbManager extends \yii\rbac\BaseManager
     public function getAssignments($userId)
     {
         $this->loadAssigments($userId);
+
         return $this->_assignments[$userId];
     }
 
@@ -137,14 +139,14 @@ class DbManager extends \yii\rbac\BaseManager
      * Performs access check for the specified user.
      * This method is internally called by [[checkAccess()]].
      *
-     * @param string|integer $user the user ID. This should can be either an integer or a string representing
-     * the unique identifier of a user. See [[\yii\web\User::id]].
-     * @param string $itemName the name of the operation that need access check
-     * @param array $params name-value pairs that would be passed to rules associated
-     * with the tasks and roles assigned to the user. A param with name 'user' is added to this array,
-     * which holds the value of `$userId`.
-     * @param Assignment[] $assignments the assignments to the specified user
-     * @return boolean whether the operations can be performed by the user.
+     * @param  string|integer $user        the user ID. This should can be either an integer or a string representing
+     *                                     the unique identifier of a user. See [[\yii\web\User::id]].
+     * @param  string         $itemName    the name of the operation that need access check
+     * @param  array          $params      name-value pairs that would be passed to rules associated
+     *                                     with the tasks and roles assigned to the user. A param with name 'user' is added to this array,
+     *                                     which holds the value of `$userId`.
+     * @param  Assignment[]   $assignments the assignments to the specified user
+     * @return boolean        whether the operations can be performed by the user.
      */
     protected function checkAccessRecursive($user, $itemName, $params, $assignments)
     {
@@ -205,14 +207,15 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_children[$parent->name][] = $child->name;
 
         $this->invalidate(self::PART_CHILDREN);
+
         return true;
     }
 
     /**
      * Checks whether there is a loop in the authorization item hierarchy.
      *
-     * @param Item $parent parent item
-     * @param Item $child the child item that is to be added to the hierarchy
+     * @param  Item    $parent parent item
+     * @param  Item    $child  the child item that is to be added to the hierarchy
      * @return boolean whether a loop exists
      */
     protected function detectLoop($parent, $child)
@@ -248,6 +251,7 @@ class DbManager extends \yii\rbac\BaseManager
             $this->_children[$parent->name] = $query->column($this->db);
         }
         $this->invalidate(self::PART_CHILDREN);
+
         return $result;
     }
 
@@ -257,6 +261,7 @@ class DbManager extends \yii\rbac\BaseManager
     public function hasChild($parent, $child)
     {
         $this->loadChildren();
+
         return in_array($child->name, $this->_children[$parent->name]);
     }
 
@@ -281,6 +286,7 @@ class DbManager extends \yii\rbac\BaseManager
         if (isset($this->_assignments[$userId]) && !in_array($role->name, $this->_assignments[$userId])) {
             $this->_assignments[$userId][] = $role->name;
         }
+
         return $assignment;
     }
 
@@ -294,6 +300,7 @@ class DbManager extends \yii\rbac\BaseManager
                 ->execute() > 0;
 
         unset($this->_assignments[$userId]);
+
         return $result;
     }
 
@@ -307,6 +314,7 @@ class DbManager extends \yii\rbac\BaseManager
                 ->execute() > 0;
 
         $this->_assignments[$userId] = [];
+
         return $result;
     }
 
@@ -320,6 +328,7 @@ class DbManager extends \yii\rbac\BaseManager
         if (in_array($roleName, $this->_assignments[$userId]) && isset($this->_items[$roleName])) {
             return $this->_items[$roleName];
         }
+
         return null;
     }
 
@@ -362,6 +371,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_assignments = [];
         $this->_children = $this->_items = null;
         $this->invalidate([self::PART_ITEMS,  self::PART_CHILDREN]);
+
         return true;
     }
 
@@ -371,6 +381,7 @@ class DbManager extends \yii\rbac\BaseManager
     public function getItem($name)
     {
         $this->loadItems();
+
         return isset($this->_items[$name]) ? $this->_items[$name] : null;
     }
 
@@ -405,6 +416,7 @@ class DbManager extends \yii\rbac\BaseManager
             $this->_rules[$rule->name] = $rule;
         }
         $this->invalidate(self::PART_RULES);
+
         return true;
     }
 
@@ -414,6 +426,7 @@ class DbManager extends \yii\rbac\BaseManager
     public function getRule($name)
     {
         $this->loadRules();
+
         return isset($this->_rules[$name]) ? $this->_rules[$name] : null;
     }
 
@@ -423,6 +436,7 @@ class DbManager extends \yii\rbac\BaseManager
     public function getRules()
     {
         $this->loadRules();
+
         return $this->_rules;
     }
 
@@ -458,14 +472,15 @@ class DbManager extends \yii\rbac\BaseManager
                 $permissions[$itemName] = $this->_items[$itemName];
             }
         }
+
         return $permissions;
     }
 
     /**
      * Recursively finds all children and grand children of the specified item.
      *
-     * @param string $name the name of the item whose children are to be looked for.
-     * @param array $result the children and grand children (in array keys)
+     * @param string $name   the name of the item whose children are to be looked for.
+     * @param array  $result the children and grand children (in array keys)
      */
     protected function getChildrenRecursive($name, &$result)
     {
@@ -499,6 +514,7 @@ class DbManager extends \yii\rbac\BaseManager
                 $permissions[$itemName] = $this->_items[$itemName];
             }
         }
+
         return $permissions;
     }
 
@@ -515,6 +531,7 @@ class DbManager extends \yii\rbac\BaseManager
                 $items[$itemName] = $this->_items[$itemName];
             }
         }
+
         return $items;
     }
 
@@ -632,6 +649,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_items = null;
 
         $this->invalidate([self::PART_ITEMS, self::PART_RULES]);
+
         return true;
     }
 
@@ -659,6 +677,7 @@ class DbManager extends \yii\rbac\BaseManager
             $this->_rules[$rule->name] = $rule;
         }
         $this->invalidate(self::PART_RULES);
+
         return true;
     }
 
@@ -731,6 +750,7 @@ class DbManager extends \yii\rbac\BaseManager
             $this->_items[$item->name] = $item;
         }
         $this->invalidate(self::PART_ITEMS);
+
         return true;
     }
 
@@ -751,6 +771,7 @@ class DbManager extends \yii\rbac\BaseManager
         if ($this->enableCaching) {
             return $this->cache->get($this->buildKey($part));
         }
+
         return false;
     }
 
@@ -824,8 +845,8 @@ class DbManager extends \yii\rbac\BaseManager
 
     /**
      * Populates an auth item with the data fetched from database
-     * @param array $row the data from the auth item table
-     * @return Item the populated auth item instance (either Role or Permission)
+     * @param  array $row the data from the auth item table
+     * @return Item  the populated auth item instance (either Role or Permission)
      */
     protected function populateItem($row)
     {

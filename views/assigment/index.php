@@ -19,22 +19,22 @@ $this->params['breadcrumbs'][] = $this->title;
     Pjax::begin([
         'enablePushState'=>false,
     ]);
-	echo GridView::widget([
-		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
-		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
-			[
-				'class' => 'yii\grid\DataColumn',
-				'attribute' => $usernameField,
-			],
-			[
-				'class' => 'yii\grid\ActionColumn',
+    echo GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\DataColumn',
+                'attribute' => $usernameField,
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
                 'template'=>'{view}'
-			],
-		],
-	]);
+            ],
+        ],
+    ]);
     Pjax::end();
-	?>
+    ?>
 
 </div>

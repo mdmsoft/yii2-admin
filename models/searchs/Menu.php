@@ -62,7 +62,6 @@ class Menu extends MenuModel
             ->andFilterWhere(['like', 'route', $this->route])
             ->andFilterWhere(['like', 'parent.name', $this->parent_name]);
 
-
         return $dataProvider;
     }
 }
