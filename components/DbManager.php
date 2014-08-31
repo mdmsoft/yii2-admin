@@ -196,7 +196,7 @@ class DbManager extends \yii\rbac\BaseManager
         if ($this->detectLoop($parent, $child)) {
             throw new InvalidCallException("Cannot add '{$child->name}' as a child of '{$parent->name}'. A loop has been detected.");
         }
-        if (in_array($child->name, $this->_children[$parent->name])) {
+        if (isset($this->_children[$parent->name]) && in_array($child->name, $this->_children[$parent->name])) {
             throw new InvalidCallException("The item '{$parent->name}' already has a child '{$child->name}'.");
         }
 
@@ -262,7 +262,7 @@ class DbManager extends \yii\rbac\BaseManager
     {
         $this->loadChildren();
 
-        return in_array($child->name, $this->_children[$parent->name]);
+        return isset($this->_children[$parent->name]) && in_array($child->name, $this->_children[$parent->name]);
     }
 
     /**
