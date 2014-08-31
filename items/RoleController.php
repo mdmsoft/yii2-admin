@@ -144,6 +144,7 @@ class RoleController extends Controller
         $roles = $post['roles'];
         $manager = Yii::$app->getAuthManager();
         $parent = $manager->getRole($id);
+        $error = [];
         if ($action == 'assign') {
             foreach ($roles as $role) {
                 $child = $manager->getRole($role);
@@ -151,7 +152,7 @@ class RoleController extends Controller
                 try {
                     $manager->addChild($parent, $child);
                 } catch (\Exception $e) {
-
+                    $error[] = $e->getMessage();
                 }
             }
         } else {
@@ -161,7 +162,7 @@ class RoleController extends Controller
                 try {
                     $manager->removeChild($parent, $child);
                 } catch (\Exception $e) {
-
+                    $error[] = $e->getMessage();
                 }
             }
         }
@@ -169,7 +170,8 @@ class RoleController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
+            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
+            $error];
     }
 
     public function actionRoleSearch($id, $target, $term = '')

@@ -100,12 +100,13 @@ class AssigmentController extends Controller
         $post = Yii::$app->request->post();
         $roles = $post['roles'];
         $manager = Yii::$app->authManager;
+        $error = [];
         if ($action == 'assign') {
             foreach ($roles as $role) {
                 try {
                     $manager->assign($manager->getRole($role), $id);
                 } catch (\Exception $exc) {
-
+                    $error[] = $exc->getMessage();
                 }
             }
         } else {
@@ -113,7 +114,7 @@ class AssigmentController extends Controller
                 try {
                     $manager->revoke($manager->getRole($role), $id);
                 } catch (\Exception $exc) {
-
+                    $error[] = $exc->getMessage();
                 }
             }
         }
@@ -121,7 +122,8 @@ class AssigmentController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
+            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
+            $error];
     }
 
     public function actionRoleSearch($id, $target, $term = '')

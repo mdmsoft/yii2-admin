@@ -65,6 +65,7 @@ class RouteController extends \yii\web\Controller
         $post = Yii::$app->getRequest()->post();
         $routes = $post['routes'];
         $manager = Yii::$app->getAuthManager();
+        $error = [];
         if ($action == 'assign') {
             $this->saveNew($routes);
         } else {
@@ -73,7 +74,7 @@ class RouteController extends \yii\web\Controller
                 try {
                     $manager->remove($child);
                 } catch (Exception $e) {
-
+                    $error[] = $exc->getMessage();
                 }
             }
         }
@@ -81,7 +82,8 @@ class RouteController extends \yii\web\Controller
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
 
         return [$this->actionRouteSearch('new', $post['search_av']),
-            $this->actionRouteSearch('exists', $post['search_asgn'])];
+            $this->actionRouteSearch('exists', $post['search_asgn']),
+            $error];
     }
 
     public function actionRouteSearch($target, $term = '', $refresh = '0')

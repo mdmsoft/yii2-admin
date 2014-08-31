@@ -134,13 +134,14 @@ class PermissionController extends Controller
         $roles = $post['roles'];
         $manager = Yii::$app->getAuthManager();
         $parent = $manager->getPermission($id);
+        $error = [];
         if ($action == 'assign') {
             foreach ($roles as $role) {
                 $child = $manager->getPermission($role);
                 try {
                     $manager->addChild($parent, $child);
                 } catch (\Exception $e) {
-
+                    $error[] = $exc->getMessage();
                 }
             }
         } else {
@@ -149,7 +150,7 @@ class PermissionController extends Controller
                 try {
                     $manager->removeChild($parent, $child);
                 } catch (\Exception $e) {
-
+                    $error[] = $exc->getMessage();
                 }
             }
         }
@@ -157,7 +158,8 @@ class PermissionController extends Controller
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
 
         return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])];
+            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
+            $error];
     }
 
     public function actionRoleSearch($id, $target, $term = '')
