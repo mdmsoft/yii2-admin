@@ -124,7 +124,7 @@ class MenuHelper
     {
         if (!empty($route)) {
             $url = [];
-            $r = explode('&', $menu['route']);
+            $r = explode('&', $route);
             $url[0] = $r[0];
             unset($r[0]);
             foreach ($r as $part) {
