@@ -25,6 +25,12 @@ class Configs extends \yii\base\Object
      * @var Cache
      */
     public $cache = 'cache';
+    
+    /**
+     * Cache duration. Default to a month.
+     * @var integer 
+     */
+    public $cacheDuration = 2592000;
 
     /**
      *

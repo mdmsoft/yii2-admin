@@ -12,6 +12,8 @@ use mdm\admin\components\Configs;
  * @property string $name
  * @property integer $parent
  * @property string $route
+ * @property integer $order
+ * @property string $data
  *
  * @property Menu $menuParent
  * @property Menu[] $menus

@@ -166,7 +166,7 @@ class RouteController extends \yii\web\Controller
             $result = [];
             $this->getRouteRecrusive(Yii::$app, $result);
             if ($cache !== null) {
-                $cache->set($key, $result, 0, new TagDependency([
+                $cache->set($key, $result, Configs::instance()->cacheDuration, new TagDependency([
                     'tags' => self::CACHE_TAG
                 ]));
             }

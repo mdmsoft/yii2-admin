@@ -28,23 +28,37 @@ class MenuHelper
     {
         $config = Configs::instance();
 
-        $key = [__METHOD__, $userId, $root];
-        $refresh = $refresh || $callback !== null;
+        /* @var $manager \yii\rbac\BaseManager */
+        $manager = Yii::$app->getAuthManager();
+        $menus = Menu::find()->asArray()->indexBy('id')->all();
+        $key = [__METHOD__, $userId, $manager->defaultRoles];
         $cache = $config->cache;
 
-        if ($refresh || ($result = $cache->get($key)) === false) {
-            $manager = Yii::$app->getAuthManager();
+        if ($refresh || $cache === null || ($assigned = $cache->get($key)) === false) {
             $routes = $filter1 = $filter2 = [];
-            foreach ($manager->getPermissionsByUser($userId) as $name => $value) {
-                if ($name[0] === '/') {
-                    if (substr($name, -2) === '/*') {
-                        $name = substr($name, 0, -1);
+            if ($userId !== null) {
+                foreach ($manager->getPermissionsByUser($userId) as $name => $value) {
+                    if ($name[0] === '/') {
+                        if (substr($name, -2) === '/*') {
+                            $name = substr($name, 0, -1);
+                        }
+                        $routes[] = $name;
                     }
-                    $routes[] = $name;
                 }
             }
-            $prefix = '\\';
+            foreach ($manager->defaultRoles as $role) {
+                foreach ($manager->getPermissionsByRole($role) as $name => $value) {
+                    if ($name[0] === '/') {
+                        if (substr($name, -2) === '/*') {
+                            $name = substr($name, 0, -1);
+                        }
+                        $routes[] = $name;
+                    }
+                }
+            }
+            $routes = array_unique($routes);
             sort($routes);
+            $prefix = '\\';
             foreach ($routes as $route) {
                 if (strpos($route, $prefix) !== 0) {
                     if (substr($route, -1) === '/') {
@@ -66,11 +80,19 @@ class MenuHelper
                     $assigned = array_merge($assigned, $query->params([':filter' => $filter])->column());
                 }
             }
-            $menus = Menu::find()->asArray()->indexBy('id')->all();
             $assigned = static::requiredParent($assigned, $menus);
+            if ($cache !== null) {
+                $cache->set($key, $assigned, $config->cacheDuration, new TagDependency([
+                    'tags' => self::CACHE_TAG
+                ]));
+            }
+        }
+
+        $key = [__METHOD__, $assigned, $root];
+        if ($refresh || $callback !== null || $cache === null || ($result = $cache->get($key) === false)) {
             $result = static::normalizeMenu($assigned, $menus, $callback, $root);
-            if (!$refresh && $cache !== null) {
-                $cache->set($key, $result, 0, new TagDependency([
+            if ($cache !== null && $callback === null) {
+                $cache->set($key, $result, $config->cacheDuration, new TagDependency([
                     'tags' => self::CACHE_TAG
                 ]));
             }
@@ -93,6 +115,27 @@ class MenuHelper
         return $assigned;
     }
 
+    /**
+     * 
+     * @param string $route
+     * @return mixed
+     */
+    public static function parseRoute($route)
+    {
+        if (!empty($route)) {
+            $url = [];
+            $r = explode('&', $menu['route']);
+            $url[0] = $r[0];
+            unset($r[0]);
+            foreach ($r as $part) {
+                $part = explode('=', $part);
+                $url[$part[0]] = isset($part[1]) ? $part[1] : '';
+            }
+            return $url;
+        } 
+        return '#';
+    }
+
     private static function normalizeMenu(&$assigned, &$menus, $callback, $parent = null)
     {
         $result = [];
@@ -104,21 +147,9 @@ class MenuHelper
                 if ($callback !== null) {
                     $item = call_user_func($callback, $menu);
                 } else {
-                    if (!empty($menu['route'])) {
-                        $url = [];
-                        $r = explode('&', $menu['route']);
-                        $url[0] = $r[0];
-                        unset($r[0]);
-                        foreach ($r as $part) {
-                            $part = explode('=', $part);
-                            $url[$part[0]] = isset($part[1]) ? $part[1] : '';
-                        }
-                    } else {
-                        $url = '#';
-                    }
                     $item = [
                         'label' => $menu['name'],
-                        'url' => $url,
+                        'url' => static::parseRoute($menu['route']),
                     ];
                     if ($menu['children'] != []) {
                         $item['items'] = $menu['children'];
