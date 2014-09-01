@@ -32,3 +32,4 @@ Yii2 Admin Change Log
 - Chg: #29: Change `yii\caching\GroupDependency` to `yii\caching\TagDependency` (mdmunir).
 - Chg: Remove `mdm\admin\Module::allowActions`. Set access control directly with `mdm\admin\components\AccessControl` (mdmunir).
 - Bug: Bug fix. Ensure array has index before check `in_array()` (mdmunir).
+- Chg: Change cache strategy (mdmunir).
