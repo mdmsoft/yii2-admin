@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model mdm\admin\models\AuthItem */
 
 $this->title = 'Create Role';
-$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Permissions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-create">

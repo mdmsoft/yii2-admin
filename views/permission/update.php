@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model mdm\admin\models\AuthItem */
 
 $this->title = 'Update Permission: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Permissions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
