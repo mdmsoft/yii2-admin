@@ -13,6 +13,9 @@ use mdm\admin\models\Menu as MenuModel;
 class Menu extends MenuModel
 {
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -21,21 +24,32 @@ class Menu extends MenuModel
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
+    /**
+     * Searching menu
+     * @param  array                        $params
+     * @return \yii\data\ActiveDataProvider
+     */
     public function search($params)
     {
-        $query = MenuModel::find();
+        $query = MenuModel::find()
+            ->from(MenuModel::tableName() . ' t')
+            ->joinWith(['menuParent' => function ($q) {
+            $q->from(MenuModel::tableName() . ' parent');
+        }]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query
         ]);
 
-        $query->leftJoin(['parent' => '{{%menu}}'], '{{%menu}}.parent=parent.id');
         $sort = $dataProvider->getSort();
         $sort->attributes['menuParent.name'] = [
             'asc' => ['parent.name' => SORT_ASC],
@@ -43,8 +57,8 @@ class Menu extends MenuModel
             'label' => 'parent',
         ];
         $sort->attributes['order'] = [
-            'asc' => ['parent.order' => SORT_ASC, '{{%menu}}.order' => SORT_ASC],
-            'desc' => ['parent.order' => SORT_DESC, '{{%menu}}.order' => SORT_DESC],
+            'asc' => ['parent.order' => SORT_ASC, 't.order' => SORT_ASC],
+            'desc' => ['parent.order' => SORT_DESC, 't.order' => SORT_DESC],
             'label' => 'order',
         ];
         $sort->defaultOrder = ['menuParent.name' => SORT_ASC];

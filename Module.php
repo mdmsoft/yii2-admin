@@ -3,7 +3,6 @@
 namespace mdm\admin;
 
 use Yii;
-use mdm\admin\components\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
@@ -35,6 +34,10 @@ class Module extends \yii\base\Module
      */
     public $mainLayout = '@mdm/admin/views/layouts/main.php';
 
+    /**
+     * Core controller of moduls.
+     * @return array
+     */
     protected function getCoreItems()
     {
         $config = components\Configs::instance();
@@ -57,11 +60,14 @@ class Module extends \yii\base\Module
             ],
             'menu' => [
                 'class' => 'mdm\admin\items\MenuController',
-                'visible' => $config->db !== null && $config->db->schema->getTableSchema('{{%menu}}') !== null
+                'visible' => $config->db !== null && $config->db->schema->getTableSchema($config->menuTable) !== null
             ],
         ];
     }
 
+    /**
+     * Normalize `controllerMap` before create controller.
+     */
     private function normalizeController()
     {
         $controllers = [];
@@ -83,6 +89,9 @@ class Module extends \yii\base\Module
         $this->controllerMap = ArrayHelper::merge($this->controllerMap, $controllers);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function createController($route)
     {
         $this->normalizeController();

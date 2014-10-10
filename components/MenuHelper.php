@@ -116,8 +116,8 @@ class MenuHelper
     }
 
     /**
-     * 
-     * @param string $route
+     *
+     * @param  string $route
      * @return mixed
      */
     public static function parseRoute($route)
@@ -131,8 +131,10 @@ class MenuHelper
                 $part = explode('=', $part);
                 $url[$part[0]] = isset($part[1]) ? $part[1] : '';
             }
+
             return $url;
-        } 
+        }
+
         return '#';
     }
 

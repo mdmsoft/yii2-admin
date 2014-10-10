@@ -27,7 +27,7 @@ class Menu extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%menu}}';
+        return Configs::instance()->menuTable;
     }
 
     /**
@@ -61,6 +61,9 @@ class Menu extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Use to loop detected.
+     */
     public function filterParent()
     {
         $value = $this->parent_name;
@@ -110,6 +113,10 @@ class Menu extends \yii\db\ActiveRecord
         return $this->hasMany(Menu::className(), ['parent' => 'id']);
     }
 
+    /**
+     * Get saved routes.
+     * @return array
+     */
     public static function getSavedRoutes()
     {
         $result = [];

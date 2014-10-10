@@ -9,6 +9,23 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Description of Configs
+ * Used for configure some value. To set config you can use `Application::params`
+ * ```php
+ * return [
+ *     ...
+ *     'mdm.admin.configs' => [
+ *         'db' => 'customDb',
+ *         'menuTable' => 'admin_menu',
+ *     ]
+ * ];
+ * ```
+ * or use `Yii::$container`
+ * ```php
+ * Yii::$container->set('mdm\admin\components\Configs',[
+ *     'db' => 'customDb',
+ *     'menuTable' => 'admin_menu',
+ * ]);
+ * ```
  *
  * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
  */
@@ -25,13 +42,18 @@ class Configs extends \yii\base\Object
      * @var Cache
      */
     public $cache = 'cache';
-    
+
     /**
      * Cache duration. Default to a month.
-     * @var integer 
+     * @var integer
      */
     public $cacheDuration = 2592000;
 
+    /**
+     * Menu table name.
+     * @var string
+     */
+    public $menuTable = '{{%menu}}';
     /**
      *
      * @var self
