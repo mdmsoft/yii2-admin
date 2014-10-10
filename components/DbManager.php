@@ -370,7 +370,7 @@ class DbManager extends \yii\rbac\BaseManager
 
         $this->_assignments = [];
         $this->_children = $this->_items = null;
-        $this->invalidate([self::PART_ITEMS,  self::PART_CHILDREN]);
+        $this->invalidate([self::PART_ITEMS, self::PART_CHILDREN]);
 
         return true;
     }
@@ -549,7 +549,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->db->createCommand()->delete($this->itemTable)->execute();
         $this->db->createCommand()->delete($this->ruleTable)->execute();
 
-        $this->invalidate([self::PART_ITEMS,  self::PART_CHILDREN,  self::PART_RULES]);
+        $this->invalidate([self::PART_ITEMS, self::PART_CHILDREN, self::PART_RULES]);
     }
 
     /**
@@ -598,7 +598,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_assignments = [];
         $this->_children = $this->_items = null;
 
-        $this->invalidate([self::PART_ITEMS,  self::PART_CHILDREN]);
+        $this->invalidate([self::PART_ITEMS, self::PART_CHILDREN]);
     }
 
     /**
@@ -616,7 +616,7 @@ class DbManager extends \yii\rbac\BaseManager
         $this->_rules = [];
         $this->_items = null;
 
-        $this->invalidate([self::PART_ITEMS,  self::PART_RULES]);
+        $this->invalidate([self::PART_ITEMS, self::PART_RULES]);
     }
 
     /**
@@ -875,5 +875,21 @@ class DbManager extends \yii\rbac\BaseManager
     protected function supportsCascadeUpdate()
     {
         return strncmp($this->db->getDriverName(), 'sqlite', 6) !== 0;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeChildren($parent)
+    {
+        $result = $this->db->createCommand()
+                ->delete($this->itemChildTable, ['parent' => $parent->name])
+                ->execute() > 0;
+        if ($this->_children !== null) {
+            unset($this->_children[$parent->name]);
+        }
+        $this->invalidate(self::PART_CHILDREN);
+
+        return $result;
     }
 }
