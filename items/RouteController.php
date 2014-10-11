@@ -73,7 +73,7 @@ class RouteController extends \yii\web\Controller
                 $child = $manager->getPermission($route);
                 try {
                     $manager->remove($child);
-                } catch (Exception $e) {
+                } catch (Exception $exc) {
                     $error[] = $exc->getMessage();
                 }
             }

@@ -140,7 +140,7 @@ class PermissionController extends Controller
                 $child = $manager->getPermission($role);
                 try {
                     $manager->addChild($parent, $child);
-                } catch (\Exception $e) {
+                } catch (\Exception $exc) {
                     $error[] = $exc->getMessage();
                 }
             }
@@ -149,7 +149,7 @@ class PermissionController extends Controller
                 $child = $manager->getPermission($role);
                 try {
                     $manager->removeChild($parent, $child);
-                } catch (\Exception $e) {
+                } catch (\Exception $exc) {
                     $error[] = $exc->getMessage();
                 }
             }
