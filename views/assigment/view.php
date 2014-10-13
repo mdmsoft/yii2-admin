@@ -9,6 +9,7 @@ $this->title = 'Assigments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="assigment-index">
+    <?= Html::a('Users', ['index'], ['class'=>'btn btn-success']) ?>
     <h1>User: <?= $model->{$usernameField} ?></h1>
 
     <div class="col-lg-5">
