@@ -119,17 +119,7 @@ class DbManager extends \yii\rbac\DbManager
     }
 
     /**
-     * Performs access check for the specified user.
-     * This method is internally called by [[checkAccess()]].
-     *
-     * @param  string|integer $user        the user ID. This should can be either an integer or a string representing
-     *                                     the unique identifier of a user. See [[\yii\web\User::id]].
-     * @param  string         $itemName    the name of the operation that need access check
-     * @param  array          $params      name-value pairs that would be passed to rules associated
-     *                                     with the tasks and roles assigned to the user. A param with name 'user' is added to this array,
-     *                                     which holds the value of `$userId`.
-     * @param  Assignment[]   $assignments the assignments to the specified user
-     * @return boolean        whether the operations can be performed by the user.
+     * @inheritdoc
      */
     protected function checkAccessRecursive($user, $itemName, $params, $assignments)
     {
@@ -165,57 +155,12 @@ class DbManager extends \yii\rbac\DbManager
     {
         $this->loadItems();
         $this->loadChildren();
-        if (!isset($this->_items[$parent->name], $this->_items[$child->name])) {
-            throw new InvalidParamException("Either '{$parent->name}' or '{$child->name}' does not exist.");
-        }
-
-        if ($parent->name == $child->name) {
-            throw new InvalidParamException("Cannot add '{$parent->name} ' as a child of itself.");
-        }
-        if ($parent instanceof Permission && $child instanceof Role) {
-            throw new InvalidParamException("Cannot add a role as a child of a permission.");
-        }
-
-        if ($this->detectLoop($parent, $child)) {
-            throw new InvalidCallException("Cannot add '{$child->name}' as a child of '{$parent->name}'. A loop has been detected.");
-        }
-        if (isset($this->_children[$parent->name]) && in_array($child->name, $this->_children[$parent->name])) {
-            throw new InvalidCallException("The item '{$parent->name}' already has a child '{$child->name}'.");
-        }
-
-        $this->db->createCommand()
-            ->insert($this->itemChildTable, ['parent' => $parent->name, 'child' => $child->name])
-            ->execute();
+        parent::addChild($parent, $child);
 
         $this->_children[$parent->name][] = $child->name;
-
         $this->invalidate(self::PART_CHILDREN);
 
         return true;
-    }
-
-    /**
-     * Checks whether there is a loop in the authorization item hierarchy.
-     *
-     * @param  Item    $parent parent item
-     * @param  Item    $child  the child item that is to be added to the hierarchy
-     * @return boolean whether a loop exists
-     */
-    protected function detectLoop($parent, $child)
-    {
-        if ($child->name === $parent->name) {
-            return true;
-        }
-        if (!isset($this->_children[$child->name], $this->_items[$parent->name])) {
-            return false;
-        }
-        foreach ($this->_children[$child->name] as $grandchild) {
-            if ($this->detectLoop($parent, $this->_items[$grandchild])) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -223,9 +168,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function removeChild($parent, $child)
     {
-        $result = $this->db->createCommand()
-                ->delete($this->itemChildTable, ['parent' => $parent->name, 'child' => $child->name])
-                ->execute() > 0;
+        $result = parent::removeChild($parent, $child);
         if ($this->_children !== null) {
             $query = (new Query)
                 ->select('child')
@@ -251,25 +194,13 @@ class DbManager extends \yii\rbac\DbManager
     /**
      * @inheritdoc
      */
-    public function assign($role, $userId, $ruleName = null, $data = null)
+    public function assign($role, $userId)
     {
-        $assignment = new Assignment([
-            'userId' => $userId,
-            'roleName' => $role->name,
-            'createdAt' => time(),
-        ]);
-
-        $this->db->createCommand()
-            ->insert($this->assignmentTable, [
-                'user_id' => $assignment->userId,
-                'item_name' => $assignment->roleName,
-                'created_at' => $assignment->createdAt,
-            ])->execute();
+        $assignment = parent::assign($role, $userId);
 
         if (isset($this->_assignments[$userId]) && !in_array($role->name, $this->_assignments[$userId])) {
             $this->_assignments[$userId][] = $role->name;
         }
-
         return $assignment;
     }
 
@@ -278,12 +209,9 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function revoke($role, $userId)
     {
-        $result = $this->db->createCommand()
-                ->delete($this->assignmentTable, ['user_id' => $userId, 'item_name' => $role->name])
-                ->execute() > 0;
+        $result = parent::revoke($role, $userId);
 
         unset($this->_assignments[$userId]);
-
         return $result;
     }
 
@@ -292,9 +220,11 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function revokeAll($userId)
     {
-        $result = $this->db->createCommand()
-                ->delete($this->assignmentTable, ['user_id' => $userId])
-                ->execute() > 0;
+        if (empty($userId)) {
+            return false;
+        }
+
+        $result = parent::revokeAll($userId);
 
         $this->_assignments[$userId] = [];
 
@@ -338,18 +268,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function removeItem($item)
     {
-        if (!$this->supportsCascadeUpdate()) {
-            $this->db->createCommand()
-                ->delete($this->itemChildTable, ['or', 'parent=:name', 'child=:name'], [':name' => $item->name])
-                ->execute();
-            $this->db->createCommand()
-                ->delete($this->assignmentTable, ['item_name' => $item->name])
-                ->execute();
-        }
-
-        $this->db->createCommand()
-            ->delete($this->itemTable, ['name' => $item->name])
-            ->execute();
+        parent::removeItem($item);
 
         $this->_assignments = [];
         $this->_children = $this->_items = null;
@@ -373,22 +292,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function updateRule($name, $rule)
     {
-        if (!$this->supportsCascadeUpdate() && $rule->name !== $name) {
-            $this->db->createCommand()
-                ->update($this->itemTable, ['rule_name' => $rule->name], ['rule_name' => $name])
-                ->execute();
-        }
-
-        $rule->updatedAt = time();
-
-        $this->db->createCommand()
-            ->update($this->ruleTable, [
-                'name' => $rule->name,
-                'data' => serialize($rule),
-                'updated_at' => $rule->updatedAt,
-                ], [
-                'name' => $name,
-            ])->execute();
+        parent::updateRule($name, $rule);
 
         if ($rule->name !== $name) {
             $this->_items = null;
@@ -442,13 +346,13 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function getPermissionsByRole($roleName)
     {
-        $this->loadItems();
-        $this->loadChildren();
+        $childrenList = $this->getChildrenList();
         $result = [];
-        $this->getChildrenRecursive($roleName, $result);
+        $this->getChildrenRecursive($roleName, $childrenList, $result);
         if (empty($result)) {
             return [];
         }
+        $this->loadItems();
         $permissions = [];
         foreach (array_keys($result) as $itemName) {
             if (isset($this->_items[$itemName]) && $this->_items[$itemName] instanceof Permission) {
@@ -460,19 +364,12 @@ class DbManager extends \yii\rbac\DbManager
     }
 
     /**
-     * Recursively finds all children and grand children of the specified item.
-     *
-     * @param string $name   the name of the item whose children are to be looked for.
-     * @param array  $result the children and grand children (in array keys)
+     * @inheritdoc
      */
-    protected function getChildrenRecursive($name, &$result)
+    protected function getChildrenList()
     {
-        if (isset($this->_children[$name])) {
-            foreach ($this->_children[$name] as $child) {
-                $result[$child] = true;
-                $this->getChildrenRecursive($child, $result);
-            }
-        }
+        $this->loadChildren();
+        return $this->_children;
     }
 
     /**
@@ -480,17 +377,17 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function getPermissionsByUser($userId)
     {
-        $this->loadItems();
-        $this->loadChildren();
+        $childrenList = $this->getChildrenList();
         $result = [];
         foreach ($this->getAssignments($userId) as $roleName) {
-            $this->getChildrenRecursive($roleName, $result);
+            $this->getChildrenRecursive($roleName, $childrenList, $result);
         }
 
         if (empty($result)) {
             return [];
         }
 
+        $this->loadItems();
         $permissions = [];
         foreach (array_keys($result) as $itemName) {
             if (isset($this->_items[$itemName]) && $this->_items[$itemName] instanceof Permission) {
@@ -538,45 +435,9 @@ class DbManager extends \yii\rbac\DbManager
     /**
      * @inheritdoc
      */
-    public function removeAllPermissions()
-    {
-        $this->removeAllItems(Item::TYPE_PERMISSION);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeAllRoles()
-    {
-        $this->removeAllItems(Item::TYPE_ROLE);
-    }
-
-    /**
-     * Removes all auth items of the specified type.
-     * @param integer $type the auth item type (either Item::TYPE_PERMISSION or Item::TYPE_ROLE)
-     */
     protected function removeAllItems($type)
     {
-        if (!$this->supportsCascadeUpdate()) {
-            $names = (new Query)
-                ->select(['name'])
-                ->from($this->itemTable)
-                ->where(['type' => $type])
-                ->column($this->db);
-            if (empty($names)) {
-                return;
-            }
-            $key = $type == Item::TYPE_PERMISSION ? 'child' : 'parent';
-            $this->db->createCommand()
-                ->delete($this->itemChildTable, [$key => $names])
-                ->execute();
-            $this->db->createCommand()
-                ->delete($this->assignmentTable, ['item_name' => $names])
-                ->execute();
-        }
-        $this->db->createCommand()
-            ->delete($this->itemTable, ['type' => $type])
-            ->execute();
+        parent::removeAllItems($type);
 
         $this->_assignments = [];
         $this->_children = $this->_items = null;
@@ -589,13 +450,8 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function removeAllRules()
     {
-        if (!$this->supportsCascadeUpdate()) {
-            $this->db->createCommand()
-                ->update($this->itemTable, ['ruleName' => null])
-                ->execute();
-        }
+        parent::removeAllRules();
 
-        $this->db->createCommand()->delete($this->ruleTable)->execute();
         $this->_rules = [];
         $this->_items = null;
 
@@ -607,7 +463,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function removeAllAssignments()
     {
-        $this->db->createCommand()->delete($this->assignmentTable)->execute();
+        parent::removeAllAssignments();
         $this->_assignments = [];
     }
 
@@ -616,15 +472,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     protected function removeRule($rule)
     {
-        if (!$this->supportsCascadeUpdate()) {
-            $this->db->createCommand()
-                ->update($this->itemTable, ['rule_name' => null], ['rule_name' => $rule->name])
-                ->execute();
-        }
-
-        $this->db->createCommand()
-            ->delete($this->ruleTable, ['name' => $rule->name])
-            ->execute();
+        parent::removeRule($rule);
 
         if ($this->_rules !== null) {
             unset($this->_rules[$rule->name]);
@@ -641,20 +489,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     protected function addRule($rule)
     {
-        $time = time();
-        if ($rule->createdAt === null) {
-            $rule->createdAt = $time;
-        }
-        if ($rule->updatedAt === null) {
-            $rule->updatedAt = $time;
-        }
-        $this->db->createCommand()
-            ->insert($this->ruleTable, [
-                'name' => $rule->name,
-                'data' => serialize($rule),
-                'created_at' => $rule->createdAt,
-                'updated_at' => $rule->updatedAt,
-            ])->execute();
+        parent::addRule($rule);
 
         if ($this->_rules !== null) {
             $this->_rules[$rule->name] = $rule;
@@ -669,30 +504,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     protected function updateItem($name, $item)
     {
-        if (!$this->supportsCascadeUpdate() && $item->name !== $name) {
-            $this->db->createCommand()
-                ->update($this->itemChildTable, ['parent' => $item->name], ['parent' => $name])
-                ->execute();
-            $this->db->createCommand()
-                ->update($this->itemChildTable, ['child' => $item->name], ['child' => $name])
-                ->execute();
-            $this->db->createCommand()
-                ->update($this->assignmentTable, ['item_name' => $item->name], ['item_name' => $name])
-                ->execute();
-        }
-
-        $item->updatedAt = time();
-
-        $this->db->createCommand()
-            ->update($this->itemTable, [
-                'name' => $item->name,
-                'description' => $item->description,
-                'rule_name' => $item->ruleName,
-                'data' => $item->data === null ? null : serialize($item->data),
-                'updated_at' => $item->updatedAt,
-                ], [
-                'name' => $name,
-            ])->execute();
+        parent::updateItem($name, $item);
 
         if ($item->name !== $name) {
             $this->_assignments = [];
@@ -710,24 +522,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     protected function addItem($item)
     {
-        $time = time();
-        if ($item->createdAt === null) {
-            $item->createdAt = $time;
-        }
-        if ($item->updatedAt === null) {
-            $item->updatedAt = $time;
-        }
-
-        $this->db->createCommand()
-            ->insert($this->itemTable, [
-                'name' => $item->name,
-                'type' => $item->type,
-                'description' => $item->description,
-                'rule_name' => $item->ruleName,
-                'data' => $item->data === null ? null : serialize($item->data),
-                'created_at' => $item->createdAt,
-                'updated_at' => $item->updatedAt,
-            ])->execute();
+        parent::addItem($item);
 
         if ($this->_items !== null) {
             $this->_items[$item->name] = $item;
@@ -737,6 +532,10 @@ class DbManager extends \yii\rbac\DbManager
         return true;
     }
 
+    /**
+     * Invalidate cache
+     * @param string $parts
+     */
     private function invalidate($parts)
     {
         if ($this->enableCaching) {
@@ -744,11 +543,21 @@ class DbManager extends \yii\rbac\DbManager
         }
     }
 
+    /**
+     * Build key cache
+     * @param string $part
+     * @return mixed
+     */
     private function buildKey($part)
     {
         return [__CLASS__, $part];
     }
 
+    /**
+     * Get data from cache
+     * @param string $part
+     * @return mixed
+     */
     private function getFromCache($part)
     {
         if ($this->enableCaching) {
@@ -758,6 +567,11 @@ class DbManager extends \yii\rbac\DbManager
         return false;
     }
 
+    /**
+     * Save data to cache
+     * @param string $part
+     * @param mixed $data
+     */
     private function saveToCache($part, $data)
     {
         if ($this->enableCaching) {
@@ -767,6 +581,10 @@ class DbManager extends \yii\rbac\DbManager
         }
     }
 
+    /**
+     * Load data. If avaliable in memory, get from memory
+     * If no, get from cache. If no avaliable, get from database.
+     */
     private function loadItems()
     {
         $part = self::PART_ITEMS;
@@ -781,6 +599,10 @@ class DbManager extends \yii\rbac\DbManager
         }
     }
 
+    /**
+     * Load data. If avaliable in memory, get from memory
+     * If no, get from cache. If no avaliable, get from database.
+     */
     private function loadChildren()
     {
         $part = self::PART_CHILDREN;
@@ -797,6 +619,10 @@ class DbManager extends \yii\rbac\DbManager
         }
     }
 
+    /**
+     * Load data. If avaliable in memory, get from memory
+     * If no, get from cache. If no avaliable, get from database.
+     */
     private function loadRules()
     {
         $part = self::PART_RULES;
@@ -814,6 +640,10 @@ class DbManager extends \yii\rbac\DbManager
         }
     }
 
+    /**
+     * Load data. If avaliable in memory, get from memory
+     * If no, get from cache. If no avaliable, get from database.
+     */
     private function loadAssigments($userId)
     {
         if (!isset($this->_assignments[$userId])) {
@@ -827,47 +657,11 @@ class DbManager extends \yii\rbac\DbManager
     }
 
     /**
-     * Populates an auth item with the data fetched from database
-     * @param  array $row the data from the auth item table
-     * @return Item  the populated auth item instance (either Role or Permission)
-     */
-    protected function populateItem($row)
-    {
-        $class = $row['type'] == Item::TYPE_PERMISSION ? Permission::className() : Role::className();
-
-        if (!isset($row['data']) || ($data = @unserialize($row['data'])) === false) {
-            $data = null;
-        }
-
-        return new $class([
-            'name' => $row['name'],
-            'type' => $row['type'],
-            'description' => $row['description'],
-            'ruleName' => $row['rule_name'],
-            'data' => $data,
-            'createdAt' => $row['created_at'],
-            'updatedAt' => $row['updated_at'],
-        ]);
-    }
-
-    /**
-     * Returns a value indicating whether the database supports cascading update and delete.
-     * The default implementation will return false for SQLite database and true for all other databases.
-     * @return boolean whether the database supports cascading update and delete.
-     */
-    protected function supportsCascadeUpdate()
-    {
-        return strncmp($this->db->getDriverName(), 'sqlite', 6) !== 0;
-    }
-
-    /**
      * @inheritdoc
      */
     public function removeChildren($parent)
     {
-        $result = $this->db->createCommand()
-                ->delete($this->itemChildTable, ['parent' => $parent->name])
-                ->execute() > 0;
+        $result = parent::removeChildren($parent);
         if ($this->_children !== null) {
             unset($this->_children[$parent->name]);
         }
