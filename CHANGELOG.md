@@ -33,3 +33,5 @@ Yii2 Admin Change Log
 - Chg: Remove `mdm\admin\Module::allowActions`. Set access control directly with `mdm\admin\components\AccessControl` (mdmunir).
 - Bug: Bug fix. Ensure array has index before check `in_array()` (mdmunir).
 - Chg: Change cache strategy (mdmunir).
+- Add: Add comment docs for entire class (mdmunir).
+- Chg: `mdm\admin\components\DbManager` now inherited from `yii\rbac\DbManager` (mdmunir)
