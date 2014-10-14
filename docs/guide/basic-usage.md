@@ -13,8 +13,13 @@ Permision
 
 Route
 -----
-Route is list of avaliable route of your application. It is automatic read application structure.
+Route is special `permission`. Its related with application route. Because `route` is `permission`, 
+so you can assign it to another `permission` or `role`. 
+By default, listed route is automatic read from application structure.
 Click button '>>' to save it and button '<<' to delete.
+
+If route that you need not avaliable in list. You can create it manually. You can also create route
+with extra parameter. Use `&` to sparate main route with parameter. E.g. `site/page&view=about`.
 
 Rule
 ----
