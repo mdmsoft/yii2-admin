@@ -61,6 +61,11 @@ You can then access Auth manager through the following URL:
 
 ```
 http://localhost/path/to/index.php?r=admin
+http://localhost/path/to/index.php?r=admin/route
+http://localhost/path/to/index.php?r=admin/permission
+http://localhost/path/to/index.php?r=admin/menu
+http://localhost/path/to/index.php?r=admin/role
+http://localhost/path/to/index.php?r=admin/assigment
 ```
 
 To use menu manager (optional). Execute yii migration
