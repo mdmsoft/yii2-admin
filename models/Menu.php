@@ -17,6 +17,9 @@ use mdm\admin\components\Configs;
  *
  * @property Menu $menuParent
  * @property Menu[] $menus
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class Menu extends \yii\db\ActiveRecord
 {

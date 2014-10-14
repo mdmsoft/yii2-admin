@@ -14,6 +14,9 @@ use yii\web\Response;
 
 /**
  * AssigmentController implements the CRUD actions for Assigment model.
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class AssigmentController extends Controller
 {
@@ -22,6 +25,9 @@ class AssigmentController extends Controller
     public $usernameField = 'username';
     public $searchClass;
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -31,6 +37,9 @@ class AssigmentController extends Controller
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
@@ -95,6 +104,12 @@ class AssigmentController extends Controller
         ]);
     }
 
+    /**
+     * Assign or revoke assignment to user
+     * @param  integer $id
+     * @param  string  $action
+     * @return type
+     */
     public function actionAssign($id, $action)
     {
         $post = Yii::$app->request->post();
@@ -126,6 +141,13 @@ class AssigmentController extends Controller
             $error];
     }
 
+    /**
+     * Search roles of user
+     * @param  integer $id
+     * @param  string  $target
+     * @param  string  $term
+     * @return string
+     */
     public function actionRoleSearch($id, $target, $term = '')
     {
         $authManager = Yii::$app->authManager;

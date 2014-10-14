@@ -8,7 +8,7 @@ use yii\caching\Cache;
 use yii\helpers\ArrayHelper;
 
 /**
- * Description of Configs
+ * Configs
  * Used for configure some value. To set config you can use `Application::params`
  * ```php
  * return [
@@ -27,7 +27,8 @@ use yii\helpers\ArrayHelper;
  * ]);
  * ```
  *
- * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class Configs extends \yii\base\Object
 {

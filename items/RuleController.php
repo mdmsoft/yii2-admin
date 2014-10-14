@@ -13,11 +13,15 @@ use mdm\admin\components\MenuHelper;
 /**
  * Description of RuleController
  *
- * @author MDMunir
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class RuleController extends Controller
 {
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [

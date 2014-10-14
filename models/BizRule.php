@@ -6,9 +6,10 @@ use yii\rbac\Rule;
 use Yii;
 
 /**
- * Description of BizRule
+ * BizRule
  *
- * @author MDMunir
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class BizRule extends \yii\base\Model
 {

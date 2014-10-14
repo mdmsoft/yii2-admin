@@ -16,6 +16,9 @@ use yii\helpers\Json;
  * @property string $data
  *
  * @property Item $item
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class AuthItem extends \yii\base\Model
 {
@@ -32,7 +35,6 @@ class AuthItem extends \yii\base\Model
     private $_item;
 
     /**
-     *
      * @param Item  $item
      * @param array $config
      */
@@ -79,11 +81,20 @@ class AuthItem extends \yii\base\Model
         ];
     }
 
+    /**
+     * Check if is new record.
+     * @return boolean
+     */
     public function getIsNewRecord()
     {
         return $this->_item === null;
     }
 
+    /**
+     * Find role
+     * @param  string     $id
+     * @return null|\self
+     */
     public static function find($id)
     {
         $item = Yii::$app->authManager->getRole($id);
@@ -94,6 +105,10 @@ class AuthItem extends \yii\base\Model
         return null;
     }
 
+    /**
+     * Save role to [[yii\rbac\authManager]]
+     * @return boolean
+     */
     public function save()
     {
         if ($this->validate()) {
@@ -126,7 +141,6 @@ class AuthItem extends \yii\base\Model
     }
 
     /**
-     *
      * @return Item
      */
     public function getItem()
@@ -134,6 +148,10 @@ class AuthItem extends \yii\base\Model
         return $this->_item;
     }
 
+    /**
+     * @param  mixed        $type
+     * @return string|array
+     */
     public static function getTypeName($type = null)
     {
         $result = [

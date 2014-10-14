@@ -3,19 +3,18 @@
 namespace mdm\admin\components;
 
 /**
- * Description of RouteRule
+ * RouteRule Rule for check route with extra params.
  *
- * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class RouteRule extends \yii\rbac\Rule
 {
     const RULE_NAME = 'route_rule';
 
     /**
-     *
-     * @param string         $user
-     * @param \yii\rbac\Item $item
-     * @param mixed          $params
+     * @inheritdoc
      */
     public function execute($user, $item, $params)
     {

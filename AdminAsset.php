@@ -1,17 +1,22 @@
 <?php
+
 namespace mdm\admin;
+
 /**
- * Description of AdminAsset
+ * AdminAsset
  *
- * @author MDMunir
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class AdminAsset extends \yii\web\AssetBundle
 {
     public $sourcePath = '@mdm/admin/assets';
+
     /**
-	 * @inheritdoc
-	 */
+     * @inheritdoc
+     */
     public $css = [
         'main.css',
     ];
+
 }

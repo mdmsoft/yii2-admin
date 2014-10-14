@@ -9,9 +9,22 @@ use yii\web\User;
 use yii\di\Instance;
 
 /**
- * Description of AccessControl
+ * AccessControl provides simple access control based rbac and route.
  *
- * @author MDMunir
+ * AccessControl is an action filter.
+ *
+ * To use AccessControl, declare it in the application config as behavior.
+ * For example.
+ *
+ * ~~~
+ * 'as access' => [
+ *     'class' => 'mdm\admin\components\AccessControl',
+ *     'allowActions' => ['site/login', 'site/error']
+ * ]
+ * ~~~
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class AccessControl extends \yii\base\ActionFilter
 {

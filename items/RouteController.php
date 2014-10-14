@@ -14,6 +14,12 @@ use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
 use Exception;
 
+/**
+ * Description of RuleController
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
+ */
 class RouteController extends \yii\web\Controller
 {
     const CACHE_TAG = 'mdm.admin.route';

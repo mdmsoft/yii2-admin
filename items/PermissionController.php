@@ -15,10 +15,16 @@ use yii\helpers\Html;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class PermissionController extends Controller
 {
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [

@@ -7,9 +7,10 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
 /**
- * Description of Module
+ * Module
  *
- * @author MDMunir
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class Module extends \yii\base\Module
 {

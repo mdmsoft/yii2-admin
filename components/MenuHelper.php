@@ -7,9 +7,35 @@ use yii\caching\TagDependency;
 use mdm\admin\models\Menu;
 
 /**
- * Description of MenuHelper
+ * MenuHelper used to generate menu depend of user role.
  *
- * @author MDMunir
+ * Usage
+ * ```
+ * use mdm\admin\components\MenuHelper;
+ * use yii\bootstrap\Nav;
+ *
+ * echo Nav::widget([
+ *    'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
+ * ]);
+ * ```
+ * To reformat returned, provide callback to method.
+ * ```
+ * $callback = function ($menu) {
+ *    $data = eval($menu['data']);
+ *    return [
+ *        'label' => $menu['name'],
+ *        'url' => [$menu['route']],
+ *        'options' => $data,
+ *        'items' => $menu['children']
+ *        ]
+ *    ]
+ * }
+ *
+ * $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
+ * ```
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class MenuHelper
 {
@@ -101,6 +127,12 @@ class MenuHelper
         return $result;
     }
 
+    /**
+     * Ensure all item menu has parent.
+     * @param  type $assigned
+     * @param  type $menus
+     * @return type
+     */
     private static function requiredParent($assigned, &$menus)
     {
         $l = count($assigned);
@@ -116,7 +148,7 @@ class MenuHelper
     }
 
     /**
-     *
+     * Parse route
      * @param  string $route
      * @return mixed
      */
@@ -138,6 +170,14 @@ class MenuHelper
         return '#';
     }
 
+    /**
+     *
+     * @param  type $assigned
+     * @param  type $menus
+     * @param  type $callback
+     * @param  type $parent
+     * @return type
+     */
     private static function normalizeMenu(&$assigned, &$menus, $callback, $parent = null)
     {
         $result = [];
@@ -168,6 +208,9 @@ class MenuHelper
         return $result;
     }
 
+    /**
+     * Use to invalidate cache.
+     */
     public static function invalidate()
     {
         if (Configs::instance()->cache !== null) {
