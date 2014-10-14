@@ -34,4 +34,5 @@ Yii2 Admin Change Log
 - Bug: Bug fix. Ensure array has index before check `in_array()` (mdmunir).
 - Chg: Change cache strategy (mdmunir).
 - Add: Add comment docs for entire class (mdmunir).
-- Chg: `mdm\admin\components\DbManager` now inherited from `yii\rbac\DbManager` (mdmunir)
+- Chg: `mdm\admin\components\DbManager` now inherited from `yii\rbac\DbManager` (mdmunir).
+- Chg: Change module default layout (mdmunir).

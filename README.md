@@ -37,6 +37,7 @@ return [
 	'modules' => [
 		'admin' => [
 			'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu', // avaliable value 'left-menu', 'right-menu' and 'top-menu'
 		]
 		...
 	],
