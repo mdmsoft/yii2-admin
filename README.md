@@ -18,6 +18,12 @@ Either run
 php composer.phar require mdmsoft/yii2-admin "*"
 ```
 
+for dev-master
+
+```
+php composer.phar require mdmsoft/yii2-admin "dev-master"
+```
+
 or add
 
 ```
