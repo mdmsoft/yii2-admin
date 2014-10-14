@@ -10,6 +10,9 @@ namespace mdm\admin;
  */
 class AdminAsset extends \yii\web\AssetBundle
 {
+    /**
+     * @inheritdoc
+     */
     public $sourcePath = '@mdm/admin/assets';
 
     /**

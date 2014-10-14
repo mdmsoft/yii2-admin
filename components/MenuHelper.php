@@ -42,13 +42,18 @@ class MenuHelper
     const CACHE_TAG = 'mdm.admin.menu';
 
     /**
-     *
-     * @param  mixed    $userId
-     * @param  integer  $root
-     * @param  \Closure $callback function ($menu) {}
-     * @param  boolean  $refresh
+     * Use to get assigned menu of user.
+     * @param mixed $userId
+     * @param integer $root
+     * @param \Closure $callback use to reformat output.
+     * callback should have format like
+     * ```
+     * function ($menu) {
+     *    return ...
+     * }
+     * ```
+     * @param boolean  $refresh
      * @return array
-     *
      */
     public static function getAssignedMenu($userId, $root = null, $callback = null, $refresh = false)
     {
@@ -171,7 +176,7 @@ class MenuHelper
     }
 
     /**
-     *
+     * Normalize menu
      * @param  type $assigned
      * @param  type $menus
      * @param  type $callback

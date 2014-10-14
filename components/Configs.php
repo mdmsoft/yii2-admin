@@ -9,8 +9,8 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Configs
- * Used for configure some value. To set config you can use `Application::params`
- * ```php
+ * Used for configure some value. To set config you can use [[\yii\base\Application::$params]]
+ * ```
  * return [
  *     ...
  *     'mdm.admin.configs' => [
@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
  * ];
  * ```
  * or use `Yii::$container`
- * ```php
+ * ```
  * Yii::$container->set('mdm\admin\components\Configs',[
  *     'db' => 'customDb',
  *     'menuTable' => 'admin_menu',
@@ -33,34 +33,33 @@ use yii\helpers\ArrayHelper;
 class Configs extends \yii\base\Object
 {
     /**
-     *
-     * @var Connection
+     * @var Connection Database connection.
      */
     public $db = 'db';
 
     /**
-     *
-     * @var Cache
+     * @var Cache Cache component.
      */
     public $cache = 'cache';
 
     /**
-     * Cache duration. Default to a month.
-     * @var integer
+     * @var integer Cache duration. Default to a month.
      */
     public $cacheDuration = 2592000;
 
     /**
-     * Menu table name.
-     * @var string
+     * @var string Menu table name.
      */
     public $menuTable = '{{%menu}}';
+    
     /**
-     *
-     * @var self
+     * @var self Instance of self
      */
     private static $_instance;
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         if ($this->db !== null && !($this->db instanceof Connection)) {
@@ -81,7 +80,7 @@ class Configs extends \yii\base\Object
     }
 
     /**
-     *
+     * Create instance of self
      * @return self
      */
     public static function instance()

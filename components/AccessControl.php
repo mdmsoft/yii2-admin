@@ -29,17 +29,18 @@ use yii\di\Instance;
 class AccessControl extends \yii\base\ActionFilter
 {
     /**
-     *
-     * @var User
+     * @var User User for check access.
      */
     public $user = 'user';
 
     /**
-     *
-     * @var array
+     * @var array List of action that not need to check access.
      */
     public $allowActions = [];
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();

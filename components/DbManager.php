@@ -16,7 +16,7 @@ use yii\caching\TagDependency;
 /**
  * DbManager represents an authorization manager that stores authorization information in database.
  *
- * The database connection is specified by [[db]]. The database schema could be initialized by applying migration:
+ * The database connection is specified by [[$db]]. The database schema could be initialized by applying migration:
  *
  * ```
  * yii migrate --migrationPath=@yii/rbac/migrations/
@@ -37,20 +37,17 @@ class DbManager extends \yii\rbac\DbManager
     const PART_RULES = 'mdm.admin.rules';
 
     /**
-     * 
-     * @var boolean
+     * @var boolean Enable caching
      */
     public $enableCaching = false;
 
     /**
-     *
-     * @var string|Cache
+     * @var string|Cache Cache component
      */
     public $cache = 'cache';
 
     /**
-     *
-     * @var integer
+     * @var integer Cache duration
      */
     public $cacheDuration = 0;
 
