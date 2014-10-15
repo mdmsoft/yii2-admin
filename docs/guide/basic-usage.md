@@ -40,7 +40,7 @@ The code below shows how to use ACF which is implemented as `mdm\admin\component
 ]
 ```
 
-Avalibale Menu
+Available Menu
 ==============
 Assigment
 ---------
@@ -65,7 +65,7 @@ Rule
 ----
 To using rule, define your own rule class. It should be inherited from 
 [`yii\rbac\Rule`](http://www.yiiframework.com/doc-2.0/yii-rbac-rule.html).
-See [Rules](http://www.yiiframework.com/doc-2.0/guide-authorization.html#using-rules) for more information.
+See [Rules](http://www.yiiframework.com/doc-2.0/guide-security-authorization.html#using-rules) for more information.
 Add rule to `authManager` by provide rule classname.
 
 Using Menu
