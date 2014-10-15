@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php $form = ActiveForm::begin(); ?>
 
 		<?= $form->field($model, 'route') ?>
-	
+
 		<div class="form-group">
 			<?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
 		</div>

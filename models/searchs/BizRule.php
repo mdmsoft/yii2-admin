@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use mdm\admin\models\BizRule as MBizRule;
-use mdm\admin\components\AccessHelper;
+use mdm\admin\components\RouteRule;
 
 /**
  * Description of BizRule
@@ -28,8 +28,8 @@ class BizRule extends Model
     }
 
     /**
-     * 
-     * @param array $params
+     *
+     * @param  array                                                    $params
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
      */
     public function search($params)
@@ -39,10 +39,11 @@ class BizRule extends Model
         $models = [];
         $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
         foreach ($authManager->getRules() as $name => $item) {
-            if ($name != AccessHelper::ROUTE_RULE_NAME && ($included || stripos($item->name, $this->name) !== false)) {
+            if ($name != RouteRule::RULE_NAME && ($included || stripos($item->name, $this->name) !== false)) {
                 $models[$name] = new MBizRule($item);
             }
         }
+
         return new ArrayDataProvider([
             'allModels' => $models,
         ]);

@@ -1,24 +1,19 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
-use yii\web\JsExpression;
 
-/**
- * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var mdm\admin\models\AssigmentSearch $searchModel
- */
+/* @var $this yii\web\View */
+/* @var $model yii\web\IdentityInterface */
+
 $this->title = 'Assigments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="assigment-index">
+    <?= Html::a('Users', ['index'], ['class'=>'btn btn-success']) ?>
     <h1>User: <?= $model->{$usernameField} ?></h1>
 
     <div class="col-lg-5">
-        Avaliable: 
+        Avaliable:
         <?php
         echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'avaliable']) . '<br>';
         echo Html::listBox('roles', '', $avaliable, [
@@ -36,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
     <div class="col-lg-5">
-        Assigned: 
+        Assigned:
         <?php
         echo Html::textInput('search_asgn', '', ['class' => 'role-search', 'data-target' => 'assigned']) . '<br>';
         echo Html::listBox('roles', '', $assigned, [

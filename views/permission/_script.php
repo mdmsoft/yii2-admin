@@ -4,14 +4,14 @@ use yii\helpers\Url;
 ?>
 <script type="text/javascript">
 <?php $this->beginBlock('JS_END') ?>
-    yii.process = (function($) {
+    yii.process = (function ($) {
         var _onSearch = false;
         var pub = {
-            roleSearch: function() {
+            roleSearch: function () {
                 if (!_onSearch) {
                     _onSearch = true;
                     var $th = $(this);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         _onSearch = false;
                         var data = {
                             id:<?= json_encode($name)?>,
@@ -20,25 +20,27 @@ use yii\helpers\Url;
                         };
                         var target = '#' + $th.data('target');
                         $.get('<?= Url::toRoute(['role-search']) ?>', data,
-                            function(html) {
+                            function (html) {
                                 $(target).html(html);
                             });
                     }, 500);
                 }
             },
-            action: function() {
+            action: function () {
                 var action = $(this).data('action');
                 var params = $((action == 'assign' ? '#avaliable' : '#assigned')+', .role-search').serialize();
                 var urlAssign = '<?= Url::toRoute(['assign', 'id' => $name,'action'=>'assign']) ?>';
                 var urlDelete = '<?= Url::toRoute(['assign', 'id' => $name,'action'=>'delete']) ?>';
                 $.post(action=='assign'?urlAssign : urlDelete,
-                params,function(r){
+                params,function (r) {
                     $('#avaliable').html(r[0]);
                     $('#assigned').html(r[1]);
                 },'json');
+
                 return false;
             }
         }
+
         return pub;
     })(window.jQuery);
 <?php $this->endBlock(); ?>

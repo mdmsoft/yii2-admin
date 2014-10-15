@@ -5,12 +5,15 @@ namespace mdm\admin\items;
 use Yii;
 use mdm\admin\models\Menu;
 use mdm\admin\models\searchs\Menu as MenuSearch;
-use mdm\admin\components\Controller;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class MenuController extends Controller
 {
@@ -44,7 +47,7 @@ class MenuController extends Controller
 
     /**
      * Displays a single Menu model.
-     * @param integer $id
+     * @param  integer $id
      * @return mixed
      */
     public function actionView($id)
@@ -75,7 +78,7 @@ class MenuController extends Controller
     /**
      * Updates an existing Menu model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param  integer $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -96,7 +99,7 @@ class MenuController extends Controller
     /**
      * Deletes an existing Menu model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param  integer $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -109,8 +112,8 @@ class MenuController extends Controller
     /**
      * Finds the Menu model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Menu the loaded model
+     * @param  integer               $id
+     * @return Menu                  the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

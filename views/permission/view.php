@@ -3,12 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\AuthItem $model
- */
+/* @var $this yii\web\View */
+/* @var $model mdm\admin\models\AuthItem */
+
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Permissions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-view">
@@ -38,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
     <div class="col-lg-5">
-        Avaliable: 
+        Avaliable:
         <?php
         echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'avaliable']) . '<br>';
         echo Html::listBox('roles', '', $avaliable, [
@@ -56,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
     <div class="col-lg-5">
-        Assigned: 
+        Assigned:
         <?php
         echo Html::textInput('search_asgn', '', ['class' => 'role-search','data-target' => 'assigned']) . '<br>';
         echo Html::listBox('roles', '', $assigned, [
@@ -69,4 +68,3 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php
 $this->render('_script',['name'=>$model->name]);
-

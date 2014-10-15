@@ -18,6 +18,9 @@
 		"yiisoft/yii2": "*",
 		"yiisoft/yii2-jui": "*"
 	},
+	"suggest": {
+		"yiisoft/yii2-bootstrap": "Use for display"
+	},
 	"autoload": {
 		"psr-4": {
 			"mdm\\admin\\": ""

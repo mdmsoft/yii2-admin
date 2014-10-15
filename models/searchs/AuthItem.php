@@ -44,8 +44,8 @@ class AuthItem extends Model
     }
 
     /**
-     * 
-     * @param array $params
+     *
+     * @param  array                                                    $params
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
      */
     public function search($params)
@@ -62,7 +62,7 @@ class AuthItem extends Model
                         $items[$name] = $item;
                     }
                 }
-            }  else {
+            } else {
                 foreach ($authManager->getPermissions() as $name => $item) {
                     if ($name[0] === '/') {
                         $items[$name] = $item;
@@ -73,10 +73,11 @@ class AuthItem extends Model
         if ($this->load($params) && $this->validate() && (trim($this->name) !== '' || trim($this->description) !== '')) {
             $search = strtolower(trim($this->name));
             $desc = strtolower(trim($this->description));
-            $items = array_filter($items, function($item) use($search, $desc) {
+            $items = array_filter($items, function ($item) use ($search, $desc) {
                 return (empty($search) || strpos(strtolower($item->name), $search) !== false) && ( empty($desc) || strpos(strtolower($item->description), $desc) !== false);
             });
         }
+
         return new ArrayDataProvider([
             'allModels' => $items,
         ]);

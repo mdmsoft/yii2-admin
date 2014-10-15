@@ -18,6 +18,12 @@ Either run
 php composer.phar require mdmsoft/yii2-admin "*"
 ```
 
+for dev-master
+
+```
+php composer.phar require mdmsoft/yii2-admin "dev-master"
+```
+
 or add
 
 ```
@@ -34,16 +40,10 @@ Once the extension is installed, simply modify your application configuration as
 
 ```php
 return [
-	'bootstrap' => [
-		'admin',
-		...
-	],
 	'modules' => [
 		'admin' => [
 			'class' => 'mdm\admin\Module',
-			'allowActions' => [
-				'admin/*', // add or remove allowed actions to this list
-			]
+            'layout' => 'left-menu', // avaliable value 'left-menu', 'right-menu' and 'top-menu'
 		]
 		...
 	],
@@ -54,19 +54,29 @@ return [
 			'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
 		]
 	],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+		'allowActions' => [
+			'admin/*', // add or remove allowed actions to this list
+		]
+    ,
 ];
 ```
-
 See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-authorization.html#role-based-access-control-rbac) for more detail.
 You can then access Auth manager through the following URL:
 
 ```
 http://localhost/path/to/index.php?r=admin
+http://localhost/path/to/index.php?r=admin/route
+http://localhost/path/to/index.php?r=admin/permission
+http://localhost/path/to/index.php?r=admin/menu
+http://localhost/path/to/index.php?r=admin/role
+http://localhost/path/to/index.php?r=admin/assigment
 ```
 
 To use menu manager (optional). Execute yii migration
 ```
-yii migrate --migrationPath=@mdm/admin/migration
+yii migrate --migrationPath=@mdm/admin/migrations
 ```
 
 [screenshots](https://picasaweb.google.com/105012704576561549351/Yii2Admin?authuser=0&feat=directlink)

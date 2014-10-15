@@ -1,19 +1,19 @@
 Using Menu
-----------
+==========
 
 Menu manager used for build hierarchical menu. This is automatically look of user 
 role and permision then return menus that he has access.
 
 ```php
-use mdm\admin\components\AccessHelper;
+use mdm\admin\components\MenuHelper;
 use yii\bootstrap\Nav;
 
 echo Nav::widget([
-    'items' => AccessHelper::getAssignedMenu(Yii::$app->user->id)
+    'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
 ]);
 
 ```
-Return of `mdm\admin\components\AccessHelper::getAssignedMenu()` has default format like:
+Return of `mdm\admin\components\MenuHelper::getAssignedMenu()` has default format like:
 ```php
 [
     [
@@ -41,7 +41,7 @@ Return of `mdm\admin\components\AccessHelper::getAssignedMenu()` has default for
 ]
 ```
 where `$menu` variable corresponden with a record of table `menu`. You can customize 
-return format of `mdm\admin\components\AccessHelper::getAssignedMenu()` by provide a callback to this methode.
+return format of `mdm\admin\components\MenuHelper::getAssignedMenu()` by provide a callback to this methode.
 The callback must have format `function($menu){}`. E.g:
 ```php
 $callback = function($menu){
@@ -55,12 +55,13 @@ $callback = function($menu){
     ]
 }
 
-$items = AccessHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
+$items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
 ```
 Default result is get from `cache`. If you want to force regenerate, provide boolean `true` as forth parameter.
 
-
-Second parameter of `mdm\admin\components\AccessHelper::getAssignedMenu()` used to get menu on it's own hierarchy.
+Using Sparated Menu
+-------------------
+Second parameter of `mdm\admin\components\MenuHelper::getAssignedMenu()` used to get menu on it's own hierarchy.
 E.g. Your menu structure:
 
 * Side Menu
@@ -83,7 +84,7 @@ E.g. Your menu structure:
 
 You can get 'Side Menu' chldren by calling
 ```php
-$items = AccessHelper::getAssignedMenu(Yii::$app->user->id, $sideMenuId);
+$items = MenuHelper::getAssignedMenu(Yii::$app->user->id, $sideMenuId);
 ```
 It will result in
 * Menu 1

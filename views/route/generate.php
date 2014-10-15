@@ -17,24 +17,24 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 echo Html::beginForm();
 echo GridView::widget([
-	'dataProvider' => new ArrayDataProvider([
-		'allModels' => $new,
-			]),
-	'columns' => [
-		[
-			'class' => 'yii\\grid\\CheckboxColumn',
-			'checkboxOptions' => function($model){
-				return [
-					'value' => ArrayHelper::getValue($model, 'name'),
-					'checked' => true,
-				];
-			},
-		],
-		[
-			'class' => 'yii\\grid\\DataColumn',
-			'attribute' => 'name',
-		]
-	]
+    'dataProvider' => new ArrayDataProvider([
+        'allModels' => $new,
+            ]),
+    'columns' => [
+        [
+            'class' => 'yii\\grid\\CheckboxColumn',
+            'checkboxOptions' => function ($model) {
+                return [
+                    'value' => ArrayHelper::getValue($model, 'name'),
+                    'checked' => true,
+                ];
+            },
+        ],
+        [
+            'class' => 'yii\\grid\\DataColumn',
+            'attribute' => 'name',
+        ]
+    ]
 ]);
 echo Html::submitButton('Append', ['name' => 'Submit','class' => 'btn btn-primary']);
 echo Html::endForm();

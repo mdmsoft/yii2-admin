@@ -2,14 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 
-/**
- * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var mdm\admin\models\AssigmentSearch $searchModel
- */
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel mdm\admin\models\searchs\Assigment */
+
 $this->title = 'Assigments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -21,22 +19,22 @@ $this->params['breadcrumbs'][] = $this->title;
     Pjax::begin([
         'enablePushState'=>false,
     ]);
-	echo GridView::widget([
-		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
-		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
-			[
-				'class' => 'yii\grid\DataColumn',
-				'attribute' => $usernameField,
-			],
-			[
-				'class' => 'yii\grid\ActionColumn',
+    echo GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\DataColumn',
+                'attribute' => $usernameField,
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
                 'template'=>'{view}'
-			],
-		],
-	]);
+            ],
+        ],
+    ]);
     Pjax::end();
-	?>
+    ?>
 
 </div>

@@ -24,3 +24,16 @@ Yii2 Admin Change Log
 - Chg: Change convert string to `yii\rbac\Item::$data` with `Json::decode()` (mdmunir).
 - Chg: Add extra param to route (mdmunir).
 - Chg: Add ability to get sparated menu. See [Using Menu](docs/guide/using-menu.md) (mdmunir).
+- Chg: Refactor layout (mdmunir).
+- Chg: Change `AccessHelper` to `MenuHelper` (mdmunir).
+- Add: Add `db` and `cache` configuration (mdmunir).
+- Chg: Change migration path name (mdmunir).
+- Chg: `db` and `cache` configuration via `$app->params['mdm.admin.configs']` (mdmunir).
+- Chg: #29: Change `yii\caching\GroupDependency` to `yii\caching\TagDependency` (mdmunir).
+- Chg: Remove `mdm\admin\Module::allowActions`. Set access control directly with `mdm\admin\components\AccessControl` (mdmunir).
+- Bug: Bug fix. Ensure array has index before check `in_array()` (mdmunir).
+- Chg: Change cache strategy (mdmunir).
+- Add: Add comment docs for entire class (mdmunir).
+- Chg: `mdm\admin\components\DbManager` now inherited from `yii\rbac\DbManager` (mdmunir).
+- Chg: Change module default layout (mdmunir).
+- Add: Add documentation (mdmunir).
