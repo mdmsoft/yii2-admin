@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="language" content="en" />
+        <link href="./assets/d7519a25/css/bootstrap.css" rel="stylesheet">
+<link href="./assets/841fd675/style.css" rel="stylesheet">
+<script src="./assets/556cdfae/jquery.js"></script>
+<script src="./assets/d7519a25/js/bootstrap.js"></script>
+<script src="./assets/2f6fad72/jssearch.js"></script>    <title>Yii Framework 2.0 API Documentation</title>
+</head>
+<body>
+
+<div class="wrap">
+    <nav id="w40" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w40-collapse"><span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Yii Framework 2.0 API Documentation</a></div><div id="w40-collapse" class="collapse navbar-collapse"><ul id="w41" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li></ul><div class="navbar-form navbar-left" role="search">
+  <div class="form-group">
+    <input id="searchbox" type="text" class="form-control" placeholder="Search">
+  </div>
+</div>
+</div></nav>
+    <div id="search-resultbox" style="display: none;" class="modal-content">
+        <ul id="search-results">
+        </ul>
+    </div>
+
+    
+<div class="row">
+    <div class="col-md-3">
+                <div id="navigation" class="list-group"><a class="list-group-item" href="#navigation-35" data-toggle="collapse" data-parent="#navigation">mdm\admin <b class="caret"></b></a><div id="navigation-35" class="submenu panel-collapse collapse"><a class="list-group-item" href="./mdm-admin-adminasset.html">AdminAsset</a>
+<a class="list-group-item" href="./mdm-admin-module.html">Module</a></div>
+<a class="list-group-item active" href="#navigation-36" data-toggle="collapse" data-parent="#navigation">mdm\admin\components <b class="caret"></b></a><div id="navigation-36" class="submenu panel-collapse collapse in"><a class="list-group-item" href="./mdm-admin-components-accesscontrol.html">AccessControl</a>
+<a class="list-group-item" href="./mdm-admin-components-configs.html">Configs</a>
+<a class="list-group-item active" href="./mdm-admin-components-dbmanager.html">DbManager</a>
+<a class="list-group-item" href="./mdm-admin-components-menuhelper.html">MenuHelper</a>
+<a class="list-group-item" href="./mdm-admin-components-routerule.html">RouteRule</a></div>
+<a class="list-group-item" href="#navigation-37" data-toggle="collapse" data-parent="#navigation">mdm\admin\items <b class="caret"></b></a><div id="navigation-37" class="submenu panel-collapse collapse"><a class="list-group-item" href="./mdm-admin-items-assigmentcontroller.html">AssigmentController</a>
+<a class="list-group-item" href="./mdm-admin-items-defaultcontroller.html">DefaultController</a>
+<a class="list-group-item" href="./mdm-admin-items-menucontroller.html">MenuController</a>
+<a class="list-group-item" href="./mdm-admin-items-permissioncontroller.html">PermissionController</a>
+<a class="list-group-item" href="./mdm-admin-items-rolecontroller.html">RoleController</a>
+<a class="list-group-item" href="./mdm-admin-items-routecontroller.html">RouteController</a>
+<a class="list-group-item" href="./mdm-admin-items-rulecontroller.html">RuleController</a></div>
+<a class="list-group-item" href="#navigation-38" data-toggle="collapse" data-parent="#navigation">mdm\admin\models <b class="caret"></b></a><div id="navigation-38" class="submenu panel-collapse collapse"><a class="list-group-item" href="./mdm-admin-models-authitem.html">AuthItem</a>
+<a class="list-group-item" href="./mdm-admin-models-bizrule.html">BizRule</a>
+<a class="list-group-item" href="./mdm-admin-models-menu.html">Menu</a>
+<a class="list-group-item" href="./mdm-admin-models-route.html">Route</a></div>
+<a class="list-group-item" href="#navigation-39" data-toggle="collapse" data-parent="#navigation">mdm\admin\models\searchs <b class="caret"></b></a><div id="navigation-39" class="submenu panel-collapse collapse"><a class="list-group-item" href="./mdm-admin-models-searchs-assigment.html">Assigment</a>
+<a class="list-group-item" href="./mdm-admin-models-searchs-authitem.html">AuthItem</a>
+<a class="list-group-item" href="./mdm-admin-models-searchs-bizrule.html">BizRule</a>
+<a class="list-group-item" href="./mdm-admin-models-searchs-menu.html">Menu</a></div></div>    </div>
+    <div class="col-md-9 api-content" role="main">
+        <h1>Class mdm\admin\components\DbManager</h1>
+<div id="nav">
+    <a href="index.html">All Classes</a>
+            | <a href="#properties">Properties</a>
+                | <a href="#methods">Methods</a>
+                    | <a href="#constants">Constants</a>
+    </div>
+
+<table class="summaryTable docClass table table-bordered">
+    <colgroup>
+        <col class="col-name" />
+        <col class="col-value" />
+    </colgroup>
+            <tr><th>Inheritance</th><td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a> &raquo;
+yii\rbac\DbManager</td></tr>
+                                    <tr><th>Available since version</th><td>1.0</td></tr>
+        </table>
+
+<div id="classDescription">
+    <p><strong>DbManager represents an authorization manager that stores authorization information in database.</strong></p>
+    <p>The database connection is specified by <span style="background: #f00;">\mdm\admin\components\$db</span>. The database schema could be initialized by applying migration:</p>
+<pre><code>yii migrate --migrationPath=@yii/rbac/migrations/
+</code></pre>
+<p>If you don't want to use migration and need SQL instead, files for all databases are in migrations directory.</p>
+<p>You may change the names of the three tables used to store the authorization data by setting <span style="background: #f00;">\mdm\admin\components\itemTable</span>,
+<span style="background: #f00;">\mdm\admin\components\itemChildTable</span> and <span style="background: #f00;">\mdm\admin\components\assignmentTable</span>.</p>
+
+    </div>
+
+<a name="properties"></a>
+
+<div class="summary doc-property">
+<h2>Public Properties</h2>
+
+<p><a href="#" class="toggle">Hide inherited properties</a></p>
+
+<table class="summary-table table table-striped table-bordered table-hover">
+<colgroup>
+    <col class="col-property" />
+    <col class="col-type" />
+    <col class="col-description" />
+    <col class="col-defined" />
+</colgroup>
+<tr>
+  <th>Property</th><th>Type</th><th>Description</th><th>Defined By</th>
+</tr>
+        <tr id="$cache">
+        <td><a href="mdm-admin-components-dbmanager.html#$cache-detail">$cache</a></td>
+        <td><a href="http://www.php.net/language.types.string">string</a>|\yii\caching\Cache</td>
+        <td>Cache component</td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="$cacheDuration">
+        <td><a href="mdm-admin-components-dbmanager.html#$cacheDuration-detail">$cacheDuration</a></td>
+        <td><a href="http://www.php.net/language.types.integer">integer</a></td>
+        <td>Cache duration</td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="$enableCaching">
+        <td><a href="mdm-admin-components-dbmanager.html#$enableCaching-detail">$enableCaching</a></td>
+        <td><a href="http://www.php.net/language.types.boolean">boolean</a></td>
+        <td>Enable caching</td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+    </table>
+</div>
+
+<a name="methods"></a>
+
+<div class="summary doc-method">
+<h2>Public Methods</h2>
+
+<p><a href="#" class="toggle">Hide inherited methods</a></p>
+
+<table class="summary-table table table-striped table-bordered table-hover">
+<colgroup>
+    <col class="col-method" />
+    <col class="col-description" />
+    <col class="col-defined" />
+</colgroup>
+<tr>
+  <th>Method</th><th>Description</th><th>Defined By</th>
+</tr>
+        <tr id="addChild()">
+        <td><a href="mdm-admin-components-dbmanager.html#addChild()-detail">addChild()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                    <tr id="assign()">
+        <td><a href="mdm-admin-components-dbmanager.html#assign()-detail">assign()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="checkAccess()">
+        <td><a href="mdm-admin-components-dbmanager.html#checkAccess()-detail">checkAccess()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                <tr id="getAssignment()">
+        <td><a href="mdm-admin-components-dbmanager.html#getAssignment()-detail">getAssignment()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getAssignments()">
+        <td><a href="mdm-admin-components-dbmanager.html#getAssignments()-detail">getAssignments()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getChildren()">
+        <td><a href="mdm-admin-components-dbmanager.html#getChildren()-detail">getChildren()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                <tr id="getItem()">
+        <td><a href="mdm-admin-components-dbmanager.html#getItem()-detail">getItem()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getItems()">
+        <td><a href="mdm-admin-components-dbmanager.html#getItems()-detail">getItems()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getPermissionsByRole()">
+        <td><a href="mdm-admin-components-dbmanager.html#getPermissionsByRole()-detail">getPermissionsByRole()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getPermissionsByUser()">
+        <td><a href="mdm-admin-components-dbmanager.html#getPermissionsByUser()-detail">getPermissionsByUser()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getRolesByUser()">
+        <td><a href="mdm-admin-components-dbmanager.html#getRolesByUser()-detail">getRolesByUser()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getRule()">
+        <td><a href="mdm-admin-components-dbmanager.html#getRule()-detail">getRule()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="getRules()">
+        <td><a href="mdm-admin-components-dbmanager.html#getRules()-detail">getRules()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="hasChild()">
+        <td><a href="mdm-admin-components-dbmanager.html#hasChild()-detail">hasChild()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="init()">
+        <td><a href="mdm-admin-components-dbmanager.html#init()-detail">init()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="removeAll()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeAll()-detail">removeAll()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="removeAllAssignments()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeAllAssignments()-detail">removeAllAssignments()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                <tr id="removeAllRules()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeAllRules()-detail">removeAllRules()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="removeChild()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeChild()-detail">removeChild()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="removeChildren()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeChildren()-detail">removeChildren()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="removeItem()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeItem()-detail">removeItem()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                <tr id="revoke()">
+        <td><a href="mdm-admin-components-dbmanager.html#revoke()-detail">revoke()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="revokeAll()">
+        <td><a href="mdm-admin-components-dbmanager.html#revokeAll()-detail">revokeAll()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                <tr id="updateRule()">
+        <td><a href="mdm-admin-components-dbmanager.html#updateRule()-detail">updateRule()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+    </table>
+</div>
+
+<div class="summary doc-method">
+<h2>Protected Methods</h2>
+
+<p><a href="#" class="toggle">Hide inherited methods</a></p>
+
+<table class="summary-table table table-striped table-bordered table-hover">
+<colgroup>
+    <col class="col-method" />
+    <col class="col-description" />
+    <col class="col-defined" />
+</colgroup>
+<tr>
+  <th>Method</th><th>Description</th><th>Defined By</th>
+</tr>
+            <tr id="addItem()">
+        <td><a href="mdm-admin-components-dbmanager.html#addItem()-detail">addItem()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+            <tr id="addRule()">
+        <td><a href="mdm-admin-components-dbmanager.html#addRule()-detail">addRule()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                    <tr id="checkAccessRecursive()">
+        <td><a href="mdm-admin-components-dbmanager.html#checkAccessRecursive()-detail">checkAccessRecursive()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                        <tr id="getChildrenList()">
+        <td><a href="mdm-admin-components-dbmanager.html#getChildrenList()-detail">getChildrenList()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                                                        <tr id="removeAllItems()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeAllItems()-detail">removeAllItems()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                            <tr id="removeRule()">
+        <td><a href="mdm-admin-components-dbmanager.html#removeRule()-detail">removeRule()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+                    <tr id="updateItem()">
+        <td><a href="mdm-admin-components-dbmanager.html#updateItem()-detail">updateItem()</a></td>
+        <td></td>
+        <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+    </tr>
+        </table>
+</div>
+
+<a name="events"></a>
+
+<a name="constants"></a>
+<div class="summary doc-const">
+    <h2>Constants</h2>
+
+    <p><a href="#" class="toggle">Hide inherited constants</a></p>
+
+    <table class="summary-table table table-striped table-bordered table-hover">
+    <colgroup>
+        <col class="col-const" />
+        <col class="col-value" />
+        <col class="col-description" />
+        <col class="col-defined" />
+    </colgroup>
+    <tr>
+        <th>Constant</th><th>Value</th><th>Description</th><th>Defined By</th>
+    </tr>
+            <tr id="PART_CHILDREN">
+          <td>PART_CHILDREN<a name="PART_CHILDREN-detail"></a></td>
+          <td>'mdm.admin.children'</td>
+          <td>
+</td>
+          <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+        </tr>
+            <tr id="PART_ITEMS">
+          <td>PART_ITEMS<a name="PART_ITEMS-detail"></a></td>
+          <td>'mdm.admin.items'</td>
+          <td>
+</td>
+          <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+        </tr>
+            <tr id="PART_RULES">
+          <td>PART_RULES<a name="PART_RULES-detail"></a></td>
+          <td>'mdm.admin.rules'</td>
+          <td>
+</td>
+          <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
+        </tr>
+        </table>
+</div>
+
+<h2>Property Details</h2>
+
+<div class="property-doc">
+
+    <div class="detail-header h3" id="$cache-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#$cache-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        $cache        <span class="detailHeaderTag small">
+            public                                    property
+                    </span>
+    </div>
+
+    <div class="signature"><a href="http://www.php.net/language.types.string">string</a>|\yii\caching\Cache <a href="mdm-admin-components-dbmanager.html#$cache-detail">$cache</a> <span style="color: #0000BB"></span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'cache'</span></div>
+
+    <p>Cache component</p>
+
+    
+
+    <div class="detail-header h3" id="$cacheDuration-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#$cacheDuration-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        $cacheDuration        <span class="detailHeaderTag small">
+            public                                    property
+                    </span>
+    </div>
+
+    <div class="signature"><a href="http://www.php.net/language.types.integer">integer</a> <a href="mdm-admin-components-dbmanager.html#$cacheDuration-detail">$cacheDuration</a> <span style="color: #0000BB"></span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span></div>
+
+    <p>Cache duration</p>
+
+    
+
+    <div class="detail-header h3" id="$enableCaching-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#$enableCaching-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        $enableCaching        <span class="detailHeaderTag small">
+            public                                    property
+                    </span>
+    </div>
+
+    <div class="signature"><a href="http://www.php.net/language.types.boolean">boolean</a> <a href="mdm-admin-components-dbmanager.html#$enableCaching-detail">$enableCaching</a> <span style="color: #0000BB"></span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">false</span></div>
+
+    <p>Enable caching</p>
+
+    
+</div>
+<h2>Method Details</h2>
+
+<div class="method-doc">
+
+    <div class="detail-header h3" id="addChild()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#addChild()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        addChild()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#addChild()-detail">addChild</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$parent</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$child&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$parent</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$child</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="addItem()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#addItem()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        addItem()
+        <span class="detail-header-tag small">
+            protected            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#addItem()-detail">addItem</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$item&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$item</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="addRule()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#addRule()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        addRule()
+        <span class="detail-header-tag small">
+            protected            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#addRule()-detail">addRule</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$rule&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$rule</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="assign()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#assign()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        assign()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#assign()-detail">assign</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$role</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$userId&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$role</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="checkAccess()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#checkAccess()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        checkAccess()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#checkAccess()-detail">checkAccess</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$userId</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$permissionName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$params&nbsp;</span><span style="color: #007700">=&nbsp;[]&nbsp;)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$permissionName</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$params</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="checkAccessRecursive()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#checkAccessRecursive()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        checkAccessRecursive()
+        <span class="detail-header-tag small">
+            protected            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#checkAccessRecursive()-detail">checkAccessRecursive</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$itemName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$params</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$assignments&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$user</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$itemName</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$params</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$assignments</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getAssignment()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getAssignment()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getAssignment()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getAssignment()-detail">getAssignment</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$roleName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$userId&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$roleName</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getAssignments()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getAssignments()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getAssignments()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getAssignments()-detail">getAssignments</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$userId&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getChildren()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getChildren()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getChildren()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getChildren()-detail">getChildren</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$name&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$name</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getChildrenList()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getChildrenList()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getChildrenList()
+        <span class="detail-header-tag small">
+            protected            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getChildrenList()-detail">getChildrenList</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getItem()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getItem()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getItem()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getItem()-detail">getItem</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$name&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$name</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getItems()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getItems()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getItems()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getItems()-detail">getItems</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$type&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$type</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getPermissionsByRole()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getPermissionsByRole()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getPermissionsByRole()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getPermissionsByRole()-detail">getPermissionsByRole</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$roleName&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$roleName</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getPermissionsByUser()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getPermissionsByUser()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getPermissionsByUser()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getPermissionsByUser()-detail">getPermissionsByUser</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$userId&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getRolesByUser()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getRolesByUser()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getRolesByUser()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getRolesByUser()-detail">getRolesByUser</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$userId&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getRule()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getRule()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getRule()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getRule()-detail">getRule</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$name&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$name</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getRules()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#getRules()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getRules()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#getRules()-detail">getRules</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="hasChild()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#hasChild()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        hasChild()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#hasChild()-detail">hasChild</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$parent</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$child&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$parent</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$child</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="init()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#init()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        init()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#init()-detail">init</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeAll()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeAll()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeAll()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeAll()-detail">removeAll</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeAllAssignments()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeAllAssignments()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeAllAssignments()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeAllAssignments()-detail">removeAllAssignments</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeAllItems()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeAllItems()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeAllItems()
+        <span class="detail-header-tag small">
+            protected            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeAllItems()-detail">removeAllItems</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$type&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$type</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeAllRules()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeAllRules()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeAllRules()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeAllRules()-detail">removeAllRules</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeChild()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeChild()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeChild()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeChild()-detail">removeChild</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$parent</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$child&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$parent</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$child</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeChildren()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeChildren()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeChildren()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeChildren()-detail">removeChildren</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$parent&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$parent</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeItem()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeItem()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeItem()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeItem()-detail">removeItem</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$item&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$item</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="removeRule()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#removeRule()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        removeRule()
+        <span class="detail-header-tag small">
+            protected            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#removeRule()-detail">removeRule</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$rule&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$rule</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="revoke()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#revoke()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        revoke()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#revoke()-detail">revoke</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$role</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$userId&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$role</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="revokeAll()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#revokeAll()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        revokeAll()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#revokeAll()-detail">revokeAll</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$userId&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$userId</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="updateItem()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#updateItem()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        updateItem()
+        <span class="detail-header-tag small">
+            protected            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#updateItem()-detail">updateItem</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$name</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$item&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$name</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$item</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="updateRule()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="mdm-admin-components-dbmanager.html#updateRule()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        updateRule()
+        <span class="detail-header-tag small">
+            public            method
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong></strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature">void <strong><a href="mdm-admin-components-dbmanager.html#updateRule()-detail">updateRule</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$name</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$rule&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$name</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$rule</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+</div>
+        </div>
+</div>
+
+<script type="text/javascript">
+    /*<![CDATA[*/
+    $("a.toggle").on('click', function () {
+        var $this = $(this);
+        if ($this.hasClass('properties-hidden')) {
+            $this.text($this.text().replace(/Show/,'Hide'));
+            $this.parents(".summary").find(".inherited").show();
+            $this.removeClass('properties-hidden');
+        } else {
+            $this.text($this.text().replace(/Hide/,'Show'));
+            $this.parents(".summary").find(".inherited").hide();
+            $this.addClass('properties-hidden');
+        }
+
+        return false;
+    });
+    /*
+     $(".sourceCode a.show").toggle(function () {
+     $(this).text($(this).text().replace(/show/,'hide'));
+     $(this).parents(".sourceCode").find("div.code").show();
+     },function () {
+     $(this).text($(this).text().replace(/hide/,'show'));
+     $(this).parents(".sourceCode").find("div.code").hide();
+     });
+     $("a.sourceLink").click(function () {
+     $(this).attr('target','_blank');
+     });
+     */
+    /*]]>*/
+</script>
+
+
+</div>
+
+<footer class="footer">
+        <p class="pull-right"><small>Page generated on Wed, 15 Oct 2014 01:22:20 +0000</small></p>
+    Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
+
+<script type="text/javascript">jQuery(document).ready(function () {
+    var shiftWindow = function () { scrollBy(0, -50) };
+    if (location.hash) shiftWindow();
+    window.addEventListener("hashchange", shiftWindow);
+var element = document.createElement("script");
+element.src = "./jssearch.index.js";
+document.body.appendChild(element);
+
+var searchBox = $('#searchbox');
+
+// search when typing in search field
+searchBox.on("keyup", function(event) {
+    var query = $(this).val();
+
+    if (query == '' || event.which == 27) {
+        $('#search-resultbox').hide();
+        return;
+    } else if (event.which == 13) {
+        var selectedLink = $('#search-resultbox a.selected');
+        if (selectedLink.length != 0) {
+            document.location = selectedLink.attr('href');
+            return;
+        }
+    } else if (event.which == 38 || event.which == 40) {
+        $('#search-resultbox').show();
+
+        var selected = $('#search-resultbox a.selected');
+        if (selected.length == 0) {
+            $('#search-results').find('a').first().addClass('selected');
+        } else {
+            var next;
+            if (event.which == 40) {
+                next = selected.parent().next().find('a').first();
+            } else {
+                next = selected.parent().prev().find('a').first();
+            }
+            if (next.length != 0) {
+                var resultbox = $('#search-results');
+                var position = next.position();
+
+//              TODO scrolling is buggy and jumps around
+//                resultbox.scrollTop(Math.floor(position.top));
+//                console.log(position.top);
+
+                selected.removeClass('selected');
+                next.addClass('selected');
+            }
+        }
+
+        return;
+    }
+    $('#search-resultbox').show();
+    $('#search-results').html('<li><span class="no-results">No results</span></li>');
+
+    var result = jssearch.search(query);
+
+    if (result.length > 0) {
+        var i = 0;
+        var resHtml = '';
+
+        for (var key in result) {
+            if (i++ > 20) {
+                break;
+            }
+            resHtml = resHtml +
+            '<li><a href="' + result[key].file.u.substr(3) +'"><span class="title">' + result[key].file.t + '</span>' +
+            '<span class="description">' + result[key].file.d + '</span></a></li>';
+        }
+        $('#search-results').html(resHtml);
+    }
+});
+
+// hide the search results on ESC
+$(document).on("keyup", function(event) { if (event.which == 27) { $('#search-resultbox').hide(); } });
+// hide search results on click to document
+$(document).bind('click', function (e) { $('#search-resultbox').hide(); });
+// except the following:
+searchBox.bind('click', function(e) { e.stopPropagation(); });
+$('#search-resultbox').bind('click', function(e) { e.stopPropagation(); });
+
+});</script></body>
+</html>
