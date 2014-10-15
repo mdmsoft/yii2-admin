@@ -59,7 +59,8 @@ $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
 ```
 Default result is get from `cache`. If you want to force regenerate, provide boolean `true` as forth parameter.
 
-
+Using Sparated Menu
+===================
 Second parameter of `mdm\admin\components\MenuHelper::getAssignedMenu()` used to get menu on it's own hierarchy.
 E.g. Your menu structure:
 

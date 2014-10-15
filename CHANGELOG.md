@@ -36,3 +36,4 @@ Yii2 Admin Change Log
 - Add: Add comment docs for entire class (mdmunir).
 - Chg: `mdm\admin\components\DbManager` now inherited from `yii\rbac\DbManager` (mdmunir).
 - Chg: Change module default layout (mdmunir).
+- Add: Add documentation (mdmunir).
