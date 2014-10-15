@@ -9,9 +9,9 @@ use yii\web\User;
 use yii\di\Instance;
 
 /**
- * AccessControl provides simple access control based rbac and route.
- *
- * AccessControl is an action filter.
+ * Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some simple access control. 
+ * As its name indicates, ACF is an action filter that can be attached to a controller or a module as a behavior. 
+ * ACF will check a set of access rules to make sure the current user can access the requested action.
  *
  * To use AccessControl, declare it in the application config as behavior.
  * For example.
