@@ -1,9 +1,9 @@
 RBAC Manager for Yii 2
 ========================
 
-Dosc:
+Docs:
 -----
-- [change log](CHANGELOG.md).
+- [Change Log](CHANGELOG.md).
 - [Basic Usage](docs/guide/basic-usage.md).
 - [Using Menu](docs/guide/using-menu.md).
 
@@ -62,7 +62,7 @@ return [
     ,
 ];
 ```
-See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-authorization.html#role-based-access-control-rbac) for more detail.
+See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-security-authorization.html) for more detail.
 You can then access Auth manager through the following URL:
 
 ```
