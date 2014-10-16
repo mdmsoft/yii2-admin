@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\items;
+namespace mdm\admin\controllers;
 
 use Yii;
 use mdm\admin\models\Menu;

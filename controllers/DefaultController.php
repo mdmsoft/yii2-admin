@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\items;
+namespace mdm\admin\controllers;
 
 /**
  * DefaultController

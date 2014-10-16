@@ -1,22 +1,30 @@
 Admin Module
 ============
 - `layout` default to 'left-menu'. Set to null if you want use your current layout.
-- `items` List of extra controller of module. To disable core item, set visible to false.
+- `menus` Change listed menu avaliable for module.
 
 Using module in configuration
 ```php
 'modules' => [
     ...
-	'admin' => [
-		'class' => 'mdm\admin\Module',
+    'admin' => [
+        'class' => 'mdm\admin\Module',
         'layout' => 'left-menu', // it can be '@path/to/your/layout'.
-        'items' => [
-			'route' => [
-				'visible' => false, // disable core item 'route'
-			],
-			'other-item' => [
-				'class' => 'path\to\OtherItemController', // add another item
-			],
+        'controllerMap' => [
+            'assignment' => [
+                'class' => 'mdm\admin\controllers\AssignmentController',
+                'userClassName' => 'app\models\User',
+                'idField' => 'user_id'
+            ],
+            'other' => [
+                'class' => 'path\to\OtherController', // add another controller
+            ],
+        ],
+        'menus' => [
+            'assignment' => [
+                'label' => 'Grand Access' // change label
+            ],
+            'route' => null, // disable menu route 
         ]
 	],
 ],

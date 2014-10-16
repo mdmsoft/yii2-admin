@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\items;
+namespace mdm\admin\controllers;
 
 use mdm\admin\models\Assigment;
 use mdm\admin\models\searchs\Assigment as AssigmentSearch;
@@ -18,7 +18,7 @@ use yii\web\Response;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class AssigmentController extends Controller
+class AssignmentController extends Controller
 {
     public $userClassName;
     public $idField = 'id';
