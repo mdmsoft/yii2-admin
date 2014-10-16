@@ -44,6 +44,19 @@ return [
 		'admin' => [
 			'class' => 'mdm\admin\Module',
             'layout' => 'left-menu', // avaliable value 'left-menu', 'right-menu' and 'top-menu'
+            'controllerMap' => [
+                 'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    'userClassName' => 'app\models\User',
+                    'idField' => 'user_id'
+                ]
+            ],
+            'menus' => [
+                'assigment' => [
+                    'label' => 'Grand Access' // change label
+                ],
+                'route' => null, // disable menu
+            ],
 		]
 		...
 	],

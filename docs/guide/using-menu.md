@@ -51,8 +51,7 @@ $callback = function($menu){
         'url' => [$menu['route']],
         'options' => $data,
         'items' => $menu['children']
-        ]
-    ]
+    ];
 }
 
 $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
