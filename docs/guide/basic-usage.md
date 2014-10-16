@@ -4,6 +4,7 @@ Admin Module
 - `menus` Change listed menu avaliable for module.
 
 Using module in configuration
+
 ```php
 'modules' => [
     ...
@@ -28,7 +29,6 @@ Using module in configuration
         ]
 	],
 ],
-
 ```
 
 Access Controll Filter
@@ -38,6 +38,7 @@ As its name indicates, ACF is an action filter that can be attached to a control
 ACF will check a set of access rules to make sure the current user can access the requested action.
 
 The code below shows how to use ACF which is implemented as `mdm\admin\components\AccessControl`:
+
 ```php
 'as access' => [
     'class' => 'mdm\admin\components\AccessControl',
@@ -47,6 +48,7 @@ The code below shows how to use ACF which is implemented as `mdm\admin\component
     ]
 ]
 ```
+
 
 Available Menu
 ==============

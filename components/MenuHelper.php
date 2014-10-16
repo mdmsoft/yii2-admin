@@ -50,7 +50,7 @@ class MenuHelper
      * @param \Closure $callback use to reformat output.
      * callback should have format like
      * 
-     * ```php
+     * ~~~
      * function ($menu) {
      *    return [
      *        'label' => $menu['name'],
@@ -60,7 +60,7 @@ class MenuHelper
      *        ]
      *    ]
      * }
-     * ```
+     * ~~~
      * @param boolean  $refresh
      * @return array
      */

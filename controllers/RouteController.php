@@ -213,7 +213,7 @@ class RouteController extends \yii\web\Controller
     /**
      * Get route(s) recrusive
      * @param \yii\base\Module $module
-     * @param array            $result
+     * @param array $result
      */
     private function getRouteRecrusive($module, &$result)
     {
@@ -301,7 +301,7 @@ class RouteController extends \yii\web\Controller
     /**
      * Get route of action
      * @param \yii\base\Controller $controller
-     * @param Array                $result     all controller action.
+     * @param array $result all controller action.
      */
     private function getActionRoutes($controller, &$result)
     {
@@ -338,7 +338,7 @@ class RouteController extends \yii\web\Controller
     /**
      * Set default rule of parameterize route.
      */
-    public function setDefaultRule()
+    protected function setDefaultRule()
     {
         if (Yii::$app->authManager->getRule(RouteRule::RULE_NAME) === null) {
             Yii::$app->authManager->add(Yii::createObject([
