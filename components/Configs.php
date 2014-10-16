@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  * Configs
  * Used for configure some value. To set config you can use [[\yii\base\Application::$params]]
  * 
- * ```
+ * ~~~
  * return [
  *     
  *     'mdm.admin.configs' => [
@@ -19,14 +19,16 @@ use yii\helpers\ArrayHelper;
  *         'menuTable' => 'admin_menu',
  *     ]
  * ];
- * ```
- * or use `Yii::$container`
- * ```
+ * ~~~
+ * 
+ * or use [[\Yii::$container]]
+ * 
+ * ~~~
  * Yii::$container->set('mdm\admin\components\Configs',[
  *     'db' => 'customDb',
  *     'menuTable' => 'admin_menu',
  * ]);
- * ```
+ * ~~~
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
@@ -82,14 +84,14 @@ class Configs extends \yii\base\Object
 
     /**
      * Create instance of self
-     * @return self
+     * @return static
      */
     public static function instance()
     {
         if (self::$_instance === null) {
             $type = ArrayHelper::getValue(Yii::$app->params, 'mdm.admin.configs', []);
             if (is_array($type) && !isset($type['class'])) {
-                $type['class'] = self::className();
+                $type['class'] = static::className();
             }
 
             return self::$_instance = Yii::createObject($type);

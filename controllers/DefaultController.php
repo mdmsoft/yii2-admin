@@ -12,7 +12,7 @@ class DefaultController extends \yii\web\Controller
 {
 
     /**
-     *
+     * Action index
      */
     public function actionIndex()
     {

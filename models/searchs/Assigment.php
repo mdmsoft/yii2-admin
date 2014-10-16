@@ -7,12 +7,18 @@ use yii\data\ActiveDataProvider;
 
 /**
  * AssigmentSearch represents the model behind the search form about Assigment.
+ * 
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class Assigment extends Model
 {
     public $id;
     public $username;
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -32,7 +38,7 @@ class Assigment extends Model
     }
 
     /**
-     *
+     * Create data provider for Assigment model.
      * @param  array                        $params
      * @param  \yii\db\ActiveRecord         $class
      * @param  string                       $usernameField

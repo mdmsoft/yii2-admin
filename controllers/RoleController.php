@@ -144,6 +144,12 @@ class RoleController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Assign or remove items
+     * @param string $id
+     * @param string $action
+     * @return array
+     */
     public function actionAssign($id, $action)
     {
         $post = Yii::$app->getRequest()->post();
@@ -180,6 +186,13 @@ class RoleController extends Controller
             $error];
     }
 
+    /**
+     * Search role
+     * @param string $id
+     * @param string $target
+     * @param string $term
+     * @return array
+     */
     public function actionRoleSearch($id, $target, $term = '')
     {
         $result = [

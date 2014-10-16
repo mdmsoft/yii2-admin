@@ -101,6 +101,7 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     /**
+     * Get menu parent
      * @return \yii\db\ActiveQuery
      */
     public function getMenuParent()
@@ -109,6 +110,7 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     /**
+     * Get menu children
      * @return \yii\db\ActiveQuery
      */
     public function getMenus()

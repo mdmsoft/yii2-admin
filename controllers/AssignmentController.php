@@ -108,7 +108,7 @@ class AssignmentController extends Controller
      * Assign or revoke assignment to user
      * @param  integer $id
      * @param  string  $action
-     * @return type
+     * @return mixed
      */
     public function actionAssign($id, $action)
     {
@@ -177,8 +177,8 @@ class AssignmentController extends Controller
     /**
      * Finds the Assigment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param  integer               $id
-     * @return Assigment             the loaded model
+     * @param  integer $id
+     * @return Assigment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

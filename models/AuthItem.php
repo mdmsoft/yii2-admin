@@ -29,12 +29,12 @@ class AuthItem extends \yii\base\Model
     public $data;
 
     /**
-     *
      * @var Item
      */
     private $_item;
 
     /**
+     * Initialize object
      * @param Item  $item
      * @param array $config
      */
@@ -92,7 +92,7 @@ class AuthItem extends \yii\base\Model
 
     /**
      * Find role
-     * @param  string     $id
+     * @param string $id
      * @return null|\self
      */
     public static function find($id)
@@ -106,7 +106,7 @@ class AuthItem extends \yii\base\Model
     }
 
     /**
-     * Save role to [[yii\rbac\authManager]]
+     * Save role to [[\yii\rbac\authManager]]
      * @return boolean
      */
     public function save()
@@ -141,6 +141,7 @@ class AuthItem extends \yii\base\Model
     }
 
     /**
+     * Get item
      * @return Item
      */
     public function getItem()
@@ -149,7 +150,8 @@ class AuthItem extends \yii\base\Model
     }
 
     /**
-     * @param  mixed        $type
+     * Get type name
+     * @param  mixed $type
      * @return string|array
      */
     public static function getTypeName($type = null)

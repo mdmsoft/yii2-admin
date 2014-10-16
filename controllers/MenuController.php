@@ -18,6 +18,9 @@ use yii\filters\VerbFilter;
 class MenuController extends Controller
 {
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
@@ -112,8 +115,8 @@ class MenuController extends Controller
     /**
      * Finds the Menu model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param  integer               $id
-     * @return Menu                  the loaded model
+     * @param  integer $id
+     * @return Menu the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
