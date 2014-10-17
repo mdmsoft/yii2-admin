@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="language" content="en" />
+        <link href="./assets/d7519a25/css/bootstrap.css" rel="stylesheet">
+        <link href="./assets/841fd675/style.css" rel="stylesheet">
+        <script src="./assets/556cdfae/jquery.js"></script>
+        <script src="./assets/d7519a25/js/bootstrap.js"></script>
+        <script src="./assets/2f6fad72/jssearch.js"></script>    <title>Yii Framework 2.0 API Documentation</title>
+    </head>
+    <body>
+
+        <div class="wrap">
+            <nav id="w3" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w3-collapse"><span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Yii Framework 2.0 API Documentation</a></div><div id="w3-collapse" class="collapse navbar-collapse"><ul id="w4" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
+                        <li><a href="./guide-README.html">Guide</a></li></ul><div class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input id="searchbox" type="text" class="form-control" placeholder="Search">
+                        </div>
+                    </div>
+                </div></nav>
+            <div id="search-resultbox" style="display: none;" class="modal-content">
+                <ul id="search-results">
+                </ul>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div id="navigation" class="list-group"><a class="list-group-item active" href="#navigation-0" data-toggle="collapse" data-parent="#navigation">Documentation <b class="caret"></b></a><div id="navigation-0" class="submenu panel-collapse collapse in">
+                            <a class="list-group-item active" href="./guide-CHANGELOG.html">Change Log</a>
+                            <a class="list-group-item" href="./guide-basic-usage.html">Basic Usage</a>
+                            <a class="list-group-item" href="./guide-using-menu.html">Using Menu</a></div>
+                    </div>    
+                </div>
+                <div class="col-md-9 guide-content" role="main">
+                    <h1>Yii2 Admin Change Log <a href="#yii2-admin-change-log" name="yii2-admin-change-log" class="hashlink">&para;</a></h1><h2>1.0.0-rc under development <a href="#100-rc-under-development" name="100-rc-under-development" class="hashlink">&para;</a></h2><ul>
+                        <li>Chg #10: <code>cache</code> is not used anymore (mdmunir).</li>
+                        <li>Chg #11: Only use required style sheet (mdmunir).</li>
+                        <li>Bug #12: Allow another module name (mdmunir).</li>
+                        <li>Chg: Using <code>VarDumper::export</code> to save <code>data</code> of <code>mdm\models\AuthItem</code> (mdmunir).</li>
+                        <li>Chg: Allow using another <code>yii\rbac\Rule</code> instance (mdmunir).</li>
+                        <li>Add: Custom side menu via <code>mdm\admin\Module::items</code> (mdmunir).</li>
+                        <li>Add: Added menu manager (mdmunir).</li>
+                        <li>Add: Migration for table menu (mdmunir).</li>
+                        <li>Chg: Remove prefix <code>menu_</code> from column name of table <code>menu</code> (mdmunir).</li>
+                        <li>Chg: Added column <code>data</code> to table <code>menu</code> (mdmunir).</li>
+                        <li>Chg: Can customize return of <code>mdm\admin\components\AccessHelper::getAssignedMenu()</code> with provide a callback to method (mdmunir). </li>
+                        <li>Add: Added Menu order (mdmunir).</li>
+                        <li>Chg: Add require "yiisoft/yii2-jui" to composer.json (mdmunir, hashie5).</li>
+                        <li>Bug: #19: Added table prefix to table <code>menu</code> for some query (mdmunir, liu0472).</li>
+                        <li>Chg: #21: Force set allow <code>null</code> to column <code>parent</code> in database migration (mdmunir).</li>
+                        <li>Bug: #24: change <code>$cache === null</code> to <code>isset($cache)</code> (mdmunir).</li>
+                        <li>Chg: Remove <code>mdm\admin\components\BizRule</code> (mdmunir).</li>
+                        <li>Chg: Change convert string to <code>yii\rbac\Item::$data</code> with <code>Json::decode()</code> (mdmunir).</li>
+                        <li>Chg: Add extra param to route (mdmunir).</li>
+                        <li>Chg: Add ability to get sparated menu. See <a href="docs/guide/using-menu.md">Using Menu</a> (mdmunir).</li>
+                        <li>Chg: Refactor layout (mdmunir).</li>
+                        <li>Chg: Change <code>AccessHelper</code> to <code>MenuHelper</code> (mdmunir).</li>
+                        <li>Add: Add <code>db</code> and <code>cache</code> configuration (mdmunir).</li>
+                        <li>Chg: Change migration path name (mdmunir).</li>
+                        <li>Chg: <code>db</code> and <code>cache</code> configuration via <code>$app-&gt;params['mdm.admin.configs']</code> (mdmunir).</li>
+                        <li>Chg: #29: Change <code>yii\caching\GroupDependency</code> to <code>yii\caching\TagDependency</code> (mdmunir).</li>
+                        <li>Chg: Remove <code>mdm\admin\Module::allowActions</code>. Set access control directly with <code>mdm\admin\components\AccessControl</code> (mdmunir).</li>
+                        <li>Bug: Bug fix. Ensure array has index before check <code>in_array()</code> (mdmunir).</li>
+                        <li>Chg: Change cache strategy (mdmunir).</li>
+                        <li>Add: Add comment docs for entire class (mdmunir).</li>
+                        <li>Chg: <code>mdm\admin\components\DbManager</code> now inherited from <code>yii\rbac\DbManager</code> (mdmunir).</li>
+                        <li>Chg: Change module default layout (mdmunir).</li>
+                        <li>Add: Add documentation (mdmunir).</li>
+                        <li>Chg: Change back items to controllers (mdmunir).</li>
+                    </ul>
+                    <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <footer class="footer">
+            <p class="pull-right"><small>Page generated on Thu, 16 Oct 2014 16:37:48 +0000</small></p>
+            Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
+
+        <script type="text/javascript">jQuery(document).ready(function() {
+                var shiftWindow = function() {
+                    scrollBy(0, -50)
+                };
+                if (location.hash)
+                    shiftWindow();
+                window.addEventListener("hashchange", shiftWindow);
+                var element = document.createElement("script");
+                element.src = "./jssearch.index.js";
+                document.body.appendChild(element);
+
+                var searchBox = $('#searchbox');
+
+        // search when typing in search field
+                searchBox.on("keyup", function(event) {
+                    var query = $(this).val();
+
+                    if (query == '' || event.which == 27) {
+                        $('#search-resultbox').hide();
+                        return;
+                    } else if (event.which == 13) {
+                        var selectedLink = $('#search-resultbox a.selected');
+                        if (selectedLink.length != 0) {
+                            document.location = selectedLink.attr('href');
+                            return;
+                        }
+                    } else if (event.which == 38 || event.which == 40) {
+                        $('#search-resultbox').show();
+
+                        var selected = $('#search-resultbox a.selected');
+                        if (selected.length == 0) {
+                            $('#search-results').find('a').first().addClass('selected');
+                        } else {
+                            var next;
+                            if (event.which == 40) {
+                                next = selected.parent().next().find('a').first();
+                            } else {
+                                next = selected.parent().prev().find('a').first();
+                            }
+                            if (next.length != 0) {
+                                var resultbox = $('#search-results');
+                                var position = next.position();
+
+        //              TODO scrolling is buggy and jumps around
+        //                resultbox.scrollTop(Math.floor(position.top));
+        //                console.log(position.top);
+
+                                selected.removeClass('selected');
+                                next.addClass('selected');
+                            }
+                        }
+
+                        return;
+                    }
+                    $('#search-resultbox').show();
+                    $('#search-results').html('<li><span class="no-results">No results</span></li>');
+
+                    var result = jssearch.search(query);
+
+                    if (result.length > 0) {
+                        var i = 0;
+                        var resHtml = '';
+
+                        for (var key in result) {
+                            if (i++ > 20) {
+                                break;
+                            }
+                            resHtml = resHtml +
+                                '<li><a href="' + result[key].file.u.substr(3) + '"><span class="title">' + result[key].file.t + '</span>' +
+                                '<span class="description">' + result[key].file.d + '</span></a></li>';
+                        }
+                        $('#search-results').html(resHtml);
+                    }
+                });
+
+        // hide the search results on ESC
+                $(document).on("keyup", function(event) {
+                    if (event.which == 27) {
+                        $('#search-resultbox').hide();
+                    }
+                });
+        // hide search results on click to document
+                $(document).bind('click', function(e) {
+                    $('#search-resultbox').hide();
+                });
+        // except the following:
+                searchBox.bind('click', function(e) {
+                    e.stopPropagation();
+                });
+                $('#search-resultbox').bind('click', function(e) {
+                    e.stopPropagation();
+                });
+
+            });</script></body>
+</html>

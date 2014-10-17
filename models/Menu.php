@@ -8,15 +8,15 @@ use mdm\admin\components\Configs;
 /**
  * This is the model class for table "menu".
  *
- * @property integer $id
- * @property string $name
- * @property integer $parent
- * @property string $route
- * @property integer $order
- * @property string $data
+ * @property integer $id Menu id(autoincrement)
+ * @property string $name Menu name
+ * @property integer $parent Menu parent
+ * @property string $route Route for this menu
+ * @property integer $order Menu order
+ * @property string $data Extra information for this menu
  *
- * @property Menu $menuParent
- * @property Menu[] $menus
+ * @property Menu $menuParent Menu parent
+ * @property Menu[] $menus Menu children
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0

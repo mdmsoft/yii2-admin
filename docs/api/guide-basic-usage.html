@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="language" content="en" />
+        <link href="./assets/d7519a25/css/bootstrap.css" rel="stylesheet">
+        <link href="./assets/841fd675/style.css" rel="stylesheet">
+        <script src="./assets/556cdfae/jquery.js"></script>
+        <script src="./assets/d7519a25/js/bootstrap.js"></script>
+        <script src="./assets/2f6fad72/jssearch.js"></script>    <title>Yii Framework 2.0 API Documentation</title>
+    </head>
+    <body>
+
+        <div class="wrap">
+            <nav id="w13" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w13-collapse"><span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Yii Framework 2.0 API Documentation</a></div><div id="w13-collapse" class="collapse navbar-collapse"><ul id="w14" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
+                        <li><a href="./guide-README.html">Guide</a></li></ul><div class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input id="searchbox" type="text" class="form-control" placeholder="Search">
+                        </div>
+                    </div>
+                </div></nav>
+            <div id="search-resultbox" style="display: none;" class="modal-content">
+                <ul id="search-results">
+                </ul>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div id="navigation" class="list-group"><a class="list-group-item active" href="#navigation-10" data-toggle="collapse" data-parent="#navigation">Documentation <b class="caret"></b></a><div id="navigation-10" class="submenu panel-collapse collapse in">
+                            <a class="list-group-item" href="./guide-CHANGELOG.html">Change Log</a>
+                            <a class="list-group-item active" href="./guide-basic-usage.html">Basic Usage</a>
+                            <a class="list-group-item" href="./guide-using-menu.html">Using Menu</a></div>
+                    </div>    
+                </div>
+                <div class="col-md-9 guide-content" role="main">
+                    <h1>Admin Module <a href="#admin-module" name="admin-module" class="hashlink">&para;</a></h1><ul>
+                        <li><code>layout</code> default to 'left-menu'. Set to null if you want use your current layout.</li>
+                        <li><code>menus</code> Change listed menu avaliable for module.</li>
+                    </ul>
+                    <p>Using module in configuration</p>
+                    <pre><code class="language-php"><span style="color: #0000BB"></span><span style="color: #DD0000">'modules'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'admin'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\Module'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'layout'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'left-menu'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;it&nbsp;can&nbsp;be&nbsp;'@path/to/your/layout'.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'controllerMap'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'assignment'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\controllers\AssignmentController'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'userClassName'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'app\models\User'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'idField'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'user_id'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'other'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'path\to\OtherController'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;add&nbsp;another&nbsp;controller<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'menus'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'assignment'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Grand&nbsp;Access'&nbsp;</span><span style="color: #FF8000">//&nbsp;change&nbsp;label<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'route'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;disable&nbsp;menu&nbsp;route&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;],<br />],</span></code></pre>
+                    <h1>Access Controll Filter <a href="#access-controll-filter" name="access-controll-filter" class="hashlink">&para;</a></h1><p>Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some simple access control. 
+                        As its name indicates, ACF is an action filter that can be attached to a controller or a module as a behavior. 
+                        ACF will check a set of access rules to make sure the current user can access the requested action.</p>
+                    <p>The code below shows how to use ACF which is implemented as <code>mdm\admin\components\AccessControl</code>:</p>
+                    <pre><code class="language-php"><span style="color: #0000BB"></span><span style="color: #DD0000">'as&nbsp;access'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\components\AccessControl'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'allowActions'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'site/login'</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'site/error'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;]<br />]</span></code></pre>
+                    <h1>Available Menu <a href="#available-menu" name="available-menu" class="hashlink">&para;</a></h1><h2>Assigment <a href="#assigment" name="assigment" class="hashlink">&para;</a></h2><p>Assigment menu used for grant or revoke role to/from user.</p>
+                    <h2>Role and Permission <a href="#role-and-permission" name="role-and-permission" class="hashlink">&para;</a></h2><p>This sesction used for manage role/permission. You can create, delete or update role/permission from this menu.
+                        Adding and remove child of role can be doing there.</p>
+                    <h2>Route <a href="#route" name="route" class="hashlink">&para;</a></h2><p>Route is special <code>permission</code>. Its related with application route. Because <code>route</code> is <code>permission</code>, 
+                        so you can assign it to another <code>permission</code> or <code>role</code>. 
+                        By default, listed route is automatic read from application structure.
+                        Click button '&gt;&gt;' to save it and button '&lt;&lt;' to delete.</p>
+                    <p>If route that you need not avaliable in list. You can create it manually. You can also create route
+                        with extra parameter. Use <code>&amp;</code> to sparate main route with parameter. E.g. <code>site/page&amp;view=about</code>.</p>
+                    <h2>Rule <a href="#rule" name="rule" class="hashlink">&para;</a></h2><p>To using rule, define your own rule class. It should be inherited from 
+                        <a href="http://www.yiiframework.com/doc-2.0/yii-rbac-rule.html"><code>yii\rbac\Rule</code></a>.
+                        See <a href="http://www.yiiframework.com/doc-2.0/guide-security-authorization.html#using-rules">Rules</a> for more information.
+                        Add rule to <code>authManager</code> by provide rule classname.</p>
+                    <h2>Using Menu <a href="#using-menu" name="using-menu" class="hashlink">&para;</a></h2><p>See <a href="guide-using-menu.html">using menu</a></p>
+                    <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <footer class="footer">
+            <p class="pull-right"><small>Page generated on Thu, 16 Oct 2014 16:37:48 +0000</small></p>
+            Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
+
+        <script type="text/javascript">jQuery(document).ready(function() {
+                var shiftWindow = function() {
+                    scrollBy(0, -50)
+                };
+                if (location.hash)
+                    shiftWindow();
+                window.addEventListener("hashchange", shiftWindow);
+                var element = document.createElement("script");
+                element.src = "./jssearch.index.js";
+                document.body.appendChild(element);
+
+                var searchBox = $('#searchbox');
+
+        // search when typing in search field
+                searchBox.on("keyup", function(event) {
+                    var query = $(this).val();
+
+                    if (query == '' || event.which == 27) {
+                        $('#search-resultbox').hide();
+                        return;
+                    } else if (event.which == 13) {
+                        var selectedLink = $('#search-resultbox a.selected');
+                        if (selectedLink.length != 0) {
+                            document.location = selectedLink.attr('href');
+                            return;
+                        }
+                    } else if (event.which == 38 || event.which == 40) {
+                        $('#search-resultbox').show();
+
+                        var selected = $('#search-resultbox a.selected');
+                        if (selected.length == 0) {
+                            $('#search-results').find('a').first().addClass('selected');
+                        } else {
+                            var next;
+                            if (event.which == 40) {
+                                next = selected.parent().next().find('a').first();
+                            } else {
+                                next = selected.parent().prev().find('a').first();
+                            }
+                            if (next.length != 0) {
+                                var resultbox = $('#search-results');
+                                var position = next.position();
+
+        //              TODO scrolling is buggy and jumps around
+        //                resultbox.scrollTop(Math.floor(position.top));
+        //                console.log(position.top);
+
+                                selected.removeClass('selected');
+                                next.addClass('selected');
+                            }
+                        }
+
+                        return;
+                    }
+                    $('#search-resultbox').show();
+                    $('#search-results').html('<li><span class="no-results">No results</span></li>');
+
+                    var result = jssearch.search(query);
+
+                    if (result.length > 0) {
+                        var i = 0;
+                        var resHtml = '';
+
+                        for (var key in result) {
+                            if (i++ > 20) {
+                                break;
+                            }
+                            resHtml = resHtml +
+                                '<li><a href="' + result[key].file.u.substr(3) + '"><span class="title">' + result[key].file.t + '</span>' +
+                                '<span class="description">' + result[key].file.d + '</span></a></li>';
+                        }
+                        $('#search-results').html(resHtml);
+                    }
+                });
+
+        // hide the search results on ESC
+                $(document).on("keyup", function(event) {
+                    if (event.which == 27) {
+                        $('#search-resultbox').hide();
+                    }
+                });
+        // hide search results on click to document
+                $(document).bind('click', function(e) {
+                    $('#search-resultbox').hide();
+                });
+        // except the following:
+                searchBox.bind('click', function(e) {
+                    e.stopPropagation();
+                });
+                $('#search-resultbox').bind('click', function(e) {
+                    e.stopPropagation();
+                });
+
+            });</script></body>
+</html>

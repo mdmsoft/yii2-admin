@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="language" content="en" />
+        <link href="./assets/d7519a25/css/bootstrap.css" rel="stylesheet">
+        <link href="./assets/841fd675/style.css" rel="stylesheet">
+        <script src="./assets/556cdfae/jquery.js"></script>
+        <script src="./assets/d7519a25/js/bootstrap.js"></script>
+        <script src="./assets/2f6fad72/jssearch.js"></script>    <title>Yii Framework 2.0 API Documentation</title>
+    </head>
+    <body>
+
+        <div class="wrap">
+            <nav id="w18" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w18-collapse"><span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Yii Framework 2.0 API Documentation</a></div><div id="w18-collapse" class="collapse navbar-collapse"><ul id="w19" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
+                        <li><a href="./guide-README.html">Guide</a></li></ul><div class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input id="searchbox" type="text" class="form-control" placeholder="Search">
+                        </div>
+                    </div>
+                </div></nav>
+            <div id="search-resultbox" style="display: none;" class="modal-content">
+                <ul id="search-results">
+                </ul>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div id="navigation" class="list-group"><a class="list-group-item active" href="#navigation-10" data-toggle="collapse" data-parent="#navigation">Documentation <b class="caret"></b></a><div id="navigation-10" class="submenu panel-collapse collapse in">
+                            <a class="list-group-item" href="./guide-CHANGELOG.html">Change Log</a>
+                            <a class="list-group-item" href="./guide-basic-usage.html">Basic Usage</a>
+                            <a class="list-group-item active" href="./guide-using-menu.html">Using Menu</a></div>                            
+                    </div>    
+                </div>
+                <div class="col-md-9 guide-content" role="main">
+                    <h1>Using Menu <a href="#using-menu" name="using-menu" class="hashlink">&para;</a></h1><p>Menu manager used for build hierarchical menu. This is automatically look of user 
+                        role and permision then return menus that he has access.</p>
+                    <pre><code class="language-php"><span style="color: #0000BB"></span><span style="color: #007700">use&nbsp;</span><span style="color: #0000BB">mdm</span><span style="color: #007700">\</span><span style="color: #0000BB">admin</span><span style="color: #007700">\</span><span style="color: #0000BB">components</span><span style="color: #007700">\</span><span style="color: #0000BB">MenuHelper</span><span style="color: #007700">;<br />use&nbsp;</span><span style="color: #0000BB">yii</span><span style="color: #007700">\</span><span style="color: #0000BB">bootstrap</span><span style="color: #007700">\</span><span style="color: #0000BB">Nav</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #0000BB">Nav</span><span style="color: #007700">::</span><span style="color: #0000BB">widget</span><span style="color: #007700">([<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'items'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">MenuHelper</span><span style="color: #007700">::</span><span style="color: #0000BB">getAssignedMenu</span><span style="color: #007700">(</span><span style="color: #0000BB">Yii</span><span style="color: #007700">::</span><span style="color: #0000BB">$app</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">id</span><span style="color: #007700">)<br />]);</span></code></pre>
+                    <p>Return of <code>mdm\admin\components\MenuHelper::getAssignedMenu()</code> has default format like:</p>
+                    <pre><code class="language-php"><span style="color: #0000BB"></span><span style="color: #007700">[<br />&nbsp;&nbsp;&nbsp;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">],&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'url'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'route'</span><span style="color: #007700">]],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'items'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">],&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'url'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'route'</span><span style="color: #007700">]]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;....<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">],&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'url'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'route'</span><span style="color: #007700">]],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'items'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">],&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'url'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'route'</span><span style="color: #007700">]]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;....<br />]</span></code></pre>
+                    <p>where <code>$menu</code> variable corresponden with a record of table <code>menu</code>. You can customize 
+                        return format of <code>mdm\admin\components\MenuHelper::getAssignedMenu()</code> by provide a callback to this methode.
+                        The callback must have format <code>function($menu){}</code>. E.g:</p>
+                    <pre><code class="language-php"><span style="color: #0000BB">$callback&nbsp;</span><span style="color: #007700">=&nbsp;function(</span><span style="color: #0000BB">$menu</span><span style="color: #007700">){<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$data&nbsp;</span><span style="color: #007700">=&nbsp;eval(</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'data'</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">],&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'url'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'route'</span><span style="color: #007700">]],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'options'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$data</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'items'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$menu</span><span style="color: #007700">[</span><span style="color: #DD0000">'children'</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;];<br />}<br /><br /></span><span style="color: #0000BB">$items&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">MenuHelper</span><span style="color: #007700">::</span><span style="color: #0000BB">getAssignedMenu</span><span style="color: #007700">(</span><span style="color: #0000BB">Yii</span><span style="color: #007700">::</span><span style="color: #0000BB">$app</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">id</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$callback</span><span style="color: #007700">);</span></code></pre>
+                    <p>Default result is get from <code>cache</code>. If you want to force regenerate, provide boolean <code>true</code> as forth parameter.</p>
+                    <h2>Using Sparated Menu <a href="#using-sparated-menu" name="using-sparated-menu" class="hashlink">&para;</a></h2><p>Second parameter of <code>mdm\admin\components\MenuHelper::getAssignedMenu()</code> used to get menu on it's own hierarchy.
+                        E.g. Your menu structure:</p>
+                    <ul>
+                        <li>Side Menu<ul>
+                                <li>Menu 1<ul>
+                                        <li>Menu 1.1</li>
+                                        <li>Menu 1.2</li>
+                                        <li>Menu 1.3</li>
+                                    </ul>
+                                </li>
+                                <li>Menu 2<ul>
+                                        <li>Menu 2.1</li>
+                                        <li>Menu 2.2</li>
+                                        <li>Menu 2.3</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Top Menu<ul>
+                                <li>Top Menu 1<ul>
+                                        <li>Top Menu 1.1</li>
+                                        <li>Top Menu 1.2</li>
+                                        <li>Top Menu 1.3</li>
+                                    </ul>
+                                </li>
+                                <li>Top Menu 2</li>
+                                <li>Top Menu 3</li>
+                                <li>Top Menu 4</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>You can get 'Side Menu' chldren by calling</p>
+                    <pre><code class="language-php"><span style="color: #0000BB">$items&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">MenuHelper</span><span style="color: #007700">::</span><span style="color: #0000BB">getAssignedMenu</span><span style="color: #007700">(</span><span style="color: #0000BB">Yii</span><span style="color: #007700">::</span><span style="color: #0000BB">$app</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">id</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sideMenuId</span><span style="color: #007700">);</span></code></pre>
+                    <p>It will result in</p>
+                    <ul>
+                        <li>Menu 1<ul>
+                                <li>Menu 1.1</li>
+                                <li>Menu 1.2</li>
+                                <li>Menu 1.3</li>
+                            </ul>
+                        </li>
+                        <li>Menu 2<ul>
+                                <li>Menu 2.1</li>
+                                <li>Menu 2.2</li>
+                                <li>Menu 2.3</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <footer class="footer">
+            <p class="pull-right"><small>Page generated on Thu, 16 Oct 2014 16:37:48 +0000</small></p>
+            Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
+
+        <script type="text/javascript">jQuery(document).ready(function() {
+                var shiftWindow = function() {
+                    scrollBy(0, -50)
+                };
+                if (location.hash)
+                    shiftWindow();
+                window.addEventListener("hashchange", shiftWindow);
+                var element = document.createElement("script");
+                element.src = "./jssearch.index.js";
+                document.body.appendChild(element);
+
+                var searchBox = $('#searchbox');
+
+        // search when typing in search field
+                searchBox.on("keyup", function(event) {
+                    var query = $(this).val();
+
+                    if (query == '' || event.which == 27) {
+                        $('#search-resultbox').hide();
+                        return;
+                    } else if (event.which == 13) {
+                        var selectedLink = $('#search-resultbox a.selected');
+                        if (selectedLink.length != 0) {
+                            document.location = selectedLink.attr('href');
+                            return;
+                        }
+                    } else if (event.which == 38 || event.which == 40) {
+                        $('#search-resultbox').show();
+
+                        var selected = $('#search-resultbox a.selected');
+                        if (selected.length == 0) {
+                            $('#search-results').find('a').first().addClass('selected');
+                        } else {
+                            var next;
+                            if (event.which == 40) {
+                                next = selected.parent().next().find('a').first();
+                            } else {
+                                next = selected.parent().prev().find('a').first();
+                            }
+                            if (next.length != 0) {
+                                var resultbox = $('#search-results');
+                                var position = next.position();
+
+        //              TODO scrolling is buggy and jumps around
+        //                resultbox.scrollTop(Math.floor(position.top));
+        //                console.log(position.top);
+
+                                selected.removeClass('selected');
+                                next.addClass('selected');
+                            }
+                        }
+
+                        return;
+                    }
+                    $('#search-resultbox').show();
+                    $('#search-results').html('<li><span class="no-results">No results</span></li>');
+
+                    var result = jssearch.search(query);
+
+                    if (result.length > 0) {
+                        var i = 0;
+                        var resHtml = '';
+
+                        for (var key in result) {
+                            if (i++ > 20) {
+                                break;
+                            }
+                            resHtml = resHtml +
+                                '<li><a href="' + result[key].file.u.substr(3) + '"><span class="title">' + result[key].file.t + '</span>' +
+                                '<span class="description">' + result[key].file.d + '</span></a></li>';
+                        }
+                        $('#search-results').html(resHtml);
+                    }
+                });
+
+        // hide the search results on ESC
+                $(document).on("keyup", function(event) {
+                    if (event.which == 27) {
+                        $('#search-resultbox').hide();
+                    }
+                });
+        // hide search results on click to document
+                $(document).bind('click', function(e) {
+                    $('#search-resultbox').hide();
+                });
+        // except the following:
+                searchBox.bind('click', function(e) {
+                    e.stopPropagation();
+                });
+                $('#search-resultbox').bind('click', function(e) {
+                    e.stopPropagation();
+                });
+
+            });</script></body>
+</html>

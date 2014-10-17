@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="language" content="en" />
+        <link href="./assets/d7519a25/css/bootstrap.css" rel="stylesheet">
+        <link href="./assets/841fd675/style.css" rel="stylesheet">
+        <script src="./assets/556cdfae/jquery.js"></script>
+        <script src="./assets/d7519a25/js/bootstrap.js"></script>
+        <script src="./assets/2f6fad72/jssearch.js"></script>    <title>Yii Framework 2.0 API Documentation</title>
+    </head>
+    <body>
+
+        <div class="wrap">
+            <nav id="w8" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w8-collapse"><span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Yii Framework 2.0 API Documentation</a></div><div id="w8-collapse" class="collapse navbar-collapse"><ul id="w9" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
+                        <li><a href="./guide-README.html">Guide</a></li></ul><div class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input id="searchbox" type="text" class="form-control" placeholder="Search">
+                        </div>
+                    </div>
+                </div></nav>
+            <div id="search-resultbox" style="display: none;" class="modal-content">
+                <ul id="search-results">
+                </ul>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div id="navigation" class="list-group"><a class="list-group-item active" href="#navigation-10" data-toggle="collapse" data-parent="#navigation">Documentation <b class="caret"></b></a><div id="navigation-10" class="submenu panel-collapse collapse in">
+                            <a class="list-group-item" href="./guide-CHANGELOG.html">Change Log</a>
+                            <a class="list-group-item" href="./guide-basic-usage.html">Basic Usage</a>
+                            <a class="list-group-item" href="./guide-using-menu.html">Using Menu</a></div>
+                    </div>    
+                </div>
+                <div class="col-md-9 guide-content" role="main">
+                    <h1>RBAC Manager for Yii 2 <a href="#rbac-manager-for-yii-2" name="rbac-manager-for-yii-2" class="hashlink">&para;</a></h1><h2>Documentation <a href="#documentation" name="documentation" class="hashlink">&para;</a></h2><ul>
+                        <li><a href="guide-CHANGELOG.html">Change Log</a>.</li>
+                        <li><a href="./guide-basic-usage.html">Basic Usage</a>.</li>
+                        <li><a href="./guide-using-menu.html">Using Menu</a>.</li>
+                    </ul>
+                    <h2>Installation <a href="#installation" name="installation" class="hashlink">&para;</a></h2><p>The preferred way to install this extension is through <a href="http://getcomposer.org/download/">composer</a>.</p>
+                    <p>Either run</p>
+                    <pre><code>php composer.phar require mdmsoft/yii2-admin "*"
+</code></pre>
+                    <p>for dev-master</p>
+                    <pre><code>php composer.phar require mdmsoft/yii2-admin "dev-master"
+</code></pre>
+                    <p>or add</p>
+                    <pre><code>"mdmsoft/yii2-admin": "*"
+</code></pre>
+                    <p>to the require section of your <code>composer.json</code> file.</p>
+                    <h2>Usage <a href="#usage" name="usage" class="hashlink">&para;</a></h2><p>Once the extension is installed, simply modify your application configuration as follows:</p>
+                    <pre><code class="language-php"><span style="color: #0000BB"></span><span style="color: #007700">return&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'modules'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'admin'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\Module'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'layout'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'left-menu'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;avaliable&nbsp;value&nbsp;'left-menu',&nbsp;'right-menu'&nbsp;and&nbsp;'top-menu'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'controllerMap'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'assignment'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\controllers\AssignmentController'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'userClassName'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'app\models\User'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'idField'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'user_id'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'menus'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'assigment'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Grand&nbsp;Access'&nbsp;</span><span style="color: #FF8000">//&nbsp;change&nbsp;label<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'route'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;disable&nbsp;menu<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'components'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;....<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'authManager'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'yii\rbac\PhpManager'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;or&nbsp;use&nbsp;'yii\rbac\DbManager'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'as&nbsp;access'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\components\AccessControl'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'allowActions'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'admin/*'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;add&nbsp;or&nbsp;remove&nbsp;allowed&nbsp;actions&nbsp;to&nbsp;this&nbsp;list<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;,<br />];</span></code></pre>
+                    <p>See <a href="http://www.yiiframework.com/doc-2.0/guide-security-authorization.html#role-based-access-control-rbac">Yii RBAC</a> for more detail.
+                        You can then access Auth manager through the following URL:</p>
+                    <pre><code>http://localhost/path/to/index.php?r=admin
+http://localhost/path/to/index.php?r=admin/route
+http://localhost/path/to/index.php?r=admin/permission
+http://localhost/path/to/index.php?r=admin/menu
+http://localhost/path/to/index.php?r=admin/role
+http://localhost/path/to/index.php?r=admin/assigment
+</code></pre>
+                    <p>To use menu manager (optional). Execute yii migration here:
+                        <code>yii migrate --migrationPath=@mdm/admin/migrations</code></p>
+                    <p>If You use database (class 'yii\rbac\DbManager') to save rbac data. Execute yii migration here:
+                        <code>yii migrate --migrationPath=@yii/rbac/migrations</code></p>
+                    <p><a href="https://picasaweb.google.com/105012704576561549351/Yii2Admin?authuser=0&amp;feat=directlink">screenshots</a></p>
+                    <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <footer class="footer">
+            <p class="pull-right"><small>Page generated on Thu, 16 Oct 2014 16:37:48 +0000</small></p>
+            Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
+
+        <script type="text/javascript">jQuery(document).ready(function() {
+                var shiftWindow = function() {
+                    scrollBy(0, -50)
+                };
+                if (location.hash)
+                    shiftWindow();
+                window.addEventListener("hashchange", shiftWindow);
+                var element = document.createElement("script");
+                element.src = "./jssearch.index.js";
+                document.body.appendChild(element);
+
+                var searchBox = $('#searchbox');
+
+        // search when typing in search field
+                searchBox.on("keyup", function(event) {
+                    var query = $(this).val();
+
+                    if (query == '' || event.which == 27) {
+                        $('#search-resultbox').hide();
+                        return;
+                    } else if (event.which == 13) {
+                        var selectedLink = $('#search-resultbox a.selected');
+                        if (selectedLink.length != 0) {
+                            document.location = selectedLink.attr('href');
+                            return;
+                        }
+                    } else if (event.which == 38 || event.which == 40) {
+                        $('#search-resultbox').show();
+
+                        var selected = $('#search-resultbox a.selected');
+                        if (selected.length == 0) {
+                            $('#search-results').find('a').first().addClass('selected');
+                        } else {
+                            var next;
+                            if (event.which == 40) {
+                                next = selected.parent().next().find('a').first();
+                            } else {
+                                next = selected.parent().prev().find('a').first();
+                            }
+                            if (next.length != 0) {
+                                var resultbox = $('#search-results');
+                                var position = next.position();
+
+        //              TODO scrolling is buggy and jumps around
+        //                resultbox.scrollTop(Math.floor(position.top));
+        //                console.log(position.top);
+
+                                selected.removeClass('selected');
+                                next.addClass('selected');
+                            }
+                        }
+
+                        return;
+                    }
+                    $('#search-resultbox').show();
+                    $('#search-results').html('<li><span class="no-results">No results</span></li>');
+
+                    var result = jssearch.search(query);
+
+                    if (result.length > 0) {
+                        var i = 0;
+                        var resHtml = '';
+
+                        for (var key in result) {
+                            if (i++ > 20) {
+                                break;
+                            }
+                            resHtml = resHtml +
+                                '<li><a href="' + result[key].file.u.substr(3) + '"><span class="title">' + result[key].file.t + '</span>' +
+                                '<span class="description">' + result[key].file.d + '</span></a></li>';
+                        }
+                        $('#search-results').html(resHtml);
+                    }
+                });
+
+        // hide the search results on ESC
+                $(document).on("keyup", function(event) {
+                    if (event.which == 27) {
+                        $('#search-resultbox').hide();
+                    }
+                });
+        // hide search results on click to document
+                $(document).bind('click', function(e) {
+                    $('#search-resultbox').hide();
+                });
+        // except the following:
+                searchBox.bind('click', function(e) {
+                    e.stopPropagation();
+                });
+                $('#search-resultbox').bind('click', function(e) {
+                    e.stopPropagation();
+                });
+
+            });</script></body>
+</html>
