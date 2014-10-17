@@ -20,7 +20,7 @@ use yii\helpers\Inflector;
  *     ]
  * ],
  * 'menus' => [
- *     'assigment' => [
+ *     'assignment' => [
  *         'label' => 'Grand Access' // change label
  *     ],
  *     'route' => null, // disable menu
