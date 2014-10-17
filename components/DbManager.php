@@ -107,7 +107,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function getAssignments($userId)
     {
-        $this->loadAssigments($userId);
+        $this->loadAssignments($userId);
 
         return $this->_assignments[$userId];
     }
@@ -231,7 +231,7 @@ class DbManager extends \yii\rbac\DbManager
     public function getAssignment($roleName, $userId)
     {
         $this->loadItems();
-        $this->loadAssigments($userId);
+        $this->loadAssignments($userId);
         if (in_array($roleName, $this->_assignments[$userId]) && isset($this->_items[$roleName])) {
             return $this->_items[$roleName];
         }
@@ -638,7 +638,7 @@ class DbManager extends \yii\rbac\DbManager
      * Load data. If avaliable in memory, get from memory
      * If no, get from cache. If no avaliable, get from database.
      */
-    private function loadAssigments($userId)
+    private function loadAssignments($userId)
     {
         if (!isset($this->_assignments[$userId])) {
             $query = (new Query)

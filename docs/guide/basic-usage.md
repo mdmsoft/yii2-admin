@@ -52,9 +52,9 @@ The code below shows how to use ACF which is implemented as `mdm\admin\component
 
 Available Menu
 ==============
-Assigment
+Assignment
 ---------
-Assigment menu used for grant or revoke role to/from user.
+Assignment menu used for grant or revoke role to/from user.
 
 Role and Permission
 -------------------

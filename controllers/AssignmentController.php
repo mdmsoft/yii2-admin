@@ -2,18 +2,18 @@
 
 namespace mdm\admin\controllers;
 
-use mdm\admin\models\Assigment;
-use mdm\admin\models\searchs\Assigment as AssigmentSearch;
+use Yii;
+use mdm\admin\models\Assignment;
+use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use Yii;
 use yii\helpers\Html;
 use mdm\admin\components\MenuHelper;
 use yii\web\Response;
 
 /**
- * AssigmentController implements the CRUD actions for Assigment model.
+ * AssignmentController implements the CRUD actions for Assignment model.
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
@@ -53,14 +53,14 @@ class AssignmentController extends Controller
     }
 
     /**
-     * Lists all Assigment models.
+     * Lists all Assignment models.
      * @return mixed
      */
     public function actionIndex()
     {
 
         if ($this->searchClass === null) {
-            $searchModel = new AssigmentSearch;
+            $searchModel = new AssignmentSearch;
         } else {
             $class = $this->searchClass;
             $searchModel = new $class;
@@ -77,7 +77,7 @@ class AssignmentController extends Controller
     }
 
     /**
-     * Displays a single Assigment model.
+     * Displays a single Assignment model.
      * @param  integer $id
      * @return mixed
      */
@@ -175,10 +175,10 @@ class AssignmentController extends Controller
     }
 
     /**
-     * Finds the Assigment model based on its primary key value.
+     * Finds the Assignment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param  integer $id
-     * @return Assigment the loaded model
+     * @return Assignment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

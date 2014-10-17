@@ -40,7 +40,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $defaultRoute = 'assigment';
+    public $defaultRoute = 'assignment';
 
     /**
      * @var array 

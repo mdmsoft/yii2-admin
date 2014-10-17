@@ -6,12 +6,12 @@ use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel mdm\admin\models\searchs\Assigment */
+/* @var $searchModel mdm\admin\models\searchs\Assignment */
 
-$this->title = 'Assigments';
+$this->title = 'Assignments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="assigment-index">
+<div class="assignment-index">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 

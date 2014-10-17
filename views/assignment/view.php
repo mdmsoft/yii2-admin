@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model yii\web\IdentityInterface */
 
-$this->title = 'Assigments';
+$this->title = 'Assignments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="assigment-index">
+<div class="assignment-index">
     <?= Html::a('Users', ['index'], ['class'=>'btn btn-success']) ?>
     <h1>User: <?= $model->{$usernameField} ?></h1>
 
