@@ -49,7 +49,7 @@ return [
                  'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
                     'userClassName' => 'app\models\User',
-                    'idField' => 'user_id'
+                    'idField' => 'id'
                 ]
             ],
             'menus' => [
