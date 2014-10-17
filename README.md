@@ -53,7 +53,7 @@ return [
                 ]
             ],
             'menus' => [
-                'assigment' => [
+                'assignment' => [
                     'label' => 'Grand Access' // change label
                 ],
                 'route' => null, // disable menu
@@ -73,7 +73,7 @@ return [
 		'allowActions' => [
 			'admin/*', // add or remove allowed actions to this list
 		]
-    ,
+    ],
 ];
 ```
 See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-security-authorization.html#role-based-access-control-rbac) for more detail.
@@ -85,7 +85,7 @@ http://localhost/path/to/index.php?r=admin/route
 http://localhost/path/to/index.php?r=admin/permission
 http://localhost/path/to/index.php?r=admin/menu
 http://localhost/path/to/index.php?r=admin/role
-http://localhost/path/to/index.php?r=admin/assigment
+http://localhost/path/to/index.php?r=admin/assignment
 ```
 
 To use menu manager (optional). Execute yii migration here:
