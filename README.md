@@ -6,6 +6,7 @@ Documentation
 - [Change Log](CHANGELOG.md).
 - [Basic Usage](docs/guide/basic-usage.md).
 - [Using Menu](docs/guide/using-menu.md).
+- [Api](mdmsoft.github.io/yii2-admin/index.html)
 
 Installation
 ------------
