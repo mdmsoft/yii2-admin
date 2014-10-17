@@ -32,11 +32,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div id="navigation" class="list-group">
-                        <a class="list-group-item" href="#navigation-48" data-toggle="collapse" data-parent="#navigation">Not namespaced classes <b class="caret"></b></a>
-                        <div id="navigation-48" class="submenu panel-collapse collapse">
-                            <a class="list-group-item" href="./yii.html">Yii</a>
-                            <a class="list-group-item" href="./yiirequirementchecker.html">YiiRequirementChecker</a></div>
-                        <a class="list-group-item active" href="#navigation-49" data-toggle="collapse" data-parent="#navigation">mdm\admin <b class="caret"></b></a><div id="navigation-49" class="submenu panel-collapse collapse in"><a class="list-group-item active" href="./mdm-admin-adminasset.html">AdminAsset</a>
+                        <a class="list-group-item" href="#navigation-49" data-toggle="collapse" data-parent="#navigation">mdm\admin <b class="caret"></b></a><div id="navigation-49" class="submenu panel-collapse collapse"><a class="list-group-item" href="./mdm-admin-adminasset.html">AdminAsset</a>
                             <a class="list-group-item" href="./mdm-admin-module.html">Module</a></div>
                         <a class="list-group-item" href="#navigation-50" data-toggle="collapse" data-parent="#navigation">mdm\admin\components <b class="caret"></b></a><div id="navigation-50" class="submenu panel-collapse collapse"><a class="list-group-item" href="./mdm-admin-components-accesscontrol.html">AccessControl</a>
                             <a class="list-group-item" href="./mdm-admin-components-configs.html">Configs</a>
@@ -61,6 +57,39 @@
                     </div>    
                 </div>
                 <div class="col-md-9 api-content" role="main">
+                    <h1>RBAC Manager for Yii 2 <a href="#rbac-manager-for-yii-2" name="rbac-manager-for-yii-2" class="hashlink">&para;</a></h1><h2>Documentation <a href="#documentation" name="documentation" class="hashlink">&para;</a></h2><ul>
+                        <li><a href="guide-CHANGELOG.html">Change Log</a>.</li>
+                        <li><a href="./guide-basic-usage.html">Basic Usage</a>.</li>
+                        <li><a href="./guide-using-menu.html">Using Menu</a>.</li>
+                    </ul>
+                    <h2>Installation <a href="#installation" name="installation" class="hashlink">&para;</a></h2><p>The preferred way to install this extension is through <a href="http://getcomposer.org/download/">composer</a>.</p>
+                    <p>Either run</p>
+                    <pre><code>php composer.phar require mdmsoft/yii2-admin "*"
+</code></pre>
+                    <p>for dev-master</p>
+                    <pre><code>php composer.phar require mdmsoft/yii2-admin "dev-master"
+</code></pre>
+                    <p>or add</p>
+                    <pre><code>"mdmsoft/yii2-admin": "*"
+</code></pre>
+                    <p>to the require section of your <code>composer.json</code> file.</p>
+                    <h2>Usage <a href="#usage" name="usage" class="hashlink">&para;</a></h2><p>Once the extension is installed, simply modify your application configuration as follows:</p>
+                    <pre><code class="language-php"><span style="color: #0000BB"></span><span style="color: #007700">return&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'modules'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'admin'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\Module'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'layout'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'left-menu'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;avaliable&nbsp;value&nbsp;'left-menu',&nbsp;'right-menu'&nbsp;and&nbsp;'top-menu'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'controllerMap'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'assignment'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\controllers\AssignmentController'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'userClassName'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'app\models\User'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'idField'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'user_id'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'menus'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'assigment'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'label'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Grand&nbsp;Access'&nbsp;</span><span style="color: #FF8000">//&nbsp;change&nbsp;label<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'route'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;disable&nbsp;menu<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'components'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;....<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'authManager'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'yii\rbac\PhpManager'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;or&nbsp;use&nbsp;'yii\rbac\DbManager'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;],<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'as&nbsp;access'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'class'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'mdm\admin\components\AccessControl'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'allowActions'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;[<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'admin/*'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">//&nbsp;add&nbsp;or&nbsp;remove&nbsp;allowed&nbsp;actions&nbsp;to&nbsp;this&nbsp;list<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;,<br />];</span></code></pre>
+                    <p>See <a href="http://www.yiiframework.com/doc-2.0/guide-security-authorization.html#role-based-access-control-rbac">Yii RBAC</a> for more detail.
+                        You can then access Auth manager through the following URL:</p>
+                    <pre><code>http://localhost/path/to/index.php?r=admin
+http://localhost/path/to/index.php?r=admin/route
+http://localhost/path/to/index.php?r=admin/permission
+http://localhost/path/to/index.php?r=admin/menu
+http://localhost/path/to/index.php?r=admin/role
+http://localhost/path/to/index.php?r=admin/assigment
+</code></pre>
+                    <p>To use menu manager (optional). Execute yii migration here:
+                        <code>yii migrate --migrationPath=@mdm/admin/migrations</code></p>
+                    <p>If You use database (class 'yii\rbac\DbManager') to save rbac data. Execute yii migration here:
+                        <code>yii migrate --migrationPath=@yii/rbac/migrations</code></p>
+                    <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
+                    
                     <h1>Class Reference</h1>
 
                     <table class="summaryTable docIndex table table-bordered table-striped table-hover">
@@ -74,1307 +103,93 @@
                             <th>Description</th>
                         </tr>
                         <tr>
-                            <td><a href="yii.html">Yii</a></td>
-                            <td>Yii is a helper class serving common framework functionalities.</td>
+                            <td><a href="mdm-admin-adminasset.html">mdm\admin\AdminAsset</a></td>
+                            <td>AdminAsset</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-baseyii.html">yii\BaseYii</a></td>
-                            <td>BaseYii is the core helper class for the Yii framework.</td>
+                            <td><a href="mdm-admin-module.html">mdm\admin\Module</a></td>
+                            <td>GUI manager for RBAC.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-base-action.html">yii\base\Action</a></td>
-                            <td>Action is the base class for all controller action classes.</td>
+                            <td><a href="mdm-admin-components-accesscontrol.html">mdm\admin\components\AccessControl</a></td>
+                            <td>Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some simple access control.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-base-actionevent.html">yii\base\ActionEvent</a></td>
-                            <td>ActionEvent represents the event parameter used for an action event.</td>
+                            <td><a href="mdm-admin-components-configs.html">mdm\admin\components\Configs</a></td>
+                            <td>Configs
+                                Used for configure some value. To set config you can use <span style="background: #f00;">\yii\base\Application::$params</span></td>
                         </tr>
                         <tr>
-                            <td><a href="yii-base-actionfilter.html">yii\base\ActionFilter</a></td>
-                            <td>ActionFilter is the base class for action filters.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-application.html">yii\base\Application</a></td>
-                            <td>Application is the base class for all application classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-arrayaccesstrait.html">yii\base\ArrayAccessTrait</a></td>
-                            <td>ArrayAccessTrait provides the implementation for <a href="http://www.php.net/class.iteratoraggregate">IteratorAggregate</a>, <a href="http://www.php.net/class.arrayaccess">ArrayAccess</a> and <a href="http://www.php.net/class.countable">Countable</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-arrayable.html">yii\base\Arrayable</a></td>
-                            <td>Arrayable is the interface that should be implemented by classes who want to support customizable representation of their instances.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-arrayabletrait.html">yii\base\ArrayableTrait</a></td>
-                            <td>ArrayableTrait provides a common implementation of the <a href="yii-base-arrayable.html">yii\base\Arrayable</a> interface.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-behavior.html">yii\base\Behavior</a></td>
-                            <td>Behavior is the base class for all behavior classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-bootstrapinterface.html">yii\base\BootstrapInterface</a></td>
-                            <td>BootstrapInterface is the interface that should be implemented by classes who want to participate in the application bootstrap process.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-component.html">yii\base\Component</a></td>
-                            <td>Component is the base class that implements the <em>property</em>, <em>event</em> and <em>behavior</em> features.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-controller.html">yii\base\Controller</a></td>
-                            <td>Controller is the base class for classes containing controller logic.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-dynamicmodel.html">yii\base\DynamicModel</a></td>
-                            <td>DynamicModel is a model class primarily used to support ad hoc data validation.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-errorexception.html">yii\base\ErrorException</a></td>
-                            <td>ErrorException represents a PHP error.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-errorhandler.html">yii\base\ErrorHandler</a></td>
-                            <td>ErrorHandler handles uncaught PHP errors and exceptions.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-event.html">yii\base\Event</a></td>
-                            <td>Event is the base class for all event classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-exception.html">yii\base\Exception</a></td>
-                            <td>Exception represents a generic exception for all purposes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-exitexception.html">yii\base\ExitException</a></td>
-                            <td>ExitException represents a normal termination of an application.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-inlineaction.html">yii\base\InlineAction</a></td>
-                            <td>InlineAction represents an action that is defined as a controller method.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-invalidcallexception.html">yii\base\InvalidCallException</a></td>
-                            <td>InvalidCallException represents an exception caused by calling a method in a wrong way.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-invalidconfigexception.html">yii\base\InvalidConfigException</a></td>
-                            <td>InvalidConfigException represents an exception caused by incorrect object configuration.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-invalidparamexception.html">yii\base\InvalidParamException</a></td>
-                            <td>InvalidParamException represents an exception caused by invalid parameters passed to a method.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-invalidrouteexception.html">yii\base\InvalidRouteException</a></td>
-                            <td>InvalidRouteException represents an exception caused by an invalid route.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-invalidvalueexception.html">yii\base\InvalidValueException</a></td>
-                            <td>InvalidValueException represents an exception caused by a function returning a value of unexpected type.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-model.html">yii\base\Model</a></td>
-                            <td>Model is the base class for data models.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-modelevent.html">yii\base\ModelEvent</a></td>
-                            <td>ModelEvent represents the parameter needed by <a href="yii-base-model.html">yii\base\Model</a> events.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-module.html">yii\base\Module</a></td>
-                            <td>Module is the base class for module and application classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-notsupportedexception.html">yii\base\NotSupportedException</a></td>
-                            <td>NotSupportedException represents an exception caused by accessing features that are not supported.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-object.html">yii\base\Object</a></td>
-                            <td>Object is the base class that implements the <em>property</em> feature.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-request.html">yii\base\Request</a></td>
-                            <td>Request represents a request that is handled by an <a href="yii-base-application.html">yii\base\Application</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-response.html">yii\base\Response</a></td>
-                            <td>Response represents the response of an <a href="yii-base-application.html">yii\base\Application</a> to a <a href="yii-base-request.html">yii\base\Request</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-security.html">yii\base\Security</a></td>
-                            <td>Security provides a set of methods to handle common security-related tasks.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-theme.html">yii\base\Theme</a></td>
-                            <td>Theme represents an application theme.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-unknownclassexception.html">yii\base\UnknownClassException</a></td>
-                            <td>UnknownClassException represents an exception caused by using an unknown class.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-unknownmethodexception.html">yii\base\UnknownMethodException</a></td>
-                            <td>UnknownMethodException represents an exception caused by accessing an unknown object method.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-unknownpropertyexception.html">yii\base\UnknownPropertyException</a></td>
-                            <td>UnknownPropertyException represents an exception caused by accessing unknown object properties.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-userexception.html">yii\base\UserException</a></td>
-                            <td>UserException is the base class for exceptions that are meant to be shown to end users.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-view.html">yii\base\View</a></td>
-                            <td>View represents a view object in the MVC pattern.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-viewcontextinterface.html">yii\base\ViewContextInterface</a></td>
-                            <td>ViewContextInterface is the interface that should implemented by classes who want to support relative view names.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-viewevent.html">yii\base\ViewEvent</a></td>
-                            <td>ViewEvent represents events triggered by the <a href="yii-base-view.html">yii\base\View</a> component.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-viewrenderer.html">yii\base\ViewRenderer</a></td>
-                            <td>ViewRenderer is the base class for view renderer classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-base-widget.html">yii\base\Widget</a></td>
-                            <td>Widget is the base class for widgets.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-behaviors-attributebehavior.html">yii\behaviors\AttributeBehavior</a></td>
-                            <td>AttributeBehavior automatically assigns a specified value to one or multiple attributes of an ActiveRecord object when certain events happen.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-behaviors-blameablebehavior.html">yii\behaviors\BlameableBehavior</a></td>
-                            <td>BlameableBehavior automatically fills the specified attributes with the current user ID.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-behaviors-sluggablebehavior.html">yii\behaviors\SluggableBehavior</a></td>
-                            <td>SluggableBehavior automatically fills the specified attribute with a value that can be used a slug in a URL.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-behaviors-timestampbehavior.html">yii\behaviors\TimestampBehavior</a></td>
-                            <td>TimestampBehavior automatically fills the specified attributes with the current timestamp.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-apccache.html">yii\caching\ApcCache</a></td>
-                            <td>ApcCache provides APC caching in terms of an application component.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-arraycache.html">yii\caching\ArrayCache</a></td>
-                            <td>ArrayCache provides caching for the current request only by storing the values in an array.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-cache.html">yii\caching\Cache</a></td>
-                            <td>Cache is the base class for cache classes supporting different cache storage implementations.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-chaineddependency.html">yii\caching\ChainedDependency</a></td>
-                            <td>ChainedDependency represents a dependency which is composed of a list of other dependencies.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-dbcache.html">yii\caching\DbCache</a></td>
-                            <td>DbCache implements a cache application component by storing cached data in a database.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-dbdependency.html">yii\caching\DbDependency</a></td>
-                            <td>DbDependency represents a dependency based on the query result of a SQL statement.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-dependency.html">yii\caching\Dependency</a></td>
-                            <td>Dependency is the base class for cache dependency classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-dummycache.html">yii\caching\DummyCache</a></td>
-                            <td>DummyCache is a placeholder cache component.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-expressiondependency.html">yii\caching\ExpressionDependency</a></td>
-                            <td>ExpressionDependency represents a dependency based on the result of a PHP expression.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-filecache.html">yii\caching\FileCache</a></td>
-                            <td>FileCache implements a cache component using files.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-filedependency.html">yii\caching\FileDependency</a></td>
-                            <td>FileDependency represents a dependency based on a file's last modification time.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-memcache.html">yii\caching\MemCache</a></td>
-                            <td>MemCache implements a cache application component based on <a href="http://pecl.php.net/package/memcache">memcache</a>
-                                and <a href="http://pecl.php.net/package/memcached">memcached</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-memcacheserver.html">yii\caching\MemCacheServer</a></td>
-                            <td>MemCacheServer represents the configuration data for a single memcache or memcached server.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-tagdependency.html">yii\caching\TagDependency</a></td>
-                            <td>TagDependency associates a cached data item with one or multiple <a href="yii-caching-tagdependency.html#$tags-detail">$tags</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-wincache.html">yii\caching\WinCache</a></td>
-                            <td>WinCache provides Windows Cache caching in terms of an application component.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-xcache.html">yii\caching\XCache</a></td>
-                            <td>XCache provides XCache caching in terms of an application component.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-caching-zenddatacache.html">yii\caching\ZendDataCache</a></td>
-                            <td>ZendDataCache provides Zend data caching in terms of an application component.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-captcha-captcha.html">yii\captcha\Captcha</a></td>
-                            <td>Captcha renders a CAPTCHA image and an input field that takes user-entered verification code.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-captcha-captchaaction.html">yii\captcha\CaptchaAction</a></td>
-                            <td>CaptchaAction renders a CAPTCHA image.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-captcha-captchaasset.html">yii\captcha\CaptchaAsset</a></td>
-                            <td>This asset bundle provides the javascript files needed for the <a href="yii-captcha-captcha.html">yii\captcha\Captcha</a> widget.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-captcha-captchavalidator.html">yii\captcha\CaptchaValidator</a></td>
-                            <td>CaptchaValidator validates that the attribute value is the same as the verification code displayed in the CAPTCHA.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-application.html">yii\console\Application</a></td>
-                            <td>Application represents a console application.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controller.html">yii\console\Controller</a></td>
-                            <td>Controller is the base class of console command classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-errorhandler.html">yii\console\ErrorHandler</a></td>
-                            <td>ErrorHandler handles uncaught PHP errors and exceptions.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-exception.html">yii\console\Exception</a></td>
-                            <td>Exception represents an exception caused by incorrect usage of a console command.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-markdown.html">yii\console\Markdown</a></td>
-                            <td>A Markdown parser that enhances markdown for reading in console environments.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-request.html">yii\console\Request</a></td>
-                            <td>The console Request represents the environment information for a console application.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-response.html">yii\console\Response</a></td>
-                            <td>The console Response represents the result of a console application.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controllers-assetcontroller.html">yii\console\controllers\AssetController</a></td>
-                            <td>Allows you to combine and compress your JavaScript and CSS files.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controllers-basemigratecontroller.html">yii\console\controllers\BaseMigrateController</a></td>
-                            <td>BaseMigrateController is base class for migrate controllers.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controllers-cachecontroller.html">yii\console\controllers\CacheController</a></td>
-                            <td>Allows you to flush cache.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controllers-fixturecontroller.html">yii\console\controllers\FixtureController</a></td>
-                            <td>Manages fixture data loading and unloading.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controllers-helpcontroller.html">yii\console\controllers\HelpController</a></td>
-                            <td>Provides help information about console commands.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controllers-messagecontroller.html">yii\console\controllers\MessageController</a></td>
-                            <td>Extracts messages to be translated from source files.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-console-controllers-migratecontroller.html">yii\console\controllers\MigrateController</a></td>
-                            <td>Manages application migrations.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-data-activedataprovider.html">yii\data\ActiveDataProvider</a></td>
-                            <td>ActiveDataProvider implements a data provider based on <a href="yii-db-query.html">yii\db\Query</a> and <a href="yii-db-activequery.html">yii\db\ActiveQuery</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-data-arraydataprovider.html">yii\data\ArrayDataProvider</a></td>
-                            <td>ArrayDataProvider implements a data provider based on a data array.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-data-basedataprovider.html">yii\data\BaseDataProvider</a></td>
-                            <td>BaseDataProvider provides a base class that implements the <a href="yii-data-dataproviderinterface.html">yii\data\DataProviderInterface</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-data-dataproviderinterface.html">yii\data\DataProviderInterface</a></td>
-                            <td>DataProviderInterface is the interface that must be implemented by data provider classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-data-pagination.html">yii\data\Pagination</a></td>
-                            <td>Pagination represents information relevant to pagination of data items.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-data-sort.html">yii\data\Sort</a></td>
-                            <td>Sort represents information relevant to sorting.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-data-sqldataprovider.html">yii\data\SqlDataProvider</a></td>
-                            <td>SqlDataProvider implements a data provider based on a plain SQL statement.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-activequery.html">yii\db\ActiveQuery</a></td>
-                            <td>ActiveQuery represents a DB query associated with an Active Record class.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-activequeryinterface.html">yii\db\ActiveQueryInterface</a></td>
-                            <td>ActiveQueryInterface defines the common interface to be implemented by active record query classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-activequerytrait.html">yii\db\ActiveQueryTrait</a></td>
-                            <td>ActiveQueryTrait implements the common methods and properties for active record query classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-activerecord.html">yii\db\ActiveRecord</a></td>
-                            <td>ActiveRecord is the base class for classes representing relational data in terms of objects.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-activerecordinterface.html">yii\db\ActiveRecordInterface</a></td>
-                            <td>ActiveRecordInterface</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-activerelationtrait.html">yii\db\ActiveRelationTrait</a></td>
-                            <td>ActiveRelationTrait implements the common methods and properties for active record relational queries.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-aftersaveevent.html">yii\db\AfterSaveEvent</a></td>
-                            <td>AfterSaveEvent represents the information available in <a href="yii-db-baseactiverecord.html#EVENT_AFTER_INSERT-detail">yii\db\ActiveRecord::EVENT_AFTER_INSERT</a> and <a href="yii-db-baseactiverecord.html#EVENT_AFTER_UPDATE-detail">yii\db\ActiveRecord::EVENT_AFTER_UPDATE</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-baseactiverecord.html">yii\db\BaseActiveRecord</a></td>
-                            <td>ActiveRecord is the base class for classes representing relational data in terms of objects.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-batchqueryresult.html">yii\db\BatchQueryResult</a></td>
-                            <td>BatchQueryResult represents a batch query from which you can retrieve data in batches.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-columnschema.html">yii\db\ColumnSchema</a></td>
-                            <td>ColumnSchema class describes the metadata of a column in a database table.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-command.html">yii\db\Command</a></td>
-                            <td>Command represents a SQL statement to be executed against a database.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-connection.html">yii\db\Connection</a></td>
-                            <td>Connection represents a connection to a database via <a href="php.net/manual/en/book.pdo.php">PDO</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-datareader.html">yii\db\DataReader</a></td>
-                            <td>DataReader represents a forward-only stream of rows from a query result set.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-exception.html">yii\db\Exception</a></td>
-                            <td>Exception represents an exception that is caused by some DB-related operations.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-expression.html">yii\db\Expression</a></td>
-                            <td>Expression represents a DB expression that does not need escaping or quoting.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-integrityexception.html">yii\db\IntegrityException</a></td>
-                            <td>Exception represents an exception that is caused by violation of DB constraints.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-migration.html">yii\db\Migration</a></td>
-                            <td>Migration is the base class for representing a database migration.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-migrationinterface.html">yii\db\MigrationInterface</a></td>
-                            <td>The MigrationInterface defines the minimum set of methods to be implemented by a database migration.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-query.html">yii\db\Query</a></td>
-                            <td>Query represents a SELECT SQL statement in a way that is independent of DBMS.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-querybuilder.html">yii\db\QueryBuilder</a></td>
-                            <td>QueryBuilder builds a SELECT SQL statement based on the specification given as a <a href="yii-db-query.html">yii\db\Query</a> object.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-queryinterface.html">yii\db\QueryInterface</a></td>
-                            <td>The QueryInterface defines the minimum set of methods to be implemented by a database query.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-querytrait.html">yii\db\QueryTrait</a></td>
-                            <td>The BaseQuery trait represents the minimum method set of a database Query.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-schema.html">yii\db\Schema</a></td>
-                            <td>Schema is the base class for concrete DBMS-specific schema classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-staleobjectexception.html">yii\db\StaleObjectException</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-tableschema.html">yii\db\TableSchema</a></td>
-                            <td>TableSchema represents the metadata of a database table.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-transaction.html">yii\db\Transaction</a></td>
-                            <td>Transaction represents a DB transaction.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-cubrid-querybuilder.html">yii\db\cubrid\QueryBuilder</a></td>
-                            <td>QueryBuilder is the query builder for CUBRID databases (version 9.3.x and higher).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-cubrid-schema.html">yii\db\cubrid\Schema</a></td>
-                            <td>Schema is the class for retrieving metadata from a CUBRID database (version 9.3.x and higher).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-mssql-pdo.html">yii\db\mssql\PDO</a></td>
-                            <td>This is an extension of the default PDO class of MSSQL and DBLIB drivers.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-mssql-querybuilder.html">yii\db\mssql\QueryBuilder</a></td>
-                            <td>QueryBuilder is the query builder for MS SQL Server databases (version 2008 and above).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-mssql-schema.html">yii\db\mssql\Schema</a></td>
-                            <td>Schema is the class for retrieving metadata from a MS SQL Server databases (version 2008 and above).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-mssql-sqlsrvpdo.html">yii\db\mssql\SqlsrvPDO</a></td>
-                            <td>This is an extension of the default PDO class of SQLSRV driver.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-mssql-tableschema.html">yii\db\mssql\TableSchema</a></td>
-                            <td>TableSchema represents the metadata of a database table.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-mysql-querybuilder.html">yii\db\mysql\QueryBuilder</a></td>
-                            <td>QueryBuilder is the query builder for MySQL databases.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-mysql-schema.html">yii\db\mysql\Schema</a></td>
-                            <td>Schema is the class for retrieving metadata from a MySQL database (version 4.1.x and 5.x).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-oci-querybuilder.html">yii\db\oci\QueryBuilder</a></td>
-                            <td>QueryBuilder is the query builder for Oracle databases.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-oci-schema.html">yii\db\oci\Schema</a></td>
-                            <td>Schema is the class for retrieving metadata from an Oracle database</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-pgsql-querybuilder.html">yii\db\pgsql\QueryBuilder</a></td>
-                            <td>QueryBuilder is the query builder for PostgreSQL databases.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-pgsql-schema.html">yii\db\pgsql\Schema</a></td>
-                            <td>Schema is the class for retrieving metadata from a PostgreSQL database
-                                (version 9.x and above).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-sqlite-querybuilder.html">yii\db\sqlite\QueryBuilder</a></td>
-                            <td>QueryBuilder is the query builder for SQLite databases.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-db-sqlite-schema.html">yii\db\sqlite\Schema</a></td>
-                            <td>Schema is the class for retrieving metadata from a SQLite (2/3) database.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-di-container.html">yii\di\Container</a></td>
-                            <td>Container implements a <a href="http://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a> container.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-di-instance.html">yii\di\Instance</a></td>
-                            <td>Instance represents a reference to a named object in a dependency injection (DI) container or a service locator.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-di-servicelocator.html">yii\di\ServiceLocator</a></td>
-                            <td>ServiceLocator implements a <a href="http://en.wikipedia.org/wiki/Service_locator_pattern">service locator</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-accesscontrol.html">yii\filters\AccessControl</a></td>
-                            <td>AccessControl provides simple access control based on a set of rules.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-accessrule.html">yii\filters\AccessRule</a></td>
-                            <td>This class represents an access rule defined by the <a href="yii-filters-accesscontrol.html">yii\filters\AccessControl</a> action filter</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-contentnegotiator.html">yii\filters\ContentNegotiator</a></td>
-                            <td>ContentNegotiator supports response format negotiation and application language negotiation.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-cors.html">yii\filters\Cors</a></td>
-                            <td>Cors filter implements <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Cross Origin Resource Sharing</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-httpcache.html">yii\filters\HttpCache</a></td>
-                            <td>HttpCache implements client-side caching by utilizing the <code>Last-Modified</code> and <code>Etag</code> HTTP headers.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-pagecache.html">yii\filters\PageCache</a></td>
-                            <td>PageCache implements server-side caching of whole pages.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-ratelimitinterface.html">yii\filters\RateLimitInterface</a></td>
-                            <td>RateLimitInterface is the interface that may be implemented by an identity object to enforce rate limiting.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-ratelimiter.html">yii\filters\RateLimiter</a></td>
-                            <td>RateLimiter implements a rate limiting algorithm based on the <a href="http://en.wikipedia.org/wiki/Leaky_bucket">leaky bucket algorithm</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-verbfilter.html">yii\filters\VerbFilter</a></td>
-                            <td>VerbFilter is an action filter that filters by HTTP request methods.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-auth-authinterface.html">yii\filters\auth\AuthInterface</a></td>
-                            <td>AuthInterface is the interface that should be implemented by auth method classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-auth-authmethod.html">yii\filters\auth\AuthMethod</a></td>
-                            <td>AuthMethod is a base class implementing the <a href="yii-filters-auth-authinterface.html">yii\filters\auth\AuthInterface</a> interface.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-auth-compositeauth.html">yii\filters\auth\CompositeAuth</a></td>
-                            <td>CompositeAuth is an action filter that supports multiple authentication methods at the same time.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-auth-httpbasicauth.html">yii\filters\auth\HttpBasicAuth</a></td>
-                            <td>HttpBasicAuth is an action filter that supports the HTTP Basic authentication method.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-auth-httpbearerauth.html">yii\filters\auth\HttpBearerAuth</a></td>
-                            <td>HttpBearerAuth is an action filter that supports the authentication method based on HTTP Bearer token.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-filters-auth-queryparamauth.html">yii\filters\auth\QueryParamAuth</a></td>
-                            <td>QueryParamAuth is an action filter that supports the authentication based on the access token passed through a query parameter.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-grid-actioncolumn.html">yii\grid\ActionColumn</a></td>
-                            <td>ActionColumn is a column for the <a href="yii-grid-gridview.html">yii\grid\GridView</a> widget that displays buttons for viewing and manipulating the items.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-grid-checkboxcolumn.html">yii\grid\CheckboxColumn</a></td>
-                            <td>CheckboxColumn displays a column of checkboxes in a grid view.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-grid-column.html">yii\grid\Column</a></td>
-                            <td>Column is the base class of all <a href="yii-grid-gridview.html">yii\grid\GridView</a> column classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-grid-datacolumn.html">yii\grid\DataColumn</a></td>
-                            <td>DataColumn is the default column type for the <a href="yii-grid-gridview.html">yii\grid\GridView</a> widget.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-grid-gridview.html">yii\grid\GridView</a></td>
-                            <td>The GridView widget is used to display data in a grid.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-grid-gridviewasset.html">yii\grid\GridViewAsset</a></td>
-                            <td>This asset bundle provides the javascript files for the <a href="yii-grid-gridview.html">yii\grid\GridView</a> widget.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-grid-serialcolumn.html">yii\grid\SerialColumn</a></td>
-                            <td>SerialColumn displays a column of row numbers (1-based).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-arrayhelper.html">yii\helpers\ArrayHelper</a></td>
-                            <td>ArrayHelper provides additional array functionality that you can use in your
-                                application.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basearrayhelper.html">yii\helpers\BaseArrayHelper</a></td>
-                            <td>BaseArrayHelper provides concrete implementation for <a href="yii-helpers-arrayhelper.html">yii\helpers\ArrayHelper</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-baseconsole.html">yii\helpers\BaseConsole</a></td>
-                            <td>BaseConsole provides concrete implementation for <a href="yii-helpers-console.html">yii\helpers\Console</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basefilehelper.html">yii\helpers\BaseFileHelper</a></td>
-                            <td>BaseFileHelper provides concrete implementation for <a href="yii-helpers-filehelper.html">yii\helpers\FileHelper</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-baseformatconverter.html">yii\helpers\BaseFormatConverter</a></td>
-                            <td>BaseFormatConverter provides concrete implementation for <a href="yii-helpers-formatconverter.html">yii\helpers\FormatConverter</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basehtml.html">yii\helpers\BaseHtml</a></td>
-                            <td>BaseHtml provides concrete implementation for <a href="yii-helpers-html.html">yii\helpers\Html</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basehtmlpurifier.html">yii\helpers\BaseHtmlPurifier</a></td>
-                            <td>BaseHtmlPurifier provides concrete implementation for <a href="yii-helpers-htmlpurifier.html">yii\helpers\HtmlPurifier</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-baseinflector.html">yii\helpers\BaseInflector</a></td>
-                            <td>BaseInflector provides concrete implementation for <a href="yii-helpers-inflector.html">yii\helpers\Inflector</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basejson.html">yii\helpers\BaseJson</a></td>
-                            <td>BaseJson provides concrete implementation for <a href="yii-helpers-json.html">yii\helpers\Json</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basemarkdown.html">yii\helpers\BaseMarkdown</a></td>
-                            <td>BaseMarkdown provides concrete implementation for <a href="yii-helpers-markdown.html">yii\helpers\Markdown</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basestringhelper.html">yii\helpers\BaseStringHelper</a></td>
-                            <td>BaseStringHelper provides concrete implementation for <a href="yii-helpers-stringhelper.html">yii\helpers\StringHelper</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-baseurl.html">yii\helpers\BaseUrl</a></td>
-                            <td>BaseUrl provides concrete implementation for <a href="yii-helpers-url.html">yii\helpers\Url</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-basevardumper.html">yii\helpers\BaseVarDumper</a></td>
-                            <td>BaseVarDumper provides concrete implementation for <a href="yii-helpers-vardumper.html">yii\helpers\VarDumper</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-console.html">yii\helpers\Console</a></td>
-                            <td>Console helper provides useful methods for command line related tasks such as getting input or formatting and coloring
-                                output.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-filehelper.html">yii\helpers\FileHelper</a></td>
-                            <td>File system helper</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-formatconverter.html">yii\helpers\FormatConverter</a></td>
-                            <td>FormatConverter provides functionality to convert between different formatting pattern formats.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-html.html">yii\helpers\Html</a></td>
-                            <td>Html provides a set of static methods for generating commonly used HTML tags.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-htmlpurifier.html">yii\helpers\HtmlPurifier</a></td>
-                            <td>HtmlPurifier provides an ability to clean up HTML from any harmful code.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-inflector.html">yii\helpers\Inflector</a></td>
-                            <td>Inflector pluralizes and singularizes English nouns. It also contains some other useful methods.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-json.html">yii\helpers\Json</a></td>
-                            <td>Json is a helper class providing JSON data encoding and decoding.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-markdown.html">yii\helpers\Markdown</a></td>
-                            <td>Markdown provides an ability to transform markdown into HTML.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-stringhelper.html">yii\helpers\StringHelper</a></td>
-                            <td>StringHelper</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-url.html">yii\helpers\Url</a></td>
-                            <td>Url provides a set of static methods for managing URLs.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-helpers-vardumper.html">yii\helpers\VarDumper</a></td>
-                            <td>VarDumper is intended to replace the buggy PHP function var_dump and print_r.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-dbmessagesource.html">yii\i18n\DbMessageSource</a></td>
-                            <td>DbMessageSource extends <a href="yii-i18n-messagesource.html">yii\i18n\MessageSource</a> and represents a message source that stores translated
-                                messages in database.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-formatter.html">yii\i18n\Formatter</a></td>
-                            <td>Formatter provides a set of commonly used data formatting methods.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-gettextfile.html">yii\i18n\GettextFile</a></td>
-                            <td>GettextFile is the base class for representing a Gettext message file.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-gettextmessagesource.html">yii\i18n\GettextMessageSource</a></td>
-                            <td>GettextMessageSource represents a message source that is based on GNU Gettext.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-gettextmofile.html">yii\i18n\GettextMoFile</a></td>
-                            <td>GettextMoFile represents an MO Gettext message file.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-gettextpofile.html">yii\i18n\GettextPoFile</a></td>
-                            <td>GettextPoFile represents a PO Gettext message file.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-i18n.html">yii\i18n\I18N</a></td>
-                            <td>I18N provides features related with internationalization (I18N) and localization (L10N).</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-messageformatter.html">yii\i18n\MessageFormatter</a></td>
-                            <td>MessageFormatter allows formatting messages via <a href="http://userguide.icu-project.org/formatparse/messages">ICU message format</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-messagesource.html">yii\i18n\MessageSource</a></td>
-                            <td>MessageSource is the base class for message translation repository classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-missingtranslationevent.html">yii\i18n\MissingTranslationEvent</a></td>
-                            <td>MissingTranslationEvent represents the parameter for the <a href="yii-i18n-messagesource.html#EVENT_MISSING_TRANSLATION-detail">yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION</a> event.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-i18n-phpmessagesource.html">yii\i18n\PhpMessageSource</a></td>
-                            <td>PhpMessageSource represents a message source that stores translated messages in PHP scripts.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-log-dbtarget.html">yii\log\DbTarget</a></td>
-                            <td>DbTarget stores log messages in a database table.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-log-dispatcher.html">yii\log\Dispatcher</a></td>
-                            <td>Dispatcher manages a set of <a href="yii-log-target.html">log targets</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-log-emailtarget.html">yii\log\EmailTarget</a></td>
-                            <td>EmailTarget sends selected log messages to the specified email addresses.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-log-filetarget.html">yii\log\FileTarget</a></td>
-                            <td>FileTarget records log messages in a file.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-log-logger.html">yii\log\Logger</a></td>
-                            <td>Logger records logged messages in memory and sends them to different targets if <a href="yii-log-logger.html#$dispatcher-detail">$dispatcher</a> is set.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-log-syslogtarget.html">yii\log\SyslogTarget</a></td>
-                            <td>SyslogTarget writes log to syslog.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-log-target.html">yii\log\Target</a></td>
-                            <td>Target is the base class for all log target classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mail-basemailer.html">yii\mail\BaseMailer</a></td>
-                            <td>BaseMailer serves as a base class that implements the basic functions required by <a href="yii-mail-mailerinterface.html">yii\mail\MailerInterface</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mail-basemessage.html">yii\mail\BaseMessage</a></td>
-                            <td>BaseMessage serves as a base class that implements the <a href="yii-mail-basemessage.html#send()-detail">send()</a> method required by <a href="yii-mail-messageinterface.html">yii\mail\MessageInterface</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mail-mailevent.html">yii\mail\MailEvent</a></td>
-                            <td>MailEvent represents the event parameter used for events triggered by <a href="yii-mail-basemailer.html">yii\mail\BaseMailer</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mail-mailerinterface.html">yii\mail\MailerInterface</a></td>
-                            <td>MailerInterface is the interface that should be implemented by mailer classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mail-messageinterface.html">yii\mail\MessageInterface</a></td>
-                            <td>MessageInterface is the interface that should be implemented by mail message classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mutex-dbmutex.html">yii\mutex\DbMutex</a></td>
-                            <td>DbMutex is the base class for classes, which relies on database while implementing mutex "lock" mechanism.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mutex-filemutex.html">yii\mutex\FileMutex</a></td>
-                            <td>FileMutex implements mutex "lock" mechanism via local file system files.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mutex-mutex.html">yii\mutex\Mutex</a></td>
-                            <td>Mutex component allows mutual execution of the concurrent processes, preventing "race conditions".</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-mutex-mysqlmutex.html">yii\mutex\MysqlMutex</a></td>
-                            <td>MysqlMutex implements mutex "lock" mechanism via MySQL locks.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-rbac-assignment.html">yii\rbac\Assignment</a></td>
-                            <td>Assignment represents an assignment of a role to a user.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-rbac-basemanager.html">yii\rbac\BaseManager</a></td>
-                            <td>BaseManager is a base class implementing <a href="yii-rbac-managerinterface.html">yii\rbac\ManagerInterface</a> for RBAC management.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-rbac-dbmanager.html">yii\rbac\DbManager</a></td>
+                            <td><a href="mdm-admin-components-dbmanager.html">mdm\admin\components\DbManager</a></td>
                             <td>DbManager represents an authorization manager that stores authorization information in database.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rbac-item.html">yii\rbac\Item</a></td>
-                            <td></td>
+                            <td><a href="mdm-admin-components-menuhelper.html">mdm\admin\components\MenuHelper</a></td>
+                            <td>MenuHelper used to generate menu depend of user role.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rbac-managerinterface.html">yii\rbac\ManagerInterface</a></td>
-                            <td></td>
+                            <td><a href="mdm-admin-components-routerule.html">mdm\admin\components\RouteRule</a></td>
+                            <td>RouteRule Rule for check route with extra params.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rbac-permission.html">yii\rbac\Permission</a></td>
-                            <td></td>
+                            <td><a href="mdm-admin-controllers-assignmentcontroller.html">mdm\admin\controllers\AssignmentController</a></td>
+                            <td>AssigmentController implements the CRUD actions for Assigment model.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rbac-phpmanager.html">yii\rbac\PhpManager</a></td>
-                            <td>PhpManager represents an authorization manager that stores authorization
-                                information in terms of a PHP script file.</td>
+                            <td><a href="mdm-admin-controllers-defaultcontroller.html">mdm\admin\controllers\DefaultController</a></td>
+                            <td>DefaultController</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rbac-role.html">yii\rbac\Role</a></td>
-                            <td></td>
+                            <td><a href="mdm-admin-controllers-menucontroller.html">mdm\admin\controllers\MenuController</a></td>
+                            <td>MenuController implements the CRUD actions for Menu model.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rbac-rule.html">yii\rbac\Rule</a></td>
-                            <td>Rule represents a business constraint that may be associated with a role, permission or assignment.</td>
+                            <td><a href="mdm-admin-controllers-permissioncontroller.html">mdm\admin\controllers\PermissionController</a></td>
+                            <td>AuthItemController implements the CRUD actions for AuthItem model.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-action.html">yii\rest\Action</a></td>
-                            <td>Action is the base class for action classes that implement RESTful API.</td>
+                            <td><a href="mdm-admin-controllers-rolecontroller.html">mdm\admin\controllers\RoleController</a></td>
+                            <td>AuthItemController implements the CRUD actions for AuthItem model.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-activecontroller.html">yii\rest\ActiveController</a></td>
-                            <td>ActiveController implements a common set of actions for supporting RESTful access to ActiveRecord.</td>
+                            <td><a href="mdm-admin-controllers-routecontroller.html">mdm\admin\controllers\RouteController</a></td>
+                            <td>Description of RuleController</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-controller.html">yii\rest\Controller</a></td>
-                            <td>Controller is the base class for RESTful API controller classes.</td>
+                            <td><a href="mdm-admin-controllers-rulecontroller.html">mdm\admin\controllers\RuleController</a></td>
+                            <td>Description of RuleController</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-createaction.html">yii\rest\CreateAction</a></td>
-                            <td>CreateAction implements the API endpoint for creating a new model from the given data.</td>
+                            <td><a href="mdm-admin-models-authitem.html">mdm\admin\models\AuthItem</a></td>
+                            <td>This is the model class for table "tbl_auth_item".</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-deleteaction.html">yii\rest\DeleteAction</a></td>
-                            <td>DeleteAction implements the API endpoint for deleting a model.</td>
+                            <td><a href="mdm-admin-models-bizrule.html">mdm\admin\models\BizRule</a></td>
+                            <td>BizRule</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-indexaction.html">yii\rest\IndexAction</a></td>
-                            <td></td>
+                            <td><a href="mdm-admin-models-menu.html">mdm\admin\models\Menu</a></td>
+                            <td>This is the model class for table "menu".</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-optionsaction.html">yii\rest\OptionsAction</a></td>
-                            <td>OptionsAction responds to the OPTIONS request by sending back an <code>Allow</code> header.</td>
+                            <td><a href="mdm-admin-models-route.html">mdm\admin\models\Route</a></td>
+                            <td>Route</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-serializer.html">yii\rest\Serializer</a></td>
-                            <td>Serializer converts resource objects and collections into array representation.</td>
+                            <td><a href="mdm-admin-models-searchs-assigment.html">mdm\admin\models\searchs\Assigment</a></td>
+                            <td>AssigmentSearch represents the model behind the search form about Assigment.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-updateaction.html">yii\rest\UpdateAction</a></td>
-                            <td>UpdateAction implements the API endpoint for updating a model.</td>
+                            <td><a href="mdm-admin-models-searchs-authitem.html">mdm\admin\models\searchs\AuthItem</a></td>
+                            <td>AuthItemSearch represents the model behind the search form about AuthItem.</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-urlrule.html">yii\rest\UrlRule</a></td>
-                            <td>UrlRule is provided to simplify the creation of URL rules for RESTful API support.</td>
+                            <td><a href="mdm-admin-models-searchs-bizrule.html">mdm\admin\models\searchs\BizRule</a></td>
+                            <td>Description of BizRule</td>
                         </tr>
                         <tr>
-                            <td><a href="yii-rest-viewaction.html">yii\rest\ViewAction</a></td>
-                            <td>ViewAction implements the API endpoint for returning the detailed information about a model.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-test-activefixture.html">yii\test\ActiveFixture</a></td>
-                            <td>ActiveFixture represents a fixture backed up by a <a href="yii-test-baseactivefixture.html#$modelClass-detail">ActiveRecord class</a> or a <a href="yii-test-activefixture.html#$tableName-detail">database table</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-test-arrayfixture.html">yii\test\ArrayFixture</a></td>
-                            <td>ArrayFixture represents arbitrary fixture that can be loaded from PHP files.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-test-baseactivefixture.html">yii\test\BaseActiveFixture</a></td>
-                            <td>BaseActiveFixture is the base class for fixture classes that support accessing fixture data as ActiveRecord objects.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-test-dbfixture.html">yii\test\DbFixture</a></td>
-                            <td>DbFixture is the base class for DB-related fixtures.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-test-fixture.html">yii\test\Fixture</a></td>
-                            <td>Fixture represents a fixed state of a test environment.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-test-fixturetrait.html">yii\test\FixtureTrait</a></td>
-                            <td>FixtureTrait provides functionalities for loading, unloading and accessing fixtures for a test case.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-test-initdbfixture.html">yii\test\InitDbFixture</a></td>
-                            <td>InitDbFixture represents the initial state needed for DB-related tests.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-booleanvalidator.html">yii\validators\BooleanValidator</a></td>
-                            <td>BooleanValidator checks if the attribute value is a boolean value.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-comparevalidator.html">yii\validators\CompareValidator</a></td>
-                            <td>CompareValidator compares the specified attribute value with another value.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-datevalidator.html">yii\validators\DateValidator</a></td>
-                            <td>DateValidator verifies if the attribute represents a date, time or datetime in a proper format.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-defaultvaluevalidator.html">yii\validators\DefaultValueValidator</a></td>
-                            <td>DefaultValueValidator sets the attribute to be the specified default value.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-emailvalidator.html">yii\validators\EmailValidator</a></td>
-                            <td>EmailValidator validates that the attribute value is a valid email address.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-existvalidator.html">yii\validators\ExistValidator</a></td>
-                            <td>ExistValidator validates that the attribute value exists in a table.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-filevalidator.html">yii\validators\FileValidator</a></td>
-                            <td>FileValidator verifies if an attribute is receiving a valid uploaded file.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-filtervalidator.html">yii\validators\FilterValidator</a></td>
-                            <td>FilterValidator converts the attribute value according to a filter.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-imagevalidator.html">yii\validators\ImageValidator</a></td>
-                            <td>ImageValidator verifies if an attribute is receiving a valid image.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-inlinevalidator.html">yii\validators\InlineValidator</a></td>
-                            <td>InlineValidator represents a validator which is defined as a method in the object being validated.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-numbervalidator.html">yii\validators\NumberValidator</a></td>
-                            <td>NumberValidator validates that the attribute value is a number.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-punycodeasset.html">yii\validators\PunycodeAsset</a></td>
-                            <td>This asset bundle provides the javascript files needed for the <a href="yii-validators-emailvalidator.html">yii\validators\EmailValidator</a>s client validation.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-rangevalidator.html">yii\validators\RangeValidator</a></td>
-                            <td>RangeValidator validates that the attribute value is among a list of values.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-regularexpressionvalidator.html">yii\validators\RegularExpressionValidator</a></td>
-                            <td>RegularExpressionValidator validates that the attribute value matches the specified <a href="yii-validators-regularexpressionvalidator.html#$pattern-detail">$pattern</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-requiredvalidator.html">yii\validators\RequiredValidator</a></td>
-                            <td>RequiredValidator validates that the specified attribute does not have null or empty value.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-safevalidator.html">yii\validators\SafeValidator</a></td>
-                            <td>SafeValidator serves as a dummy validator whose main purpose is to mark the attributes to be safe for massive assignment.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-stringvalidator.html">yii\validators\StringValidator</a></td>
-                            <td>StringValidator validates that the attribute value is of certain length.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-uniquevalidator.html">yii\validators\UniqueValidator</a></td>
-                            <td>UniqueValidator validates that the attribute value is unique in the specified database table.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-urlvalidator.html">yii\validators\UrlValidator</a></td>
-                            <td>UrlValidator validates that the attribute value is a valid http or https URL.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-validationasset.html">yii\validators\ValidationAsset</a></td>
-                            <td>This asset bundle provides the javascript files for client validation.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-validators-validator.html">yii\validators\Validator</a></td>
-                            <td>Validator is the base class for all validators.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-application.html">yii\web\Application</a></td>
-                            <td>Application is the base class for all web application classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-assetbundle.html">yii\web\AssetBundle</a></td>
-                            <td>AssetBundle represents a collection of asset files, such as CSS, JS, images.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-assetconverter.html">yii\web\AssetConverter</a></td>
-                            <td>AssetConverter supports conversion of several popular script formats into JS or CSS scripts.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-assetconverterinterface.html">yii\web\AssetConverterInterface</a></td>
-                            <td>The AssetConverterInterface must be implemented by asset converter classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-assetmanager.html">yii\web\AssetManager</a></td>
-                            <td>AssetManager manages asset bundle configuration and loading.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-badrequesthttpexception.html">yii\web\BadRequestHttpException</a></td>
-                            <td>BadRequestHttpException represents a "Bad Request" HTTP exception with status code 400.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-cachesession.html">yii\web\CacheSession</a></td>
-                            <td>CacheSession implements a session component using cache as storage medium.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-compositeurlrule.html">yii\web\CompositeUrlRule</a></td>
-                            <td>CompositeUrlRule is the base class for URL rule classes that consist of multiple simpler rules.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-conflicthttpexception.html">yii\web\ConflictHttpException</a></td>
-                            <td>ConflictHttpException represents a "Conflict" HTTP exception with status code 409</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-controller.html">yii\web\Controller</a></td>
-                            <td>Controller is the base class of web controllers.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-cookie.html">yii\web\Cookie</a></td>
-                            <td>Cookie represents information related with a cookie, such as <a href="yii-web-cookie.html#$name-detail">$name</a>, <a href="yii-web-cookie.html#$value-detail">$value</a>, <a href="yii-web-cookie.html#$domain-detail">$domain</a>, etc.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-cookiecollection.html">yii\web\CookieCollection</a></td>
-                            <td>CookieCollection maintains the cookies available in the current request.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-dbsession.html">yii\web\DbSession</a></td>
-                            <td>DbSession extends <a href="yii-web-session.html">yii\web\Session</a> by using database as session data storage.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-erroraction.html">yii\web\ErrorAction</a></td>
-                            <td>ErrorAction displays application errors using a specified view.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-errorhandler.html">yii\web\ErrorHandler</a></td>
-                            <td>ErrorHandler handles uncaught PHP errors and exceptions.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-forbiddenhttpexception.html">yii\web\ForbiddenHttpException</a></td>
-                            <td>ForbiddenHttpException represents a "Forbidden" HTTP exception with status code 403.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-gonehttpexception.html">yii\web\GoneHttpException</a></td>
-                            <td>GoneHttpException represents a "Gone" HTTP exception with status code 410</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-groupurlrule.html">yii\web\GroupUrlRule</a></td>
-                            <td>GroupUrlRule represents a collection of URL rules sharing the same prefix in their patterns and routes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-headercollection.html">yii\web\HeaderCollection</a></td>
-                            <td>HeaderCollection is used by <a href="yii-web-response.html">yii\web\Response</a> to maintain the currently registered HTTP headers.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-htmlresponseformatter.html">yii\web\HtmlResponseFormatter</a></td>
-                            <td>HtmlResponseFormatter formats the given data into an HTML response content.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-httpexception.html">yii\web\HttpException</a></td>
-                            <td>HttpException represents an exception caused by an improper request of the end-user.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-identityinterface.html">yii\web\IdentityInterface</a></td>
-                            <td>IdentityInterface is the interface that should be implemented by a class providing identity information.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-jqueryasset.html">yii\web\JqueryAsset</a></td>
-                            <td>This asset bundle provides the <a href="http://jquery.com/">jquery javascript library</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-jsexpression.html">yii\web\JsExpression</a></td>
-                            <td>JsExpression marks a string as a JavaScript expression.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-jsonparser.html">yii\web\JsonParser</a></td>
-                            <td>Parses a raw HTTP request using <a href="yii-helpers-basejson.html#decode()-detail">yii\helpers\Json::decode()</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-jsonresponseformatter.html">yii\web\JsonResponseFormatter</a></td>
-                            <td>JsonResponseFormatter formats the given data into a JSON or JSONP response content.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-link.html">yii\web\Link</a></td>
-                            <td>Link represents a link object as defined in <a href="https://tools.ietf.org/html/draft-kelly-json-hal-03">JSON Hypermedia API Language</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-linkable.html">yii\web\Linkable</a></td>
-                            <td>Linkable is the interface that should be implemented by classes that typically represent locatable resources.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-methodnotallowedhttpexception.html">yii\web\MethodNotAllowedHttpException</a></td>
-                            <td>MethodNotAllowedHttpException represents a "Method Not Allowed" HTTP exception with status code 405.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-notacceptablehttpexception.html">yii\web\NotAcceptableHttpException</a></td>
-                            <td>NotAcceptableHttpException represents a "Not Acceptable" HTTP exception with status code 406</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-notfoundhttpexception.html">yii\web\NotFoundHttpException</a></td>
-                            <td>NotFoundHttpException represents a "Not Found" HTTP exception with status code 404.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-request.html">yii\web\Request</a></td>
-                            <td>The web Request class represents an HTTP request</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-requestparserinterface.html">yii\web\RequestParserInterface</a></td>
-                            <td>Interface for classes that parse the raw request body into a parameters array.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-response.html">yii\web\Response</a></td>
-                            <td>The web Response class represents an HTTP response</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-responseformatterinterface.html">yii\web\ResponseFormatterInterface</a></td>
-                            <td>ResponseFormatterInterface specifies the interface needed to format a response before it is sent out.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-servererrorhttpexception.html">yii\web\ServerErrorHttpException</a></td>
-                            <td>ServerErrorHttpException represents an "Internal Server Error" HTTP exception with status code 500.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-session.html">yii\web\Session</a></td>
-                            <td>Session provides session data management and the related configurations.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-sessioniterator.html">yii\web\SessionIterator</a></td>
-                            <td>SessionIterator implements an iterator for traversing session variables managed by <a href="yii-web-session.html">yii\web\Session</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-toomanyrequestshttpexception.html">yii\web\TooManyRequestsHttpException</a></td>
-                            <td>TooManyRequestsHttpException represents a "Too Many Requests" HTTP exception with status code 429</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-unauthorizedhttpexception.html">yii\web\UnauthorizedHttpException</a></td>
-                            <td>UnauthorizedHttpException represents an "Unauthorized" HTTP exception with status code 401</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-unsupportedmediatypehttpexception.html">yii\web\UnsupportedMediaTypeHttpException</a></td>
-                            <td>UnsupportedMediaTypeHttpException represents an "Unsupported Media Type" HTTP exception with status code 415</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-uploadedfile.html">yii\web\UploadedFile</a></td>
-                            <td>UploadedFile represents the information for an uploaded file.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-urlmanager.html">yii\web\UrlManager</a></td>
-                            <td>UrlManager handles HTTP request parsing and creation of URLs based on a set of rules.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-urlrule.html">yii\web\UrlRule</a></td>
-                            <td>UrlRule represents a rule used by <a href="yii-web-urlmanager.html">yii\web\UrlManager</a> for parsing and generating URLs.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-urlruleinterface.html">yii\web\UrlRuleInterface</a></td>
-                            <td>UrlRuleInterface is the interface that should be implemented URL rule classes.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-user.html">yii\web\User</a></td>
-                            <td>User is the class for the "user" application component that manages the user authentication status.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-userevent.html">yii\web\UserEvent</a></td>
-                            <td>This event class is used for Events triggered by the <a href="yii-web-user.html">yii\web\User</a> class.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-view.html">yii\web\View</a></td>
-                            <td>View represents a view object in the MVC pattern.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-viewaction.html">yii\web\ViewAction</a></td>
-                            <td>ViewAction represents an action that displays a view according to a user-specified parameter.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-xmlresponseformatter.html">yii\web\XmlResponseFormatter</a></td>
-                            <td>XmlResponseFormatter formats the given data into an XML response content.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-web-yiiasset.html">yii\web\YiiAsset</a></td>
-                            <td>This asset bundle provides the base javascript files for the Yii Framework.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-activefield.html">yii\widgets\ActiveField</a></td>
-                            <td>ActiveField represents a form input field within an <a href="yii-widgets-activeform.html">yii\widgets\ActiveForm</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-activeform.html">yii\widgets\ActiveForm</a></td>
-                            <td>ActiveForm is a widget that builds an interactive HTML form for one or multiple data models.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-activeformasset.html">yii\widgets\ActiveFormAsset</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-baselistview.html">yii\widgets\BaseListView</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-block.html">yii\widgets\Block</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-breadcrumbs.html">yii\widgets\Breadcrumbs</a></td>
-                            <td>Breadcrumbs displays a list of links indicating the position of the current page in the whole site hierarchy.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-contentdecorator.html">yii\widgets\ContentDecorator</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-detailview.html">yii\widgets\DetailView</a></td>
-                            <td>DetailView displays the detail of a single data <a href="yii-widgets-detailview.html#$model-detail">$model</a>.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-fragmentcache.html">yii\widgets\FragmentCache</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-inputwidget.html">yii\widgets\InputWidget</a></td>
-                            <td>InputWidget is the base class for widgets that collect user inputs.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-linkpager.html">yii\widgets\LinkPager</a></td>
-                            <td>LinkPager displays a list of hyperlinks that lead to different pages of target.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-linksorter.html">yii\widgets\LinkSorter</a></td>
-                            <td>LinkSorter renders a list of sort links for the given sort definition.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-listview.html">yii\widgets\ListView</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-maskedinput.html">yii\widgets\MaskedInput</a></td>
-                            <td>MaskedInput generates a masked text input.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-maskedinputasset.html">yii\widgets\MaskedInputAsset</a></td>
-                            <td>The asset bundle for the <a href="yii-widgets-maskedinput.html">yii\widgets\MaskedInput</a> widget.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-menu.html">yii\widgets\Menu</a></td>
-                            <td>Menu displays a multi-level menu using nested HTML lists.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-pjax.html">yii\widgets\Pjax</a></td>
-                            <td>Pjax is a widget integrating the <a href="https://github.com/yiisoft/jquery-pjax">pjax</a> jQuery plugin.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-pjaxasset.html">yii\widgets\PjaxAsset</a></td>
-                            <td>This asset bundle provides the javascript files required by <a href="yii-widgets-pjax.html">yii\widgets\Pjax</a> widget.</td>
-                        </tr>
-                        <tr>
-                            <td><a href="yii-widgets-spaceless.html">yii\widgets\Spaceless</a></td>
-                            <td>Spaceless widget removes whitespace characters between HTML tags. Whitespaces within HTML tags
-                                or in a plain text are always left untouched.</td>
+                            <td><a href="mdm-admin-models-searchs-menu.html">mdm\admin\models\searchs\Menu</a></td>
+                            <td>Menu represents the model behind the search form about <a href="mdm-admin-models-menu.html">mdm\admin\models\Menu</a>.</td>
                         </tr>
                     </table>
                 </div>
