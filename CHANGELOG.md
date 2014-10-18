@@ -44,3 +44,4 @@ Yii2 Admin Change Log
 - Chg: Change back items to controllers (mdmunir).
 - Bug: Typo fix, replace `AssigmentController` to `AssignmentController` (mdmunir).
 - Chg: Set default layout to `null` (mdmunir).
+- Chg #53: Fixed typo. Change Role to Permission (mdmunir). 
