@@ -44,7 +44,7 @@ return [
 	'modules' => [
 		'admin' => [
 			'class' => 'mdm\admin\Module',
-            'layout' => 'left-menu', // avaliable value 'left-menu', 'right-menu' and 'top-menu'
+            'layout' => 'left-menu', // default null. other avaliable value 'right-menu' and 'top-menu'
             'controllerMap' => [
                  'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',

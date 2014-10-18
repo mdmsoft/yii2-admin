@@ -12,6 +12,7 @@ use yii\helpers\Inflector;
  * To change listed menu, use property [[$menus]].
  * 
  * ~~~
+ * 'layout' => 'left-menu', // default to null mean use application layout.
  * 'controllerMap' => [
  *     'assignment' => [
  *         'class' => 'mdm\admin\controllers\AssignmentController',
@@ -47,11 +48,6 @@ class Module extends \yii\base\Module
      * @see [[items]]
      */
     private $_menus;
-
-    /**
-     * @inheritdoc
-     */
-    public $layout = 'left-menu';
 
     /**
      * @var string 
