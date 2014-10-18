@@ -1,6 +1,10 @@
 Yii2 Admin Change Log
 ==========================
 
+1.0.0-stable prepare
+- No change
+
+
 1.0.0-rc under development
 --------------------------
 
@@ -38,3 +42,5 @@ Yii2 Admin Change Log
 - Chg: Change module default layout (mdmunir).
 - Add: Add documentation (mdmunir).
 - Chg: Change back items to controllers (mdmunir).
+- Bug: Typo fix, replace `AssigmentController` to `AssignmentController` (mdmunir).
+- Chg: Set default layout to `null` (mdmunir).
