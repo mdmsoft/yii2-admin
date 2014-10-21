@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use mdm\admin\components\MenuHelper;
 use yii\web\Response;
+use yii\rbac\Item;
 
 /**
  * AssignmentController implements the CRUD actions for Assignment model.
@@ -86,13 +87,20 @@ class AssignmentController extends Controller
         $model = $this->findModel($id);
         $authManager = Yii::$app->authManager;
         $avaliable = [];
-        foreach ($authManager->getRoles() as $role) {
-            $avaliable[$role->name] = $role->name;
-        }
         $assigned = [];
         foreach ($authManager->getRolesByUser($id) as $role) {
-            $assigned[$role->name] = $role->name;
-            unset($avaliable[$role->name]);
+            $type = $role->type;
+            $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
+        }
+        foreach ($authManager->getRoles() as $role) {
+            if (!isset($assigned['Roles'][$role->name])) {
+                $avaliable['Roles'][$role->name] = $role->name;
+            }
+        }
+        foreach ($authManager->getPermissions() as $role) {
+            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
+                $avaliable['Permissions'][$role->name] = $role->name;
+            }
         }
 
         return $this->render('view', [
@@ -117,17 +125,21 @@ class AssignmentController extends Controller
         $manager = Yii::$app->authManager;
         $error = [];
         if ($action == 'assign') {
-            foreach ($roles as $role) {
+            foreach ($roles as $name) {
                 try {
-                    $manager->assign($manager->getRole($role), $id);
+                    $item = $manager->getRole($name);
+                    $item = $item ? : $manager->getPermission($name);
+                    $manager->assign($item, $id);
                 } catch (\Exception $exc) {
                     $error[] = $exc->getMessage();
                 }
             }
         } else {
-            foreach ($roles as $role) {
+            foreach ($roles as $name) {
                 try {
-                    $manager->revoke($manager->getRole($role), $id);
+                    $item = $manager->getRole($name);
+                    $item = $item ? : $manager->getPermission($name);
+                    $manager->revoke($item, $id);
                 } catch (\Exception $exc) {
                     $error[] = $exc->getMessage();
                 }
@@ -152,23 +164,36 @@ class AssignmentController extends Controller
     {
         $authManager = Yii::$app->authManager;
         $avaliable = [];
-        foreach ($authManager->getRoles() as $role) {
-            $avaliable[$role->name] = $role->name;
-        }
         $assigned = [];
         foreach ($authManager->getRolesByUser($id) as $role) {
-            $assigned[$role->name] = $role->name;
-            unset($avaliable[$role->name]);
+            $type = $role->type;
+            $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
         }
+        foreach ($authManager->getRoles() as $role) {
+            if (!isset($assigned['Roles'][$role->name])) {
+                $avaliable['Roles'][$role->name] = $role->name;
+            }
+        }
+        foreach ($authManager->getPermissions() as $role) {
+            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
+                $avaliable['Permissions'][$role->name] = $role->name;
+            }
+        }
+
         $result = [];
+        $var = ${$target};
         if (!empty($term)) {
-            foreach (${$target} as $role) {
-                if (strpos($role, $term) !== false) {
-                    $result[$role] = $role;
+            foreach (['Roles', 'Permissions'] as $type) {
+                if (isset($var[$type])) {
+                    foreach ($var[$type] as $role) {
+                        if (strpos($role, $term) !== false) {
+                            $result[$type][$role] = $role;
+                        }
+                    }
                 }
             }
         } else {
-            $result = ${$target};
+            $result = $var;
         }
 
         return Html::renderSelectOptions('', $result);
