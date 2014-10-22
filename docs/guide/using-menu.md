@@ -46,6 +46,11 @@ where `$menu` variable corresponden with a record of table `menu`. You can custo
 return format of `mdm\admin\components\MenuHelper::getAssignedMenu()` by provide a callback to this methode.
 The callback must have format `function($menu){}`. E.g:
 
+You can add html options attribut to Your menu, for example "title". When You create a menu, in field data (textarea) fill this :
+``` return ['title'=>'Title of Your Link Here']; ```
+
+and then in Your view:
+
 ```php
 $callback = function($menu){
     $data = eval($menu['data']);
@@ -61,6 +66,8 @@ $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
 ```
 
 Default result is get from `cache`. If you want to force regenerate, provide boolean `true` as forth parameter.
+
+You can modify callback function for advanced usage.
 
 Using Sparated Menu
 -------------------
