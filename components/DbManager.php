@@ -18,14 +18,14 @@ use yii\caching\TagDependency;
  *
  * The database connection is specified by [[$db]]. The database schema could be initialized by applying migration:
  *
- * ```
+ * ~~~
  * yii migrate --migrationPath=@yii/rbac/migrations/
- * ```
+ * ~~~
  *
  * If you don't want to use migration and need SQL instead, files for all databases are in migrations directory.
  *
- * You may change the names of the three tables used to store the authorization data by setting [[itemTable]],
- * [[itemChildTable]] and [[assignmentTable]].
+ * You may change the names of the three tables used to store the authorization data by setting [[\yii\rbac\DbManager::$itemTable]],
+ * [[\yii\rbac\DbManager::$itemChildTable]] and [[\yii\rbac\DbManager::$assignmentTable]].
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
@@ -107,7 +107,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     public function getAssignments($userId)
     {
-        $this->loadAssigments($userId);
+        $this->loadAssignments($userId);
 
         return $this->_assignments[$userId];
     }
@@ -231,7 +231,7 @@ class DbManager extends \yii\rbac\DbManager
     public function getAssignment($roleName, $userId)
     {
         $this->loadItems();
-        $this->loadAssigments($userId);
+        $this->loadAssignments($userId);
         if (in_array($roleName, $this->_assignments[$userId]) && isset($this->_items[$roleName])) {
             return $this->_items[$roleName];
         }
@@ -638,7 +638,7 @@ class DbManager extends \yii\rbac\DbManager
      * Load data. If avaliable in memory, get from memory
      * If no, get from cache. If no avaliable, get from database.
      */
-    private function loadAssigments($userId)
+    private function loadAssignments($userId)
     {
         if (!isset($this->_assignments[$userId])) {
             $query = (new Query)

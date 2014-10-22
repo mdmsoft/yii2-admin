@@ -11,9 +11,10 @@ use yii\bootstrap\Nav;
 echo Nav::widget([
     'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
 ]);
-
 ```
+
 Return of `mdm\admin\components\MenuHelper::getAssignedMenu()` has default format like:
+
 ```php
 [
     [
@@ -40,9 +41,11 @@ Return of `mdm\admin\components\MenuHelper::getAssignedMenu()` has default forma
     ....
 ]
 ```
+
 where `$menu` variable corresponden with a record of table `menu`. You can customize 
 return format of `mdm\admin\components\MenuHelper::getAssignedMenu()` by provide a callback to this methode.
 The callback must have format `function($menu){}`. E.g:
+
 ```php
 $callback = function($menu){
     $data = eval($menu['data']);
@@ -51,12 +54,12 @@ $callback = function($menu){
         'url' => [$menu['route']],
         'options' => $data,
         'items' => $menu['children']
-        ]
-    ]
+    ];
 }
 
 $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
 ```
+
 Default result is get from `cache`. If you want to force regenerate, provide boolean `true` as forth parameter.
 
 Using Sparated Menu
@@ -83,9 +86,11 @@ E.g. Your menu structure:
   * Top Menu 4
 
 You can get 'Side Menu' chldren by calling
+
 ```php
 $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, $sideMenuId);
 ```
+
 It will result in
 * Menu 1
   * Menu 1.1

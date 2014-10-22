@@ -8,18 +8,20 @@ use mdm\admin\models\Menu;
 
 /**
  * MenuHelper used to generate menu depend of user role.
- *
  * Usage
- * ```
+ * 
+ * ~~~
  * use mdm\admin\components\MenuHelper;
  * use yii\bootstrap\Nav;
  *
  * echo Nav::widget([
  *    'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
  * ]);
- * ```
+ * ~~~
+ * 
  * To reformat returned, provide callback to method.
- * ```
+ * 
+ * ~~~
  * $callback = function ($menu) {
  *    $data = eval($menu['data']);
  *    return [
@@ -32,7 +34,7 @@ use mdm\admin\models\Menu;
  * }
  *
  * $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
- * ```
+ * ~~~
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
@@ -47,11 +49,18 @@ class MenuHelper
      * @param integer $root
      * @param \Closure $callback use to reformat output.
      * callback should have format like
-     * ```
+     * 
+     * ~~~
      * function ($menu) {
-     *    return ...
+     *    return [
+     *        'label' => $menu['name'],
+     *        'url' => [$menu['route']],
+     *        'options' => $data,
+     *        'items' => $menu['children']
+     *        ]
+     *    ]
      * }
-     * ```
+     * ~~~
      * @param boolean  $refresh
      * @return array
      */
@@ -134,9 +143,9 @@ class MenuHelper
 
     /**
      * Ensure all item menu has parent.
-     * @param  type $assigned
-     * @param  type $menus
-     * @return type
+     * @param  array $assigned
+     * @param  array $menus
+     * @return array
      */
     private static function requiredParent($assigned, &$menus)
     {
@@ -177,11 +186,11 @@ class MenuHelper
 
     /**
      * Normalize menu
-     * @param  type $assigned
-     * @param  type $menus
-     * @param  type $callback
-     * @param  type $parent
-     * @return type
+     * @param  array $assigned
+     * @param  array $menus
+     * @param  Closure $callback
+     * @param  integer $parent
+     * @return array
      */
     private static function normalizeMenu(&$assigned, &$menus, $callback, $parent = null)
     {

@@ -6,6 +6,7 @@ Documentation
 - [Change Log](CHANGELOG.md).
 - [Basic Usage](docs/guide/basic-usage.md).
 - [Using Menu](docs/guide/using-menu.md).
+- [Api](http://mdmsoft.github.io/yii2-admin/index.html)
 
 Installation
 ------------
@@ -43,7 +44,20 @@ return [
 	'modules' => [
 		'admin' => [
 			'class' => 'mdm\admin\Module',
-            'layout' => 'left-menu', // avaliable value 'left-menu', 'right-menu' and 'top-menu'
+            'layout' => 'left-menu', // default null. other avaliable value 'right-menu' and 'top-menu'
+            'controllerMap' => [
+                 'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    'userClassName' => 'app\models\User',
+                    'idField' => 'id'
+                ]
+            ],
+            'menus' => [
+                'assignment' => [
+                    'label' => 'Grand Access' // change label
+                ],
+                'route' => null, // disable menu
+            ],
 		]
 		...
 	],
@@ -59,7 +73,7 @@ return [
 		'allowActions' => [
 			'admin/*', // add or remove allowed actions to this list
 		]
-    ,
+    ],
 ];
 ```
 See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-security-authorization.html#role-based-access-control-rbac) for more detail.
@@ -71,7 +85,7 @@ http://localhost/path/to/index.php?r=admin/route
 http://localhost/path/to/index.php?r=admin/permission
 http://localhost/path/to/index.php?r=admin/menu
 http://localhost/path/to/index.php?r=admin/role
-http://localhost/path/to/index.php?r=admin/assigment
+http://localhost/path/to/index.php?r=admin/assignment
 ```
 
 To use menu manager (optional). Execute yii migration here:

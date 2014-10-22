@@ -5,7 +5,6 @@ namespace mdm\admin\components;
 /**
  * RouteRule Rule for check route with extra params.
  *
- *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */

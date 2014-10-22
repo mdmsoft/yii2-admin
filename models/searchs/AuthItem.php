@@ -9,6 +9,9 @@ use yii\rbac\Item;
 
 /**
  * AuthItemSearch represents the model behind the search form about AuthItem.
+ * 
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class AuthItem extends Model
 {
@@ -21,6 +24,9 @@ class AuthItem extends Model
     public $rule;
     public $data;
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -44,8 +50,8 @@ class AuthItem extends Model
     }
 
     /**
-     *
-     * @param  array                                                    $params
+     * Search authitem
+     * @param array $params
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
      */
     public function search($params)
