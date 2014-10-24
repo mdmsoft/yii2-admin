@@ -44,20 +44,7 @@ return [
 	'modules' => [
 		'admin' => [
 			'class' => 'mdm\admin\Module',
-            'layout' => 'left-menu', // default null. other avaliable value 'right-menu' and 'top-menu'
-            'controllerMap' => [
-                 'assignment' => [
-                    'class' => 'mdm\admin\controllers\AssignmentController',
-                    'userClassName' => 'app\models\User',
-                    'idField' => 'id'
-                ]
-            ],
-            'menus' => [
-                'assignment' => [
-                    'label' => 'Grand Access' // change label
-                ],
-                'route' => null, // disable menu
-            ],
+            ...
 		]
 		...
 	],
@@ -96,6 +83,61 @@ yii migrate --migrationPath=@mdm/admin/migrations
 If You use database (class 'yii\rbac\DbManager') to save rbac data. Execute yii migration here:
 ```
 yii migrate --migrationPath=@yii/rbac/migrations
+```
+
+Customizing Controller
+----------------------
+Some controller property maybe need to change. To do that, change it via `controllerMap` property.
+
+```php
+	'modules' => [
+		'admin' => [
+			...,
+            'controllerMap' => [
+                 'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    'userClassName' => 'path\to\models\User',
+                    'idField' => 'user_id', // id field of model User
+                ]
+            ],
+            ...
+		]
+		...
+	],
+
+```
+
+Customizing Layout
+------------------
+As default, `module` using application layout as template. To change it, you have to set `layout` property.
+This extension come with three layout that can be used, there are 'left-menu', 'right-menu' and 'top-menu'.
+
+```php
+	'modules' => [
+		'admin' => [
+			...,
+            'layout' => 'left-menu', // default null. other avaliable value 'right-menu' and 'top-menu'
+        ],
+        ...
+    ],
+```
+
+If you use one of them, you can also customize the menu. You can change menu label or disable it.
+
+```php
+	'modules' => [
+		'admin' => [
+			...,
+            'layout' => 'left-menu', // default null. other avaliable value 'right-menu' and 'top-menu'
+            'menus' => [
+                'assignment' => [
+                    'label' => 'Grand Access' // change label
+                ],
+                'route' => null, // disable menu
+            ],
+        ],
+        ...
+    ],
 ```
 
 [screenshots](https://picasaweb.google.com/105012704576561549351/Yii2Admin?authuser=0&feat=directlink)
