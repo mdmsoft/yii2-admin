@@ -19,7 +19,7 @@
 		"yiisoft/yii2-jui": "*"
 	},
 	"suggest": {
-		"yiisoft/yii2-bootstrap": "Use for display"
+		"yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
 	},
 	"autoload": {
 		"psr-4": {
