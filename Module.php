@@ -50,63 +50,10 @@ class Module extends \yii\base\Module
     private $_menus;
 
     /**
-     * @var string 
+     * @var string Main layout using for module. Default to layout of parent module.
+     * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.
      */
-    private $_mainLayout;
-
-    /**
-     * Get main layout of 'left-menu' and 'right-menu' layout.
-     * @return string
-     */
-    public function getMainLayout()
-    {
-        if ($this->_mainLayout === null) {
-            $module = $this->module;
-            while ($module !== null && $module->layout === null) {
-                $module = $module->module;
-            }
-            if ($module !== null && is_string($module->layout)) {
-                $layout = $module->layout;
-            }
-            if (isset($layout)) {
-                if (strncmp($layout, '@', 1) === 0) {
-                    $file = Yii::getAlias($layout);
-                } elseif (strncmp($layout, '/', 1) === 0) {
-                    $file = Yii::$app->getLayoutPath() . DIRECTORY_SEPARATOR . substr($layout, 1);
-                } else {
-                    $file = $module->getLayoutPath() . DIRECTORY_SEPARATOR . $layout;
-                }
-            } else {
-                $file = Yii::getAlias('@app/views/layouts/main');
-            }
-
-            if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
-                return $this->_mainLayout = $file;
-            }
-            $view = Yii::$app->getView();
-            $path = $file . '.' . $view->defaultExtension;
-            if ($view->defaultExtension !== 'php' && !is_file($path)) {
-                $path = $file . '.php';
-            }
-            return $this->_mainLayout = $path;
-        }
-        return $this->_mainLayout;
-    }
-
-    /**
-     * Set main layout of 'left-menu' and 'right-menu' layout.
-     * @param string $layout
-     */
-    public function setMainLayout($layout)
-    {
-        $file = Yii::getAlias($layout);
-        $view = Yii::$app->getView();
-        $path = $file . '.' . $view->defaultExtension;
-        if ($view->defaultExtension !== 'php' && !is_file($path)) {
-            $path = $file . '.php';
-        }
-        $this->_mainLayout = $path;
-    }
+    public $mainLayout ='@mdm/admin/views/layouts/main.php';
 
     /**
      * Get core menu
