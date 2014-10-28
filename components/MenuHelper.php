@@ -129,7 +129,7 @@ class MenuHelper
         }
 
         $key = [__METHOD__, $assigned, $root];
-        if ($refresh || $callback !== null || $cache === null || ($result = $cache->get($key) === false)) {
+        if ($refresh || $callback !== null || $cache === null || (($result = $cache->get($key)) === false)) {
             $result = static::normalizeMenu($assigned, $menus, $callback, $root);
             if ($cache !== null && $callback === null) {
                 $cache->set($key, $result, $config->cacheDuration, new TagDependency([
