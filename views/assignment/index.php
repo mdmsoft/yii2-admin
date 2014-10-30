@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel mdm\admin\models\searchs\Assignment */
 
-$this->title = Yii::t('admin', 'Assignments');
+$this->title = Yii::t('rbac-admin', 'Assignments');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="assignment-index">
