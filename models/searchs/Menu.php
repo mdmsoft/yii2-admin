@@ -71,13 +71,13 @@ class Menu extends MenuModel
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'parent' => $this->parent,
+            't.id' => $this->id,
+            't.parent' => $this->parent,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'route', $this->route])
-            ->andFilterWhere(['like', 'parent.name', $this->parent_name]);
+        $query->andFilterWhere(['like', 'lower(t.name)', strtolower($this->name)])
+            ->andFilterWhere(['like', 't.route', $this->route])
+            ->andFilterWhere(['like', 'lower(parent.name)', strtolower($this->parent_name)]);
 
         return $dataProvider;
     }
