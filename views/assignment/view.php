@@ -5,15 +5,15 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model yii\web\IdentityInterface */
 
-$this->title = 'Assignments';
+$this->title = Yii::t('admin', 'Assignments');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="assignment-index">
-    <?= Html::a('Users', ['index'], ['class'=>'btn btn-success']) ?>
-    <h1>User: <?= $model->{$usernameField} ?></h1>
+    <?= Html::a(Yii::t('admin', 'Users'), ['index'], ['class'=>'btn btn-success']) ?>
+    <h1><?= Yii::t('admin', 'User') ?>: <?= $model->{$usernameField} ?></h1>
 
     <div class="col-lg-5">
-        Avaliable:
+        <?= Yii::t('admin', 'Avaliable') ?>:
         <?php
         echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'avaliable']) . '<br>';
         echo Html::listBox('roles', '', $avaliable, [
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
     <div class="col-lg-5">
-        Assigned:
+        <?= Yii::t('admin', 'Assigned') ?>:
         <?php
         echo Html::textInput('search_asgn', '', ['class' => 'role-search', 'data-target' => 'assigned']) . '<br>';
         echo Html::listBox('roles', '', $assigned, [
