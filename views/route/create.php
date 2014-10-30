@@ -9,11 +9,11 @@ use yii\widgets\ActiveForm;
  * @var ActiveForm $form
  */
 
-$this->title = 'Create Route';
-$this->params['breadcrumbs'][] = ['label' => 'Routes', 'url' => ['index']];
+$this->title = Yii::t('rbac-admin', 'Create Route');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Routes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Create Route</h1>
+<h1><?= Yii::t('rbac-admin', 'Create Route') ?></h1>
 
 <div class="create">
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $form->field($model, 'route') ?>
 
 		<div class="form-group">
-			<?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+			<?= Html::submitButton(Yii::t('rbac-admin', 'Create'), ['class' => 'btn btn-primary']) ?>
 		</div>
 	<?php ActiveForm::end(); ?>
 

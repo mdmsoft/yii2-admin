@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?php
-        echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', [
+        echo Html::submitButton($model->isNewRecord ? Yii::t('rbac-admin', 'Create') : Yii::t('rbac-admin', 'Update'), [
             'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',])
         ?>
     </div>

@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var mdm\admin\models\AuthItem $model
  */
 
-$this->title = 'Create Rule';
-$this->params['breadcrumbs'][] = ['label' => 'Rules', 'url' => ['index']];
+$this->title = Yii::t('rbac-admin', 'Create Rule');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Rules'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-create">
