@@ -8,6 +8,7 @@ use yii\db\Query;
 use yii\di\Instance;
 use yii\rbac\Item;
 use yii\rbac\Permission;
+use yii\rbac\Assignment;
 use yii\rbac\Role;
 use yii\rbac\Rule;
 use yii\caching\Cache;
@@ -129,7 +130,7 @@ class DbManager extends \yii\rbac\DbManager
             return false;
         }
 
-        if (in_array($itemName, $assignments) || in_array($itemName, $this->defaultRoles)) {
+        if (isset($assignments[$itemName]) || in_array($itemName, $this->defaultRoles)) {
             return true;
         }
 
@@ -192,8 +193,8 @@ class DbManager extends \yii\rbac\DbManager
     {
         $assignment = parent::assign($role, $userId);
 
-        if (isset($this->_assignments[$userId]) && !in_array($role->name, $this->_assignments[$userId])) {
-            $this->_assignments[$userId][] = $role->name;
+        if (isset($this->_assignments[$userId])) {
+            $this->_assignments[$userId][$role->name] = $assignment;
         }
         return $assignment;
     }
@@ -232,7 +233,7 @@ class DbManager extends \yii\rbac\DbManager
     {
         $this->loadItems();
         $this->loadAssignments($userId);
-        if (in_array($roleName, $this->_assignments[$userId]) && isset($this->_items[$roleName])) {
+        if (isset($this->_assignments[$userId][$roleName], $this->_items[$roleName])) {
             return $this->_items[$roleName];
         }
 
@@ -242,7 +243,7 @@ class DbManager extends \yii\rbac\DbManager
     /**
      * @inheritdoc
      */
-    public function getItems($type)
+    protected function getItems($type)
     {
         $this->loadItems();
         $items = [];
@@ -328,7 +329,7 @@ class DbManager extends \yii\rbac\DbManager
     {
         $this->loadItems();
         $roles = [];
-        foreach ($this->getAssignments($userId) as $name) {
+        foreach ($this->getAssignments($userId) as $name=>$asgn) {
             $roles[$name] = $this->_items[$name];
         }
 
@@ -373,7 +374,7 @@ class DbManager extends \yii\rbac\DbManager
     {
         $childrenList = $this->getChildrenList();
         $result = [];
-        foreach ($this->getAssignments($userId) as $roleName) {
+        foreach ($this->getAssignments($userId) as $roleName => $asgn) {
             $this->getChildrenRecursive($roleName, $childrenList, $result);
         }
 
@@ -599,6 +600,7 @@ class DbManager extends \yii\rbac\DbManager
      */
     private function loadChildren()
     {
+        $this->loadItems();
         $part = self::PART_CHILDREN;
         if ($this->_children === null && ($this->_children = $this->getFromCache($part)) === false) {
             $query = (new Query)->from($this->itemChildTable);
@@ -640,13 +642,19 @@ class DbManager extends \yii\rbac\DbManager
      */
     private function loadAssignments($userId)
     {
-        if (!isset($this->_assignments[$userId])) {
+        if (!isset($this->_assignments[$userId]) && !empty($userId)) {
             $query = (new Query)
-                ->select('item_name')
                 ->from($this->assignmentTable)
-                ->where(['user_id' => $userId]);
+                ->where(['user_id' => (string) $userId]);
 
-            $this->_assignments[$userId] = $query->column($this->db);
+            $this->_assignments[$userId] = [];
+            foreach ($query->all($this->db) as $row) {
+                $this->_assignments[$userId][$row['item_name']] = new Assignment([
+                    'userId' => $row['user_id'],
+                    'roleName' => $row['item_name'],
+                    'createdAt' => $row['created_at'],
+                ]);
+            }
         }
     }
 
