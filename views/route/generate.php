@@ -8,11 +8,11 @@ use yii\helpers\ArrayHelper;
  * @var yii\web\View $this
  */
 
-$this->title = 'Generate Routes';
-$this->params['breadcrumbs'][] = ['label' => 'Routes', 'url' => ['index']];
+$this->title = Yii::t('rbac-admin', 'Generate Routes');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Routes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Generate Routes</h1>
+<h1><?= Yii::t('rbac-admin', 'Generate Routes') ?></h1>
 
 <?php
 echo Html::beginForm();
@@ -36,6 +36,6 @@ echo GridView::widget([
         ]
     ]
 ]);
-echo Html::submitButton('Append', ['name' => 'Submit','class' => 'btn btn-primary']);
+echo Html::submitButton(Yii::t('rbac-admin', 'Append'), ['name' => 'Submit','class' => 'btn btn-primary']);
 echo Html::endForm();
 ?>

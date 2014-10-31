@@ -81,7 +81,8 @@ class BizRule extends \yii\base\Model
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
+            'name' => Yii::t('rbac-admin', 'Name'),
+            'className' => Yii::t('rbac-admin', 'Class Name'),
         ];
     }
 

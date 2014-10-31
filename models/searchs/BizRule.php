@@ -29,6 +29,16 @@ class BizRule extends Model
     }
 
     /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'name' => Yii::t('rbac-admin', 'Name'),
+        ];
+    }
+
+    /**
      * Search BizRule
      * @param array $params
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider

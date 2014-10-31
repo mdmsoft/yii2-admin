@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var mdm\admin\models\AuthItemSearch $searchModel
  */
-$this->title = 'Roles';
+$this->title = Yii::t('rbac-admin', 'Roles');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="role-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('rbac-admin', 'Create Role'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php
@@ -29,8 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'name',
-            'description:ntext',
+            [
+                'attribute' => 'name',
+                'label' => Yii::t('rbac-admin', 'Name'),
+            ],
+            [
+                'attribute' => 'description',
+                'label' => Yii::t('rbac-admin', 'Description'),
+            ],
             ['class' => 'yii\grid\ActionColumn',],
         ],
     ]);

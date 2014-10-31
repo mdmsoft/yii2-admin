@@ -38,6 +38,18 @@ use yii\helpers\Inflector;
  */
 class Module extends \yii\base\Module
 {
+
+	public function init()
+    {
+        parent::init();
+        Yii::$app->i18n->translations['rbac-admin'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'sourceLanguage' => 'en',
+            'basePath' => '@mdm/admin/messages'
+            
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -58,20 +70,22 @@ class Module extends \yii\base\Module
     /**
      * Get core menu
      * @return array
+     * @var $ids array has 'Menu Lable' => 'Controller' pairs
      */
+
     protected function getCoreMenus()
     {
         $mid = '/' . $this->getUniqueId() . '/';
-        $ids = ['assignment', 'role', 'permission', 'route', 'rule', 'menu'];
+        $ids = ['Assignments' => 'assignment', 'Roles' => 'role', 'Permissions' => 'permission', 'Routes' => 'route', 'Rules' => 'rule', 'Menus' => 'menu'];
         $config = components\Configs::instance();
         $result = [];
-        foreach ($ids as $id) {
+        foreach ($ids as $lable => $id) {
             if ($id !== 'menu' || ($config->db !== null && $config->db->schema->getTableSchema($config->menuTable) !== null)) {
-                $result[$id] = ['label' => Inflector::humanize($id), 'url' => [$mid . $id]];
+                $result[$id] = ['label' => Yii::t('rbac-admin', $lable), 'url' => [$mid . $id]];
             }
         }
         foreach (array_keys($this->controllerMap) as $id) {
-            $result[$id] = ['label' => Inflector::humanize($id), 'url' => [$mid . $id]];
+            $result[$id] = ['label' => Yii::t('rbac-admin', Inflector::humanize($id)), 'url' => [$mid . $id]];
         }
         return $result;
     }

@@ -32,8 +32,9 @@ class Assignment extends Model
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => 'Username',
+            'id' => Yii::t('rbac-admin', 'ID'),
+            'username' => Yii::t('rbac-admin', 'Username'),
+            'name' => Yii::t('rbac-admin', 'Name'),
         ];
     }
 
