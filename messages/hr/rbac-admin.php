@@ -64,4 +64,6 @@ return [
     'Role' => 'Uloge',
     'Rule' => 'Pravila',
     'Menu' => 'Izbornici',
+    'Help' => 'Pomoć',
+    'Application' => 'Aplikacija',
 ];
