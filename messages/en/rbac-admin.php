@@ -64,4 +64,6 @@ return [
     'Role' => 'Role',
     'Rule' => 'Rule',
     'Menu' => 'Menu',
+    'Help' => 'Help',
+    'Application' => 'Application',
 ];
