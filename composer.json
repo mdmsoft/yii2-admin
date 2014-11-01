@@ -1,29 +1,34 @@
 {
-	"name": "mdmsoft/yii2-admin",
-	"description": "Auth manager for Yii2 ",
-	"keywords": ["yii", "admin", "auth"],
-	"type": "yii2-extension",
-	"license": "BSD-3-Clause",
-	"support": {
-		"issues": "https://github.com/mdmsoft/yii2-admin/issues",
-		"source": "https://github.com/mdmsoft/yii2-admin"
-	},
-	"authors": [
-		{
-			"name": "Misbahul Munir",
-			"email": "misbahuldmunir@gmail.com"
-		}
-	],
-	"require": {
-		"yiisoft/yii2": "*",
-		"yiisoft/yii2-jui": "*"
-	},
-	"suggest": {
-		"yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
-	},
-	"autoload": {
-		"psr-4": {
-			"mdm\\admin\\": ""
-		}
-	}
+    "name": "mdmsoft/yii2-admin",
+    "description": "Auth manager for Yii2 ",
+    "keywords": ["yii", "admin", "auth"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/mdmsoft/yii2-admin/issues",
+        "source": "https://github.com/mdmsoft/yii2-admin"
+    },
+    "authors": [
+        {
+            "name": "Misbahul Munir",
+            "email": "misbahuldmunir@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-jui": "*"
+    },
+    "suggest": {
+        "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
+    },
+    "autoload": {
+        "psr-4": {
+            "mdm\\admin\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
