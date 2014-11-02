@@ -15,8 +15,8 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "*",
-        "yiisoft/yii2-jui": "*"
+        "yiisoft/yii2": "~2.0",
+        "yiisoft/yii2-jui": "~2.0"
     },
     "suggest": {
         "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
