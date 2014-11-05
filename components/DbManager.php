@@ -110,7 +110,7 @@ class DbManager extends \yii\rbac\DbManager
     {
         $this->loadAssignments($userId);
 
-        return $this->_assignments[$userId];
+        return isset($this->_assignments[$userId]) ? $this->_assignments[$userId] : [];
     }
 
     /**
@@ -329,7 +329,7 @@ class DbManager extends \yii\rbac\DbManager
     {
         $this->loadItems();
         $roles = [];
-        foreach ($this->getAssignments($userId) as $name=>$asgn) {
+        foreach ($this->getAssignments($userId) as $name => $asgn) {
             $roles[$name] = $this->_items[$name];
         }
 
