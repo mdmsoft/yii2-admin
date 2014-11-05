@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            'name',
             [
                 'attribute' => 'menuParent.name',
                 'filter' => Html::activeTextInput($searchModel, 'parent_name', [
@@ -34,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'label' => Yii::t('rbac-admin', 'Parent'),
             ],
-            'name',
             'route',
             'order',
             ['class' => 'yii\grid\ActionColumn'],
