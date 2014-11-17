@@ -116,7 +116,7 @@ This extension come with three layout that can be used, there are 'left-menu', '
 	'modules' => [
 		'admin' => [
 			...,
-            'layout' => 'left-menu', // default null. other avaliable value 'right-menu' and 'top-menu'
+            'layout' => '@mdm/admin/views/layouts/left-menu', // default null. other avaliable value 'right-menu' and 'top-menu'
         ],
         ...
     ],
