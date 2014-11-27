@@ -11,12 +11,14 @@ Documentation
 Installation
 ------------
 
+### Install With Composer
+
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Either run
 
 ```
-php composer.phar require mdmsoft/yii2-admin "*"
+php composer.phar require mdmsoft/yii2-admin "~1.0"
 ```
 
 for dev-master
@@ -28,11 +30,25 @@ php composer.phar require mdmsoft/yii2-admin "dev-master"
 or add
 
 ```
-"mdmsoft/yii2-admin": "*"
+"mdmsoft/yii2-admin": "~1.0"
 ```
 
 to the require section of your `composer.json` file.
 
+### Install From Archive
+
+Download latest release from here [v1.0.2.zip](https://github.com/mdmsoft/yii2-admin/archive/1.0.2.zip) or  [v1.0.2.tar.gz](https://github.com/mdmsoft/yii2-admin/archive/1.0.2.tar.gz) then extract to your project. 
+In your application config, add path alias for this extension.
+
+```php
+return [
+    ...
+    'aliases' => [
+        '@mdm/admin' => 'path/to/your/extracted',
+        ...
+    ]
+];
+```
 
 Usage
 -----
