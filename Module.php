@@ -60,6 +60,12 @@ class Module extends \yii\base\Module
      * @see [[items]]
      */
     private $_menus;
+    
+    /**
+     * Nav bar items
+     * @var array  
+     */
+    public $navbar = [];
 
     /**
      * @var string Main layout using for module. Default to layout of parent module.
