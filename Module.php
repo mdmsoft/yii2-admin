@@ -72,7 +72,7 @@ class Module extends \yii\base\Module
      * Nav bar items
      * @var array  
      */
-    public $navbar = [];
+    public $navbar;
 
     /**
      * @var string Main layout using for module. Default to layout of parent module.
