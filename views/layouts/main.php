@@ -36,11 +36,8 @@ mdm\admin\AdminAsset::register($this);
 
         echo Nav::widget([
             'options' => ['class' => 'nav navbar-nav navbar-right'],
-            'items' => [
-                ['label' => Yii::t('rbac-admin', 'Help'), 'url' => 'https://github.com/mdmsoft/yii2-admin/blob/master/docs/guide/basic-usage.md'],
-                ['label' => Yii::t('rbac-admin', 'Application'), 'url' => Yii::$app->homeUrl]
-            ],
-        ]);
+            'items' => $this->context->module->navbar,
+         ]);
         NavBar::end();
         ?>
 

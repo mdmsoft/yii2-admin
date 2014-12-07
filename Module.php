@@ -48,6 +48,13 @@ class Module extends \yii\base\Module
             'basePath' => '@mdm/admin/messages'
             
         ];
+        //user did not define the Navbar?
+        if($this->navbar === null){        
+            $this->navbar = [
+                ['label' => Yii::t('rbac-admin', 'Help'), 'url' => 'https://github.com/mdmsoft/yii2-admin/blob/master/docs/guide/basic-usage.md'],
+                ['label' => Yii::t('rbac-admin', 'Application'), 'url' => Yii::$app->homeUrl]
+            ];
+        }
     }
 
     /**
@@ -60,6 +67,12 @@ class Module extends \yii\base\Module
      * @see [[items]]
      */
     private $_menus;
+    
+    /**
+     * Nav bar items
+     * @var array  
+     */
+    public $navbar;
 
     /**
      * @var string Main layout using for module. Default to layout of parent module.
