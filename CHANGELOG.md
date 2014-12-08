@@ -1,12 +1,35 @@
 Yii2 Admin Change Log
 ==========================
 
-1.0.0-stable prepare
+1.0.3 Under Development
+-----------------------
+
 - No change
 
 
-1.0.0-rc under development
---------------------------
+1.0.2
+------
+
+- Enh: Portuguese translation folder messages (iforme).
+- Enh: configurable Navbar defined in module config (Stefano Mtangoo).
+- Enh: Add Italian language to translation message (realtebo).
+
+1.0.1
+-----
+
+- Enh: Add Persian language to translation message (jafaripur).
+- Enh: Add French language to translation message (marsuboss).
+
+
+1.0.0
+-----
+
+- Enh: Internationalization (sosojni).
+- Enh: Add Russian language to translation message (m0zart89).
+
+
+1.0.0-rc 
+--------
 
 - Bug #12: Allow another module name (mdmunir).
 - Bug: #19: Added table prefix to table `menu` for some query (mdmunir, liu0472).
