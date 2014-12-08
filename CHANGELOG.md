@@ -10,7 +10,7 @@ Yii2 Admin Change Log
 1.0.2
 ------
 
-- Enh: Portuguese translation folder messages (iforme).
+- Enh: Add Portuguese language to translation message (iforme).
 - Enh: configurable Navbar defined in module config (Stefano Mtangoo).
 - Enh: Add Italian language to translation message (realtebo).
 
