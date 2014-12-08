@@ -37,7 +37,7 @@ to the require section of your `composer.json` file.
 
 ### Install From Archive
 
-Download latest release from here [v1.0.2.zip](https://github.com/mdmsoft/yii2-admin/archive/1.0.2.zip) or  [v1.0.2.tar.gz](https://github.com/mdmsoft/yii2-admin/archive/1.0.2.tar.gz) then extract to your project. 
+Download latest release from here [releases](https://github.com/mdmsoft/yii2-admin/releases) then extract to your project. 
 In your application config, add path alias for this extension.
 
 ```php
