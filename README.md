@@ -4,6 +4,7 @@ RBAC Manager for Yii 2
 Documentation
 -----
 - [Change Log](CHANGELOG.md).
+- [Authorization Guide](http://www.yiiframework.com/doc-2.0/guide-security-authorization.html). Important, read this first before continue.
 - [Basic Usage](docs/guide/basic-usage.md).
 - [Using Menu](docs/guide/using-menu.md).
 - [Api](http://mdmsoft.github.io/yii2-admin/index.html)
