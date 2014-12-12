@@ -29,6 +29,7 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
-        }
+        },
+        "bootstrap": "mdm\\admin\\Bootstrap"
     }
 }
