@@ -29,7 +29,7 @@ return [
     'Name' => 'Nome',
     'Type' => 'Tipo',
     'Description' => 'Descrizione',
-    'Rule Name' => 'Nome del ruolo',
+    'Rule Name' => 'Nome della regola',
     'Data' => 'Data',
     'Update Role' => 'Aggiorna ruolo',
     'Delete' => 'Elimina',
