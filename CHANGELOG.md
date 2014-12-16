@@ -1,10 +1,14 @@
 Yii2 Admin Change Log
 ==========================
 
-1.0.3 Under Development
+1.0.4 Under Development
 -----------------------
 
-- No change
+- Enh: Clear cache when menu change (mdmunir).
+
+
+1.0.3
+------
 
 
 1.0.2

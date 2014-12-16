@@ -8,6 +8,7 @@ use mdm\admin\models\searchs\Menu as MenuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use mdm\admin\components\MenuHelper;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
@@ -70,6 +71,7 @@ class MenuController extends Controller
         $model = new Menu;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            MenuHelper::invalidate();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -91,6 +93,7 @@ class MenuController extends Controller
             $model->parent_name = $model->menuParent->name;
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            MenuHelper::invalidate();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -108,6 +111,7 @@ class MenuController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        MenuHelper::invalidate();
 
         return $this->redirect(['index']);
     }
