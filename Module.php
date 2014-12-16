@@ -99,6 +99,24 @@ class Module extends \yii\base\Module
             ];
         }
     }
+    
+    /**
+     * @limit access to specific username or administrator roles only
+     */
+	public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            if(Yii::$app->user->isGuest)
+                throw new ForbiddenHttpException(Yii::t('rbac-admin', 'You do not have enough permission to access this module'));
+            else if(!Yii::$app->user->can('admin'))
+                throw new ForbiddenHttpException(Yii::t('rbac-admin', 'You do not have enough permission to access this module'));
+            else if(array_search(Yii::$app->user->identity->username, $this->admins, true)===false)
+                throw new ForbiddenHttpException(Yii::t('rbac-admin', 'You do not have enough permission to access this module'));
+            return true;  
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Get avalible menu.
