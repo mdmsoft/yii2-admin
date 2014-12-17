@@ -23,6 +23,8 @@ use yii\di\Instance;
  * ]
  * ~~~
  *
+ * @property User $user
+ * 
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
@@ -31,7 +33,7 @@ class AccessControl extends \yii\base\ActionFilter
     /**
      * @var User User for check access.
      */
-    public $user = 'user';
+    private $_user = 'user';
 
     /**
      * @var array List of action that not need to check access.
@@ -39,12 +41,24 @@ class AccessControl extends \yii\base\ActionFilter
     public $allowActions = [];
 
     /**
-     * @inheritdoc
+     * Get user
+     * @return User
      */
-    public function init()
+    public function getUser()
     {
-        parent::init();
-        $this->user = Instance::ensure($this->user, User::className());
+        if (!$this->_user instanceof User) {
+            $this->_user = Instance::ensure($this->_user, User::className());
+        }
+        return $this->_user;
+    }
+
+    /**
+     * Set user
+     * @param User|string $user
+     */
+    public function setUser($user)
+    {
+        $this->_user = $user;
     }
 
     /**
@@ -53,7 +67,7 @@ class AccessControl extends \yii\base\ActionFilter
     public function beforeAction($action)
     {
         $actionId = $action->getUniqueId();
-        $user = $this->user;
+        $user = $this->getUser();
         if ($user->can('/' . $actionId)) {
             return true;
         }
@@ -93,7 +107,7 @@ class AccessControl extends \yii\base\ActionFilter
             return false;
         }
 
-        $user = $this->user;
+        $user = $this->getUser();
         if ($user->getIsGuest() && is_array($user->loginUrl) && isset($user->loginUrl[0]) && $uniqueId === trim($user->loginUrl[0], '/')) {
             return false;
         }

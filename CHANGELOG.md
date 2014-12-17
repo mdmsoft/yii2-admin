@@ -5,6 +5,7 @@ Yii2 Admin Change Log
 -----------------------
 
 - Enh: Clear cache when menu change (mdmunir).
+- Enh: Ensure get latest state of `user` component (mdmunir).
 
 
 1.0.3
