@@ -61,10 +61,27 @@ class AuthItem extends \yii\base\Model
                 'range' => array_keys(Yii::$app->authManager->getRules()),
                 'message' => 'Rule not exists'],
             [['name', 'type'], 'required'],
+            [['name'], 'unique', 'when' => function() {
+                return $this->isNewRecord;
+            }],
             [['type'], 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
             [['name'], 'string', 'max' => 64]
         ];
+    }
+
+    public function unique()
+    {
+        $authManager = Yii::$app->authManager;
+        $value = $this->name;
+        if ($authManager->getRole($value) !== null || $authManager->getPermission($value) !== null) {
+            $message = Yii::t('yii', '{attribute} "{value}" has already been taken.');
+            $params = [
+                'attribute' => $this->getAttributeLabel('name'),
+                'value' => $value,
+            ];
+            $this->addError('name', Yii::$app->getI18n()->format($message, $params, Yii::$app->language));
+        }
     }
 
     /**
