@@ -62,7 +62,7 @@ class AuthItem extends \yii\base\Model
                 'message' => 'Rule not exists'],
             [['name', 'type'], 'required'],
             [['name'], 'unique', 'when' => function() {
-                return $this->isNewRecord;
+                return $this->isNewRecord || ($this->_item->name != $this->name);
             }],
             [['type'], 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
