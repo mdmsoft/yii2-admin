@@ -31,7 +31,7 @@ Using module in configuration
 ],
 ```
 
-Access Controll Filter
+Access Control Filter
 ======================
 Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some simple access control. 
 As its name indicates, ACF is an action filter that can be attached to a controller or a module as a behavior. 
