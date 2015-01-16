@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="assignment-index">
     <?= Html::a(Yii::t('rbac-admin', 'Users'), ['index'], ['class'=>'btn btn-success']) ?>
-    <h1><?= Yii::t('rbac-admin', 'User') ?>: <?= $model->{$usernameField} ?></h1>
+    <h1><?= Yii::t('rbac-admin', 'User') ?>: <?= Html::encode($model->{$usernameField}) ?></h1>
 
     <div class="col-lg-5">
         <?= Yii::t('rbac-admin', 'Avaliable') ?>:
