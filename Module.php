@@ -86,11 +86,13 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        Yii::$app->i18n->translations['rbac-admin'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en',
-            'basePath' => '@mdm/admin/messages'
-        ];
+        if (!isset(Yii::$app->i18n->translations['rbac-admin'])) {
+            Yii::$app->i18n->translations['rbac-admin'] = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' => 'en',
+                'basePath' => '@mdm/admin/messages'
+            ];
+        }
         //user did not define the Navbar?
         if ($this->navbar === null) {
             $this->navbar = [
