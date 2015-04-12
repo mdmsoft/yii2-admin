@@ -204,7 +204,7 @@ class MenuHelper
                     $item = call_user_func($callback, $menu);
                 } else {
                     $item = [
-                        'label' => $menu['name'],
+                        'label' => Yii::t('rbac-admin',$menu['name']),
                         'url' => static::parseRoute($menu['route']),
                     ];
                     if ($menu['children'] != []) {
