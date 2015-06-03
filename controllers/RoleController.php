@@ -10,7 +10,6 @@ use yii\filters\VerbFilter;
 use yii\rbac\Item;
 use Yii;
 use mdm\admin\components\MenuHelper;
-use yii\helpers\Html;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
@@ -59,38 +58,8 @@ class RoleController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $authManager = Yii::$app->getAuthManager();
-        $avaliable = $assigned = [
-            'Roles' => [],
-            'Permission' => [],
-            'Routes' => [],
-        ];
-        $children = array_keys($authManager->getChildren($id));
-        $children[] = $id;
-        foreach ($authManager->getRoles() as $name => $role) {
-            if (in_array($name, $children)) {
-                continue;
-            }
-            $avaliable['Roles'][$name] = $name;
-        }
-        foreach ($authManager->getPermissions() as $name => $role) {
-            if (in_array($name, $children)) {
-                continue;
-            }
-            $avaliable[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
-        }
-
-        foreach ($authManager->getChildren($id) as $name => $child) {
-            if ($child->type == Item::TYPE_ROLE) {
-                $assigned['Roles'][$name] = $name;
-            } else {
-                $assigned[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
-            }
-        }
-        $avaliable = array_filter($avaliable);
-        $assigned = array_filter($assigned);
-
-        return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
+        
+        return $this->render('view', ['model' => $model]);
     }
 
     /**
@@ -150,9 +119,11 @@ class RoleController extends Controller
      * @param string $action
      * @return array
      */
-    public function actionAssign($id, $action)
+    public function actionAssign()
     {
         $post = Yii::$app->getRequest()->post();
+        $id = $post['id'];
+        $action = $post['action'];
         $roles = $post['roles'];
         $manager = Yii::$app->getAuthManager();
         $parent = $manager->getRole($id);
@@ -179,11 +150,12 @@ class RoleController extends Controller
             }
         }
         MenuHelper::invalidate();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = 'json';
 
-        return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
-            $error];
+        return[
+            'type' => 'S',
+            'errors' => $error,
+        ];
     }
 
     /**
@@ -193,11 +165,11 @@ class RoleController extends Controller
      * @param string $term
      * @return array
      */
-    public function actionRoleSearch($id, $target, $term = '')
+    public function actionSearch($id, $target, $term = '')
     {
         $result = [
             'Roles' => [],
-            'Permission' => [],
+            'Permissions' => [],
             'Routes' => [],
         ];
         $authManager = Yii::$app->authManager;
@@ -217,7 +189,7 @@ class RoleController extends Controller
                     continue;
                 }
                 if (empty($term) or strpos($name, $term) !== false) {
-                    $result[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
+                    $result[$name[0] === '/' ? 'Routes' : 'Permissions'][$name] = $name;
                 }
             }
         } else {
@@ -226,13 +198,14 @@ class RoleController extends Controller
                     if ($child->type == Item::TYPE_ROLE) {
                         $result['Roles'][$name] = $name;
                     } else {
-                        $result[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
+                        $result[$name[0] === '/' ? 'Routes' : 'Permissions'][$name] = $name;
                     }
                 }
             }
         }
+        Yii::$app->response->format = 'json';
 
-        return Html::renderSelectOptions('', array_filter($result));
+        return array_filter($result);
     }
 
     /**

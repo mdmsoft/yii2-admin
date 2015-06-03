@@ -7,7 +7,6 @@ use mdm\admin\models\Route;
 use mdm\admin\components\MenuHelper;
 use yii\caching\TagDependency;
 use yii\web\Response;
-use yii\helpers\Html;
 use mdm\admin\components\RouteRule;
 use mdm\admin\components\Configs;
 use yii\helpers\Inflector;
@@ -30,29 +29,8 @@ class RouteController extends \yii\web\Controller
      */
     public function actionIndex()
     {
-        $manager = Yii::$app->getAuthManager();
-
-        $exists = $existsOptions = $routes = [];
-        foreach ($this->getAppRoutes() as $route) {
-            $routes[$route] = $route;
-        }
-        $allRoutes = $routes;
-        foreach ($manager->getPermissions() as $name => $permission) {
-            if ($name[0] !== '/') {
-                continue;
-            }
-            $exists[$name] = $name;
-            if (isset($allRoutes[$name])) {
-                unset($routes[$name]);
-            } else {
-                $r = explode('&', $name);
-                if (!isset($allRoutes[$r[0]])) {
-                    $existsOptions[$name] = ['class' => 'lost'];
-                }
-            }
-        }
-
-        return $this->render('index', ['new' => $routes, 'exists' => $exists, 'existsOptions' => $existsOptions]);
+        
+        return $this->render('index');
     }
 
     /**
@@ -80,9 +58,10 @@ class RouteController extends \yii\web\Controller
      * @param string $action
      * @return array
      */
-    public function actionAssign($action)
+    public function actionAssign()
     {
         $post = Yii::$app->getRequest()->post();
+        $action = $post['action'];
         $routes = $post['routes'];
         $manager = Yii::$app->getAuthManager();
         $error = [];
@@ -101,9 +80,10 @@ class RouteController extends \yii\web\Controller
         MenuHelper::invalidate();
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
 
-        return [$this->actionRouteSearch('new', $post['search_av']),
-            $this->actionRouteSearch('exists', $post['search_asgn']),
-            $error];
+        return[
+            'type' => 'S',
+            'errors' => $error,
+        ];
     }
 
     /**
@@ -113,7 +93,7 @@ class RouteController extends \yii\web\Controller
      * @param string $refresh
      * @return array
      */
-    public function actionRouteSearch($target, $term = '', $refresh = '0')
+    public function actionSearch($target, $term = '', $refresh = '0')
     {
         if ($refresh == '1') {
             $this->invalidate();
@@ -121,16 +101,15 @@ class RouteController extends \yii\web\Controller
         $result = [];
         $manager = Yii::$app->getAuthManager();
 
-        $existsOptions = [];
         $exists = array_keys($manager->getPermissions());
         $routes = $this->getAppRoutes();
-        if ($target == 'new') {
+        if ($target == 'avaliable') {
             foreach ($routes as $route) {
                 if (in_array($route, $exists)) {
                     continue;
                 }
                 if (empty($term) or strpos($route, $term) !== false) {
-                    $result[$route] = $route;
+                    $result[$route] = true;
                 }
             }
         } else {
@@ -139,19 +118,14 @@ class RouteController extends \yii\web\Controller
                     continue;
                 }
                 if (empty($term) or strpos($name, $term) !== false) {
-                    $result[$name] = $name;
-                }
-
-                // extract route part from $name
-                $r = explode('&', $name);
-                if (empty($r[0]) || !in_array($r[0], $routes)) {
-                    $existsOptions[$name] = ['class' => 'lost'];
+                    $r = explode('&', $name);
+                    $result[$name] = !empty($r[0]) && in_array($r[0], $routes);
                 }
             }
         }
-        $options = $target == 'new' ? [] : ['options' => $existsOptions];
-
-        return Html::renderSelectOptions('', $result, $options);
+        
+        Yii::$app->response->format = 'json';
+        return $result;
     }
 
     /**

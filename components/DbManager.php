@@ -330,7 +330,9 @@ class DbManager extends \yii\rbac\DbManager
         $this->loadItems();
         $roles = [];
         foreach ($this->getAssignments($userId) as $name => $asgn) {
-            $roles[$name] = $this->_items[$name];
+            if (isset($this->_items[$name]) && $this->_items[$name]->type == Item::TYPE_ROLE) {
+                $roles[$name] = $this->_items[$name];
+            }
         }
 
         return $roles;

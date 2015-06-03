@@ -20,6 +20,8 @@ Either run
 
 ```
 php composer.phar require mdmsoft/yii2-admin "~1.0"
+or
+php composer.phar require mdmsoft/yii2-admin "~2.0"
 ```
 
 for dev-master
@@ -31,7 +33,7 @@ php composer.phar require mdmsoft/yii2-admin "dev-master"
 or add
 
 ```
-"mdmsoft/yii2-admin": "~1.0"
+"mdmsoft/yii2-admin": "~2.0"
 ```
 
 to the require section of your `composer.json` file.

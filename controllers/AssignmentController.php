@@ -85,28 +85,9 @@ class AssignmentController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $authManager = Yii::$app->authManager;
-        $avaliable = [];
-        $assigned = [];
-        foreach ($authManager->getRolesByUser($id) as $role) {
-            $type = $role->type;
-            $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
-        }
-        foreach ($authManager->getRoles() as $role) {
-            if (!isset($assigned['Roles'][$role->name])) {
-                $avaliable['Roles'][$role->name] = $role->name;
-            }
-        }
-        foreach ($authManager->getPermissions() as $role) {
-            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
-                $avaliable['Permissions'][$role->name] = $role->name;
-            }
-        }
 
         return $this->render('view', [
                 'model' => $model,
-                'avaliable' => $avaliable,
-                'assigned' => $assigned,
                 'idField' => $this->idField,
                 'usernameField' => $this->usernameField,
         ]);
@@ -118,9 +99,11 @@ class AssignmentController extends Controller
      * @param  string  $action
      * @return mixed
      */
-    public function actionAssign($id, $action)
+    public function actionAssign()
     {
         $post = Yii::$app->request->post();
+        $id = $post['id'];
+        $action = $post['action'];
         $roles = $post['roles'];
         $manager = Yii::$app->authManager;
         $error = [];
@@ -147,10 +130,10 @@ class AssignmentController extends Controller
         }
         MenuHelper::invalidate();
         Yii::$app->response->format = Response::FORMAT_JSON;
-
-        return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
-            $error];
+        return[
+            'type' => 'S',
+            'errors' => $error,
+        ];
     }
 
     /**
@@ -160,43 +143,48 @@ class AssignmentController extends Controller
      * @param  string  $term
      * @return string
      */
-    public function actionRoleSearch($id, $target, $term = '')
+    public function actionSearch($id, $target, $term = '')
     {
+        Yii::$app->response->format = 'json';
         $authManager = Yii::$app->authManager;
+        $roles = $authManager->getRoles();
+        $permissions = $authManager->getPermissions();
+
         $avaliable = [];
         $assigned = [];
-        foreach ($authManager->getRolesByUser($id) as $role) {
-            $type = $role->type;
-            $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
-        }
-        foreach ($authManager->getRoles() as $role) {
-            if (!isset($assigned['Roles'][$role->name])) {
-                $avaliable['Roles'][$role->name] = $role->name;
-            }
-        }
-        foreach ($authManager->getPermissions() as $role) {
-            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
-                $avaliable['Permissions'][$role->name] = $role->name;
+        foreach ($authManager->getAssignments($id) as $assigment) {
+            if (isset($roles[$assigment->roleName])) {
+                if (empty($term) || strpos($assigment->roleName, $term) !== false) {
+                    $assigned['Roles'][$assigment->roleName] = $assigment->roleName;
+                }
+                unset($roles[$assigment->roleName]);
+            } elseif (isset($permissions[$assigment->roleName]) && $assigment->roleName[0] != '/') {
+                if (empty($term) || strpos($assigment->roleName, $term) !== false) {
+                    $assigned['Permissions'][$assigment->roleName] = $assigment->roleName;
+                }
+                unset($permissions[$assigment->roleName]);
             }
         }
 
-        $result = [];
-        $var = ${$target};
-        if (!empty($term)) {
-            foreach (['Roles', 'Permissions'] as $type) {
-                if (isset($var[$type])) {
-                    foreach ($var[$type] as $role) {
-                        if (strpos($role, $term) !== false) {
-                            $result[$type][$role] = $role;
-                        }
+        if ($target == 'avaliable') {
+            if (count($roles)) {
+                foreach ($roles as $role) {
+                    if (empty($term) || strpos($role->name, $term) !== false) {
+                        $avaliable['Roles'][$role->name] = $role->name;
                     }
                 }
             }
+            if (count($permissions)) {
+                foreach ($permissions as $role) {
+                    if ($role->name[0] != '/' && (empty($term) || strpos($role->name, $term) !== false)) {
+                        $avaliable['Permissions'][$role->name] = $role->name;
+                    }
+                }
+            }
+            return $avaliable;
         } else {
-            $result = $var;
+            return $assigned;
         }
-
-        return Html::renderSelectOptions('', $result);
     }
 
     /**

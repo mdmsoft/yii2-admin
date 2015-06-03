@@ -1,6 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use mdm\admin\AdminAsset;
+use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
@@ -14,38 +17,57 @@ $this->params['breadcrumbs'][] = $this->title;
 </p>
 
 <div>
-    <div class="col-lg-5">
-        <?= Yii::t('rbac-admin', 'Avaliable') ?>:
-        <?php
-        echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'new']).' ';
-        echo Html::a('<span class="glyphicon glyphicon-refresh"></span>', '', ['id'=>'btn-refresh']);
-        echo '<br>';
-        echo Html::listBox('routes', '', $new, [
-            'id' => 'new',
-            'multiple' => true,
-            'size' => 20,
-            'style' => 'width:100%']);
-        ?>
-    </div>
-    <div class="col-lg-1">
-        &nbsp;<br><br>
-        <?php
-        echo Html::a('>>', '#', ['class' => 'btn btn-success', 'data-action' => 'assign']) . '<br>';
-        echo Html::a('<<', '#', ['class' => 'btn btn-success', 'data-action' => 'delete']) . '<br>';
-        ?>
-    </div>
-    <div class="col-lg-5">
-        <?= Yii::t('rbac-admin', 'Assigned') ?>:
-        <?php
-        echo Html::textInput('search_asgn', '', ['class' => 'role-search', 'data-target' => 'exists']) . '<br>';
-        echo Html::listBox('routes', '', $exists, [
-            'id' => 'exists',
-            'multiple' => true,
-            'size' => 20,
-            'style' => 'width:100%',
-            'options' => $existsOptions]);
-        ?>
+    <div class="row">
+        <div class="col-lg-5">
+            <?= Yii::t('rbac-admin', 'Avaliable') ?>:
+            <input id="search-avaliable">
+            <a href="#" id="btn-refresh"><span class="glyphicon glyphicon-refresh"></span></a><br>
+            <select id="list-avaliable" multiple size="20" style="width: 100%">
+            </select>
+        </div>
+        <div class="col-lg-1">
+            <br><br>
+            <a href="#" id="btn-add" class="btn btn-success">&gt;&gt;</a><br>
+            <a href="#" id="btn-remove" class="btn btn-danger">&lt;&lt;</a>
+        </div>
+        <div class="col-lg-5">
+            <?= Yii::t('rbac-admin', 'Assigned') ?>:
+            <input id="search-assigned"><br>
+            <select id="list-assigned" multiple size="20" style="width: 100%">
+            </select>
+        </div>
     </div>
 </div>
 <?php
-$this->render('_script');
+AdminAsset::register($this);
+$properties = Json::htmlEncode([
+        'assignUrl' => Url::to(['assign']),
+        'searchUrl' => Url::to(['search']),
+    ]);
+$js = <<<JS
+yii.admin.initProperties({$properties});
+
+$('#search-avaliable').keydown(function () {
+    yii.admin.searchRoute('avaliable');
+});
+$('#search-assigned').keydown(function () {
+    yii.admin.searchRoute('assigned');
+});
+$('#btn-add').click(function () {
+    yii.admin.assignRoute('assign');
+    return false;
+});
+$('#btn-remove').click(function () {
+    yii.admin.assignRoute('remove');
+    return false;
+});
+$('#btn-refresh').click(function () {
+    yii.admin.searchRoute('avaliable',1);
+    return false;
+});
+
+yii.admin.searchRoute('avaliable', 0, true);
+yii.admin.searchRoute('assigned', 0, true);
+JS;
+$this->registerJs($js);
+

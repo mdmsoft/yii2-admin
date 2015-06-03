@@ -15,8 +15,7 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "~2.0",
-        "yiisoft/yii2-jui": "~2.0"
+        "yiisoft/yii2": "~2.0"
     },
     "suggest": {
         "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
@@ -28,7 +27,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.0.x-dev",
+            "dev-experiment": "2.0.x-dev"
         }
     }
 }

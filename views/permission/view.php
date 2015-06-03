@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use mdm\admin\AdminAsset;
+use yii\helpers\Json;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model mdm\admin\models\AuthItem */
@@ -36,35 +39,54 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]);
     ?>
-    <div class="col-lg-5">
-        <?= Yii::t('rbac-admin', 'Avaliable') ?>:
-        <?php
-        echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'avaliable']) . '<br>';
-        echo Html::listBox('roles', '', $avaliable, [
-            'id' => 'avaliable',
-            'multiple' => true,
-            'size' => 20,
-            'style' => 'width:100%']);
-        ?>
+    <div class="row">
+        <div class="col-lg-5">
+            <?= Yii::t('rbac-admin', 'Avaliable') ?>:
+            <input id="search-avaliable"><br>
+            <select id="list-avaliable" multiple size="20" style="width: 100%">
+            </select>
+        </div>
+        <div class="col-lg-1">
+            <br><br>
+            <a href="#" id="btn-add" class="btn btn-success">&gt;&gt;</a><br>
+            <a href="#" id="btn-remove" class="btn btn-danger">&lt;&lt;</a>
+        </div>
+        <div class="col-lg-5">
+            <?= Yii::t('rbac-admin', 'Assigned') ?>:
+            <input id="search-assigned"><br>
+            <select id="list-assigned" multiple size="20" style="width: 100%">
+            </select>
+        </div>
     </div>
-    <div class="col-lg-1">
-        &nbsp;<br><br>
-        <?php
-        echo Html::a('>>', '#', ['class' => 'btn btn-success', 'data-action' => 'assign']) . '<br>';
-        echo Html::a('<<', '#', ['class' => 'btn btn-success', 'data-action' => 'delete']) . '<br>';
-        ?>
-    </div>
-    <div class="col-lg-5">
-        <?= Yii::t('rbac-admin', 'Assigned') ?>:
-        <?php
-        echo Html::textInput('search_asgn', '', ['class' => 'role-search','data-target' => 'assigned']) . '<br>';
-        echo Html::listBox('roles', '', $assigned, [
-            'id' => 'assigned',
-            'multiple' => true,
-            'size' => 20,
-            'style' => 'width:100%']);
-        ?>
-    </div>
+
 </div>
 <?php
-$this->render('_script',['name'=>$model->name]);
+AdminAsset::register($this);
+$properties = Json::htmlEncode([
+        'roleName' => $model->name,
+        'assignUrl' => Url::to(['assign']),
+        'searchUrl' => Url::to(['search']),
+    ]);
+$js = <<<JS
+yii.admin.initProperties({$properties});
+
+$('#search-avaliable').keydown(function () {
+    yii.admin.searchRole('avaliable');
+});
+$('#search-assigned').keydown(function () {
+    yii.admin.searchRole('assigned');
+});
+$('#btn-add').click(function () {
+    yii.admin.addChild('assign');
+    return false;
+});
+$('#btn-remove').click(function () {
+    yii.admin.addChild('remove');
+    return false;
+});
+
+yii.admin.searchRole('avaliable', true);
+yii.admin.searchRole('assigned', true);
+JS;
+$this->registerJs($js);
+
