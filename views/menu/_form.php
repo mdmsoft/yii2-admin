@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mdm\admin\models\Menu;
 use yii\helpers\Json;
+use mdm\admin\AutocompleteAsset;
 
 /* @var $this yii\web\View */
 /* @var $model mdm\admin\models\Menu */
@@ -33,9 +34,8 @@ use yii\helpers\Json;
 
 </div>
 <?php
-list(,$url) = $this->assetManager->publish('@mdm/admin/assets');
-$this->registerJsFile($url.'/jquery-ui.js', ['depends'=>'yii\web\JqueryAsset']);
-$this->registerCssFile($url.'/jquery-ui.css');
+AutocompleteAsset::register($this);
+
 $options1 = Json::htmlEncode([
     'source' => Menu::find()->select(['name'])->column()
 ]);
