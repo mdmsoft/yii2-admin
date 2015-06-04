@@ -1,7 +1,7 @@
 {
     "name": "mdmsoft/yii2-admin",
-    "description": "Auth manager for Yii2 ",
-    "keywords": ["yii", "admin", "auth"],
+    "description": "RBAC Auth manager for Yii2 ",
+    "keywords": ["yii", "admin", "auth", "rbac"],
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
     "support": {
@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "~2.0"
+        "yiisoft/yii2": "~2.0.4"
     },
     "suggest": {
         "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
@@ -27,8 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev",
-            "dev-experiment": "2.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }
