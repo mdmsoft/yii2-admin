@@ -11,7 +11,6 @@ use yii\rbac\Item;
 use Yii;
 use mdm\admin\components\MenuHelper;
 use yii\web\Response;
-use yii\helpers\Html;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
@@ -60,27 +59,8 @@ class PermissionController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $authManager = Yii::$app->getAuthManager();
-        $avaliable = $assigned = [
-            'Permission' => [],
-            'Routes' => [],
-        ];
-        $children = array_keys($authManager->getChildren($id));
-        $children[] = $id;
-        foreach ($authManager->getPermissions() as $name => $role) {
-            if (in_array($name, $children)) {
-                continue;
-            }
-            $avaliable[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
-        }
-        foreach ($authManager->getChildren($id) as $name => $child) {
-            $assigned[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
-        }
-
-        $avaliable = array_filter($avaliable);
-        $assigned = array_filter($assigned);
-
-        return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
+        
+        return $this->render('view', ['model' => $model]);
     }
 
     /**
@@ -140,9 +120,11 @@ class PermissionController extends Controller
      * @param string $action
      * @return array
      */
-    public function actionAssign($id, $action)
+    public function actionAssign()
     {
         $post = Yii::$app->getRequest()->post();
+        $id = $post['id'];
+        $action = $post['action'];
         $roles = $post['roles'];
         $manager = Yii::$app->getAuthManager();
         $parent = $manager->getPermission($id);
@@ -169,9 +151,10 @@ class PermissionController extends Controller
         MenuHelper::invalidate();
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
 
-        return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
-            $error];
+        return[
+            'type' => 'S',
+            'errors' => $error,
+        ];
     }
 
     /**
@@ -181,7 +164,7 @@ class PermissionController extends Controller
      * @param string $term
      * @return array
      */
-    public function actionRoleSearch($id, $target, $term = '')
+    public function actionSearch($id, $target, $term = '')
     {
         $result = [
             'Permission' => [],
@@ -196,18 +179,19 @@ class PermissionController extends Controller
                     continue;
                 }
                 if (empty($term) or strpos($name, $term) !== false) {
-                    $result[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
+                    $result[$name[0] === '/' ? 'Routes' : 'Permissions'][$name] = $name;
                 }
             }
         } else {
             foreach ($authManager->getChildren($id) as $name => $child) {
                 if (empty($term) or strpos($name, $term) !== false) {
-                    $result[$name[0] === '/' ? 'Routes' : 'Permission'][$name] = $name;
+                    $result[$name[0] === '/' ? 'Routes' : 'Permissions'][$name] = $name;
                 }
             }
         }
 
-        return Html::renderSelectOptions('', array_filter($result));
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        return array_filter($result);
     }
 
     /**

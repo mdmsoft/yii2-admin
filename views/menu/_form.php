@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mdm\admin\models\Menu;
+use yii\helpers\Json;
+use mdm\admin\AutocompleteAsset;
 
 /* @var $this yii\web\View */
 /* @var $model mdm\admin\models\Menu */
@@ -16,19 +18,9 @@ use mdm\admin\models\Menu;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 128]) ?>
 
-    <?= $form->field($model, 'parent_name')->widget('yii\jui\AutoComplete',[
-        'options'=>['class'=>'form-control'],
-        'clientOptions'=>[
-            'source'=>  Menu::find()->select(['name'])->column()
-        ]
-    ]) ?>
+    <?= $form->field($model, 'parent_name')->textInput(['id'=>'parent_name']) ?>
 
-    <?= $form->field($model, 'route')->widget('yii\jui\AutoComplete',[
-        'options'=>['class'=>'form-control'],
-        'clientOptions'=>[
-            'source'=> Menu::getSavedRoutes()
-        ]
-    ]) ?>
+    <?= $form->field($model, 'route')->textInput(['id'=>'route']) ?>
 
     <?= $form->field($model, 'order')->input('number') ?>
 
@@ -41,3 +33,15 @@ use mdm\admin\models\Menu;
     <?php ActiveForm::end(); ?>
 
 </div>
+<?php
+AutocompleteAsset::register($this);
+
+$options1 = Json::htmlEncode([
+    'source' => Menu::find()->select(['name'])->column()
+]);
+$this->registerJs("$('#parent_name').autocomplete($options1);");
+
+$options2 = Json::htmlEncode([
+    'source' => Menu::getSavedRoutes()
+]);
+$this->registerJs("$('#route').autocomplete($options2);");

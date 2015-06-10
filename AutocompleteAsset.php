@@ -3,12 +3,12 @@
 namespace mdm\admin;
 
 /**
- * AdminAsset
+ * AutocompleteAsset
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class AdminAsset extends \yii\web\AssetBundle
+class AutocompleteAsset extends \yii\web\AssetBundle
 {
     /**
      * @inheritdoc
@@ -19,17 +19,17 @@ class AdminAsset extends \yii\web\AssetBundle
      * @inheritdoc
      */
     public $css = [
-        'main.css',
+        'jquery-ui.css',
     ];
 
     /**
      * @inheritdoc
      */
     public $js = [
-        'yii.admin.js',
+        'jquery-ui.js',
     ];
 
     public $depends = [
-        'yii\web\YiiAsset',
+        'yii\web\JqueryAsset',
     ];
 }
