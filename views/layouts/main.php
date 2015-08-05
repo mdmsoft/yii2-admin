@@ -7,7 +7,8 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-mdm\admin\AdminAsset::register($this);
+list(,$url) = Yii::$app->assetManager->publish('@mdm/admin/assets');
+$this->registerCssFile($url.'/main.css');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
