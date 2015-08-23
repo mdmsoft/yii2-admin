@@ -16,8 +16,8 @@ class Module extends \yii\base\Module implements BootstrapInterface
     public $userClassName;
     public $idField = 'id';
     public $usernameField = 'username';
-
     public $layout = 'main';
+
     /**
      * @inheritdoc
      */
@@ -76,7 +76,21 @@ class Module extends \yii\base\Module implements BootstrapInterface
             'POST ' . $id . '/menu/<id>' => $id . '/menu/update',
             'POST ' . $id . '/menu' => $id . '/menu/create',
             'DELETE ' . $id . '/menu/<id>' => $id . '/rule/delete',
-
             ], false);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            $contentType = 'application/json';
+            if (!isset(Yii::$app->getRequest()->parsers[$contentType])) {
+                Yii::$app->getRequest()->parsers[$contentType] = 'yii\web\JsonParser';
+            }
+            return true;
+        }
+        return false;
     }
 }
