@@ -83,7 +83,7 @@ class Configs extends Object
 
     protected function getCache()
     {
-        if ($this->_configs['cache'] !== null && !($this->_configs['cache'] instanceof Connection)) {
+        if ($this->_configs['cache'] !== null && !($this->_configs['cache'] instanceof Cache)) {
             $this->_configs['cache'] = Yii::$app->get($this->_configs['cache'], false);
         }
         return $this->_configs['cache'];
