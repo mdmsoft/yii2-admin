@@ -1,8 +1,10 @@
 <?php
 
 use dee\angular\NgView;
+use yii\web\View;
+use yii\helpers\Url;
 
-/* @var $this yii\web\View */
+/* @var $this View */
 ?>
 <?=
 NgView::widget([
@@ -22,7 +24,6 @@ NgView::widget([
             'js' => 'assignment/view.js',
             'injection' => ['Assignment'],
         ],
-        //
         '/role' => [
             'view' => 'role/index',
             'js' => 'role/index.js',
@@ -33,8 +34,8 @@ NgView::widget([
             'js' => 'role/view.js',
             'injection' => ['Item'],
         ],
-        '/role/form' => [
-            'show' => false,
+        '/role/form' => [              // modal
+            'visible' => false,
             'view' => 'role/form',
             'js' => 'role/form.js',
             'injection' => ['$modalInstance', 'type', 'Item', 'Rule']
@@ -54,14 +55,14 @@ NgView::widget([
             'js' => 'rule/index.js',
             'injection' => ['Rule'],
         ],
-        '/rule/form' => [
-            'show' => false,
+        '/rule/form' => [              // modal
+            'visible' => false,
             'view' => 'rule/form',
             'js' => 'rule/form.js',
             'injection' => ['$modalInstance', 'item', 'Rule']
         ],
         '/rule/view' => [
-            'show' => false,
+            'visible' => false,
             'view' => 'rule/view',
             'js' => 'rule/view.js',
             'injection' => ['$modalInstance', 'name', 'Rule']
@@ -71,8 +72,8 @@ NgView::widget([
             'js' => 'route/index.js',
             'injection' => ['Route'],
         ],
-        '/route/form' => [
-            'show' => false,
+        '/route/form' => [              // modal
+            'visible' => false,
             'view' => 'route/form',
             'js' => 'route/form.js',
             'injection' => ['$modalInstance', 'Route']
@@ -82,8 +83,8 @@ NgView::widget([
             'js' => 'menu/index.js',
             'injection' => ['Menu'],
         ],
-        '/menu/form' => [
-            'show' => false,
+        '/menu/form' => [               // modal
+            'visible' => false,
             'view' => 'menu/form',
             'js' => 'menu/form.js',
             'injection' => ['$modalInstance', 'Menu', 'model']
@@ -97,17 +98,12 @@ NgView::widget([
     ],
     'js' => 'index.js',
     'useNgApp' => false,
+    'clientOptions' => [
+        'prefixUrl' => rtrim(Url::canonical(), '/') . '/'
+    ]
 ]);
 ?>
 <?php
-$url = yii\helpers\Url::canonical();
-$url = yii\helpers\Json::htmlEncode(rtrim($url, '/') . '/');
-$js = <<<JS
-    dAdmin.prefixUrl = {$url};
-        
-JS;
-$this->registerJs($js, \yii\web\View::POS_END);
-
 $css = <<<CSS
 .box-solid .form-control-feedback{
     color: #444;
