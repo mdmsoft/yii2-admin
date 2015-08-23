@@ -5,7 +5,6 @@ namespace mdm\admin\models;
 use Yii;
 use yii\rbac\Item;
 use yii\helpers\Json;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tbl_auth_item".
