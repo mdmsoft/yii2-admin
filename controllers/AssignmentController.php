@@ -127,7 +127,7 @@ class AssignmentController extends Controller
             }
         }
 
-        //MenuHelper::invalidate();
+        MenuHelper::invalidate();
         return[
             'type' => 'S',
             'count' => $count,
@@ -158,7 +158,7 @@ class AssignmentController extends Controller
             }
         }
 
-        //MenuHelper::invalidate();
+        MenuHelper::invalidate();
         return[
             'type' => 'S',
             'count' => $count,

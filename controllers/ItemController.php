@@ -70,7 +70,7 @@ class ItemController extends Controller
     {
         $model = new AuthItem(null);
         if ($model->load(Yii::$app->getRequest()->post(), '') && $model->save()) {
-            //MenuHelper::invalidate();
+            MenuHelper::invalidate();
         }
         return $model;
     }
@@ -85,7 +85,7 @@ class ItemController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post(), '') && $model->save()) {
-            //MenuHelper::invalidate();
+            MenuHelper::invalidate();
         }
         return $model;
     }
@@ -100,7 +100,7 @@ class ItemController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
-        //MenuHelper::invalidate();
+        MenuHelper::invalidate();
         return true;
     }
 
@@ -128,7 +128,7 @@ class ItemController extends Controller
             }
         }
 
-        //MenuHelper::invalidate();
+        MenuHelper::invalidate();
 
         return[
             'type' => 'S',
@@ -161,7 +161,7 @@ class ItemController extends Controller
             }
         }
 
-        //MenuHelper::invalidate();
+        MenuHelper::invalidate();
 
         return[
             'type' => 'S',

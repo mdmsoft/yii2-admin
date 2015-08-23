@@ -64,6 +64,7 @@ class RouteController extends Controller
             }
         }
 
+        MenuHelper::invalidate();
         return[
             'type' => 'S',
             'count' => $count,
@@ -92,6 +93,7 @@ class RouteController extends Controller
             }
         }
 
+        MenuHelper::invalidate();
         return[
             'type' => 'S',
             'count' => $count,

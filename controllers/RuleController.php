@@ -60,7 +60,7 @@ class RuleController extends Controller
     {
         $model = new BizRule(null);
         if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
-            //MenuHelper::invalidate();
+            MenuHelper::invalidate();
         }
         return $model;
     }
@@ -75,7 +75,7 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
-            // MenuHelper::invalidate();
+            MenuHelper::invalidate();
         }
         return $model;
     }
@@ -90,7 +90,7 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
-        //MenuHelper::invalidate();
+        MenuHelper::invalidate();
 
         return true;
     }
