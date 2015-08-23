@@ -1,25 +1,35 @@
 <?php
+
 namespace mdm\admin\models;
+
+use yii\base\Model;
+
 /**
  * Route
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class Route extends \yii\base\Model
+class Route extends Model
 {
     /**
      * @var string Route value. 
      */
-    public $route;
+    public $name;
 
+    public $data;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return[
-            [['route'],'safe'],
+            [['name'], 'required'],
         ];
+    }
+
+    public function save()
+    {
+        
     }
 }

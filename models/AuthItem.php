@@ -5,6 +5,7 @@ namespace mdm\admin\models;
 use Yii;
 use yii\rbac\Item;
 use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tbl_auth_item".
@@ -115,6 +116,7 @@ class AuthItem extends \yii\base\Model
     public static function find($id)
     {
         $item = Yii::$app->authManager->getRole($id);
+        $item = $item ? : Yii::$app->authManager->getPermission($id);
         if ($item !== null) {
             return new self($item);
         }
@@ -167,6 +169,23 @@ class AuthItem extends \yii\base\Model
     }
 
     /**
+     * 
+     * @param Item $a
+     * @param Item $b
+     * @return int 
+     */
+    public static function compare($a, $b)
+    {
+        if ($a->type != $b->type) {
+            return $a->type > $b->type ? 1 : -1;
+        } elseif (($a->name[0] == '/' || $b->name[0] == '/') && ($a->name[0] != $b->name[0])) {
+            return $a->name[0] == '/' ? 1 : -1;
+        } else {
+            return $a->name > $b->name ? 1 : -1;
+        }
+    }
+
+    /**
      * Get type name
      * @param  mixed $type
      * @return string|array
@@ -182,5 +201,55 @@ class AuthItem extends \yii\base\Model
         }
 
         return $result[$type];
+    }
+    private $_avaliables;
+    private static $_rules;
+    private $_children;
+
+    public function getChildren()
+    {
+        if ($this->_children === null) {
+            $manager = Yii::$app->getAuthManager();
+            $this->_children = array_values($manager->getChildren($this->name));
+            usort($this->_children, [get_called_class(), 'compare']);
+        }
+        return $this->_children;
+    }
+
+    public function getAvaliables()
+    {
+        if ($this->_avaliables === null) {
+            $manager = Yii::$app->getAuthManager();
+            $items = [];
+            if ($this->type == Item::TYPE_ROLE) {
+                $items = array_merge($manager->getRoles(), $manager->getPermissions());
+            } elseif ($this->type == Item::TYPE_PERMISSION) {
+                $items = $manager->getPermissions();
+            }
+            uasort($items, [get_called_class(), 'compare']);
+            foreach ($this->getChildren() as $item) {
+                unset($items[$item->name]);
+            }
+            $this->_avaliables = array_values($items);
+        }
+        return $this->_avaliables;
+    }
+
+    public function getRules()
+    {
+        $manager = Yii::$app->getAuthManager();
+        if (self::$_rules === null) {
+            self::$_rules = array_keys($manager->getRules());
+        }
+        return self::$_rules;
+    }
+
+    public function extraFields()
+    {
+        return[
+            'children',
+            'avaliables',
+            'rules',
+        ];
     }
 }

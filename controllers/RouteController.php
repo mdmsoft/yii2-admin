@@ -3,12 +3,10 @@
 namespace mdm\admin\controllers;
 
 use Yii;
-use mdm\admin\models\Route;
-use mdm\admin\components\MenuHelper;
+use mdm\admin\classes\MenuHelper;
 use yii\caching\TagDependency;
-use yii\web\Response;
-use mdm\admin\components\RouteRule;
-use mdm\admin\components\Configs;
+use yii\rest\Controller;
+use mdm\admin\classes\RouteRule;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
 use Exception;
@@ -19,7 +17,7 @@ use Exception;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class RouteController extends \yii\web\Controller
+class RouteController extends Controller
 {
     const CACHE_TAG = 'mdm.admin.route';
 
@@ -27,30 +25,24 @@ class RouteController extends \yii\web\Controller
      * Lists all Route models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($refresh = false)
     {
-        
-        return $this->render('index');
-    }
-
-    /**
-     * Creates a new AuthItem model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Route;
-        if ($model->load(Yii::$app->getRequest()->post())) {
-            if ($model->validate()) {
-                $routes = preg_split('/\s*,\s*/', trim($model->route), -1, PREG_SPLIT_NO_EMPTY);
-                $this->saveNew($routes);
-                MenuHelper::invalidate();
-                $this->redirect(['index']);
+        $routes = array_filter(Yii::$app->getAuthManager()->getPermissions(), function($item) {
+            return $item->name[0] == '/';
+        });
+        $avaliables = [];
+        foreach ($this->getAppRoutes($refresh) as $name) {
+            if (!isset($routes[$name])) {
+                $avaliables[] = [
+                    'name' => $name,
+                ];
             }
         }
 
-        return $this->render('create', ['model' => $model]);
+        return[
+            'routes' => array_values($routes),
+            'avaliables' => $avaliables,
+        ];
     }
 
     /**
@@ -58,108 +50,80 @@ class RouteController extends \yii\web\Controller
      * @param string $action
      * @return array
      */
-    public function actionAssign()
+    public function actionAdd()
     {
-        $post = Yii::$app->getRequest()->post();
-        $action = $post['action'];
-        $routes = $post['routes'];
-        $manager = Yii::$app->getAuthManager();
+        $routes = Yii::$app->getRequest()->post('items', []);
         $error = [];
-        if ($action == 'assign') {
-            $this->saveNew($routes);
-        } else {
-            foreach ($routes as $route) {
-                $child = $manager->getPermission($route);
-                try {
-                    $manager->remove($child);
-                } catch (Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
+        $count = 0;
+        foreach ($routes as $route) {
+            try {
+                $this->addRoute($route);
+                $count++;
+            } catch (Exception $exc) {
+                $error[] = $exc->getMessage();
             }
         }
-        MenuHelper::invalidate();
-        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
 
         return[
             'type' => 'S',
+            'count' => $count,
             'errors' => $error,
         ];
     }
 
     /**
-     * Search Route
-     * @param string $target
-     * @param string $term
-     * @param string $refresh
+     * Assign or remove items
+     * @param string $action
      * @return array
      */
-    public function actionSearch($target, $term = '', $refresh = '0')
+    public function actionRemove()
     {
-        if ($refresh == '1') {
-            $this->invalidate();
-        }
-        $result = [];
+        $routes = Yii::$app->getRequest()->post('items', []);
         $manager = Yii::$app->getAuthManager();
-
-        $exists = array_keys($manager->getPermissions());
-        $routes = $this->getAppRoutes();
-        if ($target == 'avaliable') {
-            foreach ($routes as $route) {
-                if (in_array($route, $exists)) {
-                    continue;
-                }
-                if (empty($term) or strpos($route, $term) !== false) {
-                    $result[$route] = true;
-                }
-            }
-        } else {
-            foreach ($exists as $name) {
-                if ($name[0] !== '/') {
-                    continue;
-                }
-                if (empty($term) or strpos($name, $term) !== false) {
-                    $r = explode('&', $name);
-                    $result[$name] = !empty($r[0]) && in_array($r[0], $routes);
-                }
+        $error = [];
+        $count = 0;
+        foreach ($routes as $route) {
+            $route = $manager->createPermission($route);
+            try {
+                $manager->remove($route);
+                $count++;
+            } catch (Exception $exc) {
+                $error[] = $exc->getMessage();
             }
         }
-        
-        Yii::$app->response->format = 'json';
-        return $result;
+
+        return[
+            'type' => 'S',
+            'count' => $count,
+            'errors' => $error,
+        ];
     }
 
     /**
      * Save one or more route(s)
-     * @param array $routes
+     * @param array $route
      */
-    private function saveNew($routes)
+    protected function addRoute($route)
     {
         $manager = Yii::$app->getAuthManager();
-        foreach ($routes as $route) {
-            try {
-                $r = explode('&', $route);
-                $item = $manager->createPermission('/' . trim($route, '/'));
-                if (count($r) > 1) {
-                    $action = '/' . trim($r[0], '/');
-                    if (($itemAction = $manager->getPermission($action)) === null) {
-                        $itemAction = $manager->createPermission($action);
-                        $manager->add($itemAction);
-                    }
-                    unset($r[0]);
-                    foreach ($r as $part) {
-                        $part = explode('=', $part);
-                        $item->data['params'][$part[0]] = isset($part[1]) ? $part[1] : '';
-                    }
-                    $this->setDefaultRule();
-                    $item->ruleName = RouteRule::RULE_NAME;
-                    $manager->add($item);
-                    $manager->addChild($item, $itemAction);
-                } else {
-                    $manager->add($item);
-                }
-            } catch (Exception $e) {
-
+        $route = '/' . trim($route, ' /');
+        $url = parse_url($route);
+        $item = $manager->createPermission('/' . trim($route, '/'));
+        if (isset($url['query'])) {
+            $action = $url['path'];
+            if (($itemAction = $manager->getPermission($action)) === null) {
+                $itemAction = $manager->createPermission($action);
+                $manager->add($itemAction);
             }
+            parse_str($url['query'], $params);
+            $item->data['params'] = $params;
+
+            $this->setDefaultRule();
+            $item->ruleName = RouteRule::RULE_NAME;
+            $manager->add($item);
+            $manager->addChild($item, $itemAction);
+        } else {
+            $manager->add($item);
         }
     }
 
@@ -167,15 +131,15 @@ class RouteController extends \yii\web\Controller
      * Get list of application routes
      * @return array
      */
-    public function getAppRoutes()
+    public function getAppRoutes($refresh = false)
     {
         $key = __METHOD__;
-        $cache = Configs::instance()->cache;
-        if ($cache === null || ($result = $cache->get($key)) === false) {
+        $cache = Yii::$app->getCache();
+        if ($refresh || $cache === null || ($result = $cache->get($key)) === false) {
             $result = [];
             $this->getRouteRecrusive(Yii::$app, $result);
             if ($cache !== null) {
-                $cache->set($key, $result, Configs::instance()->cacheDuration, new TagDependency([
+                $cache->set($key, $result, 0, new TagDependency([
                     'tags' => self::CACHE_TAG
                 ]));
             }
@@ -300,25 +264,12 @@ class RouteController extends \yii\web\Controller
     }
 
     /**
-     * Ivalidate cache
-     */
-    protected function invalidate()
-    {
-        if (Configs::instance()->cache !== null) {
-            TagDependency::invalidate(Configs::instance()->cache, self::CACHE_TAG);
-        }
-    }
-
-    /**
      * Set default rule of parameterize route.
      */
     protected function setDefaultRule()
     {
         if (Yii::$app->authManager->getRule(RouteRule::RULE_NAME) === null) {
-            Yii::$app->authManager->add(Yii::createObject([
-                    'class' => RouteRule::className(),
-                    'name' => RouteRule::RULE_NAME]
-            ));
+            Yii::$app->authManager->add(Yii::createObject(RouteRule::className()));
         }
     }
 }

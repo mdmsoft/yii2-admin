@@ -49,7 +49,7 @@ return [
     ...
     'aliases' => [
         '@mdm/admin' => 'path/to/your/extracted',
-        // for example: '@mdm/admin' => '@app/extensions/mdm/yii2-admin-2.0.0',
+        // for example: '@mdm/admin' => '@app/extensions/mdm/yii2-admin-3.0.0',
         ...
     ]
 ];
@@ -62,6 +62,10 @@ Once the extension is installed, simply modify your application configuration as
 
 ```php
 return [
+    'bootstrap' => [
+        'admin', // required
+        ...
+    ],
     'modules' => [
         'admin' => [
             'class' => 'mdm\admin\Module',
@@ -77,7 +81,7 @@ return [
         ]
     ],
     'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
+        'class' => 'mdm\admin\classes\AccessControl',
         'allowActions' => [
             'site/*',
             'admin/*',
@@ -95,12 +99,12 @@ See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-security-authorization.
 You can then access Auth manager through the following URL:
 
 ```
-http://localhost/path/to/index.php?r=admin
-http://localhost/path/to/index.php?r=admin/route
-http://localhost/path/to/index.php?r=admin/permission
-http://localhost/path/to/index.php?r=admin/menu
-http://localhost/path/to/index.php?r=admin/role
-http://localhost/path/to/index.php?r=admin/assignment
+http://localhost/path/to/index.php/admin
+http://localhost/path/to/index.php/admin#/route
+http://localhost/path/to/index.php/admin#/permission
+http://localhost/path/to/index.php/admin#/menu
+http://localhost/path/to/index.php/admin#/role
+http://localhost/path/to/index.php/admin#/assignment
 ```
 
 To use the menu manager (optional), execute the migration here:
@@ -113,85 +117,10 @@ If you use database (class 'yii\rbac\DbManager') to save rbac data, execute the 
 yii migrate --migrationPath=@yii/rbac/migrations
 ```
 
-Customizing Controller
-----------------------
+Upgrade From 2.x
+----------------
 
-Some controller properties may need to be adjusted to the User model of your app.
-To do that, change them via `controllerMap` property. For example:
-
-```php
-    'modules' => [
-        'admin' => [
-            ...
-            'controllerMap' => [
-                 'assignment' => [
-                    'class' => 'mdm\admin\controllers\AssignmentController',
-                    /* 'userClassName' => 'app\models\User', */ // fully qualified class name of your User model
-                    // Usually you don't need to specify it explicitly, since the module will detect it automatically
-                    'idField' => 'user_id',        // id field of your User model that corresponds to Yii::$app->user->id
-                    'usernameField' => 'username', // username field of your User model
-                    'searchClass' => 'app\models\UserSearch'    // fully qualified class name of your User model for searching
-                ]
-            ],
-            ...
-        ]
-        ...
-    ],
-
-```
-
-Customizing Layout
-------------------
-
-By default, the admin module will use the layout specified in the application level.
-In that case you have to write the menu for this module on your own.
-
-By specifying the `layout` property, you can use one of the built-in layouts of the module:
-'left-menu', 'right-menu' or 'top-menu', all equipped with the menu for this module.
-
-```php
-    'modules' => [
-        'admin' => [
-            ...
-            'layout' => 'left-menu', // defaults to null, using the application's layout without the menu
-                                     // other avaliable values are 'right-menu' and 'top-menu'
-        ],
-        ...
-    ],
-```
-
-If you use one of them, you can also customize the menu. You can change menu label or disable it.
-
-```php
-    'modules' => [
-        'admin' => [
-            ...
-            'layout' => 'left-menu',
-            'menus' => [
-                'assignment' => [
-                    'label' => 'Grant Access' // change label
-                ],
-                'route' => null, // disable menu
-            ],
-        ],
-        ...
-    ],
-```
-
-While using a dedicated layout of the module, you may still want to have it wrapped in your application's main layout
-that has your application's nav bar and your brand logo on it.
-You can do it by specifying the `mainLayout` property with the application's main layout. For example:
-
-```php
-    'modules' => [
-        'admin' => [
-            ...
-            'layout' => 'left-menu',
-            'mainLayout' => '@app/views/layouts/main.php',
-            ...
-        ],
-        ...
-    ],
-```
-
-[screenshots](https://picasaweb.google.com/105012704576561549351/Yii2Admin?authuser=0&feat=directlink)
+- All classes under namespace `mdm\admin\components` moved to `mdm\admin\classes`.
+So you must change it.
+- Version 3.x only work with enable prety url.
+- You must add module to application bootstrap in config.

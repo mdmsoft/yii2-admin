@@ -4,11 +4,10 @@ namespace mdm\admin\controllers;
 
 use Yii;
 use mdm\admin\models\Menu;
-use mdm\admin\models\searchs\Menu as MenuSearch;
-use yii\web\Controller;
+use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use mdm\admin\components\MenuHelper;
+use mdm\admin\classes\MenuHelper;
+use yii\data\ActiveDataProvider;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
@@ -19,18 +18,14 @@ use mdm\admin\components\MenuHelper;
 class MenuController extends Controller
 {
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
+    protected function verbs()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
+        return[
+            'index' => ['GET'],
+            'view' => ['GET'],
+            'update' => ['POST', 'PUT'],
+            'create' => ['POST'],
+            'delete' => ['DELETE'],
         ];
     }
 
@@ -40,12 +35,13 @@ class MenuController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new MenuSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
-        return $this->render('index', [
-                'dataProvider' => $dataProvider,
-                'searchModel' => $searchModel,
+        $query = Menu::find();
+        $query->joinWith(['menuParent'=>function($q){
+            $q->from(Menu::tableName().' p');
+        }]);
+        return new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,
         ]);
     }
 
@@ -56,9 +52,16 @@ class MenuController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-                'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+        return $model;
+    }
+
+    public function actionValues()
+    {
+        return[
+            'menus'=>  Menu::find()->asArray()->all(),
+            'routes'=>Menu::getSavedRoutes(),
+        ];
     }
 
     /**
@@ -70,14 +73,10 @@ class MenuController extends Controller
     {
         $model = new Menu;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
             MenuHelper::invalidate();
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                    'model' => $model,
-            ]);
         }
+        return $model;
     }
 
     /**
@@ -89,17 +88,10 @@ class MenuController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->menuParent) {
-            $model->parent_name = $model->menuParent->name;
-        }
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
             MenuHelper::invalidate();
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                    'model' => $model,
-            ]);
         }
+        return $model;
     }
 
     /**
@@ -113,7 +105,7 @@ class MenuController extends Controller
         $this->findModel($id)->delete();
         MenuHelper::invalidate();
 
-        return $this->redirect(['index']);
+        return true;
     }
 
     /**

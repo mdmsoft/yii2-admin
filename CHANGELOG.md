@@ -1,5 +1,9 @@
 Yii2 Admin Change Log
 ==========================
+3.0
+----
+- Chg: Use angularjs for javascript framework (mdmunir).
+
 
 2.0 Under Development
 ---------------------

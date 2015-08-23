@@ -15,10 +15,9 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "~2.0.4"
-    },
-    "suggest": {
-        "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
+        "yiisoft/yii2": ">=2.0.4",
+        "deesoft/yii2-angular": "~1.0",
+        "deesoft/yii2-adminlte": "~1.0"
     },
     "autoload": {
         "psr-4": {
@@ -28,7 +27,8 @@
     "extra": {
         "branch-alias": {
             "dev-1.0.master": "1.0.x-dev",
-            "dev-master": "2.x-dev"
+            "dev-master": "2.x-dev",
+            "dev-3.master": "3.x-dev"
         }
     }
 }

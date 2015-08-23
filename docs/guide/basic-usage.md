@@ -37,11 +37,11 @@ Access Control Filter (ACF) is a simple authorization method that is best used b
 As its name indicates, ACF is an action filter that can be attached to a controller or a module as a behavior. 
 ACF will check a set of access rules to make sure the current user can access the requested action.
 
-The code below shows how to use ACF which is implemented as `mdm\admin\components\AccessControl`:
+The code below shows how to use ACF which is implemented as `mdm\admin\classes\AccessControl`:
 
 ```php
 'as access' => [
-    'class' => 'mdm\admin\components\AccessControl',
+    'class' => 'mdm\admin\classes\AccessControl',
     'allowActions' => [
         'site/login', 
         'site/error',

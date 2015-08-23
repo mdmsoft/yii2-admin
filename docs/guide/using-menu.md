@@ -5,7 +5,7 @@ Menu manager used for build hierarchical menu. This is automatically look of use
 role and permision then return menus that he has access.
 
 ```php
-use mdm\admin\components\MenuHelper;
+use mdm\admin\classes\MenuHelper;
 use yii\bootstrap\Nav;
 
 echo Nav::widget([
@@ -13,7 +13,7 @@ echo Nav::widget([
 ]);
 ```
 
-Return of `mdm\admin\components\MenuHelper::getAssignedMenu()` has default format like:
+Return of `mdm\admin\classes\MenuHelper::getAssignedMenu()` has default format like:
 
 ```php
 [
@@ -43,7 +43,7 @@ Return of `mdm\admin\components\MenuHelper::getAssignedMenu()` has default forma
 ```
 
 where `$menu` variable corresponden with a record of table `menu`. You can customize 
-return format of `mdm\admin\components\MenuHelper::getAssignedMenu()` by provide a callback to this methode.
+return format of `mdm\admin\classes\MenuHelper::getAssignedMenu()` by provide a callback to this methode.
 The callback must have format `function($menu){}`. E.g:
 
 You can add html options attribut to Your menu, for example "title". When You create a menu, in field data (textarea) fill this :
@@ -71,7 +71,7 @@ You can modify callback function for advanced usage.
 
 Using Sparated Menu
 -------------------
-Second parameter of `mdm\admin\components\MenuHelper::getAssignedMenu()` used to get menu on it's own hierarchy.
+Second parameter of `mdm\admin\classes\MenuHelper::getAssignedMenu()` used to get menu on it's own hierarchy.
 E.g. Your menu structure:
 
 * Side Menu

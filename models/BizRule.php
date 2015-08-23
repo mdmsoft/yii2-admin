@@ -2,8 +2,9 @@
 
 namespace mdm\admin\models;
 
-use yii\rbac\Rule;
 use Yii;
+use yii\rbac\Rule;
+use yii\base\Model;
 
 /**
  * BizRule
@@ -11,7 +12,7 @@ use Yii;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class BizRule extends \yii\base\Model
+class BizRule extends Model
 {
     /**
      * @var string name of the rule
@@ -59,9 +60,14 @@ class BizRule extends \yii\base\Model
     public function rules()
     {
         return [
-            [['name', 'className'], 'required'],
+            [['className'], 'required'],
             [['className'], 'string'],
-            [['className'], 'classExists']
+            [['className'], 'classExists'],
+            [['name'], 'default', 'value' => function() {
+                $class = $this->className;
+                return (new $class())->name;
+            }],
+            [['name'], 'required'],
         ];
     }
 
@@ -147,5 +153,27 @@ class BizRule extends \yii\base\Model
     public function getItem()
     {
         return $this->_item;
+    }
+    private $_content;
+
+    public function getContent()
+    {
+        if ($this->_content === null) {
+            if ($this->_item !== null) {
+                $reff = new \ReflectionClass($this->_item);
+                $this->_content = highlight_file($reff->getFileName(), true);
+            } else {
+                $this->_content = '';
+            }
+        }
+        return $this->_content;
+    }
+
+    public function extraFields()
+    {
+        return[
+            'item',
+            'content'
+        ];
     }
 }
