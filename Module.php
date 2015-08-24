@@ -67,15 +67,15 @@ class Module extends \yii\base\Module implements BootstrapInterface
             'DELETE ' . $id . '/rule/<id>' => $id . '/rule/delete',
             // route
             'GET ' . $id . '/route' => $id . '/route/index',
-            'POST ' . $id . '/route' => $id . '/route/add',
-            'DELETE ' . $id . '/route' => $id . '/route/remove',
+            'POST ' . $id . '/route/add' => $id . '/route/add',
+            'POST ' . $id . '/route/remove' => $id . '/route/remove',
             // rule
             'GET ' . $id . '/menu' => $id . '/menu/index',
             'GET ' . $id . '/menu/values' => $id . '/menu/values',
             'GET ' . $id . '/menu/<id>' => $id . '/menu/view',
             'POST ' . $id . '/menu/<id>' => $id . '/menu/update',
             'POST ' . $id . '/menu' => $id . '/menu/create',
-            'DELETE ' . $id . '/menu/<id>' => $id . '/rule/delete',
+            'DELETE ' . $id . '/menu/<id>' => $id . '/menu/delete',
             ], false);
     }
 

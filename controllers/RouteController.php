@@ -21,6 +21,15 @@ class RouteController extends Controller
 {
     const CACHE_TAG = 'mdm.admin.route';
 
+    protected function verbs()
+    {
+        return[
+            'index' => ['GET'],
+            'add' => ['POST'],
+            'remove' => ['POST'],
+        ];
+    }
+
     /**
      * Lists all Route models.
      * @return mixed

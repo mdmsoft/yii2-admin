@@ -46,8 +46,9 @@ $scope.openModal = function (model) {
 
 $scope.deleteItem = function (item) {
     if (confirm('Are you sure you want to delete?')) {
-        Menu.remove({id: item.name}, {}, function () {
-            addAlert('info', 'Role deleted');
+        Menu.remove({id: item.id}, {}, function () {
+            addAlert('info', 'Menu deleted');
+            query();
         }, function (r) {
             addAlert('error', r.statusText);
         });

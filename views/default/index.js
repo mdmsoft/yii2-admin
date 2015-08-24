@@ -24,9 +24,10 @@ dAdmin.factory('Rule', ['$resource', function ($resource) {
 
 dAdmin.factory('Route', ['$resource', function ($resource) {
 
-        return $resource(options.prefixUrl + 'route/:id', {}, {
+        return $resource(options.prefixUrl + 'route', {}, {
             query: {method: 'GET', isArray: false},
-            add: {method: 'POST'},
+            add: {method: 'POST',url:options.prefixUrl + 'route/add'},
+            remove: {method: 'POST',url:options.prefixUrl + 'route/remove'},
         });
     }]);
 
