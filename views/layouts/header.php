@@ -14,13 +14,10 @@ use yii\web\View;
                 </button>
             </div>
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#assignment">Assignment</a></li>
-                    <li><a href="#role">Role</a></li>
-                    <li><a href="#permission">Permission</a></li>
-                    <li><a href="#rule">Rule</a></li>
-                    <li><a href="#route">Route</a></li>
-                    <li><a href="#menu">Menu</a></li>
+                <ul class="nav navbar-nav" ng-controller="HeaderMenuCtrl">
+                    <li ng-repeat="menu in headerMenu" ng-class="{active:location.path().indexOf(menu.id)===0}">
+                        <a ng-href="{{menu.url}}" ng-bind="menu.label"></a>
+                    </li>
                 </ul>
             </div>
         </div>

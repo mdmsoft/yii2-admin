@@ -1,40 +1,53 @@
+var prefixApiUrl = options.currentUrl + '/';
+
+dAdmin.controller('HeaderMenuCtrl', ['$scope', '$location', function ($scope, $location) {
+        $scope.headerMenu = [];
+        $scope.location = $location;
+        angular.forEach(options.headerMenus, function (label, id) {
+            $scope.headerMenu.push({
+                id:id,
+                label: label,
+                url: options.currentUrl + '#' + id,
+            });
+        });
+    }]);
 
 dAdmin.factory('Assignment', ['$resource', function ($resource) {
 
-        return $resource(options.prefixUrl + 'assignment/:id', {}, {
-            assign: {method: 'POST', url: options.prefixUrl + 'assignment/assign/:id'},
-            revoke: {method: 'POST', url: options.prefixUrl + 'assignment/revoke/:id'},
+        return $resource(prefixApiUrl + 'assignment/:id', {}, {
+            assign: {method: 'POST', url: prefixApiUrl + 'assignment/assign/:id'},
+            revoke: {method: 'POST', url: prefixApiUrl + 'assignment/revoke/:id'},
         });
     }]);
 
 dAdmin.factory('Item', ['$resource', function ($resource) {
 
-        return $resource(options.prefixUrl + 'item/:id', {}, {
-            assign: {method: 'POST', url: options.prefixUrl + 'item/assign/:id'},
-            revoke: {method: 'POST', url: options.prefixUrl + 'item/revoke/:id'},
+        return $resource(prefixApiUrl + 'item/:id', {}, {
+            assign: {method: 'POST', url: prefixApiUrl + 'item/assign/:id'},
+            revoke: {method: 'POST', url: prefixApiUrl + 'item/revoke/:id'},
             update: {method: 'PUT'},
         });
     }]);
 
 dAdmin.factory('Rule', ['$resource', function ($resource) {
 
-        return $resource(options.prefixUrl + 'rule/:id', {}, {
+        return $resource(prefixApiUrl + 'rule/:id', {}, {
         });
     }]);
 
 dAdmin.factory('Route', ['$resource', function ($resource) {
 
-        return $resource(options.prefixUrl + 'route', {}, {
+        return $resource(prefixApiUrl + 'route', {}, {
             query: {method: 'GET', isArray: false},
-            add: {method: 'POST',url:options.prefixUrl + 'route/add'},
-            remove: {method: 'POST',url:options.prefixUrl + 'route/remove'},
+            add: {method: 'POST', url: prefixApiUrl + 'route/add'},
+            remove: {method: 'POST', url: prefixApiUrl + 'route/remove'},
         });
     }]);
 
 dAdmin.factory('Menu', ['$resource', function ($resource) {
 
-        return $resource(options.prefixUrl + 'menu/:id', {}, {
-            values: {method: 'GET', url: options.prefixUrl + 'menu/values'}
+        return $resource(prefixApiUrl + 'menu/:id', {}, {
+            values: {method: 'GET', url: prefixApiUrl + 'menu/values'}
         });
     }]);
 

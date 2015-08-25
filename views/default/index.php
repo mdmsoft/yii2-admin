@@ -99,7 +99,15 @@ NgView::widget([
     'js' => 'index.js',
     'useNgApp' => false,
     'clientOptions' => [
-        'prefixUrl' => rtrim(Url::canonical(), '/') . '/'
+        'currentUrl' => rtrim(Url::to(['']), '/'),
+        'headerMenus' => [
+            '/assignment'=>  Yii::t('rbac-admin', 'Assignment'),
+            '/role'=>  Yii::t('rbac-admin', 'Role'),
+            '/permission'=>  Yii::t('rbac-admin', 'Permission'),
+            '/rule'=>  Yii::t('rbac-admin', 'Rule'),
+            '/route'=>  Yii::t('rbac-admin', 'Route'),
+            '/menu'=>  Yii::t('rbac-admin', 'Menu'),
+        ],
     ]
 ]);
 ?>
