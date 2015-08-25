@@ -1,7 +1,7 @@
 {
     "name": "mdmsoft/yii2-admin",
     "description": "RBAC Auth manager for Yii2 ",
-    "keywords": ["yii", "admin", "auth", "rbac"],
+    "keywords": ["yii", "admin", "auth", "rbac", "angularjs", "rest"],
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
     "support": {
@@ -26,8 +26,6 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-1.0.master": "1.0.x-dev",
-            "dev-master": "2.x-dev",
             "dev-3.master": "3.x-dev"
         }
     }
