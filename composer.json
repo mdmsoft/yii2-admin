@@ -16,7 +16,7 @@
     ],
     "require": {
         "yiisoft/yii2": ">=2.0.4",
-        "deesoft/yii2-angular": "~1.1",
+        "deesoft/yii2-angular": "~1.2",
         "deesoft/yii2-adminlte": "~1.0"
     },
     "autoload": {
