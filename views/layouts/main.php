@@ -19,9 +19,26 @@ AdminlteAsset::register($this);
         <?php $this->head() ?>
     </head>
     <?php $this->beginBody() ?>
-    <body class="skin-blue layout-top-nav" ng-app="dAdmin">
+    <body class="skin-blue layout-top-nav">
         <div class="wrapper">
-            <?= $this->render('header'); ?>
+            <header class="main-header">
+                <nav class="navbar navbar-static-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <?= Html::a(Yii::t('rbac-admin', 'RBAC Manager'), ['default/index'], ['class' => 'navbar-brand']) ?>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li><?= Html::a(Yii::t('rbac-admin', 'Help'), 'https://github.com/mdmsoft/yii2-admin/blob/3.master/README.md') ?></li>
+                                <li><?= Html::a(Yii::t('rbac-admin', 'Application'), Yii::$app->homeUrl) ?></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
             <div class="content-wrapper" style="min-height: 443px">
                 <div class="container">
                     <section class="content">

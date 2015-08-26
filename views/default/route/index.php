@@ -4,13 +4,21 @@ use dee\angular\NgView;
 
 /* @var $this yii\web\View */
 /* @var $widget NgView */
-
 ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?= Yii::t('rbac-admin', 'Routes') ?>:</h3>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6">
         <div class="box box-success box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title"><?= Yii::t('rbac-admin', 'Routes')?>:</h3>
+                <h3 class="box-title"><?= Yii::t('rbac-admin', 'Assigned') ?>:</h3>
                 <div class="box-tools pull-right">
                     <div class="has-feedback">
                         <input type="text" class="form-control input-sm"
@@ -60,7 +68,7 @@ use dee\angular\NgView;
     <div class="col-md-6">
         <div class="box box-success box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title"><?= Yii::t('rbac-admin', 'Avaliable')?>:</h3>
+                <h3 class="box-title"><?= Yii::t('rbac-admin', 'Avaliable') ?>:</h3>
                 <div class="box-tools pull-right">
                     <div class="has-feedback">
                         <input type="text" class="form-control input-sm"

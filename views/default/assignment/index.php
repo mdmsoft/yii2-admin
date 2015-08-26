@@ -5,7 +5,7 @@ use dee\angular\NgView;
 /* @var $this yii\web\View */
 /* @var $widget NgView */
 ?>
-<div class="box box-solid box-success">
+<div class="box box-solid box-primary">
     <div class="box-header with-border">
         <h3 class="box-title"><?= Yii::t('rbac-admin', 'Assignment')?></h3>
     </div>
