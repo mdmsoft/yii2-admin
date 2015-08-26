@@ -6,17 +6,8 @@ use dee\angular\NgView;
 /* @var $widget NgView */
 ?>
 <div class="row">
-    <div class="col-md-12">
-        <div class="box box-primary box-solid">
-            <div class="box-header with-border">
-                <h3 class="box-title"><?= Yii::t('rbac-admin', 'Routes') ?>:</h3>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
     <div class="col-md-6">
-        <div class="box box-success box-solid">
+        <div class="box box-primary box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title"><?= Yii::t('rbac-admin', 'Assigned') ?>:</h3>
                 <div class="box-tools pull-right">
@@ -66,7 +57,7 @@ use dee\angular\NgView;
         </div>
     </div>
     <div class="col-md-6">
-        <div class="box box-success box-solid">
+        <div class="box box-primary box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title"><?= Yii::t('rbac-admin', 'Avaliable') ?>:</h3>
                 <div class="box-tools pull-right">
