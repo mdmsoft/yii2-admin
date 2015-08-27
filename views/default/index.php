@@ -5,6 +5,7 @@ use yii\web\View;
 use yii\helpers\Url;
 
 /* @var $this View */
+$this->title= Yii::t('rbac-admin', 'RBAC Manager');
 ?>
 <div ng-app="dAdmin">
     <ul class="nav nav-tabs">
