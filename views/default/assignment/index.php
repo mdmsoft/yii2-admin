@@ -32,7 +32,7 @@ use dee\angular\NgView;
                         <td width="35px;">{{(provider.page - 1) * provider.itemPerPage + $index + 1}}</td>
                         <td>{{model.username}}</td>
                         <td><a ng-repeat="role in model.assignments" ng-href="#{{role.type == 1?'role':'permission'}}/{{role.name}}">
-                                <span class="label" ng-class="{'label-info':role.type == 1,'label-warning':role.type == 2}">{{role.name}}</span></a>
+                                <span class="label" ng-class="{'label-danger':role.type == 1,'label-success':role.type == 2}">{{role.name}}</span></a>
                         </td>
                         <td width="40px">
                             <a ng-href="#/assignment/{{model.id}}"><span class="glyphicon glyphicon-eye-open"></span></a>

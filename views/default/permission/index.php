@@ -36,7 +36,7 @@ use dee\angular\NgView;
                 <tbody>
                     <tr ng-repeat="model in filtered.slice(provider.offset, provider.offset + provider.itemPerPage)">
                         <td width="35px">{{provider.offset + $index + 1}}</td>
-                        <td><span class="label label-warning">{{model.name}}</span></td>
+                        <td><span class="label label-success">{{model.name}}</span></td>
                         <td>{{model.description}}</td>
                         <td width="60px">
                             <a ng-href="#/permission/{{model.name | escape}}"><span class="glyphicon glyphicon-eye-open"></span></a>

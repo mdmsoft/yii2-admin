@@ -74,7 +74,7 @@ use dee\angular\NgView;
                                     <input type="checkbox" ng-model="item.selected">
                                 </td>
                                 <td style="width: 40%;">
-                                    <span class="label" ng-class="{'label-info':item.type == 1,'label-warning':item.type == 2}">{{item.name}}</span>
+                                    <span class="label" ng-class="{'label-danger':item.type == 1,'label-success':item.type == 2}">{{item.name}}</span>
                                 </td>
                                 <td >{{item.description}}</td>
                             </tr>
@@ -124,7 +124,7 @@ use dee\angular\NgView;
                                     <input type="checkbox" ng-model="item.selected">
                                 </td>
                                 <td style="width: 40%;">
-                                    <span class="label" ng-class="{'label-info':item.type == 1,'label-warning':item.type == 2}">{{item.name}}</span>
+                                    <span class="label" ng-class="{'label-danger':item.type == 1,'label-success':item.type == 2}">{{item.name}}</span>
                                 </td>
                                 <td >{{item.description}}</td>
                             </tr>

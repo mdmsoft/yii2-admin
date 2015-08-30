@@ -174,7 +174,7 @@ $scope.assign = function () {
 }
 
 $scope.add = function(){
-    $modal.open(angular.extend(dAdmin.templates['/route/form'], {
+    $modal.open(angular.extend({},module.templates['/route/form'], {
         animation: true,
     })).result.then(function () {
         addAlert('info', 'New route(s) added');

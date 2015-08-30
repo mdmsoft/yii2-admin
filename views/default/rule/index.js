@@ -30,7 +30,7 @@ $scope.filter = function () {
 }
 
 $scope.openModal = function () {
-    $modal.open(angular.extend(dAdmin.templates['/rule/form'], {
+    $modal.open(angular.extend({},module.templates['/rule/form'], {
         animation: true,
         resolve: {
             item: function () {
@@ -44,7 +44,7 @@ $scope.openModal = function () {
 }
 
 $scope.showItem = function (item) {
-    $modal.open(angular.extend(dAdmin.templates['/rule/view'], {
+    $modal.open(angular.extend({},module.templates['/rule/view'], {
         animation: true,
         size:'lg',
         resolve: {
@@ -66,7 +66,7 @@ $scope.deleteItem = function (item) {
 }
 
 $scope.editItem = function (item) {
-    $modal.open(angular.extend(dAdmin.templates['/rule/form'], {
+    $modal.open(angular.extend({},module.templates['/rule/form'], {
         animation: true,
         resolve: {
             item: function () {

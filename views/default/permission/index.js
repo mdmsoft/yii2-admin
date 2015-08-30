@@ -31,7 +31,7 @@ $scope.filter = function () {
 }
 
 $scope.openModal = function () {
-    $modal.open(angular.extend(dAdmin.templates['/role/form'], {
+    $modal.open(angular.extend({},module.templates['/role/form'], {
         animation: true,
         resolve: {
             type: function () {

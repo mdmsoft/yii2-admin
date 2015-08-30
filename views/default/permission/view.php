@@ -108,7 +108,7 @@ use dee\angular\NgView;
                                     <input type="checkbox" ng-model="item.selected">
                                 </td>
                                 <td ng-if="item.name.charAt(0) != '/'" style="width: 40%;">
-                                    <span class="label" ng-class="{'label-info':item.type == 1,'label-warning':item.type == 2}">{{item.name}}</span>
+                                    <span class="label" ng-class="{'label-danger':item.type == 1,'label-success':item.type == 2}">{{item.name}}</span>
                                 </td>
                                 <td ng-if="item.name.charAt(0) == '/'" colspan="2"><span class="label label-default">{{item.name}}</span></td>
                                 <td ng-if="item.name.charAt(0) != '/'">{{item.description}}</td>
@@ -159,7 +159,7 @@ use dee\angular\NgView;
                                     <input type="checkbox" ng-model="item.selected">
                                 </td>
                                 <td ng-if="item.name.charAt(0) != '/'" style="width: 40%;">
-                                    <span class="label" ng-class="{'label-info':item.type == 1,'label-warning':item.type == 2}">{{item.name}}</span>
+                                    <span class="label" ng-class="{'label-danger':item.type == 1,'label-success':item.type == 2}">{{item.name}}</span>
                                 </td>
                                 <td ng-if="item.name.charAt(0) == '/'" colspan="2"><span class="label label-default">{{item.name}}</span></td>
                                 <td ng-if="item.name.charAt(0) != '/'">{{item.description}}</td>
