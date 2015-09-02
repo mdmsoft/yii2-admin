@@ -1,4 +1,5 @@
 var $location = $injector.get('$location');
+var $pageInfo = $injector.get('$pageInfo');
 
 $scope.q = '';
 
@@ -11,7 +12,7 @@ query = function () {
         q:$scope.q,
         expand: 'assignments',
     }, function (rows, headerCallback) {
-        yii.angular.getPageInfo($scope.provider, headerCallback);
+        $pageInfo(headerCallback, $scope.provider);
         $scope.rows = rows;
         onSearch = false;
         if(panding){
