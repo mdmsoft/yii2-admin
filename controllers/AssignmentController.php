@@ -23,7 +23,7 @@ class AssignmentController extends Controller
     protected function verbs()
     {
         return[
-            'index' => ['GET'],
+            'index' => ['GET', 'HEAD'],
             'view' => ['GET'],
             'assign' => ['POST'],
             'revoke' => ['POST'],

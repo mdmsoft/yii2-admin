@@ -59,6 +59,7 @@ $scope.deleteItem = function (item) {
     if (confirm('Are you sure you want to delete?')) {
         Rule.remove({id: item.name}, {}, function () {
             addAlert('info', 'Rule deleted');
+            query();
         }, function (r) {
             addAlert('error', r.statusText);
         });

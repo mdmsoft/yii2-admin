@@ -39,7 +39,9 @@ use dee\angular\NgView;
                 <label class="col-sm-3 control-label"><?= Yii::t('rbac-admin', 'Rule')?></label>
                 <div class="col-sm-9">
                     <select class="form-control" ng-model="model.ruleName"
-                            ng-options="rule.name for rule in rules"></select>
+                            ng-options="rule.name for rule in rules">
+                        <option></option>
+                    </select>
                     <div ng-if="modelError.ruleName" class="help-block">{{modelError.ruleName}}</div>
                 </div>
             </div>

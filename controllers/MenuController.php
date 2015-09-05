@@ -21,8 +21,8 @@ class MenuController extends Controller
     protected function verbs()
     {
         return[
-            'index' => ['GET'],
-            'view' => ['GET'],
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
             'update' => ['POST', 'PUT'],
             'create' => ['POST'],
             'delete' => ['DELETE'],

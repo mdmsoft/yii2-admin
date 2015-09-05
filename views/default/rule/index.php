@@ -39,7 +39,7 @@ use dee\angular\NgView;
                         <td>{{model.name}}</td>
                         <td><a href ng-click="showItem(model)">{{model.className}}</a></td>
                         <td width="60px">
-                            <a href ng-click="deleteItem(model)"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a href ng-click="deleteItem(model)" ng-if="model.name != 'route_rule'"><span class="glyphicon glyphicon-trash"></span></a>
                             <a href ng-click="editItem(model)"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                     </tr>

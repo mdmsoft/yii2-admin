@@ -41,7 +41,9 @@ use dee\angular\NgView;
                             <label class="col-sm-3 control-label"><?= Yii::t('rbac-admin', 'Rule')?></label>
                             <div class="col-sm-9">
                                 <select ng-if="isEdit" class="form-control" ng-model="edit.ruleName"
-                                        ng-options="rule for rule in rules"></select>
+                                        ng-options="rule for rule in rules">
+                                    <option></option>
+                                </select>
                                 <div ng-if="isEdit && modelError.name" class="help-block">{{modelError.ruleName}}</div>
                                 <p ng-if="!isEdit" class="form-control-static">{{model.ruleName}}</p>
                             </div>

@@ -27,6 +27,7 @@ class AuthItem extends \yii\base\Model
     public $description;
     public $ruleName;
     public $data;
+    private $_data;
 
     /**
      * @var Item
@@ -66,7 +67,8 @@ class AuthItem extends \yii\base\Model
             }],
             [['type'], 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
-            [['name'], 'string', 'max' => 64]
+            [['name'], 'string', 'max' => 64],
+            [['data'], 'jsonDecode'],
         ];
     }
 
@@ -81,6 +83,38 @@ class AuthItem extends \yii\base\Model
                 'value' => $value,
             ];
             $this->addError('name', Yii::$app->getI18n()->format($message, $params, Yii::$app->language));
+        }
+    }
+
+    public function jsonDecode()
+    {
+        if (is_array($this->data)) {
+            $this->addError('data', Yii::t('rbac-admin', 'Invalid JSON data.'));
+            return;
+        }
+        $decode = json_decode((string) $this->data, true);
+        switch (json_last_error()) {
+            case JSON_ERROR_NONE:
+                $this->_data = $decode;
+                break;
+            case JSON_ERROR_DEPTH:
+                $this->addError('data', 'The maximum stack depth has been exceeded.');
+                break;
+            case JSON_ERROR_CTRL_CHAR:
+                $this->addError('data', 'Control character error, possibly incorrectly encoded.');
+                break;
+            case JSON_ERROR_SYNTAX:
+                $this->addError('data', 'Syntax error.');
+                break;
+            case JSON_ERROR_STATE_MISMATCH:
+                $this->addError('data', 'Invalid or malformed JSON.');
+                break;
+            case JSON_ERROR_UTF8:
+                $this->addError('data', 'Malformed UTF-8 characters, possibly incorrectly encoded.');
+                break;
+            default:
+                $this->addError('data', 'Unknown JSON decoding error.');
+                break;
         }
     }
 
@@ -145,7 +179,7 @@ class AuthItem extends \yii\base\Model
             $this->_item->name = $this->name;
             $this->_item->description = $this->description;
             $this->_item->ruleName = $this->ruleName;
-            $this->_item->data = $this->data === null || $this->data === '' ? null : Json::decode($this->data);
+            $this->_item->data = $this->_data;
             if ($isNew) {
                 $manager->add($this->_item);
             } else {

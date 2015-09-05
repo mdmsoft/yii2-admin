@@ -20,8 +20,8 @@ class RuleController extends Controller
     protected function verbs()
     {
         return[
-            'index' => ['GET'],
-            'view' => ['GET'],
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
             'create' => ['POST'],
             'update' => ['POST'],
             'delete' => ['DELETE'],

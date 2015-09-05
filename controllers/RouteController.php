@@ -24,7 +24,7 @@ class RouteController extends Controller
     protected function verbs()
     {
         return[
-            'index' => ['GET'],
+            'index' => ['GET', 'HEAD'],
             'add' => ['POST'],
             'remove' => ['POST'],
         ];

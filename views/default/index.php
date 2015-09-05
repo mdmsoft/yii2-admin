@@ -17,7 +17,7 @@ $this->title= Yii::t('rbac-admin', 'RBAC Manager');
     <?=
     NgView::widget([
         'name' => 'dAdmin',
-        'requires' => ['ui.bootstrap', 'ngResource', 'dee'],
+        'requires' => ['ui.bootstrap', 'ngResource', 'dee.ui'],
         'routes' => [
             '/' => [
                 'redirectTo' => '/assignment',
