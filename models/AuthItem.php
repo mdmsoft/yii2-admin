@@ -259,6 +259,7 @@ class AuthItem extends \yii\base\Model
             } elseif ($this->type == Item::TYPE_PERMISSION) {
                 $items = $manager->getPermissions();
             }
+            unset($items[$this->name]);
             uasort($items, [get_called_class(), 'compare']);
             foreach ($this->getChildren() as $item) {
                 unset($items[$item->name]);
