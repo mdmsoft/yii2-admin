@@ -3,12 +3,14 @@ RBAC Manager for Yii 2
 
 Documentation
 -------------
+> **Important: If you install version 3.x, please see [this readme](https://github.com/mdmsoft/yii2-admin/blob/3.master/README.md#upgrade-from-2x).**
+
 
 - [Change Log](CHANGELOG.md).
 - [Authorization Guide](http://www.yiiframework.com/doc-2.0/guide-security-authorization.html). Important, read this first before you continue.
 - [Basic Usage](docs/guide/basic-usage.md).
 - [Using Menu](docs/guide/using-menu.md).
-- [Api](http://mdmsoft.github.io/yii2-admin/index.html)
+- [Api](http://mdmsoft.github.io/yii2-admin/index.html).
 
 Installation
 ------------
@@ -28,7 +30,7 @@ php composer.phar require mdmsoft/yii2-admin "~2.0"
 or for the dev-master
 
 ```
-php composer.phar require mdmsoft/yii2-admin "dev-master"
+php composer.phar require mdmsoft/yii2-admin "2.x-dev"
 ```
 
 Or, you may add
