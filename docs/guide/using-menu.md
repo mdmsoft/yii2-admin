@@ -42,11 +42,11 @@ Return of `mdm\admin\components\MenuHelper::getAssignedMenu()` has default forma
 ]
 ```
 
-where `$menu` variable corresponden with a record of table `menu`. You can customize 
-return format of `mdm\admin\components\MenuHelper::getAssignedMenu()` by provide a callback to this methode.
+where `$menu` variable correspond with a record of table `menu`. You can customize 
+return format of `mdm\admin\components\MenuHelper::getAssignedMenu()` by provide a callback to this method.
 The callback must have format `function($menu){}`. E.g:
 
-You can add html options attribut to Your menu, for example "title". When You create a menu, in field data (textarea) fill this :
+You can add html options attribute to Your menu, for example "title". When You create a menu, in field data (textarea) fill this :
 ``` return ['title'=>'Title of Your Link Here']; ```
 
 and then in Your view:
