@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
  * @var mdm\admin\models\AuthItem $model
  */
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Rules', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Rules'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-view">
