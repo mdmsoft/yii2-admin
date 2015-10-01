@@ -8,17 +8,11 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model yii\web\IdentityInterface */
-/* @var $extraFields string[] */
+/* @var $fullnameField string */
 
 $userName = $model->{$usernameField};
-if (!empty($extraFields[0])) {
-    if (!empty($extraFields[0]['value'])) {
-        $extraName = call_user_func($extraFields[0]['value'], $model, null, null, null);
-    } else {
-        $attr = isset($extraFields[0]['attribute']) ? $extraFields[0]['attribute'] : $extraFields[0];
-        $extraName = ArrayHelper::getValue($model, $attr);
-    }
-    $userName .= ' - ' . $extraName;
+if (!empty($fullnameField)) {
+    $userName .= ' (' . ArrayHelper::getValue($model, $fullnameField) . ')';
 }
 $userName = Html::encode($userName);
 

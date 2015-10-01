@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel mdm\admin\models\searchs\Assignment */
 /* @var $usernameField string */
-/* @var $extraFields string[] */
+/* @var $extraColumns string[] */
 
 $this->title = Yii::t('rbac-admin', 'Assignments');
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => $usernameField,
             ],
         ],
-        $extraFields,
+        $extraColumns,
         [
             [
                 'class' => 'yii\grid\ActionColumn',
