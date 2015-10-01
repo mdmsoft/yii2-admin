@@ -10,7 +10,7 @@ use yii\helpers\Url;
 /* @var $model mdm\admin\models\AuthItem */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Permissions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Permissions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-view">
