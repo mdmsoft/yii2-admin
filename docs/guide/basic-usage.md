@@ -11,11 +11,11 @@ Using module in configuration
     'admin' => [
         'class' => 'mdm\admin\Module',
         'layout' => 'left-menu', // it can be '@path/to/your/layout'.
+        'userClassName' => 'app\models\User',
+        'idField' => 'user_id'
         'controllerMap' => [
             'assignment' => [
                 'class' => 'mdm\admin\controllers\AssignmentController',
-                'userClassName' => 'app\models\User',
-                'idField' => 'user_id'
             ],
             'other' => [
                 'class' => 'path\to\OtherController', // add another controller
