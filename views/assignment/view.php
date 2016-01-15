@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $userName;
 <?php
 AdminAsset::register($this);
 $properties = Json::htmlEncode([
-        'userId' => $model->{$idField},
+        'userId' => (string)$model->{$idField},
         'assignUrl' => Url::to(['assign']),
         'searchUrl' => Url::to(['search']),
     ]);
