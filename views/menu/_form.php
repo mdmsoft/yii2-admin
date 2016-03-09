@@ -11,9 +11,9 @@ use mdm\admin\AutocompleteAsset;
 /* @var $form yii\widgets\ActiveForm */
 AutocompleteAsset::register($this);
 $opts = Json::htmlEncode([
-    'menu_source' => Menu::find()->select(['name'])->column(),
-    'route_source' => Menu::getSavedRoutes(),
-]);
+        'menu_source' => Menu::find()->select(['name'])->column(),
+        'route_source' => Menu::getSavedRoutes(),
+    ]);
 $this->registerJs("var _opts = $opts;");
 $this->registerJs($this->render('_script.js'));
 ?>

@@ -32,14 +32,14 @@ $columns = array_merge(
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-<?php Pjax::begin(); ?>
-<?=
-GridView::widget([
-    'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
-    'columns' => $columns,
-]);
-?>
+    <?php Pjax::begin(); ?>
+    <?=
+    GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => $columns,
+    ]);
+    ?>
     <?php Pjax::end(); ?>
 
 </div>
