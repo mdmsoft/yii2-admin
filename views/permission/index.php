@@ -2,13 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel mdm\admin\models\searchs\AuthItem */
+/* @var $searchModel mdm\admin\models\AuthItemSearch */
 
-$this->title = Yii::t('rbac-admin', 'Permission');
+$this->title = Yii::t('rbac-admin', 'Permissions');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="role-index">
@@ -19,11 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('rbac-admin', 'Create Permission'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php
-    Pjax::begin([
-        'enablePushState'=>false,
-    ]);
-    echo GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -38,8 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['class' => 'yii\grid\ActionColumn',],
         ],
-    ]);
-    Pjax::end();
+    ])
     ?>
 
 </div>

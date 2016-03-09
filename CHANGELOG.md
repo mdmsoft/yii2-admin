@@ -1,7 +1,12 @@
 Yii2 Admin Change Log
 ==========================
 
-2.0 Under Development
+2.3
+-----
+
+ 
+
+2.0
 ---------------------
 
 - Chg: Remove dependenci to `yiisoft/yii2-jui` (mdmunir).

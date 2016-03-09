@@ -3,10 +3,8 @@
 namespace mdm\admin\controllers;
 
 use Yii;
-use mdm\admin\models\Route;
-use mdm\admin\components\MenuHelper;
+use mdm\admin\components\Helper;
 use yii\caching\TagDependency;
-use yii\web\Response;
 use mdm\admin\components\RouteRule;
 use mdm\admin\components\Configs;
 use yii\helpers\Inflector;
@@ -29,8 +27,7 @@ class RouteController extends \yii\web\Controller
      */
     public function actionIndex()
     {
-        
-        return $this->render('index');
+        return $this->render('index', ['routes' => $this->getRoutes()]);
     }
 
     /**
@@ -40,17 +37,12 @@ class RouteController extends \yii\web\Controller
      */
     public function actionCreate()
     {
-        $model = new Route;
-        if ($model->load(Yii::$app->getRequest()->post())) {
-            if ($model->validate()) {
-                $routes = preg_split('/\s*,\s*/', trim($model->route), -1, PREG_SPLIT_NO_EMPTY);
-                $this->saveNew($routes);
-                MenuHelper::invalidate();
-                $this->redirect(['index']);
-            }
-        }
-
-        return $this->render('create', ['model' => $model]);
+        Yii::$app->getResponse()->format = 'json';
+        $routes = Yii::$app->getRequest()->post('route', '');
+        $routes = preg_split('/\s*,\s*/', trim($routes), -1, PREG_SPLIT_NO_EMPTY);
+        $this->saveNew($routes);
+        Helper::invalidate();
+        return $this->getRoutes();
     }
 
     /**
@@ -77,55 +69,42 @@ class RouteController extends \yii\web\Controller
                 }
             }
         }
-        MenuHelper::invalidate();
-        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
-
-        return[
-            'type' => 'S',
-            'errors' => $error,
-        ];
+        Helper::invalidate();
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($this->getRoutes(), ['errors' => $error]);
     }
 
     /**
-     * Search Route
-     * @param string $target
-     * @param string $term
-     * @param string $refresh
+     * Refresh cache
+     * @return type
+     */
+    public function actionRefresh()
+    {
+        $this->invalidate();
+        Yii::$app->getResponse()->format = 'json';
+        return $this->getRoutes();
+    }
+
+    /**
+     * Get avaliable and assigned routes
      * @return array
      */
-    public function actionSearch($target, $term = '', $refresh = '0')
+    protected function getRoutes()
     {
-        if ($refresh == '1') {
-            $this->invalidate();
-        }
-        $result = [];
         $manager = Yii::$app->getAuthManager();
-
-        $exists = array_keys($manager->getPermissions());
-        $routes = $this->getAppRoutes();
-        if ($target == 'avaliable') {
-            foreach ($routes as $route) {
-                if (in_array($route, $exists)) {
-                    continue;
-                }
-                if (empty($term) or strpos($route, $term) !== false) {
-                    $result[$route] = true;
-                }
+        $routes = array_flip($this->getAppRoutes());
+        $exists = [];
+        foreach (array_keys($manager->getPermissions()) as $name) {
+            if ($name[0] !== '/') {
+                continue;
             }
-        } else {
-            foreach ($exists as $name) {
-                if ($name[0] !== '/') {
-                    continue;
-                }
-                if (empty($term) or strpos($name, $term) !== false) {
-                    $r = explode('&', $name);
-                    $result[$name] = !empty($r[0]) && in_array($r[0], $routes);
-                }
-            }
+            $exists[] = $name;
+            unset($routes[$name]);
         }
-        
-        Yii::$app->response->format = 'json';
-        return $result;
+        return[
+            'avaliable' => array_keys($routes),
+            'assigned' => $exists
+        ];
     }
 
     /**
@@ -223,7 +202,7 @@ class RouteController extends \yii\web\Controller
      */
     private function getControllerFiles($module, $namespace, $prefix, &$result)
     {
-        $path = @Yii::getAlias('@' . str_replace('\\', '/', $namespace));
+        $path = Yii::getAlias('@' . str_replace('\\', '/', $namespace), false);
         $token = "Get controllers from '$path'";
         Yii::beginProfile($token, __METHOD__);
         try {

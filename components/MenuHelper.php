@@ -41,8 +41,6 @@ use mdm\admin\models\Menu;
  */
 class MenuHelper
 {
-    const CACHE_TAG = 'mdm.admin.menu';
-
     /**
      * Use to get assigned menu of user.
      * @param mixed $userId
@@ -123,7 +121,7 @@ class MenuHelper
             $assigned = static::requiredParent($assigned, $menus);
             if ($cache !== null) {
                 $cache->set($key, $assigned, $config->cacheDuration, new TagDependency([
-                    'tags' => self::CACHE_TAG
+                    'tags' => Configs::CACHE_TAG
                 ]));
             }
         }
@@ -133,7 +131,7 @@ class MenuHelper
             $result = static::normalizeMenu($assigned, $menus, $callback, $root);
             if ($cache !== null && $callback === null) {
                 $cache->set($key, $result, $config->cacheDuration, new TagDependency([
-                    'tags' => self::CACHE_TAG
+                    'tags' => Configs::CACHE_TAG
                 ]));
             }
         }
@@ -220,15 +218,5 @@ class MenuHelper
         }
 
         return $result;
-    }
-
-    /**
-     * Use to invalidate cache.
-     */
-    public static function invalidate()
-    {
-        if (Configs::instance()->cache !== null) {
-            TagDependency::invalidate(Configs::instance()->cache, self::CACHE_TAG);
-        }
     }
 }

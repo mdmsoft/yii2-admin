@@ -12,37 +12,34 @@ use yii\widgets\Pjax;
 
 $this->title = Yii::t('rbac-admin', 'Assignments');
 $this->params['breadcrumbs'][] = $this->title;
+
+$columns = array_merge(
+    [
+    ['class' => 'yii\grid\SerialColumn'],
+    [
+        'class' => 'yii\grid\DataColumn',
+        'attribute' => $usernameField,
+    ],
+    ], $extraColumns, [
+    [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => '{view}'
+    ],
+    ]
+);
 ?>
 <div class="assignment-index">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php
-    Pjax::begin([
-        'enablePushState'=>false,
-    ]);
-    $columns = array_merge(
-        [
-            ['class' => 'yii\grid\SerialColumn'],
-            [
-                'class' => 'yii\grid\DataColumn',
-                'attribute' => $usernameField,
-            ],
-        ],
-        $extraColumns,
-        [
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template'=>'{view}'
-            ],
-        ]
-    );
-    echo GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => $columns,
-    ]);
-    Pjax::end();
-    ?>
+<?php Pjax::begin(); ?>
+<?=
+GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => $columns,
+]);
+?>
+    <?php Pjax::end(); ?>
 
 </div>

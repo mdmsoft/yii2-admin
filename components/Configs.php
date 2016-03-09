@@ -35,6 +35,7 @@ use yii\helpers\ArrayHelper;
  */
 class Configs extends \yii\base\Object
 {
+    const CACHE_TAG = 'mdm.admin';
     /**
      * @var Connection Database connection.
      */
@@ -46,15 +47,20 @@ class Configs extends \yii\base\Object
     public $cache = 'cache';
 
     /**
-     * @var integer Cache duration. Default to a month.
+     * @var integer Cache duration. Default to a hour.
      */
-    public $cacheDuration = 2592000;
+    public $cacheDuration = 3600;
 
     /**
      * @var string Menu table name.
      */
     public $menuTable = '{{%menu}}';
-    
+
+    /**
+     * @var array 
+     */
+    public $options;
+
     /**
      * @var self Instance of self
      */
@@ -98,5 +104,51 @@ class Configs extends \yii\base\Object
         }
 
         return self::$_instance;
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        $instance = static::instance();
+        if ($instance->hasProperty($name)) {
+            return $instance->$name;
+        } else {
+            if (count($arguments)) {
+                $instance->options[$name] = reset($arguments);
+            } else {
+                return array_key_exists($name, $instance->options) ? $instance->options[$name] : null;
+            }
+        }
+    }
+
+    /**
+     * @return Connection
+     */
+    public static function db()
+    {
+        return static::instance()->db;
+    }
+
+    /**
+     * @return Cache
+     */
+    public static function cache()
+    {
+        return static::instance()->cache;
+    }
+
+    /**
+     * @return integer
+     */
+    public static function cacheDuration()
+    {
+        return static::instance()->cacheDuration;
+    }
+
+    /**
+     * @return string
+     */
+    public static function menuTable()
+    {
+        return static::instance()->menuTable;
     }
 }

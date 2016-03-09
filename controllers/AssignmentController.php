@@ -8,10 +8,7 @@ use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Html;
-use mdm\admin\components\MenuHelper;
-use yii\web\Response;
-use yii\rbac\Item;
+use mdm\admin\components\Helper;
 
 /**
  * AssignmentController implements the CRUD actions for Assignment model.
@@ -64,11 +61,11 @@ class AssignmentController extends Controller
 
         if ($this->searchClass === null) {
             $searchModel = new AssignmentSearch;
-            $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
+            $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams(), $this->userClassName, $this->usernameField);
         } else {
             $class = $this->searchClass;
             $searchModel = new $class;
-            $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams());
+            $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
         }
 
         return $this->render('index', [
@@ -94,6 +91,7 @@ class AssignmentController extends Controller
                 'idField' => $this->idField,
                 'usernameField' => $this->usernameField,
                 'fullnameField' => $this->fullnameField,
+                'items' => $this->getItems($id)
         ]);
     }
 
@@ -103,13 +101,12 @@ class AssignmentController extends Controller
      * @param  string  $action
      * @return mixed
      */
-    public function actionAssign()
+    public function actionAssign($id)
     {
-        $post = Yii::$app->request->post();
-        $id = $post['id'];
+        $post = Yii::$app->getRequest()->post();
         $action = $post['action'];
         $roles = $post['roles'];
-        $manager = Yii::$app->authManager;
+        $manager = Yii::$app->getAuthManager();
         $error = [];
         if ($action == 'assign') {
             foreach ($roles as $name) {
@@ -132,63 +129,40 @@ class AssignmentController extends Controller
                 }
             }
         }
-        MenuHelper::invalidate();
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return[
-            'type' => 'S',
-            'errors' => $error,
-        ];
+        Helper::invalidate();
+        Yii::$app->response->format = 'json';
+        return array_merge($this->getItems($id), ['errors' => $error]);
     }
 
     /**
-     * Search roles of user
-     * @param  integer $id
-     * @param  string  $target
-     * @param  string  $term
-     * @return string
+     *
+     * @param string $id
+     * @return array
      */
-    public function actionSearch($id, $target, $term = '')
+    protected function getItems($id)
     {
-        Yii::$app->response->format = 'json';
-        $authManager = Yii::$app->authManager;
-        $roles = $authManager->getRoles();
-        $permissions = $authManager->getPermissions();
-
+        $manager = Yii::$app->getAuthManager();
         $avaliable = [];
-        $assigned = [];
-        foreach ($authManager->getAssignments($id) as $assigment) {
-            if (isset($roles[$assigment->roleName])) {
-                if (empty($term) || strpos($assigment->roleName, $term) !== false) {
-                    $assigned['Roles'][$assigment->roleName] = $assigment->roleName;
-                }
-                unset($roles[$assigment->roleName]);
-            } elseif (isset($permissions[$assigment->roleName]) && $assigment->roleName[0] != '/') {
-                if (empty($term) || strpos($assigment->roleName, $term) !== false) {
-                    $assigned['Permissions'][$assigment->roleName] = $assigment->roleName;
-                }
-                unset($permissions[$assigment->roleName]);
+        foreach (array_keys($manager->getRoles()) as $name) {
+            $avaliable[$name] = 'role';
+        }
+
+        foreach (array_keys($manager->getPermissions()) as $name) {
+            if ($name[0] != '/') {
+                $avaliable[$name] = 'permission';
             }
         }
 
-        if ($target == 'avaliable') {
-            if (count($roles)) {
-                foreach ($roles as $role) {
-                    if (empty($term) || strpos($role->name, $term) !== false) {
-                        $avaliable['Roles'][$role->name] = $role->name;
-                    }
-                }
-            }
-            if (count($permissions)) {
-                foreach ($permissions as $role) {
-                    if ($role->name[0] != '/' && (empty($term) || strpos($role->name, $term) !== false)) {
-                        $avaliable['Permissions'][$role->name] = $role->name;
-                    }
-                }
-            }
-            return $avaliable;
-        } else {
-            return $assigned;
+        $assigned = [];
+        foreach ($manager->getAssignments($id) as $item) {
+            $assigned[$item->roleName] = $avaliable[$item->roleName];
+            unset($avaliable[$item->roleName]);
         }
+        
+        return[
+            'avaliable' => $avaliable,
+            'assigned' => $assigned
+        ];
     }
 
     /**

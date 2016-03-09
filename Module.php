@@ -100,6 +100,9 @@ class Module extends \yii\base\Module
                 ['label' => Yii::t('rbac-admin', 'Application'), 'url' => Yii::$app->homeUrl]
             ];
         }
+        if (class_exists('yii\jui\JuiAsset')) {
+            Yii::$container->set('mdm\admin\AutocompleteAsset', 'yii\jui\JuiAsset');
+        }
     }
 
     /**
@@ -132,7 +135,8 @@ class Module extends \yii\base\Module
                             'label' => $value,
                         ];
                     }
-                    $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value) : $value;
+                    $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value)
+                            : $value;
                     if (!isset($this->_normalizeMenus[$id]['url'])) {
                         $this->_normalizeMenus[$id]['url'] = [$mid . $id];
                     }
@@ -150,5 +154,21 @@ class Module extends \yii\base\Module
     {
         $this->_menus = array_merge($this->_menus, $menus);
         $this->_normalizeMenus = null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            /* @var $action \yii\base\Action */
+            $action->controller->getView()->params['breadcrumbs'][] = [
+                'label' => Yii::t('rbac-admin', 'Admin'),
+                'url' => ['/' . $this->uniqueId]
+            ];
+            return true;
+        }
+        return false;
     }
 }
