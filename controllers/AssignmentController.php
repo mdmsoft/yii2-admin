@@ -3,7 +3,6 @@
 namespace mdm\admin\controllers;
 
 use Yii;
-use mdm\admin\models\Assignment;
 use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -169,7 +168,7 @@ class AssignmentController extends Controller
      * Finds the Assignment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param  integer $id
-     * @return Assignment the loaded model
+     * @return \yii\db\ActiveRecord|\yii\web\IdentityInterface the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
