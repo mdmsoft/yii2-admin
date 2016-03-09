@@ -269,7 +269,8 @@ class RouteController extends \yii\web\Controller
             foreach ($class->getMethods() as $method) {
                 $name = $method->getName();
                 if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
-                    $result[] = $prefix . Inflector::camel2id(substr($name, 6));
+                    $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', substr($name, 6)));
+                    $result[] = $prefix . ltrim(str_replace(' ', '-', $name), '-');
                 }
             }
         } catch (\Exception $exc) {
