@@ -10,7 +10,7 @@ Documentation
 - [Authorization Guide](http://www.yiiframework.com/doc-2.0/guide-security-authorization.html). Important, read this first before you continue.
 - [Basic Usage](docs/guide/basic-usage.md).
 - [Using Menu](docs/guide/using-menu.md).
-- [Api](http://mdmsoft.github.io/yii2-admin/index.html).
+- [Api](https://mdmsoft.github.io/yii2-admin/index.html).
 
 Installation
 ------------

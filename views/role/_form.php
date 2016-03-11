@@ -16,12 +16,12 @@ unset($rules[RouteRule::RULE_NAME]);
 <div class="auth-item-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
 
             <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <?= $form->field($model, 'ruleName')->dropDownList($rules, ['prompt' => ' --select rule']) ?>
 
             <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>

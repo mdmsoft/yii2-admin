@@ -107,3 +107,36 @@ It will result in
   * Menu 2.1
   * Menu 2.2
   * Menu 2.3
+
+Filtering Menu
+--------------
+If you have `NavBar` menu items and want to filtering according user login. You can use Helper class
+```php
+<?php
+user mdm\admin\components\Helper;
+
+$menuItems = [
+    ['label' => 'Home', 'url' => ['/site/index']],
+    ['label' => 'About', 'url' => ['/site/about']],
+    ['label' => 'Contact', 'url' => ['/site/contact']],
+    ['label' => 'Login', 'url' => ['/user/login']],
+    [
+        'label' => 'Logout (' . \Yii::$app->user->identity->username . ')',
+        'url' => ['/user/logout'],
+        'linkOptions' => ['data-method' => 'post']
+    ],
+    ['label' => 'App', 'items' => [
+        ['label' => 'New Sales', 'url' => ['/sales/pos']],
+        ['label' => 'New Purchase', 'url' => ['/purchase/create']],
+        ['label' => 'GR', 'url' => ['/movement/create', 'type' => 'receive']],
+        ['label' => 'GI', 'url' => ['/movement/create', 'type' => 'issue']],
+    ]]
+];
+
+$menuItems = Helper::filter($menuItems);
+
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav navbar-right'],
+    'items' => $menuItems,
+]);
+``` 

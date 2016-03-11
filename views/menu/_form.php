@@ -21,14 +21,14 @@ $this->registerJs($this->render('_script.js'));
 <div class="menu-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => 128]) ?>
 
             <?= $form->field($model, 'parent_name')->textInput(['id' => 'parent_name']) ?>
 
             <?= $form->field($model, 'route')->textInput(['id' => 'route']) ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <?= $form->field($model, 'order')->input('number') ?>
 
             <?= $form->field($model, 'data')->textarea(['rows' => 4]) ?>

@@ -1,13 +1,9 @@
 <?php
-/**
- * @var yii\web\View $this
- */
 
-$markdown = <<< TEXT
-RBAC Manager
-------------
+use yii\web\View;
+use yii\helpers\Markdown;
 
-See [Yii RBAC](http://www.yiiframework.com/doc-2.0/guide-authorization.html) for more detail.
-TEXT;
+/* @var $this View */
 
-echo yii\helpers\Markdown::process($markdown);
+$this->params['breadcrumbs'][] = 'Readme';
+echo Markdown::process($this->render('@mdm/admin/README.md'), 'gfm-comment');
