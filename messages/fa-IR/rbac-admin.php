@@ -64,5 +64,6 @@ return [
     'Rule' => 'Rule',
     'Menu' => 'منو',
     'Help' => 'راهنمایی',
-    'Application' => 'Application',
+    'Application' => 'برنامه',
+    'Admin' => 'مدیریت دسترسی ها'
 ];
