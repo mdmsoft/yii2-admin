@@ -18,8 +18,8 @@ class AdminAsset extends \yii\web\AssetBundle
     /**
      * @inheritdoc
      */
-    public $js = [
-        'yii.admin.js',
+    public $css = [
+        'animate.css',
     ];
 
     public $depends = [

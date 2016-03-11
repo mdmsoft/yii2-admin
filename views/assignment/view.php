@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $userName;
 
 
 $opts = Json::htmlEncode([
-        'assignUrl' => Url::to(['assign', 'id' => $model->$idField]),
+        'assignUrl' => Url::to(['assign', 'id' => (string)$model->$idField]),
         'items' => $items
     ]);
 $this->registerJs("var _opts = {$opts};");

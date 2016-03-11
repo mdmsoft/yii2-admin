@@ -163,7 +163,9 @@ class Module extends \yii\base\Module
     {
         if (parent::beforeAction($action)) {
             /* @var $action \yii\base\Action */
-            $action->controller->getView()->params['breadcrumbs'][] = [
+            $view = $action->controller->getView();
+            \yii\web\YiiAsset::register($view);
+            $view->params['breadcrumbs'][] = [
                 'label' => Yii::t('rbac-admin', 'Admin'),
                 'url' => ['/' . $this->uniqueId]
             ];
