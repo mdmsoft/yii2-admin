@@ -6,7 +6,7 @@ GUI manager for RABC (Role Base Access Control) Yii2. Easy to manage authorizati
 [![Total Downloads](https://poser.pugx.org/mdmsoft/yii2-admin/downloads.png)](https://packagist.org/packages/mdmsoft/yii2-admin)
 [![Reference Status](https://www.versioneye.com/php/yiisoft:yii2/reference_badge.svg)](https://www.versioneye.com/php/yiisoft:yii2/references)
 [![Dependency Status](https://www.versioneye.com/php/yiisoft:yii2/dev-master/badge.png)](https://www.versioneye.com/php/yiisoft:yii2/dev-master)
-[![HHVM Status](https://img.shields.io/hhvm/mdmsoft/yii2-admin-dev.svg)](http://hhvm.h4cc.de/package/mdmsoft/yii2-admin-dev)
+[![HHVM Status](https://img.shields.io/hhvm/mdmsoft/yii2-admin.svg)](http://hhvm.h4cc.de/package/mdmsoft/yii2-admin)
 [![Code Climate](https://img.shields.io/codeclimate/github/mdmsoft/yii2-admin.svg)](https://codeclimate.com/github/mdmsoft/yii2-admin)
 
 Documentation
