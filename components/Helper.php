@@ -9,7 +9,7 @@ use yii\caching\TagDependency;
  * Description of Helper
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
- * @since 1.0
+ * @since 2.3
  */
 class Helper
 {
@@ -80,12 +80,15 @@ class Helper
 
     /**
      * Check access route for user.
-     * @param integer $userId
      * @param string $route
+     * @param integer $userId
      * @return boolean
      */
-    public static function checkRoute($userId, $route)
+    public static function checkRoute($route, $userId = null)
     {
+        if ($userId === null) {
+            $userId = Yii::$app->getUser()->getId();
+        }
         $routes = static::getRoutesByUser($userId);
         $route = '/' . ltrim($route, '/');
         if (isset($routes[$route])) {
@@ -102,11 +105,14 @@ class Helper
 
     /**
      * Filter menu items
-     * @param type $userId
-     * @param type $items
+     * @param array $items
+     * @param integer $userId
      */
-    public static function filter($userId, $items)
+    public static function filter($items, $userId = null)
     {
+        if ($userId === null) {
+            $userId = Yii::$app->getUser()->getId();
+        }
         return static::filterRecursive($items, $userId);
     }
 
