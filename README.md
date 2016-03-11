@@ -1,5 +1,13 @@
 RBAC Manager for Yii 2
 ======================
+GUI manager for RABC (Role Base Access Control) Yii2. Easy to manage authorization of user.
+
+[![Latest Stable Version](https://poser.pugx.org/mdmsoft/yii2-admin/v/stable.png)](https://packagist.org/packages/mdmsoft/yii2-admin)
+[![Total Downloads](https://poser.pugx.org/mdmsoft/yii2-admin/downloads.png)](https://packagist.org/packages/mdmsoft/yii2-admin)
+[![Reference Status](https://www.versioneye.com/php/yiisoft:yii2/reference_badge.svg)](https://www.versioneye.com/php/yiisoft:yii2/references)
+[![Dependency Status](https://www.versioneye.com/php/yiisoft:yii2/dev-master/badge.png)](https://www.versioneye.com/php/yiisoft:yii2/dev-master)
+[![HHVM Status](https://img.shields.io/hhvm/mdmsoft/yii2-admin-dev.svg)](http://hhvm.h4cc.de/package/mdmsoft/yii2-admin-dev)
+[![Code Climate](https://img.shields.io/codeclimate/github/mdmsoft/yii2-admin.svg)](https://codeclimate.com/github/mdmsoft/yii2-admin)
 
 Documentation
 -------------
@@ -241,4 +249,4 @@ You can do it by specifying the `mainLayout` property with the application's mai
     ],
 ```
 
-[screenshots](https://picasaweb.google.com/105012704576561549351/Yii2Admin?authuser=0&feat=directlink)
+[screenshots](https://goo.gl/r8RizT)
