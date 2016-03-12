@@ -2,8 +2,10 @@ RBAC Manager for Yii 2
 ======================
 GUI manager for RABC (Role Base Access Control) Yii2. Easy to manage authorization of user.
 
-[![Latest Stable Version](https://poser.pugx.org/mdmsoft/yii2-admin/v/stable.png)](https://packagist.org/packages/mdmsoft/yii2-admin)
+[![Latest Unstable Version](https://poser.pugx.org/mdmsoft/yii2-admin/v/unstable)](https://packagist.org/packages/mdmsoft/yii2-admin)
 [![Total Downloads](https://poser.pugx.org/mdmsoft/yii2-admin/downloads.png)](https://packagist.org/packages/mdmsoft/yii2-admin)
+[![Daily Downloads](https://poser.pugx.org/mdmsoft/yii2-admin/d/daily)](https://packagist.org/packages/mdmsoft/yii2-admin)
+[![License](https://poser.pugx.org/mdmsoft/yii2-admin/license)](https://packagist.org/packages/mdmsoft/yii2-admin)
 [![Reference Status](https://www.versioneye.com/php/mdmsoft:yii2-admin/reference_badge.svg)](https://www.versioneye.com/php/mdmsoft:yii2-admin/references)
 [![Dependency Status](https://www.versioneye.com/php/mdmsoft:yii2-admin/dev-master/badge.png)](https://www.versioneye.com/php/mdmsoft:yii2-admin/dev-master)
 [![HHVM Status](https://img.shields.io/hhvm/mdmsoft/yii2-admin.svg)](http://hhvm.h4cc.de/package/mdmsoft/yii2-admin)
@@ -111,6 +113,7 @@ http://localhost/path/to/index.php?r=admin/permission
 http://localhost/path/to/index.php?r=admin/menu
 http://localhost/path/to/index.php?r=admin/role
 http://localhost/path/to/index.php?r=admin/assignment
+http://localhost/path/to/index.php?r=admin/user
 ```
 
 To use the menu manager (optional), execute the migration here:
