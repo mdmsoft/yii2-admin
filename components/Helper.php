@@ -147,6 +147,27 @@ class Helper
     }
 
     /**
+     * Filter action column button.
+     * @param array $buttons
+     * @param integer $userId
+     * @return string
+     */
+    public static function filterActionColumn($buttons = [], $userId = null)
+    {
+        if ($userId === null) {
+            $userId = Yii::$app->getUser()->getId();
+        }
+        $result = [];
+        $controllerId = Yii::$app->controller->uniqueId . '/';
+        foreach ($buttons as $button) {
+            if (static::checkRoute($controllerId . $button, $userId)) {
+                $result[] = "{{$button}}";
+            }
+        }
+        return implode(' ', $result);
+    }
+
+    /**
      * Use to invalidate cache.
      */
     public static function invalidate()

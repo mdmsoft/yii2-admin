@@ -36,31 +36,35 @@ use yii\helpers\ArrayHelper;
 class Configs extends \yii\base\Object
 {
     const CACHE_TAG = 'mdm.admin';
+
     /**
      * @var Connection Database connection.
      */
     public $db = 'db';
-
     /**
      * @var Cache Cache component.
      */
     public $cache = 'cache';
-
     /**
      * @var integer Cache duration. Default to a hour.
      */
     public $cacheDuration = 3600;
-
     /**
      * @var string Menu table name.
      */
     public $menuTable = '{{%menu}}';
-
+    /**
+     * @var string Menu table name.
+     */
+    public $userTable = '{{%user}}';
+    /**
+     * @var integer Default status user signup. 10 mean active.
+     */
+    public $defaultUserStatus = 10;
     /**
      * @var array 
      */
     public $options;
-
     /**
      * @var self Instance of self
      */
@@ -150,5 +154,13 @@ class Configs extends \yii\base\Object
     public static function menuTable()
     {
         return static::instance()->menuTable;
+    }
+
+    /**
+     * @return string
+     */
+    public static function defaultUserStatus()
+    {
+        return static::instance()->defaultUserStatus;
     }
 }

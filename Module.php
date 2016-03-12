@@ -42,18 +42,17 @@ class Module extends \yii\base\Module
      * @inheritdoc
      */
     public $defaultRoute = 'assignment';
-
     /**
      * @var array 
      * @see [[items]]
      */
     private $_menus = [];
-
     /**
      * @var array 
      * @see [[items]]
      */
     private $_coreItems = [
+        'user' => 'Users',
         'assignment' => 'Assignments',
         'role' => 'Roles',
         'permission' => 'Permissions',
@@ -61,19 +60,16 @@ class Module extends \yii\base\Module
         'rule' => 'Rules',
         'menu' => 'Menus',
     ];
-
     /**
      * @var array 
      * @see [[items]]
      */
     private $_normalizeMenus;
-
     /**
      * Nav bar items
      * @var array  
      */
     public $navbar;
-
     /**
      * @var string Main layout using for module. Default to layout of parent module.
      * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.
@@ -115,9 +111,14 @@ class Module extends \yii\base\Module
             $mid = '/' . $this->getUniqueId() . '/';
             // resolve core menus
             $this->_normalizeMenus = [];
+
             $config = components\Configs::instance();
+            $conditions = [
+                'menu' => $config->db && $config->db->schema->getTableSchema($config->menuTable),
+                'user' => $config->db && $config->db->schema->getTableSchema($config->userTable),
+            ];
             foreach ($this->_coreItems as $id => $lable) {
-                if ($id !== 'menu' || ($config->db !== null && $config->db->schema->getTableSchema($config->menuTable) !== null)) {
+                if (!isset($conditions[$id]) || $conditions[$id]) {
                     $this->_normalizeMenus[$id] = ['label' => Yii::t('rbac-admin', $lable), 'url' => [$mid . $id]];
                 }
             }
