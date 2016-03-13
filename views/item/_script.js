@@ -1,3 +1,4 @@
+$('i.glyphicon-refresh-animate').hide();
 function updateItems(r) {
     _opts.items.avaliable = r.avaliable;
     _opts.items.assigned = r.assigned;
@@ -6,13 +7,19 @@ function updateItems(r) {
 }
 
 $('.btn-assign').click(function () {
+    var $this = $(this);
     var action = $(this).data('action');
     var target = action == 'assign' ? 'avaliable' : 'assigned';
-    var roles = $('select.list[data-target="' + target + '"]').val();
+    var items = $('select.list[data-target="' + target + '"]').val();
 
-    $.post(_opts.assignUrl, {action: action, roles: roles}, function (r) {
-        updateItems(r);
-    });
+    if (items.length) {
+        $this.children('i.glyphicon-refresh-animate').show();
+        $.post(_opts.assignUrl, {action: action, items: items}, function (r) {
+            updateItems(r);
+        }).always(function () {
+            $this.children('i.glyphicon-refresh-animate').hide();
+        });
+    }
     return false;
 });
 

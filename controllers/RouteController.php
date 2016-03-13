@@ -7,7 +7,6 @@ use mdm\admin\components\Helper;
 use yii\caching\TagDependency;
 use mdm\admin\components\RouteRule;
 use mdm\admin\components\Configs;
-use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
 use Exception;
 

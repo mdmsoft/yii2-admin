@@ -43,13 +43,22 @@ class Module extends \yii\base\Module
      */
     public $defaultRoute = 'assignment';
     /**
+     * @var array Nav bar items.
+     */
+    public $navbar;
+    /**
+     * @var string Main layout using for module. Default to layout of parent module.
+     * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.
+     */
+    public $mainLayout = '@mdm/admin/views/layouts/main.php';
+    /**
      * @var array 
-     * @see [[items]]
+     * @see [[menus]]
      */
     private $_menus = [];
     /**
      * @var array 
-     * @see [[items]]
+     * @see [[menus]]
      */
     private $_coreItems = [
         'user' => 'Users',
@@ -65,16 +74,6 @@ class Module extends \yii\base\Module
      * @see [[items]]
      */
     private $_normalizeMenus;
-    /**
-     * Nav bar items
-     * @var array  
-     */
-    public $navbar;
-    /**
-     * @var string Main layout using for module. Default to layout of parent module.
-     * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.
-     */
-    public $mainLayout = '@mdm/admin/views/layouts/main.php';
 
     /**
      * @inheritdoc
@@ -130,17 +129,17 @@ class Module extends \yii\base\Module
             foreach ($this->_menus as $id => $value) {
                 if (empty($value)) {
                     unset($this->_normalizeMenus[$id]);
-                } else {
-                    if (is_string($value)) {
-                        $value = [
-                            'label' => $value,
-                        ];
-                    }
-                    $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value)
-                            : $value;
-                    if (!isset($this->_normalizeMenus[$id]['url'])) {
-                        $this->_normalizeMenus[$id]['url'] = [$mid . $id];
-                    }
+                    continue;
+                }
+                if (is_string($value)) {
+                    $value = [
+                        'label' => $value,
+                    ];
+                }
+                $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value)
+                        : $value;
+                if (!isset($this->_normalizeMenus[$id]['url'])) {
+                    $this->_normalizeMenus[$id]['url'] = [$mid . $id];
                 }
             }
         }
@@ -165,7 +164,7 @@ class Module extends \yii\base\Module
         if (parent::beforeAction($action)) {
             /* @var $action \yii\base\Action */
             $view = $action->controller->getView();
-            \yii\web\YiiAsset::register($view);
+            
             $view->params['breadcrumbs'][] = [
                 'label' => Yii::t('rbac-admin', 'Admin'),
                 'url' => ['/' . $this->uniqueId]

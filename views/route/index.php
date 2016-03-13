@@ -3,11 +3,15 @@
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use mdm\admin\AnimateAsset;
+use yii\web\YiiAsset;
 
 /* @var $this yii\web\View */
 $this->title = Yii::t('rbac-admin', 'Routes');
 $this->params['breadcrumbs'][] = $this->title;
 
+AnimateAsset::register($this);
+YiiAsset::register($this);
 $opts = Json::htmlEncode([
         'newUrl' => Url::to(['create']),
         'assignUrl' => Url::to(['assign']),
@@ -26,6 +30,7 @@ $this->registerJs($this->render('_script.js'));
             <span class="input-group-btn">
                 <button id="btn-new" class="btn btn-success" name="add-route">
                     <?= Yii::t('rbac-admin', 'Add') ?>
+                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>
                 </button>
             </span>
         </div>
@@ -48,8 +53,11 @@ $this->registerJs($this->render('_script.js'));
     </div>
     <div class="col-sm-1">
         <br><br>
-        <a href="#" class="btn btn-success btn-assign" data-action="assign">&gt;&gt;</a><br>
-        <a href="#" class="btn btn-danger btn-assign" data-action="remove">&lt;&lt;</a>
+        <a href="#" class="btn btn-success btn-assign" data-action="assign">&gt;&gt;
+            <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>
+        </a><br>
+        <a href="#" class="btn btn-danger btn-assign" data-action="remove">&lt;&lt;
+            <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i></a>
     </div>
     <div class="col-sm-5">
         <input class="form-control search" data-target="assigned"

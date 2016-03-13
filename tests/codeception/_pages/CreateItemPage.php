@@ -27,6 +27,6 @@ class CreateItemPage extends BasePage
             $inputType = isset($inputTypes[$field]) ? $inputTypes[$field] : 'input';
             $this->actor->fillField($inputType . '[name="AuthItem[' . $field . ']"]', $value);
         }
-        $this->actor->click('submit');
+        $this->actor->click('submit-button');
     }
 }

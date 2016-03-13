@@ -124,16 +124,16 @@ abstract class ItemController extends Controller
     {
         $post = Yii::$app->getRequest()->post();
         $action = $post['action'];
-        $roles = $post['roles'];
+        $items = $post['items'];
         $manager = Yii::$app->getAuthManager();
         $parent = $this->type === Item::TYPE_ROLE ? $manager->getRole($id) : $manager->getPermission($id);
 
         $error = [];
         if ($action == 'assign') {
-            foreach ($roles as $role) {
-                $child = $manager->getPermission($role);
+            foreach ($items as $name) {
+                $child = $manager->getPermission($name);
                 if ($this->type === Item::TYPE_ROLE && $child === null) {
-                    $child = $manager->getRole($role);
+                    $child = $manager->getRole($name);
                 }
                 try {
                     $manager->addChild($parent, $child);
@@ -142,10 +142,10 @@ abstract class ItemController extends Controller
                 }
             }
         } else {
-            foreach ($roles as $role) {
-                $child = $manager->getPermission($role);
+            foreach ($items as $name) {
+                $child = $manager->getPermission($name);
                 if ($this->type === Item::TYPE_ROLE && $child === null) {
-                    $child = $manager->getRole($role);
+                    $child = $manager->getRole($name);
                 }
                 try {
                     $manager->removeChild($parent, $child);
@@ -202,17 +202,18 @@ abstract class ItemController extends Controller
      * @return array
      */
     abstract public function labels();
+
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param  string        $id
-     * @return AuthItem      the loaded model
+     * @param string $id
+     * @return AuthItem the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        $item = $this->type === Item::TYPE_ROLE ? Yii::$app->getAuthManager()->getRole($id) :
-            Yii::$app->getAuthManager()->getPermission($id);
+        $auth = Yii::$app->getAuthManager();
+        $item = $this->type === Item::TYPE_ROLE ? $auth->getRole($id) : $auth->getPermission($id);
         if ($item) {
             return new AuthItem($item);
         } else {
