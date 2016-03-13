@@ -13,10 +13,11 @@ use yii\rbac\Item;
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
  *
+ * @property array $labels
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class ItemController extends Controller
+abstract class ItemController extends Controller
 {
     public $type;
 
@@ -188,6 +189,19 @@ class ItemController extends Controller
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getViewPath()
+    {
+        return $this->module->getViewPath() . DIRECTORY_SEPARATOR . 'item';
+    }
+
+    /**
+     * Label use in view
+     * @return array
+     */
+    abstract public function labels();
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

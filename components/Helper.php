@@ -3,6 +3,8 @@
 namespace mdm\admin\components;
 
 use Yii;
+use yii\web\User;
+use yii\helpers\ArrayHelper;
 use yii\caching\TagDependency;
 
 /**
@@ -15,6 +17,21 @@ class Helper
 {
     private static $_userRoutes = [];
     private static $_defaultRoutes;
+    private static $_routes;
+
+    public static function getRegisteredRoutes()
+    {
+        if (self::$_routes === null) {
+            self::$_routes = [];
+            $manager = Yii::$app->getAuthManager();
+            foreach ($manager->getPermissions() as $item) {
+                if ($item->name[0] === '/') {
+                    self::$_routes[$item->name] = $item->name;
+                }
+            }
+        }
+        return self::$_routes;
+    }
 
     /**
      * Get assigned routes by default roles
@@ -80,60 +97,91 @@ class Helper
 
     /**
      * Check access route for user.
-     * @param string $route
-     * @param integer $userId
+     * @param string|array $route
+     * @param integer|User $user
      * @return boolean
      */
-    public static function checkRoute($route, $userId = null)
+    public static function checkRoute($route, $params = [], $user = null)
     {
-        if ($userId === null) {
-            $userId = Yii::$app->getUser()->getId();
-        }
-        $routes = static::getRoutesByUser($userId);
-        $route = '/' . ltrim($route, '/');
-        if (isset($routes[$route])) {
+        $config = Configs::instance();
+        $r = static::normalizeRoute($route);
+        if ($config->onlyRegisteredRoute && !isset(static::getRegisteredRoutes()[$r])) {
             return true;
         }
-        while (($pos = strrpos($route, '/')) > 0) {
-            $route = substr($route, 0, $pos);
-            if (isset($routes[$route . '/*'])) {
+
+        if ($user === null) {
+            $user = Yii::$app->getUser();
+        }
+        $userId = $user instanceof User ? $user->getId() : $user;
+
+        if ($config->strict) {
+            if ($user->can($r, $params)) {
                 return true;
             }
+            while (($pos = strrpos($r, '/')) > 0) {
+                $r = substr($r, 0, $pos);
+                if ($user->can($r . '/*')) {
+                    return true;
+                }
+            }
+            return $user->can('/*');
+        } else {
+            $routes = static::getRoutesByUser($userId);
+            if (isset($routes[$r])) {
+                return true;
+            }
+            while (($pos = strrpos($r, '/')) > 0) {
+                $r = substr($r, 0, $pos);
+                if (isset($routes[$r . '/*'])) {
+                    return true;
+                }
+            }
+            return isset($routes['/*']);
         }
-        return isset($routes['/*']);
+    }
+
+    protected static function normalizeRoute($route)
+    {
+        if ($route === '') {
+            return '/' . Yii::$app->controller->getRoute();
+        } elseif (strncmp($route, '/', 1) === 0) {
+            return $route;
+        } elseif (strpos($route, '/') === false) {
+            return '/' . Yii::$app->controller->getUniqueId() . '/' . $route;
+        } elseif (($mid = Yii::$app->controller->module->getUniqueId()) !== '') {
+            return '/' . $mid . '/' . $route;
+        }
+        return '/' . $route;
     }
 
     /**
      * Filter menu items
      * @param array $items
-     * @param integer $userId
+     * @param integer|User $user
      */
-    public static function filter($items, $userId = null)
+    public static function filter($items, $user = null)
     {
-        if ($userId === null) {
-            $userId = Yii::$app->getUser()->getId();
+        if ($user === null) {
+            $user = Yii::$app->getUser();
         }
-        return static::filterRecursive($items, $userId);
+        return static::filterRecursive($items, $user);
     }
 
     /**
      * Filter menu recursive
      * @param array $items
-     * @param integer $userId
+     * @param integer|User $user
      * @return array
      */
-    protected static function filterRecursive($items, $userId)
+    protected static function filterRecursive($items, $user)
     {
         $result = [];
         foreach ($items as $i => $item) {
-            $allow = false;
-            if (is_array($item) && isset($item['url']) && isset($item['url'][0])) {
-                $allow = static::checkRoute($userId, $item['url'][0]);
-            } else {
-                $allow = true;
-            }
+            $url = ArrayHelper::getValue($item, 'url', '#');
+            $allow = is_array($url) ? static::checkRoute($url[0], array_slice($url, 1), $user) : true;
+
             if (isset($item['items']) && is_array($item['items'])) {
-                $subItems = self::filterRecursive($item['items'], $userId);
+                $subItems = self::filterRecursive($item['items'], $user);
                 if (count($subItems)) {
                     $allow = true;
                 }
@@ -149,18 +197,14 @@ class Helper
     /**
      * Filter action column button.
      * @param array $buttons
-     * @param integer $userId
+     * @param integer|User $user
      * @return string
      */
-    public static function filterActionColumn($buttons = [], $userId = null)
+    public static function filterActionColumn($buttons = [], $user = null)
     {
-        if ($userId === null) {
-            $userId = Yii::$app->getUser()->getId();
-        }
         $result = [];
-        $controllerId = Yii::$app->controller->uniqueId . '/';
         foreach ($buttons as $button) {
-            if (static::checkRoute($controllerId . $button, $userId)) {
+            if (static::checkRoute($button, [], $user)) {
                 $result[] = "{{$button}}";
             }
         }

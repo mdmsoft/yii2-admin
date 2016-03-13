@@ -11,7 +11,7 @@ use yii\helpers\Inflector;
  * Use [[\yii\base\Module::$controllerMap]] to change property of controller. 
  * To change listed menu, use property [[$menus]].
  * 
- * ~~~
+ * ```
  * 'layout' => 'left-menu', // default to null mean use application layout.
  * 'controllerMap' => [
  *     'assignment' => [
@@ -26,7 +26,7 @@ use yii\helpers\Inflector;
  *     ],
  *     'route' => null, // disable menu
  * ],
- * ~~~
+ * ```
  * 
  * @property string $mainLayout Main layout using for module. Default to layout of parent module.
  * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.

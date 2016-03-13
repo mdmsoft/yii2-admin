@@ -26,12 +26,11 @@ class RouteRule extends Rule
     public function execute($user, $item, $params)
     {
         $routeParams = isset($item->data['params']) ? $item->data['params'] : [];
-        $allow = true;
-        $queryParams = Yii::$app->request->getQueryParams();
         foreach ($routeParams as $key => $value) {
-            $allow = $allow && (!isset($queryParams[$key]) || $queryParams[$key] == $value);
+            if (!array_key_exists($key, $params) || $params[$key] != $value) {
+                return false;
+            }
         }
-
-        return $allow;
+        return true;
     }
 }

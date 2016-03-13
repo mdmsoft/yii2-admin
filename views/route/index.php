@@ -24,10 +24,9 @@ $this->registerJs($this->render('_script.js'));
             <input id="inp-route" type="text" class="form-control"
                    placeholder="<?= Yii::t('rbac-admin', 'New route(s)') ?>">
             <span class="input-group-btn">
-                <a id="btn-new" class="btn btn-success" type="button">
+                <button id="btn-new" class="btn btn-success" name="add-route">
                     <?= Yii::t('rbac-admin', 'Add') ?>
-                    <span class="glyphicon glyphicon-s"></span>
-                </a>
+                </button>
             </span>
         </div>
     </div>

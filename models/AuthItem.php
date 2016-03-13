@@ -5,6 +5,7 @@ namespace mdm\admin\models;
 use Yii;
 use yii\rbac\Item;
 use yii\helpers\Json;
+use yii\base\Model;
 
 /**
  * This is the model class for table "tbl_auth_item".
@@ -20,7 +21,7 @@ use yii\helpers\Json;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class AuthItem extends \yii\base\Model
+class AuthItem extends Model
 {
     public $name;
     public $type;

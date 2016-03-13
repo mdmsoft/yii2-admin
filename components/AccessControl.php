@@ -16,12 +16,12 @@ use yii\di\Instance;
  * To use AccessControl, declare it in the application config as behavior.
  * For example.
  *
- * ~~~
+ * ```
  * 'as access' => [
  *     'class' => 'mdm\admin\components\AccessControl',
  *     'allowActions' => ['site/login', 'site/error']
  * ]
- * ~~~
+ * ```
  *
  * @property User $user
  * 
@@ -34,7 +34,6 @@ class AccessControl extends \yii\base\ActionFilter
      * @var User User for check access.
      */
     private $_user = 'user';
-
     /**
      * @var array List of action that not need to check access.
      */
@@ -68,16 +67,9 @@ class AccessControl extends \yii\base\ActionFilter
     {
         $actionId = $action->getUniqueId();
         $user = $this->getUser();
-        if ($user->can('/' . $actionId)) {
+        if (Helper::checkRoute('/' . $actionId, Yii::$app->getRequest()->get(), $user)) {
             return true;
         }
-        $obj = $action->controller;
-        do {
-            if ($user->can('/' . ltrim($obj->getUniqueId() . '/*', '/'))) {
-                return true;
-            }
-            $obj = $obj->module;
-        } while ($obj !== null);
         $this->denyAccess($user);
     }
 

@@ -10,18 +10,18 @@ use mdm\admin\models\Menu;
  * MenuHelper used to generate menu depend of user role.
  * Usage
  * 
- * ~~~
+ * ```
  * use mdm\admin\components\MenuHelper;
  * use yii\bootstrap\Nav;
  *
  * echo Nav::widget([
  *    'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
  * ]);
- * ~~~
+ * ```
  * 
  * To reformat returned, provide callback to method.
  * 
- * ~~~
+ * ```
  * $callback = function ($menu) {
  *    $data = eval($menu['data']);
  *    return [
@@ -34,7 +34,7 @@ use mdm\admin\models\Menu;
  * }
  *
  * $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
- * ~~~
+ * ```
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
@@ -48,7 +48,7 @@ class MenuHelper
      * @param \Closure $callback use to reformat output.
      * callback should have format like
      * 
-     * ~~~
+     * ```
      * function ($menu) {
      *    return [
      *        'label' => $menu['name'],
@@ -58,7 +58,7 @@ class MenuHelper
      *        ]
      *    ]
      * }
-     * ~~~
+     * ```
      * @param boolean  $refresh
      * @return array
      */

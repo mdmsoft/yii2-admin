@@ -15,4 +15,14 @@ class PermissionController extends ItemController
 {
     public $type = Item::TYPE_PERMISSION;
 
+    /**
+     * @inheritdoc
+     */
+    public function labels()
+    {
+        return[
+            'Item' => 'Permission',
+            'Items' => 'Permissions',
+        ];
+    }
 }

@@ -7,9 +7,11 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model mdm\admin\models\AuthItem */
+/* @var $context mdm\admin\components\ItemController */
 
+$labels = $this->context->labels();
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Roles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', $labels['Items']), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $opts = Json::htmlEncode([

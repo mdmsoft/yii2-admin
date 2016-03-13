@@ -92,7 +92,7 @@ class RouteController extends \yii\web\Controller
     protected function getRoutes()
     {
         $manager = Yii::$app->getAuthManager();
-        $routes = array_flip($this->getAppRoutes());
+        $routes = $this->getAppRoutes();
         $exists = [];
         foreach (array_keys($manager->getPermissions()) as $name) {
             if ($name[0] !== '/') {
@@ -185,7 +185,8 @@ class RouteController extends \yii\web\Controller
 
             $namespace = trim($module->controllerNamespace, '\\') . '\\';
             $this->getControllerFiles($module, $namespace, '', $result);
-            $result[] = ($module->uniqueId === '' ? '' : '/' . $module->uniqueId) . '/*';
+            $all = '/' . ltrim($module->uniqueId . '/*', '/');
+            $result[$all] = $all;
         } catch (\Exception $exc) {
             Yii::error($exc->getMessage(), __METHOD__);
         }
@@ -213,11 +214,13 @@ class RouteController extends \yii\web\Controller
                 if ($file == '.' || $file == '..') {
                     continue;
                 }
-                if (is_dir($path . '/' . $file)) {
+                if (is_dir($path . '/' . $file) && preg_match('%^[a-z0-9_/]+$%i', $file . '/')) {
                     $this->getControllerFiles($module, $namespace . $file . '\\', $prefix . $file . '/', $result);
                 } elseif (strcmp(substr($file, -14), 'Controller.php') === 0) {
-                    $id = Inflector::camel2id(substr(basename($file), 0, -14));
-                    $className = $namespace . Inflector::id2camel($id) . 'Controller';
+                    $baseName = substr(basename($file), 0, -14);
+                    $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $baseName));
+                    $id = ltrim(str_replace(' ', '-', $name), '-');
+                    $className = $namespace . $baseName . 'Controller';
                     if (strpos($className, '-') === false && class_exists($className) && is_subclass_of($className, 'yii\base\Controller')) {
                         $this->getControllerActions($className, $prefix . $id, $module, $result);
                     }
@@ -244,7 +247,8 @@ class RouteController extends \yii\web\Controller
             /* @var $controller \yii\base\Controller */
             $controller = Yii::createObject($type, [$id, $module]);
             $this->getActionRoutes($controller, $result);
-            $result[] = '/' . $controller->uniqueId . '/*';
+            $all = "/{$controller->uniqueId}/*";
+            $result[$all] = $all;
         } catch (\Exception $exc) {
             Yii::error($exc->getMessage(), __METHOD__);
         }
@@ -263,14 +267,15 @@ class RouteController extends \yii\web\Controller
         try {
             $prefix = '/' . $controller->uniqueId . '/';
             foreach ($controller->actions() as $id => $value) {
-                $result[] = $prefix . $id;
+                $result[$prefix . $id] = $prefix . $id;
             }
             $class = new \ReflectionClass($controller);
             foreach ($class->getMethods() as $method) {
                 $name = $method->getName();
                 if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
                     $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', substr($name, 6)));
-                    $result[] = $prefix . ltrim(str_replace(' ', '-', $name), '-');
+                    $id = $prefix . ltrim(str_replace(' ', '-', $name), '-');
+                    $result[$id] = $id;
                 }
             }
         } catch (\Exception $exc) {

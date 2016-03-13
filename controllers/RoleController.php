@@ -15,4 +15,14 @@ class RoleController extends ItemController
 {
     public $type = Item::TYPE_ROLE;
 
+    /**
+     * @inheritdoc
+     */
+    public function labels()
+    {
+        return[
+            'Item' => 'Role',
+            'Items' => 'Roles',
+        ];
+    }
 }
