@@ -1,5 +1,8 @@
 RBAC Manager for Yii 2
 ======================
+> **Warning: This version was no longer maintained. Please use version 2.x.**
+> 
+> `composer require mdmsoft/yii2-admin "~2.0"`
 
 Documentation
 -------------
