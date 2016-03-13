@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a4c871e0057fa72d37331f6805e2df68",
-    "content-hash": "77e539fa57ed3c8c248431165590a093",
+    "hash": "37985364084ac0b87d93e2d37165ca9c",
+    "content-hash": "f4ddeffc4aff09ae10088170176e972e",
     "packages": [
         {
             "name": "bower-asset/jquery",
@@ -148,16 +148,16 @@
         },
         {
             "name": "cebe/markdown",
-            "version": "1.1.0",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cebe/markdown.git",
-                "reference": "54a2c49de31cc44e864ebf0500a35ef21d0010b2"
+                "reference": "f681fee8303310415b746f3758eeda0a7ad08bda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cebe/markdown/zipball/54a2c49de31cc44e864ebf0500a35ef21d0010b2",
-                "reference": "54a2c49de31cc44e864ebf0500a35ef21d0010b2",
+                "url": "https://api.github.com/repos/cebe/markdown/zipball/f681fee8303310415b746f3758eeda0a7ad08bda",
+                "reference": "f681fee8303310415b746f3758eeda0a7ad08bda",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
             "require-dev": {
                 "cebe/indent": "*",
                 "facebook/xhprof": "*@dev",
-                "phpunit/phpunit": "4.1.*"
+                "phpunit/phpunit": "3.7.*"
             },
             "bin": [
                 "bin/markdown"
@@ -175,7 +175,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -204,20 +204,20 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2015-03-06 05:28:07"
+            "time": "2015-03-06 05:21:16"
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.6.0",
+            "version": "v4.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "6f389f0f25b90d0b495308efcfa073981177f0fd"
+                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/6f389f0f25b90d0b495308efcfa073981177f0fd",
-                "reference": "6f389f0f25b90d0b495308efcfa073981177f0fd",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/ae1828d955112356f7677c465f94f7deb7d27a40",
+                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40",
                 "shasum": ""
             },
             "require": {
@@ -248,20 +248,20 @@
             "keywords": [
                 "html"
             ],
-            "time": "2013-11-30 08:25:19"
+            "time": "2015-08-05 01:03:42"
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "f45651582cb853b4326730d9d187a0f7a44a45a3"
+                "reference": "6798f7708b36c485cd45c78e22ab5126c10fbf28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f45651582cb853b4326730d9d187a0f7a44a45a3",
-                "reference": "f45651582cb853b4326730d9d187a0f7a44a45a3",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/6798f7708b36c485cd45c78e22ab5126c10fbf28",
+                "reference": "6798f7708b36c485cd45c78e22ab5126c10fbf28",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
                 "cebe/markdown": "~1.0.0 | ~1.1.0",
                 "ext-ctype": "*",
                 "ext-mbstring": "*",
-                "ezyang/htmlpurifier": "4.6.*",
+                "ezyang/htmlpurifier": "~4.6",
                 "lib-pcre": "*",
                 "php": ">=5.4.0",
                 "yiisoft/yii2-composer": "~2.0.4"
@@ -342,20 +342,20 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-02-14 14:45:55"
+            "time": "2016-03-10 19:27:53"
         },
         {
             "name": "yiisoft/yii2-composer",
-            "version": "2.0.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-composer.git",
-                "reference": "7452fd908a5023b8bb5ea1b123a174ca080de464"
+                "reference": "d33d1046a5951f2f7823fe343f28ddc58b3421a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/7452fd908a5023b8bb5ea1b123a174ca080de464",
-                "reference": "7452fd908a5023b8bb5ea1b123a174ca080de464",
+                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/d33d1046a5951f2f7823fe343f28ddc58b3421a4",
+                "reference": "d33d1046a5951f2f7823fe343f28ddc58b3421a4",
                 "shasum": ""
             },
             "require": {
@@ -389,12 +389,684 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2016-02-06 00:49:24"
+            "time": "2016-02-06 01:03:32"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "bower-asset/bootstrap",
+            "version": "v3.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "16b48259a62f576e52c903c476bd42b90ab22482"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/16b48259a62f576e52c903c476bd42b90ab22482",
+                "reference": "16b48259a62f576e52c903c476bd42b90ab22482",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.9.1"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "less/bootstrap.less",
+                    "dist/js/bootstrap.js"
+                ],
+                "bower-asset-ignore": [
+                    "/.*",
+                    "_config.yml",
+                    "CNAME",
+                    "composer.json",
+                    "CONTRIBUTING.md",
+                    "docs",
+                    "js/tests",
+                    "test-infra"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "keywords": [
+                "css",
+                "framework",
+                "front-end",
+                "js",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ]
+        },
+        {
+            "name": "cebe/js-search",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cebe/js-search.git",
+                "reference": "81eaf8f7a131bad3c24a18d0cef9e4a303be8590"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cebe/js-search/zipball/81eaf8f7a131bad3c24a18d0cef9e4a303be8590",
+                "reference": "81eaf8f7a131bad3c24a18d0cef9e4a303be8590",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "bin": [
+                "bin/jsindex"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "cebe\\jssearch\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc"
+                }
+            ],
+            "description": "A client side search engine for use on static pages.",
+            "time": "2015-12-01 15:54:36"
+        },
+        {
+            "name": "cebe/markdown-latex",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cebe/markdown-latex.git",
+                "reference": "9c4351e5d1afaf117cff4ab83720679a4f9c8328"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cebe/markdown-latex/zipball/9c4351e5d1afaf117cff4ab83720679a4f9c8328",
+                "reference": "9c4351e5d1afaf117cff4ab83720679a4f9c8328",
+                "shasum": ""
+            },
+            "require": {
+                "cebe/markdown": "~1.0.0",
+                "mikevanriel/text-to-latex": "~1.0.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "bin": [
+                "bin/markdown-latex"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "cebe\\markdown\\latex\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc",
+                    "homepage": "http://cebe.cc/",
+                    "role": "Creator"
+                }
+            ],
+            "description": "A super fast highly extensible markdown parser for PHP that converts markdown files into latex",
+            "homepage": "https://github.com/cebe/markdown-latex#readme",
+            "keywords": [
+                "extensible",
+                "fast",
+                "gfm",
+                "latex",
+                "markdown",
+                "markdown-extra"
+            ],
+            "time": "2015-08-28 10:40:42"
+        },
+        {
+            "name": "fzaninotto/faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "588da2fff1b9da3acb9b6e1d7395e820102bde01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/588da2fff1b9da3acb9b6e1d7395e820102bde01",
+                "reference": "588da2fff1b9da3acb9b6e1d7395e820102bde01",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2016-03-10 07:12:46"
+        },
+        {
+            "name": "mikevanriel/text-to-latex",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mvriel/TextToLatex.git",
+                "reference": "c9f3a4d6b89f9449782455c848d5fa3dd0e216ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mvriel/TextToLatex/zipball/c9f3a4d6b89f9449782455c848d5fa3dd0e216ba",
+                "reference": "c9f3a4d6b89f9449782455c848d5fa3dd0e216ba",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MikeVanRiel": [
+                        "src/",
+                        "tests/unit/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "me@mikevanriel.com"
+                }
+            ],
+            "description": "A converter class that converts normal ASCII text to valid LaTeX",
+            "time": "2015-12-13 07:33:35"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "0.9.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "ef70767475434bdb3615b43c327e2cae17ef12eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ef70767475434bdb3615b43c327e2cae17ef12eb",
+                "reference": "ef70767475434bdb3615b43c327e2cae17ef12eb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "PHPParser": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2014-07-23 18:24:17"
+        },
+        {
+            "name": "phpdocumentor/reflection",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/Reflection.git",
+                "reference": "fc40c3f604ac2287eb5c314174d5109b2c699372"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/Reflection/zipball/fc40c3f604ac2287eb5c314174d5109b2c699372",
+                "reference": "fc40c3f604ac2287eb5c314174d5109b2c699372",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "~0.9.4",
+                "php": ">=5.3.3",
+                "phpdocumentor/reflection-docblock": "~2.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "behat/behat": "~2.4",
+                "mockery/mockery": "~0.8",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "phpDocumentor": [
+                        "src/",
+                        "tests/unit/",
+                        "tests/mocks/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Reflection library to do Static Analysis for PHP Projects",
+            "homepage": "http://www.phpdoc.org",
+            "keywords": [
+                "phpDocumentor",
+                "phpdoc",
+                "reflection",
+                "static analysis"
+            ],
+            "time": "2014-11-14 11:43:04"
+        },
+        {
+            "name": "phpdocumentor/reflection-docblock",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
+                "reference": "d68dbdc53dc358a816f00b300704702b2eaff7b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d68dbdc53dc358a816f00b300704702b2eaff7b8",
+                "reference": "d68dbdc53dc358a816f00b300704702b2eaff7b8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "dflydev/markdown": "~1.0",
+                "erusev/parsedown": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "phpDocumentor": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                }
+            ],
+            "time": "2015-02-03 12:10:50"
+        },
+        {
+            "name": "psr/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "d8e60a5619fff77f9669da8997697443ef1a1d7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d8e60a5619fff77f9669da8997697443ef1a1d7e",
+                "reference": "d8e60a5619fff77f9669da8997697443ef1a1d7e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2016-01-06 21:40:42"
+        },
+        {
+            "name": "scrivo/highlight.php",
+            "version": "v8.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scrivo/highlight.php.git",
+                "reference": "d861aee53999963aed4b742cfe21181bec178f35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scrivo/highlight.php/zipball/d861aee53999963aed4b742cfe21181bec178f35",
+                "reference": "d861aee53999963aed4b742cfe21181bec178f35",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Highlight\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Server side syntax highlighter that supports over 90 languages. It's a PHP port of highlight.js",
+            "keywords": [
+                "code",
+                "highlight",
+                "highlight.js",
+                "highlight.php",
+                "syntax"
+            ],
+            "time": "2015-12-31 20:33:22"
+        },
+        {
+            "name": "yiisoft/yii2-apidoc",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-apidoc.git",
+                "reference": "bab23f2bd7393345dd7b285f41bbbc518e9ecf76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-apidoc/zipball/bab23f2bd7393345dd7b285f41bbbc518e9ecf76",
+                "reference": "bab23f2bd7393345dd7b285f41bbbc518e9ecf76",
+                "shasum": ""
+            },
+            "require": {
+                "cebe/js-search": "*",
+                "cebe/markdown": "~1.0.0 | ~1.1.0",
+                "cebe/markdown-latex": "~1.0.0",
+                "nikic/php-parser": "0.9.*",
+                "phpdocumentor/reflection": "^1.0.3",
+                "phpdocumentor/reflection-docblock": "^2.0.1",
+                "scrivo/highlight.php": "~8.0",
+                "yiisoft/yii2": ">=2.0.4",
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "bin": [
+                "apidoc"
+            ],
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\apidoc\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc"
+                }
+            ],
+            "description": "API Documentation generator for the Yii framework 2.0",
+            "keywords": [
+                "api",
+                "apidoc",
+                "documentation",
+                "phpdoc",
+                "yii2"
+            ],
+            "time": "2016-02-06 18:34:09"
+        },
+        {
+            "name": "yiisoft/yii2-bootstrap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-bootstrap.git",
+                "reference": "4133d6b26f48615de38ea1ec04eb00c4b7057bc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/4133d6b26f48615de38ea1ec04eb00c4b7057bc9",
+                "reference": "4133d6b26f48615de38ea1ec04eb00c4b7057bc9",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": "3.3.* | 3.2.* | 3.1.*",
+                "yiisoft/yii2": ">=2.0.6"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\bootstrap\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Qiang Xue",
+                    "email": "qiang.xue@gmail.com"
+                }
+            ],
+            "description": "The Twitter Bootstrap extension for the Yii framework",
+            "keywords": [
+                "bootstrap",
+                "yii2"
+            ],
+            "time": "2016-03-04 00:48:53"
+        },
+        {
+            "name": "yiisoft/yii2-codeception",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-codeception.git",
+                "reference": "ee239c244fd011f11c8827f97ebe7600d03f1841"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-codeception/zipball/ee239c244fd011f11c8827f97ebe7600d03f1841",
+                "reference": "ee239c244fd011f11c8827f97ebe7600d03f1841",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": ">=2.0.4"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\codeception\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Jebri",
+                    "email": "mark.github@yandex.ru"
+                }
+            ],
+            "description": "The Codeception integration for the Yii framework",
+            "keywords": [
+                "codeception",
+                "yii2"
+            ],
+            "time": "2015-11-20 08:52:21"
+        },
+        {
+            "name": "yiisoft/yii2-faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-faker.git",
+                "reference": "186c77214e0a4b75f10380b4e6e5f82788922cb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-faker/zipball/186c77214e0a4b75f10380b4e6e5f82788922cb7",
+                "reference": "186c77214e0a4b75f10380b4e6e5f82788922cb7",
+                "shasum": ""
+            },
+            "require": {
+                "fzaninotto/faker": "~1.4",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\faker\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Jebri",
+                    "email": "mark.github@yandex.ru"
+                }
+            ],
+            "description": "Fixture generator. The Faker integration for the Yii framework.",
+            "keywords": [
+                "Fixture",
+                "faker",
+                "yii2"
+            ],
+            "time": "2015-12-18 01:52:12"
+        }
+    ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
