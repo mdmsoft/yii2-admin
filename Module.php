@@ -39,10 +39,6 @@ use yii\helpers\Inflector;
 class Module extends \yii\base\Module
 {
     /**
-     * @inheritdoc
-     */
-    public $defaultRoute = 'assignment';
-    /**
      * @var array Nav bar items.
      */
     public $navbar;
@@ -113,8 +109,9 @@ class Module extends \yii\base\Module
 
             $config = components\Configs::instance();
             $conditions = [
-                'menu' => $config->db && $config->db->schema->getTableSchema($config->menuTable),
                 'user' => $config->db && $config->db->schema->getTableSchema($config->userTable),
+                'assignment' => ($userClass = Yii::$app->getUser()->identityClass) && is_subclass_of($userClass, 'yii\db\BaseActiveRecord'),
+                'menu' => $config->db && $config->db->schema->getTableSchema($config->menuTable),
             ];
             foreach ($this->_coreItems as $id => $lable) {
                 if (!isset($conditions[$id]) || $conditions[$id]) {
@@ -164,7 +161,7 @@ class Module extends \yii\base\Module
         if (parent::beforeAction($action)) {
             /* @var $action \yii\base\Action */
             $view = $action->controller->getView();
-            
+
             $view->params['breadcrumbs'][] = [
                 'label' => Yii::t('rbac-admin', 'Admin'),
                 'url' => ['/' . $this->uniqueId]

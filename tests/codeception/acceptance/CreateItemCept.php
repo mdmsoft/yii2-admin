@@ -20,7 +20,7 @@ $I->expectTo('see validations errors');
 $I->see('Create Role', 'h1');
 $I->see('Name cannot be blank');
 
-$I->amGoingTo('submit contact form with correct data');
+$I->amGoingTo('submit role form with correct data');
 $createItemPage->submit([
     'name' => 'roleTester',
     'description' => 'Role created for test',

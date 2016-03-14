@@ -6,12 +6,12 @@
  * For example to change MySQL username and password your `db-local.php` should
  * contain the following:
  *
-<?php
-$databases['mysql']['username'] = 'yiitest';
-$databases['mysql']['password'] = 'changeme';
+  <?php
+  $driver = 'pgsql';
+  $databases[$driver]['username'] = 'myname';
+  $databases[$driver]['password'] = 'changeme';
 
  */
-
 $databases = [
     'mysql' => [
         'dsn' => 'mysql:host=127.0.0.1;dbname=mdm_admin_test',
@@ -20,7 +20,7 @@ $databases = [
     ],
     'sqlite' => [
         'dsn' => 'sqlite::memory:',
-        //'dsn' => 'sqlite::@runtime/mdm_admin_test.sqlite',
+        //'dsn' => 'sqlite:@runtime/mdm_admin_test.sqlite',
     ],
     'pgsql' => [
         'dsn' => 'pgsql:host=localhost;dbname=mdm_admin_test;port=5432;',
@@ -29,7 +29,8 @@ $databases = [
     ],
 ];
 
+$driver = 'mysql';
 if (is_file(__DIR__ . '/db-local.php')) {
     include __DIR__ . '/db-local.php';
 }
-return $databases;
+return array_merge(['class' => 'yii\db\Connection'], $databases[$driver]);
