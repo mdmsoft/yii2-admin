@@ -71,7 +71,7 @@ The `fixture` commands refer to the following `ActiveFixture` configuration by d
 - Template files path: `@tests/unit/templates/fixtures`
 - Namespace: `tests\unit\fixtures`
 
-Where `@tests` refers to `@app/tests/codeception`.
+Where `@tests` refers to `@mdm/admin/tests/codeception`.
 
 Code coverage support
 ---------------------

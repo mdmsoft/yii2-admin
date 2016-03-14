@@ -1,26 +1,30 @@
 <?php
+require_once __DIR__ . '/_beforeRequest.php';
 /**
  * Application configuration shared by all test types
  */
 return [
+    'id' => 'mdm-admin-test',
+    'basePath' => dirname(dirname(__DIR__)), // @test
+    'vendorPath' => dirname(dirname(dirname(__DIR__))) . '/vendor',
     'language' => 'en-US',
+    'aliases'=>[
+        '@mdm/admin' => dirname(dirname(dirname(__DIR__))),
+    ],
     'modules' => [
         'admin' => [
             'class' => 'mdm\admin\Module',
         ]
     ],
     'controllerMap' => [
-        'fixture' => [
-            'class' => 'yii\faker\FixtureController',
-            'fixtureDataPath' => '@tests/codeception/fixtures',
-            'templatePath' => '@tests/codeception/templates',
-            'namespace' => 'tests\codeception\fixtures',
-        ],
+//        'fixture' => [
+//            'class' => 'yii\faker\FixtureController',
+//            'fixtureDataPath' => '@tests/codeception/fixtures',
+//            'templatePath' => '@tests/codeception/templates',
+//            'namespace' => 'tests\codeception\fixtures',
+//        ],
     ],
     'components' => [
-        'db' => [
-            'dsn' => 'mysql:host=localhost;dbname=mdm_admin_tests',
-        ],
         'mailer' => [
             'useFileTransport' => true,
         ],
@@ -32,7 +36,8 @@ return [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
-            'cachePath' => dirname(__DIR__) . '_output/cache'
+            'cachePath' => '@runtime/cache'
         ]
     ],
+    'on beforeRequest' => 'onBeforeRequestTest'
 ];

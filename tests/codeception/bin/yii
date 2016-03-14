@@ -11,8 +11,8 @@
 require_once __DIR__ . '/_bootstrap.php';
 
 $config = yii\helpers\ArrayHelper::merge(
-    require(__DIR__ . '/../config/console.php'),
-    require(__DIR__ . '/../config/config.php')
+    require(__DIR__ . '/../config/config.php'),
+    require(__DIR__ . '/../config/console.php')
 );
 
 $application = new yii\console\Application($config);
