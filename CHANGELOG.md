@@ -1,10 +1,11 @@
 Yii2 Admin Change Log
 ==========================
 
-2.3
+2.5
 -----
 
- 
+- Enh: Add code testing (mdmunir).
+- Enh: Add more documentation (mdmunir).
 
 2.0
 ---------------------

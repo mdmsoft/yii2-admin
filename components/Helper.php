@@ -195,20 +195,34 @@ class Helper
     }
 
     /**
-     * Filter action column button.
-     * @param array $buttons
+     * Filter action column button. Use with [[yii\grid\GridView]]
+     * ```php
+     * 'columns' => [
+     *     ...
+     *     [
+     *         'class' => 'yii\grid\ActionColumn',
+     *         'template' => Helper::filterActionColumn(['view','update','activate'])
+     *     ]
+     * ],
+     * ```
+     * @param array|string $buttons
      * @param integer|User $user
      * @return string
      */
     public static function filterActionColumn($buttons = [], $user = null)
     {
-        $result = [];
-        foreach ($buttons as $button) {
-            if (static::checkRoute($button, [], $user)) {
-                $result[] = "{{$button}}";
+        if (is_array($buttons)) {
+            $result = [];
+            foreach ($buttons as $button) {
+                if (static::checkRoute($button, [], $user)) {
+                    $result[] = "{{$button}}";
+                }
             }
+            return implode(' ', $result);
         }
-        return implode(' ', $result);
+        return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) use ($user) {
+            return static::checkRoute($matches[1], [], $user) ? "{{$matches[1]}}" : '';
+        }, $buttons);
     }
 
     /**

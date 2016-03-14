@@ -57,6 +57,7 @@ class Module extends \yii\base\Module
      * @see [[menus]]
      */
     private $_coreItems = [
+        'default' => 'Admin',
         'user' => 'Users',
         'assignment' => 'Assignments',
         'role' => 'Roles',

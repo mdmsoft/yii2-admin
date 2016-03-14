@@ -15,6 +15,10 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+# try running against postgres 9.3
+addons:
+  postgresql: "9.3"
+
 install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "fxp/composer-asset-plugin:~1.1.1"

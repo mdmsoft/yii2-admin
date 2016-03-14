@@ -4,6 +4,7 @@ namespace mdm\admin\models;
 
 use Yii;
 use mdm\admin\components\Configs;
+use mdm\admin\components\Helper;
 
 /**
  * This is the model class for table "menu".
@@ -59,7 +60,7 @@ class Menu extends \yii\db\ActiveRecord
             [['parent', 'route', 'data', 'order'], 'default'],
             [['order'], 'integer'],
             [['route'], 'in',
-                'range' => static::getSavedRoutes(),
+                'range' => array_values(Helper::getRegisteredRoutes()),
                 'message' => 'Route "{value}" not found.']
         ];
     }

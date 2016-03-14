@@ -13,20 +13,17 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('rbac-admin', 'Assignments');
 $this->params['breadcrumbs'][] = $this->title;
 
-$columns = array_merge(
-    [
+$columns = [
     ['class' => 'yii\grid\SerialColumn'],
-    [
-        'class' => 'yii\grid\DataColumn',
-        'attribute' => $usernameField,
-    ],
-    ], $extraColumns, [
-    [
-        'class' => 'yii\grid\ActionColumn',
-        'template' => '{view}'
-    ],
-    ]
-);
+    $usernameField,
+];
+if (!empty($extraColumns)) {
+    $columns = array_merge($columns, $extraColumns);
+}
+$columns[] = [
+    'class' => 'yii\grid\ActionColumn',
+    'template' => '{view}'
+];
 ?>
 <div class="assignment-index">
 
