@@ -33,10 +33,10 @@ before_script:
 
   # initialize databases
   - mysql -e 'CREATE DATABASE mdm_admin_test;';
-  - cd tests/codeception/bin && php yii migrate --interactive=0 && cd ../../..
 
 script:
   - |
+    cd tests/codeception/bin && php yii migrate --interactive=0 && cd ../../..
     cd tests/web
     php -S localhost:8080 > /dev/null 2>&1 &
     cd ..

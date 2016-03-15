@@ -8,8 +8,10 @@ use yii\helpers\Url;
 
 if (($pos = strrpos($page, '/')) === false) {
     $baseDir = '';
+    $this->title = substr($page, 0, strrpos($page, '.'));
 } else {
     $baseDir = substr($page, 0, $pos) . '/';
+    $this->title = substr($page, $pos + 1, strrpos($page, '.') - $pos - 1);
 }
 
 if ($page == 'README.md') {
@@ -20,7 +22,7 @@ if ($page == 'README.md') {
         $url = Url::to($menu['url'], true);
         $links[] = "[**{$menu['label']}**]({$url})";
     }
-    $body = str_replace(':smile:', implode('  ', $links) . "\n\n", $this->render("@mdm/admin/README.md"));
+    $body = str_replace(':smile:.', ".\n\n" . implode('  ', $links) . "\n", $this->render("@mdm/admin/README.md"));
 } else {
     $body = $this->render("@mdm/admin/{$page}");
 }
