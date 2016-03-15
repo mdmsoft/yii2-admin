@@ -5,13 +5,13 @@ use tests\codeception\_pages\CreateItemPage;
 /* @var $scenario Codeception\Scenario */
 
 $I = new AcceptanceTester($scenario);
-$I->wantTo('ensure that create item work');
+$I->wantTo('ensure that create role item work');
 
 $createItemPage = CreateItemPage::openBy($I);
 
 $I->see('Create Role', 'h1');
 
-$I->amGoingTo('submit contact form with no data');
+$I->amGoingTo('submit role form with no data');
 $createItemPage->submit([]);
 if (method_exists($I, 'wait')) {
     $I->wait(3); // only for selenium

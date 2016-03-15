@@ -186,6 +186,6 @@ You can do it by specifying the `mainLayout` property with the application's mai
 More...
 ---------------
 
+- [**Basic Usage...**](basic-usage.md)
 - [**User Management**](user-management.md)
 - [**Using Menu**](using-menu.md)
-- [**Basic Usage...**](basic-usage.md)

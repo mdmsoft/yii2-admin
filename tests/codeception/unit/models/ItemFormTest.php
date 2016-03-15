@@ -3,7 +3,7 @@
 namespace tests\codeception\unit\models;
 
 use Yii;
-use yii\codeception\TestCase;
+use tests\TestCase;
 use Codeception\Specify;
 
 class ItemFormTest extends TestCase
@@ -13,7 +13,7 @@ class ItemFormTest extends TestCase
 
     public function testAddNew()
     {
-        $model = $this->getMock('mdm\admin\models\ContactForm', ['validate']);
+        $model = $this->getMock('mdm\admin\models\AuthItem', ['validate']);
         $model->expects($this->once())->method('validate')->will($this->returnValue(true));
 
         $model->attributes = [
@@ -22,5 +22,6 @@ class ItemFormTest extends TestCase
         ];
 
         $model->save();
+
     }
 }

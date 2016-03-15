@@ -1,11 +1,10 @@
 <?php
-require_once __DIR__ . '/_beforeRequest.php';
 /**
  * Application configuration shared by all test types
  */
 return [
     'id' => 'mdm-admin-test',
-    'basePath' => dirname(dirname(__DIR__)), // @test
+    'basePath' => dirname(dirname(__DIR__)), // @tests
     'vendorPath' => dirname(dirname(dirname(__DIR__))) . '/vendor',
     'language' => 'en-US',
     'aliases' => [
@@ -44,5 +43,7 @@ return [
             'cachePath' => '@runtime/cache'
         ]
     ],
-    'on beforeRequest' => 'onBeforeRequestTest'
+    'on beforeRequest' => function (){
+        Yii::$app->getAuthManager()->removeAll();
+    }
 ];

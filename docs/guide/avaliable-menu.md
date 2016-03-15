@@ -37,7 +37,7 @@ Add rule to `authManager` by provide rule classname.
 ![Rule](/docs/images/image08.png)
 
 More...
----------------
+--------
 
 - [**User Management**](user-management.md)
 - [**Using Menu**](using-menu.md)

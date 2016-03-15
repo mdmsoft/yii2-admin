@@ -7,20 +7,21 @@ use mdm\admin\models\AuthItem;
 use mdm\admin\models\searchs\AuthItem as AuthItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\base\NotSupportedException;
 use yii\filters\VerbFilter;
 use yii\rbac\Item;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
  *
+ * @property integer $type
  * @property array $labels
+ * 
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-abstract class ItemController extends Controller
+class ItemController extends Controller
 {
-    public $type;
-
     /**
      * @inheritdoc
      */
@@ -201,8 +202,19 @@ abstract class ItemController extends Controller
      * Label use in view
      * @return array
      */
-    abstract public function labels();
+    public function labels()
+    {
+        throw new NotSupportedException(get_class($this) . ' does not support labels().');
+    }
 
+    /**
+     * Type of Auth Item.
+     * @return integer
+     */
+    public function getType()
+    {
+        
+    }
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -39,7 +39,7 @@ class AuthItem extends Model
      * @param Item  $item
      * @param array $config
      */
-    public function __construct($item, $config = [])
+    public function __construct($item = null, $config = [])
     {
         $this->_item = $item;
         if ($item !== null) {

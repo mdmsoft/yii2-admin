@@ -13,8 +13,6 @@ use yii\rbac\Item;
  */
 class RoleController extends ItemController
 {
-    public $type = Item::TYPE_ROLE;
-
     /**
      * @inheritdoc
      */
@@ -24,5 +22,13 @@ class RoleController extends ItemController
             'Item' => 'Role',
             'Items' => 'Roles',
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getType()
+    {
+        return Item::TYPE_ROLE;
     }
 }

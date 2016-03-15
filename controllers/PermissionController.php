@@ -13,7 +13,6 @@ use yii\rbac\Item;
  */
 class PermissionController extends ItemController
 {
-    public $type = Item::TYPE_PERMISSION;
 
     /**
      * @inheritdoc
@@ -24,5 +23,13 @@ class PermissionController extends ItemController
             'Item' => 'Permission',
             'Items' => 'Permissions',
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getType()
+    {
+        return Item::TYPE_PERMISSION;
     }
 }
