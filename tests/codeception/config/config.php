@@ -16,12 +16,10 @@ return [
         ]
     ],
     'controllerMap' => [
-//        'fixture' => [
-//            'class' => 'yii\faker\FixtureController',
-//            'fixtureDataPath' => '@tests/codeception/fixtures',
-//            'templatePath' => '@tests/codeception/templates',
-//            'namespace' => 'tests\codeception\fixtures',
-//        ],
+        'fixture' => [
+            'class' => 'yii\console\controllers\FixtureController',
+            'namespace' => 'tests\codeception\unit\fixtures',
+        ],
         'migrate'=>[
             'class'=>'yii\console\controllers\MigrateController',
             'migrationPath' => '@yii/rbac/migrations',
@@ -44,7 +42,4 @@ return [
             'cachePath' => '@runtime/cache'
         ]
     ],
-    'on beforeRequest' => function (){
-        Yii::$app->getAuthManager()->removeAll();
-    }
 ];

@@ -22,7 +22,7 @@ $I->see('Name cannot be blank');
 
 $I->amGoingTo('submit role form with correct data');
 $createItemPage->submit([
-    'name' => 'roleTester',
+    'name' => 'roleTesterAcp',
     'description' => 'Role created for test',
 ]);
 if (method_exists($I, 'wait')) {

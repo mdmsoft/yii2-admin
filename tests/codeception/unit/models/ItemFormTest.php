@@ -11,6 +11,11 @@ class ItemFormTest extends TestCase
 
     use Specify;
 
+    protected function setUp()
+    {
+        (new \yii\rbac\DbManager())->removeAll();
+    }
+
     public function testAddNew()
     {
         $model = $this->getMock('mdm\admin\models\AuthItem', ['validate']);
@@ -22,6 +27,5 @@ class ItemFormTest extends TestCase
         ];
 
         $model->save();
-
     }
 }
