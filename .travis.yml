@@ -36,7 +36,10 @@ before_script:
 
 script:
   - |
-    cd tests/codeception/bin && php yii migrate --interactive=0 && cd ../../..
+    cd tests/codeception/bin
+    php yii migrate --interactive=0
+    php yii migrate/history --interactive=0
+    cd ../../..
     cd tests/web
     php -S localhost:8080 > /dev/null 2>&1 &
     cd ..
