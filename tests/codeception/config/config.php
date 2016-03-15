@@ -24,7 +24,8 @@ return [
 //        ],
         'migrate'=>[
             'class'=>'yii\console\controllers\MigrateController',
-            'migrationPath' => '@yii/rbac/migrations'
+            'migrationPath' => '@yii/rbac/migrations',
+            'interactive' => false,
         ]
     ],
     'components' => [
