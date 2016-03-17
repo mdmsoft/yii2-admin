@@ -8,13 +8,12 @@ function updateItems(r) {
 
 $('.btn-assign').click(function () {
     var $this = $(this);
-    var action = $(this).data('action');
-    var target = action == 'assign' ? 'avaliable' : 'assigned';
+    var target = $this.data('target');
     var items = $('select.list[data-target="' + target + '"]').val();
 
     if (items.length) {
         $this.children('i.glyphicon-refresh-animate').show();
-        $.post(_opts.assignUrl, {action: action, items: items}, function (r) {
+        $.post($this.attr('href'), {items: items}, function (r) {
             updateItems(r);
         }).always(function () {
             $this.children('i.glyphicon-refresh-animate').hide();

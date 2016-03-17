@@ -5,7 +5,7 @@ php:
   - 5.5
   - 5.6
   - 7.0
-  - hhvm
+#  - hhvm
 
 # faster builds on new travis setup not using sudo
 sudo: false
@@ -36,7 +36,6 @@ before_script:
   
 script:
   - |
-    cd tests/codeception/bin && php yii migrate && php yii migrate/history && cd ../../..
     cd tests/web
     php -S localhost:8080 > /dev/null 2>&1 &
     cd ..

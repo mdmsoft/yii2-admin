@@ -11,24 +11,24 @@ $('#btn-new').click(function () {
     var route = $('#inp-route').val().trim();
     if (route != '') {
         $this.children('i.glyphicon-refresh-animate').show();
-        $.post(_opts.newUrl, {route: route}, function (r) {
+        $.post($this.attr('href'), {route: route}, function (r) {
             $('#inp-route').val('').focus();
             updateRoutes(r);
         }).always(function () {
             $this.children('i.glyphicon-refresh-animate').hide();
         });
     }
+    return false;
 });
 
 $('.btn-assign').click(function () {
     var $this = $(this);
-    var action = $this.data('action');
-    var target = action == 'assign' ? 'avaliable' : 'assigned';
+    var target = $this.data('target');
     var routes = $('select.list[data-target="' + target + '"]').val();
 
     if (routes.length) {
         $this.children('i.glyphicon-refresh-animate').show();
-        $.post(_opts.assignUrl, {action: action, routes: routes}, function (r) {
+        $.post($this.attr('href'), {routes: routes}, function (r) {
             updateRoutes(r);
         }).always(function () {
             $this.children('i.glyphicon-refresh-animate').hide();
@@ -40,7 +40,7 @@ $('.btn-assign').click(function () {
 $('#btn-refresh').click(function () {
     var $icon = $(this).children('span.glyphicon');
     $icon.addClass('glyphicon-refresh-animate');
-    $.post(_opts.refreshUrl, function (r) {
+    $.post($(this).attr('href'), function (r) {
         updateRoutes(r);
     }).always(function () {
         $icon.removeClass('glyphicon-refresh-animate');

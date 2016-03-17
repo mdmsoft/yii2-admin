@@ -22,6 +22,7 @@ use yii\rbac\Item;
  */
 class ItemController extends Controller
 {
+
     /**
      * @inheritdoc
      */
@@ -32,6 +33,8 @@ class ItemController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'assign' => ['post'],
+                    'remove' => ['post'],
                 ],
             ],
         ];
@@ -61,7 +64,7 @@ class ItemController extends Controller
     {
         $model = $this->findModel($id);
 
-        return $this->render('view', ['model' => $model, 'items' => $this->getItems($id)]);
+        return $this->render('view', ['model' => $model]);
     }
 
     /**
@@ -74,8 +77,6 @@ class ItemController extends Controller
         $model = new AuthItem(null);
         $model->type = $this->type;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            Helper::invalidate();
-
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model]);
@@ -92,8 +93,6 @@ class ItemController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            Helper::invalidate();
-
             return $this->redirect(['view', 'id' => $model->name]);
         }
 
@@ -116,78 +115,32 @@ class ItemController extends Controller
     }
 
     /**
+     * Assign items
+     * @param string $id
+     * @return array
+     */
+    public function actionAssign($id)
+    {
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = $this->findModel($id);
+        $success = $model->addChildren($items);
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($model->getItems(), ['success' => $success]);
+    }
+
+    /**
      * Assign or remove items
      * @param string $id
      * @param string $action
      * @return array
      */
-    public function actionAssign($id)
+    public function actionRemove($id)
     {
-        $post = Yii::$app->getRequest()->post();
-        $action = $post['action'];
-        $items = $post['items'];
-        $manager = Yii::$app->getAuthManager();
-        $parent = $this->type === Item::TYPE_ROLE ? $manager->getRole($id) : $manager->getPermission($id);
-
-        $error = [];
-        if ($action == 'assign') {
-            foreach ($items as $name) {
-                $child = $manager->getPermission($name);
-                if ($this->type === Item::TYPE_ROLE && $child === null) {
-                    $child = $manager->getRole($name);
-                }
-                try {
-                    $manager->addChild($parent, $child);
-                } catch (\Exception $e) {
-                    $error[] = $e->getMessage();
-                }
-            }
-        } else {
-            foreach ($items as $name) {
-                $child = $manager->getPermission($name);
-                if ($this->type === Item::TYPE_ROLE && $child === null) {
-                    $child = $manager->getRole($name);
-                }
-                try {
-                    $manager->removeChild($parent, $child);
-                } catch (\Exception $e) {
-                    $error[] = $e->getMessage();
-                }
-            }
-        }
-        Helper::invalidate();
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = $this->findModel($id);
+        $success = $model->removeChildren($items);
         Yii::$app->getResponse()->format = 'json';
-        return $this->getItems($id);
-    }
-
-    /**
-     * 
-     * @param string $id
-     * @return array
-     */
-    protected function getItems($id)
-    {
-        $manager = Yii::$app->getAuthManager();
-        $avaliable = [];
-        if ($this->type === Item::TYPE_ROLE) {
-            foreach (array_keys($manager->getRoles()) as $name) {
-                $avaliable[$name] = 'role';
-            }
-        }
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            $avaliable[$name] = $name[0] == '/' ? 'route' : 'permission';
-        }
-
-        $assigned = [];
-        foreach ($manager->getChildren($id) as $item) {
-            $assigned[$item->name] = $item->type == 1 ? 'role' : ($item->name[0] == '/' ? 'route' : 'permission');
-            unset($avaliable[$item->name]);
-        }
-        unset($avaliable[$id]);
-        return[
-            'avaliable' => $avaliable,
-            'assigned' => $assigned
-        ];
+        return array_merge($model->getItems(), ['success' => $success]);
     }
 
     /**
@@ -215,6 +168,7 @@ class ItemController extends Controller
     {
         
     }
+
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

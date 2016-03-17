@@ -19,8 +19,8 @@ $databases = [
         'password' => '',
     ],
     'sqlite' => [
-        'dsn' => 'sqlite::memory:',
-        //'dsn' => 'sqlite:@runtime/mdm_admin_test.sqlite',
+        //'dsn' => 'sqlite::memory:',
+        'dsn' => 'sqlite:@runtime/mdm_admin_test.sqlite',
     ],
     'pgsql' => [
         'dsn' => 'pgsql:host=localhost;dbname=mdm_admin_test;port=5432;',

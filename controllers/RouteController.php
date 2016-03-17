@@ -3,12 +3,9 @@
 namespace mdm\admin\controllers;
 
 use Yii;
-use mdm\admin\components\Helper;
-use yii\caching\TagDependency;
-use mdm\admin\components\RouteRule;
-use mdm\admin\components\Configs;
-use yii\helpers\VarDumper;
-use Exception;
+use mdm\admin\models\Route;
+use yii\web\Controller;
+use yii\filters\VerbFilter;
 
 /**
  * Description of RuleController
@@ -16,17 +13,30 @@ use Exception;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class RouteController extends \yii\web\Controller
+class RouteController extends Controller
 {
-    const CACHE_TAG = 'mdm.admin.route';
-
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'create' => ['post'],
+                    'assign' => ['post'],
+                    'remove' => ['post'],
+                    'refresh' => ['post'],
+                ],
+            ],
+        ];
+    }
     /**
      * Lists all Route models.
      * @return mixed
      */
     public function actionIndex()
     {
-        return $this->render('index', ['routes' => $this->getRoutes()]);
+        $model = new Route();
+        return $this->render('index', ['routes' => $model->getRoutes()]);
     }
 
     /**
@@ -39,38 +49,35 @@ class RouteController extends \yii\web\Controller
         Yii::$app->getResponse()->format = 'json';
         $routes = Yii::$app->getRequest()->post('route', '');
         $routes = preg_split('/\s*,\s*/', trim($routes), -1, PREG_SPLIT_NO_EMPTY);
-        $this->saveNew($routes);
-        Helper::invalidate();
-        return $this->getRoutes();
+        $model = new Route();
+        $model->addNew($routes);
+        return $model->getRoutes();
     }
 
     /**
-     * Assign or remove items
-     * @param string $action
+     * Assign routes
      * @return array
      */
     public function actionAssign()
     {
-        $post = Yii::$app->getRequest()->post();
-        $action = $post['action'];
-        $routes = $post['routes'];
-        $manager = Yii::$app->getAuthManager();
-        $error = [];
-        if ($action == 'assign') {
-            $this->saveNew($routes);
-        } else {
-            foreach ($routes as $route) {
-                $child = $manager->getPermission($route);
-                try {
-                    $manager->remove($child);
-                } catch (Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
-            }
-        }
-        Helper::invalidate();
+        $routes = Yii::$app->getRequest()->post('routes', []);
+        $model = new Route();
+        $model->addNew($routes);
         Yii::$app->getResponse()->format = 'json';
-        return array_merge($this->getRoutes(), ['errors' => $error]);
+        return $model->getRoutes();
+    }
+
+    /**
+     * Remove routes
+     * @return array
+     */
+    public function actionRemove()
+    {
+        $routes = Yii::$app->getRequest()->post('routes', []);
+        $model = new Route();
+        $model->remove($routes);
+        Yii::$app->getResponse()->format = 'json';
+        return $model->getRoutes();
     }
 
     /**
@@ -79,230 +86,9 @@ class RouteController extends \yii\web\Controller
      */
     public function actionRefresh()
     {
-        $this->invalidate();
+        $model = new Route();
+        $model->invalidate();
         Yii::$app->getResponse()->format = 'json';
-        return $this->getRoutes();
-    }
-
-    /**
-     * Get avaliable and assigned routes
-     * @return array
-     */
-    protected function getRoutes()
-    {
-        $manager = Yii::$app->getAuthManager();
-        $routes = $this->getAppRoutes();
-        $exists = [];
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            if ($name[0] !== '/') {
-                continue;
-            }
-            $exists[] = $name;
-            unset($routes[$name]);
-        }
-        return[
-            'avaliable' => array_keys($routes),
-            'assigned' => $exists
-        ];
-    }
-
-    /**
-     * Save one or more route(s)
-     * @param array $routes
-     */
-    private function saveNew($routes)
-    {
-        $manager = Yii::$app->getAuthManager();
-        foreach ($routes as $route) {
-            try {
-                $r = explode('&', $route);
-                $item = $manager->createPermission('/' . trim($route, '/'));
-                if (count($r) > 1) {
-                    $action = '/' . trim($r[0], '/');
-                    if (($itemAction = $manager->getPermission($action)) === null) {
-                        $itemAction = $manager->createPermission($action);
-                        $manager->add($itemAction);
-                    }
-                    unset($r[0]);
-                    foreach ($r as $part) {
-                        $part = explode('=', $part);
-                        $item->data['params'][$part[0]] = isset($part[1]) ? $part[1] : '';
-                    }
-                    $this->setDefaultRule();
-                    $item->ruleName = RouteRule::RULE_NAME;
-                    $manager->add($item);
-                    $manager->addChild($item, $itemAction);
-                } else {
-                    $manager->add($item);
-                }
-            } catch (Exception $e) {
-
-            }
-        }
-    }
-
-    /**
-     * Get list of application routes
-     * @return array
-     */
-    public function getAppRoutes()
-    {
-        $key = __METHOD__;
-        $cache = Configs::instance()->cache;
-        if ($cache === null || ($result = $cache->get($key)) === false) {
-            $result = [];
-            $this->getRouteRecrusive(Yii::$app, $result);
-            if ($cache !== null) {
-                $cache->set($key, $result, Configs::instance()->cacheDuration, new TagDependency([
-                    'tags' => self::CACHE_TAG
-                ]));
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Get route(s) recrusive
-     * @param \yii\base\Module $module
-     * @param array $result
-     */
-    private function getRouteRecrusive($module, &$result)
-    {
-        $token = "Get Route of '" . get_class($module) . "' with id '" . $module->uniqueId . "'";
-        Yii::beginProfile($token, __METHOD__);
-        try {
-            foreach ($module->getModules() as $id => $child) {
-                if (($child = $module->getModule($id)) !== null) {
-                    $this->getRouteRecrusive($child, $result);
-                }
-            }
-
-            foreach ($module->controllerMap as $id => $type) {
-                $this->getControllerActions($type, $id, $module, $result);
-            }
-
-            $namespace = trim($module->controllerNamespace, '\\') . '\\';
-            $this->getControllerFiles($module, $namespace, '', $result);
-            $all = '/' . ltrim($module->uniqueId . '/*', '/');
-            $result[$all] = $all;
-        } catch (\Exception $exc) {
-            Yii::error($exc->getMessage(), __METHOD__);
-        }
-        Yii::endProfile($token, __METHOD__);
-    }
-
-    /**
-     * Get list controller under module
-     * @param \yii\base\Module $module
-     * @param string $namespace
-     * @param string $prefix
-     * @param mixed $result
-     * @return mixed
-     */
-    private function getControllerFiles($module, $namespace, $prefix, &$result)
-    {
-        $path = Yii::getAlias('@' . str_replace('\\', '/', $namespace), false);
-        $token = "Get controllers from '$path'";
-        Yii::beginProfile($token, __METHOD__);
-        try {
-            if (!is_dir($path)) {
-                return;
-            }
-            foreach (scandir($path) as $file) {
-                if ($file == '.' || $file == '..') {
-                    continue;
-                }
-                if (is_dir($path . '/' . $file) && preg_match('%^[a-z0-9_/]+$%i', $file . '/')) {
-                    $this->getControllerFiles($module, $namespace . $file . '\\', $prefix . $file . '/', $result);
-                } elseif (strcmp(substr($file, -14), 'Controller.php') === 0) {
-                    $baseName = substr(basename($file), 0, -14);
-                    $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $baseName));
-                    $id = ltrim(str_replace(' ', '-', $name), '-');
-                    $className = $namespace . $baseName . 'Controller';
-                    if (strpos($className, '-') === false && class_exists($className) && is_subclass_of($className, 'yii\base\Controller')) {
-                        $this->getControllerActions($className, $prefix . $id, $module, $result);
-                    }
-                }
-            }
-        } catch (\Exception $exc) {
-            Yii::error($exc->getMessage(), __METHOD__);
-        }
-        Yii::endProfile($token, __METHOD__);
-    }
-
-    /**
-     * Get list action of controller
-     * @param mixed $type
-     * @param string $id
-     * @param \yii\base\Module $module
-     * @param string $result
-     */
-    private function getControllerActions($type, $id, $module, &$result)
-    {
-        $token = "Create controller with cofig=" . VarDumper::dumpAsString($type) . " and id='$id'";
-        Yii::beginProfile($token, __METHOD__);
-        try {
-            /* @var $controller \yii\base\Controller */
-            $controller = Yii::createObject($type, [$id, $module]);
-            $this->getActionRoutes($controller, $result);
-            $all = "/{$controller->uniqueId}/*";
-            $result[$all] = $all;
-        } catch (\Exception $exc) {
-            Yii::error($exc->getMessage(), __METHOD__);
-        }
-        Yii::endProfile($token, __METHOD__);
-    }
-
-    /**
-     * Get route of action
-     * @param \yii\base\Controller $controller
-     * @param array $result all controller action.
-     */
-    private function getActionRoutes($controller, &$result)
-    {
-        $token = "Get actions of controller '" . $controller->uniqueId . "'";
-        Yii::beginProfile($token, __METHOD__);
-        try {
-            $prefix = '/' . $controller->uniqueId . '/';
-            foreach ($controller->actions() as $id => $value) {
-                $result[$prefix . $id] = $prefix . $id;
-            }
-            $class = new \ReflectionClass($controller);
-            foreach ($class->getMethods() as $method) {
-                $name = $method->getName();
-                if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
-                    $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', substr($name, 6)));
-                    $id = $prefix . ltrim(str_replace(' ', '-', $name), '-');
-                    $result[$id] = $id;
-                }
-            }
-        } catch (\Exception $exc) {
-            Yii::error($exc->getMessage(), __METHOD__);
-        }
-        Yii::endProfile($token, __METHOD__);
-    }
-
-    /**
-     * Ivalidate cache
-     */
-    protected function invalidate()
-    {
-        if (Configs::instance()->cache !== null) {
-            TagDependency::invalidate(Configs::instance()->cache, self::CACHE_TAG);
-        }
-    }
-
-    /**
-     * Set default rule of parameterize route.
-     */
-    protected function setDefaultRule()
-    {
-        if (Yii::$app->authManager->getRule(RouteRule::RULE_NAME) === null) {
-            Yii::$app->authManager->add(Yii::createObject([
-                    'class' => RouteRule::className(),
-                    'name' => RouteRule::RULE_NAME]
-            ));
-        }
+        return $model->getRoutes();
     }
 }

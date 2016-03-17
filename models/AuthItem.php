@@ -6,6 +6,7 @@ use Yii;
 use yii\rbac\Item;
 use yii\helpers\Json;
 use yii\base\Model;
+use mdm\admin\components\Helper;
 
 /**
  * This is the model class for table "tbl_auth_item".
@@ -28,7 +29,6 @@ class AuthItem extends Model
     public $description;
     public $ruleName;
     public $data;
-
     /**
      * @var Item
      */
@@ -151,11 +151,99 @@ class AuthItem extends Model
             } else {
                 $manager->update($oldName, $this->_item);
             }
-
+            Helper::invalidate();
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Adds an item as a child of another item.
+     * @param array $items
+     * @return int
+     */
+    public function addChildren($items)
+    {
+        $manager = Yii::$app->getAuthManager();
+        $success = 0;
+        if ($this->_item) {
+            foreach ($items as $name) {
+                $child = $manager->getPermission($name);
+                if ($this->type === Item::TYPE_ROLE && $child === null) {
+                    $child = $manager->getRole($name);
+                }
+                try {
+                    $manager->addChild($this->_item, $child);
+                    $success++;
+                } catch (\Exception $exc) {
+                    Yii::error($exc->getMessage(), __METHOD__);
+                }
+            }
+        }
+        if ($success > 0) {
+            Helper::invalidate();
+        }
+        return $success;
+    }
+
+    /**
+     * Remove an item as a child of another item.
+     * @param array $items
+     * @return int
+     */
+    public function removeChildren($items)
+    {
+        $manager = Yii::$app->getAuthManager();
+        $success = 0;
+        if ($this->_item !== null) {
+            foreach ($items as $name) {
+                $child = $manager->getPermission($name);
+                if ($this->type === Item::TYPE_ROLE && $child === null) {
+                    $child = $manager->getRole($name);
+                }
+                try {
+                    $manager->removeChild($this->_item, $child);
+                    $success++;
+                } catch (\Exception $exc) {
+                    Yii::error($exc->getMessage(), __METHOD__);
+                }
+            }
+        }
+        if ($success > 0) {
+            Helper::invalidate();
+        }
+        return $success;
+    }
+
+    /**
+     *
+     * @param string $id
+     * @return array
+     */
+    public function getItems()
+    {
+        $manager = Yii::$app->getAuthManager();
+        $avaliable = [];
+        if ($this->type === Item::TYPE_ROLE) {
+            foreach (array_keys($manager->getRoles()) as $name) {
+                $avaliable[$name] = 'role';
+            }
+        }
+        foreach (array_keys($manager->getPermissions()) as $name) {
+            $avaliable[$name] = $name[0] == '/' ? 'route' : 'permission';
+        }
+
+        $assigned = [];
+        foreach ($manager->getChildren($this->_item->name) as $item) {
+            $assigned[$item->name] = $item->type == 1 ? 'role' : ($item->name[0] == '/' ? 'route' : 'permission');
+            unset($avaliable[$item->name]);
+        }
+        unset($avaliable[$this->name]);
+        return[
+            'avaliable' => $avaliable,
+            'assigned' => $assigned
+        ];
     }
 
     /**

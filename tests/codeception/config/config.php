@@ -18,13 +18,8 @@ return [
     'controllerMap' => [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
-            'namespace' => 'tests\codeception\unit\fixtures',
+            'namespace' => 'tests\codeception\fixtures',
         ],
-        'migrate'=>[
-            'class'=>'yii\console\controllers\MigrateController',
-            'migrationPath' => '@yii/rbac/migrations',
-            'interactive' => false,
-        ]
     ],
     'components' => [
         'db' => require(__DIR__ . '/db.php'),
@@ -38,8 +33,16 @@ return [
             'class' => 'yii\rbac\DbManager'
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
-            'cachePath' => '@runtime/cache'
+            'class' => 'yii\caching\DummyCache',
+        ],
+        'i18n' => [
+            'translations' => [
+                'rbac-admin' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en',
+                    'basePath' => '@mdm/admin/messages'
+                ]
+            ]
         ]
     ],
 ];

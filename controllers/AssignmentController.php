@@ -3,11 +3,11 @@
 namespace mdm\admin\controllers;
 
 use Yii;
+use mdm\admin\models\Assignment;
 use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use mdm\admin\components\Helper;
 
 /**
  * AssignmentController implements the CRUD actions for Assignment model.
@@ -32,7 +32,7 @@ class AssignmentController extends Controller
         parent::init();
         if ($this->userClassName === null) {
             $this->userClassName = Yii::$app->getUser()->identityClass;
-            $this->userClassName = $this->userClassName ? : 'common\models\User';
+            $this->userClassName = $this->userClassName ? : 'mdm\admin\models\User';
         }
     }
 
@@ -46,6 +46,8 @@ class AssignmentController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'assign' => ['post'],
+                    'assign' => ['post'],
+                    'revoke' => ['post'],
                 ],
             ],
         ];
@@ -90,92 +92,49 @@ class AssignmentController extends Controller
                 'idField' => $this->idField,
                 'usernameField' => $this->usernameField,
                 'fullnameField' => $this->fullnameField,
-                'items' => $this->getItems($id)
         ]);
     }
 
     /**
-     * Assign or revoke assignment to user
-     * @param  integer $id
-     * @param  string  $action
-     * @return mixed
-     */
-    public function actionAssign($id)
-    {
-        $post = Yii::$app->getRequest()->post();
-        $action = $post['action'];
-        $roles = $post['roles'];
-        $manager = Yii::$app->getAuthManager();
-        $error = [];
-        if ($action == 'assign') {
-            foreach ($roles as $name) {
-                try {
-                    $item = $manager->getRole($name);
-                    $item = $item ? : $manager->getPermission($name);
-                    $manager->assign($item, $id);
-                } catch (\Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
-            }
-        } else {
-            foreach ($roles as $name) {
-                try {
-                    $item = $manager->getRole($name);
-                    $item = $item ? : $manager->getPermission($name);
-                    $manager->revoke($item, $id);
-                } catch (\Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
-            }
-        }
-        Helper::invalidate();
-        Yii::$app->response->format = 'json';
-        return array_merge($this->getItems($id), ['errors' => $error]);
-    }
-
-    /**
-     *
+     * Assign items
      * @param string $id
      * @return array
      */
-    protected function getItems($id)
+    public function actionAssign($id)
     {
-        $manager = Yii::$app->getAuthManager();
-        $avaliable = [];
-        foreach (array_keys($manager->getRoles()) as $name) {
-            $avaliable[$name] = 'role';
-        }
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = new Assignment($id);
+        $success = $model->assign($items);
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($model->getItems(), ['success' => $success]);
+    }
 
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            if ($name[0] != '/') {
-                $avaliable[$name] = 'permission';
-            }
-        }
-
-        $assigned = [];
-        foreach ($manager->getAssignments($id) as $item) {
-            $assigned[$item->roleName] = $avaliable[$item->roleName];
-            unset($avaliable[$item->roleName]);
-        }
-        
-        return[
-            'avaliable' => $avaliable,
-            'assigned' => $assigned
-        ];
+    /**
+     * Assign items
+     * @param string $id
+     * @return array
+     */
+    public function actionRevoke($id)
+    {
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = new Assignment($id);
+        $success = $model->revoke($items);
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($model->getItems(), ['success' => $success]);
     }
 
     /**
      * Finds the Assignment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param  integer $id
-     * @return \yii\db\ActiveRecord|\yii\web\IdentityInterface the loaded model
+     * @return Assignment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
         $class = $this->userClassName;
-        if (($model = $class::findIdentity($id)) !== null) {
-            return $model;
+        if (($user = $class::findIdentity($id)) !== null) {
+            return new Assignment($id, $user);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

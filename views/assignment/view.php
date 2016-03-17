@@ -3,12 +3,11 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use yii\helpers\Url;
 use mdm\admin\AnimateAsset;
 use yii\web\YiiAsset;
 
 /* @var $this yii\web\View */
-/* @var $model yii\web\IdentityInterface */
+/* @var $model mdm\admin\models\Assignment */
 /* @var $fullnameField string */
 
 $userName = $model->{$usernameField};
@@ -25,11 +24,11 @@ $this->params['breadcrumbs'][] = $userName;
 AnimateAsset::register($this);
 YiiAsset::register($this);
 $opts = Json::htmlEncode([
-        'assignUrl' => Url::to(['assign', 'id' => (string) $model->$idField]),
-        'items' => $items
+        'items' => $model->getItems()
     ]);
 $this->registerJs("var _opts = {$opts};");
 $this->registerJs($this->render('_script.js'));
+$animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>';
 ?>
 <div class="assignment-index">
     <h1><?= $this->title ?></h1>
@@ -43,10 +42,14 @@ $this->registerJs($this->render('_script.js'));
         </div>
         <div class="col-sm-1">
             <br><br>
-            <a href="#" class="btn btn-success btn-assign" data-action="assign">&gt;&gt;
-                <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i></a><br>
-            <a href="#" class="btn btn-danger btn-assign" data-action="remove">&lt;&lt;
-                <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i></a>
+            <?=
+            Html::a('&gt;&gt;' . $animateIcon, ['assign', 'id' => (string)$model->id], [
+                'class' => 'btn btn-success btn-assign', 'data-target' => 'avaliable'])
+            ?><br>
+            <?=
+            Html::a('&lt;&lt;' . $animateIcon, ['revoke', 'id' => (string)$model->id], [
+                'class' => 'btn btn-danger btn-assign', 'data-target' => 'assigned'])
+            ?>
         </div>
         <div class="col-sm-5">
             <input class="form-control search" data-target="assigned"
