@@ -4,7 +4,6 @@ namespace tests\codeception\_support;
 
 use Codeception\Module;
 use yii\test\FixtureTrait;
-use tests\codeception\fixtures\RbacFixture;
 use tests\codeception\fixtures\AdminFixture;
 
 /**
@@ -54,7 +53,6 @@ class FixtureHelper extends Module
     public function globalFixtures()
     {
         return [
-            RbacFixture::className(),
             AdminFixture::className(),
         ];
     }

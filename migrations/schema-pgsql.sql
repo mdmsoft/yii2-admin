@@ -12,9 +12,9 @@ create table "menu"
 (
     "id" serial NOT NULL PRIMARY KEY,
     "name" varchar(128),
-    "parent" int(11),
+    "parent" integer,
     "route" varchar(256),
-    "order" int(11),
+    "order" integer,
     "data"   bytea,
     foreign key ("parent") references "menu"("id")  ON DELETE SET NULL ON UPDATE CASCADE
 );

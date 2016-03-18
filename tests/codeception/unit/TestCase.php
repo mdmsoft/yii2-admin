@@ -2,7 +2,6 @@
 
 namespace tests\codeception\unit;
 
-use tests\codeception\fixtures\RbacFixture;
 use tests\codeception\fixtures\AdminFixture;
 
 /**
@@ -24,8 +23,7 @@ class TestCase extends \yii\codeception\TestCase
     public function fixtures()
     {
         return[
-            'rbac' => RbacFixture::className(),
-            'admin' => AdminFixture::className(),
+            AdminFixture::className(),
         ];
     }
 }
