@@ -9,6 +9,7 @@ $scope.model = {
 $scope.modelError = {};
 
 $scope.ok = function () {
+    $scope.model.ruleName = $scope.model.ruleName.name;
     Item.save({},$scope.model,function(r){
         $scope.modelError = {};
         $modalInstance.close(r);
