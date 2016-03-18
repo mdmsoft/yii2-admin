@@ -57,7 +57,6 @@ class Module extends \yii\base\Module
      * @see [[menus]]
      */
     private $_coreItems = [
-        'default' => 'Admin',
         'user' => 'Users',
         'assignment' => 'Assignments',
         'role' => 'Roles',
@@ -85,10 +84,15 @@ class Module extends \yii\base\Module
                 'basePath' => '@mdm/admin/messages'
             ];
         }
+
+        if($this->defaultRoute == 'default' && ($userClass = Yii::$app->getUser()->identityClass)
+            && is_subclass_of($userClass, 'yii\db\BaseActiveRecord')){
+            $this->defaultRoute = 'assignment';
+        }
         //user did not define the Navbar?
         if ($this->navbar === null && Yii::$app instanceof \yii\web\Application) {
             $this->navbar = [
-                ['label' => Yii::t('rbac-admin', 'Help'), 'url' => 'https://github.com/mdmsoft/yii2-admin/blob/master/docs/guide/basic-usage.md'],
+                ['label' => Yii::t('rbac-admin', 'Help'), 'url' => ['default/index']],
                 ['label' => Yii::t('rbac-admin', 'Application'), 'url' => Yii::$app->homeUrl]
             ];
         }
@@ -130,9 +134,7 @@ class Module extends \yii\base\Module
                     continue;
                 }
                 if (is_string($value)) {
-                    $value = [
-                        'label' => $value,
-                    ];
+                    $value = ['label' => $value];
                 }
                 $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value)
                         : $value;
