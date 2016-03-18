@@ -4,6 +4,7 @@ namespace mdm\admin;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii\helpers\ArrayHelper;
 
 /**
  * GUI manager for RBAC.
@@ -84,9 +85,8 @@ class Module extends \yii\base\Module
                 'basePath' => '@mdm/admin/messages'
             ];
         }
-
-        if($this->defaultRoute == 'default' && ($userClass = Yii::$app->getUser()->identityClass)
-            && is_subclass_of($userClass, 'yii\db\BaseActiveRecord')){
+        $userClass = ArrayHelper::getValue(Yii::$app->components, 'user.identityClass');
+        if ($this->defaultRoute == 'default' && $userClass && is_subclass_of($userClass, 'yii\db\BaseActiveRecord')) {
             $this->defaultRoute = 'assignment';
         }
         //user did not define the Navbar?
