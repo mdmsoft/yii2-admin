@@ -120,11 +120,11 @@ class Helper
             }
             while (($pos = strrpos($r, '/')) > 0) {
                 $r = substr($r, 0, $pos);
-                if ($user->can($r . '/*')) {
+                if ($user->can($r . '/*', $params)) {
                     return true;
                 }
             }
-            return $user->can('/*');
+            return $user->can('/*', $params);
         } else {
             $routes = static::getRoutesByUser($userId);
             if (isset($routes[$r])) {
