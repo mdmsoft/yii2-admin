@@ -15,9 +15,9 @@ class m160312_050000_create_user extends Migration
         }
 
         $userTable = Configs::instance()->userTable;
-        
+
         // Check if the table exists
-        if ($this->db->schema->getTableSchema($userTable, true) !== null) {
+        if ($this->db->schema->getTableSchema($userTable, true) === null) {
             $this->createTable($userTable, [
                 'id' => $this->primaryKey(),
                 'username' => $this->string(32)->notNull(),
@@ -35,6 +35,8 @@ class m160312_050000_create_user extends Migration
     public function down()
     {
         $userTable = Configs::instance()->userTable;
-        $this->dropTable($userTable);
+        if ($this->db->schema->getTableSchema($userTable, true) !== null) {
+            $this->dropTable($userTable);
+        }
     }
 }
