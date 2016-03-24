@@ -170,7 +170,7 @@ class AuthItem extends Model
         if ($this->_item) {
             foreach ($items as $name) {
                 $child = $manager->getPermission($name);
-                if ($this->type === Item::TYPE_ROLE && $child === null) {
+                if ($this->type == Item::TYPE_ROLE && $child === null) {
                     $child = $manager->getRole($name);
                 }
                 try {
@@ -199,7 +199,7 @@ class AuthItem extends Model
         if ($this->_item !== null) {
             foreach ($items as $name) {
                 $child = $manager->getPermission($name);
-                if ($this->type === Item::TYPE_ROLE && $child === null) {
+                if ($this->type == Item::TYPE_ROLE && $child === null) {
                     $child = $manager->getRole($name);
                 }
                 try {
@@ -225,7 +225,7 @@ class AuthItem extends Model
     {
         $manager = Yii::$app->getAuthManager();
         $avaliable = [];
-        if ($this->type === Item::TYPE_ROLE) {
+        if ($this->type == Item::TYPE_ROLE) {
             foreach (array_keys($manager->getRoles()) as $name) {
                 $avaliable[$name] = 'role';
             }
