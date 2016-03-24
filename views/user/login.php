@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \mdm\admin\models\form\Login */
 
-$this->title = 'Login';
+$this->title = Yii::t('rbac-admin', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     For new user you can <?= Html::a('signup', ['user/signup']) ?>.
                 </div>
                 <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton(Yii::t('rbac-admin', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
         </div>

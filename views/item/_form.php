@@ -24,7 +24,7 @@ unset($rules[RouteRule::RULE_NAME]);
             <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
         </div>
         <div class="col-sm-6">
-            <?= $form->field($model, 'ruleName')->dropDownList($rules, ['prompt' => ' --select rule']) ?>
+            <?= $form->field($model, 'ruleName')->dropDownList($rules, ['prompt' => '--' . Yii::t('rbac-admin', 'Select Rule')]) ?>
 
             <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
         </div>

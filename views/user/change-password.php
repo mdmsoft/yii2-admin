@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \mdm\admin\models\form\ChangePassword */
 
-$this->title = 'Change Password';
+$this->title = Yii::t('rbac-admin', 'Change Password');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'newPassword')->passwordInput() ?>
                 <?= $form->field($model, 'retypePassword')->passwordInput() ?>
                 <div class="form-group">
-                    <?= Html::submitButton('Change', ['class' => 'btn btn-primary', 'name' => 'change-button']) ?>
+                    <?= Html::submitButton(Yii::t('rbac-admin', 'Change'), ['class' => 'btn btn-primary', 'name' => 'change-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
         </div>
