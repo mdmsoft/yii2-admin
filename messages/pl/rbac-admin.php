@@ -52,7 +52,7 @@ return [
     'Create Rule' => 'Utwórz regułę',
     'Rules' => 'Reguły',
     'Update Rule' => 'Aktualizuj Regułę',
-    'Create Menu' => 'Stwóz Menu',
+    'Create Menu' => 'Stwórz Menu',
     'Menus' => 'Menus',
     'Search' => 'Szukaj',
     'Reset' => 'Reset',
