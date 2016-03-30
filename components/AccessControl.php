@@ -77,8 +77,8 @@ class AccessControl extends \yii\base\ActionFilter
      * Denies the access of the user.
      * The default implementation will redirect the user to the login page if he is a guest;
      * if the user is already logged, a 403 HTTP exception will be thrown.
-     * @param  yii\web\User $user the current user
-     * @throws yii\web\ForbiddenHttpException if the user is already logged in.
+     * @param  User $user the current user
+     * @throws ForbiddenHttpException if the user is already logged in.
      */
     protected function denyAccess($user)
     {
