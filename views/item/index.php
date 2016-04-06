@@ -6,10 +6,11 @@ use mdm\admin\components\RouteRule;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel mdm\admin\models\AuthItemSearch */
+/* @var $searchModel mdm\admin\models\searchs\AuthItem */
 /* @var $context mdm\admin\components\ItemController */
 
-$labels = $this->context->labels();
+$context = $this->context;
+$labels = $context->labels();
 $this->title = Yii::t('rbac-admin', $labels['Items']);
 $this->params['breadcrumbs'][] = $this->title;
 

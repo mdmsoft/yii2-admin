@@ -50,8 +50,8 @@ class ItemController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-                'dataProvider' => $dataProvider,
-                'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -125,13 +125,13 @@ class ItemController extends Controller
         $model = $this->findModel($id);
         $success = $model->addChildren($items);
         Yii::$app->getResponse()->format = 'json';
+
         return array_merge($model->getItems(), ['success' => $success]);
     }
 
     /**
      * Assign or remove items
      * @param string $id
-     * @param string $action
      * @return array
      */
     public function actionRemove($id)
@@ -140,6 +140,7 @@ class ItemController extends Controller
         $model = $this->findModel($id);
         $success = $model->removeChildren($items);
         Yii::$app->getResponse()->format = 'json';
+
         return array_merge($model->getItems(), ['success' => $success]);
     }
 
@@ -153,7 +154,7 @@ class ItemController extends Controller
 
     /**
      * Label use in view
-     * @return array
+     * @throws NotSupportedException
      */
     public function labels()
     {
@@ -174,7 +175,7 @@ class ItemController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
      * @return AuthItem the loaded model
-     * @throws HttpException if the model cannot be found
+     * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {

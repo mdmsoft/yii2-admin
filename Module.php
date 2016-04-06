@@ -73,6 +73,16 @@ class Module extends \yii\base\Module
     private $_normalizeMenus;
 
     /**
+     * @var string Default url for breadcrumb
+     */
+    public $defaultUrl;
+
+    /**
+     * @var string Default url label for breadcrumb
+     */
+    public $defaultUrlLabel;
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -166,8 +176,8 @@ class Module extends \yii\base\Module
             $view = $action->controller->getView();
 
             $view->params['breadcrumbs'][] = [
-                'label' => Yii::t('rbac-admin', 'Admin'),
-                'url' => ['/' . $this->uniqueId]
+                'label' => ($this->defaultUrlLabel ?: Yii::t('rbac-admin', 'Admin')),
+                'url' => ['/' . ($this->defaultUrl ?: $this->uniqueId)]
             ];
             return true;
         }

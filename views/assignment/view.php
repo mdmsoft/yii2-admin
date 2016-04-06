@@ -42,14 +42,16 @@ $animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate
         </div>
         <div class="col-sm-1">
             <br><br>
-            <?=
-            Html::a('&gt;&gt;' . $animateIcon, ['assign', 'id' => (string)$model->id], [
-                'class' => 'btn btn-success btn-assign', 'data-target' => 'avaliable'])
-            ?><br>
-            <?=
-            Html::a('&lt;&lt;' . $animateIcon, ['revoke', 'id' => (string)$model->id], [
-                'class' => 'btn btn-danger btn-assign', 'data-target' => 'assigned'])
-            ?>
+            <?= Html::a('&gt;&gt;' . $animateIcon, ['assign', 'id' => (string)$model->id], [
+                'class' => 'btn btn-success btn-assign',
+                'data-target' => 'avaliable',
+                'title' => Yii::t('rbac-admin', 'Assign')
+            ]) ?><br><br>
+            <?= Html::a('&lt;&lt;' . $animateIcon, ['revoke', 'id' => (string)$model->id], [
+                'class' => 'btn btn-danger btn-assign',
+                'data-target' => 'assigned',
+                'title' => Yii::t('rbac-admin', 'Remove')
+            ]) ?>
         </div>
         <div class="col-sm-5">
             <input class="form-control search" data-target="assigned"
