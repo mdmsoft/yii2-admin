@@ -217,8 +217,7 @@ class AuthItem extends Model
     }
 
     /**
-     *
-     * @param string $id
+     * Get items
      * @return array
      */
     public function getItems()

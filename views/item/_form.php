@@ -9,7 +9,8 @@ use mdm\admin\components\RouteRule;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $context mdm\admin\components\ItemController */
 
-$labels = $this->context->labels();
+$context = $this->context;
+$labels = $context->labels();
 $rules = array_keys(Yii::$app->getAuthManager()->getRules());
 $rules = array_combine($rules, $rules);
 unset($rules[RouteRule::RULE_NAME]);
