@@ -58,9 +58,7 @@ class AuthItem extends Model
     public function rules()
     {
         return [
-            [['ruleName'], 'in',
-                'range' => array_keys(Yii::$app->authManager->getRules()),
-                'message' => 'Rule not exists'],
+            [['ruleName'], 'checkRule'],
             [['name', 'type'], 'required'],
             [['name'], 'unique', 'when' => function() {
                 return $this->isNewRecord || ($this->_item->name != $this->name);
@@ -71,6 +69,9 @@ class AuthItem extends Model
         ];
     }
 
+    /**
+     * Check role is unique
+     */
     public function unique()
     {
         $authManager = Yii::$app->authManager;
@@ -82,6 +83,27 @@ class AuthItem extends Model
                 'value' => $value,
             ];
             $this->addError('name', Yii::$app->getI18n()->format($message, $params, Yii::$app->language));
+        }
+    }
+
+    /**
+     * Check for rule
+     */
+    public function checkRule()
+    {
+        $name = $this->ruleName;
+        if (!Yii::$app->getAuthManager()->getRule($name)) {
+            try {
+                $rule = Yii::createObject($name);
+                if ($rule instanceof \yii\rbac\Rule) {
+                    $rule->name = $name;
+                    Yii::$app->getAuthManager()->add($rule);
+                } else {
+                    $this->addError('ruleName', Yii::t('rbac-admin', 'Invalid rule {value}', ['value' => $name]));
+                }
+            } catch (\Exception $exc) {
+                $this->addError('ruleName', Yii::t('rbac-admin', 'Rule {value} does not exists', ['value' => $name]));
+            }
         }
     }
 
