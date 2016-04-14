@@ -11,7 +11,8 @@ use yii\helpers\Json;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $context mdm\admin\components\ItemController */
 
-$labels = $this->context->labels();
+$context = $this->context;
+$labels = $context->labels();
 $rules = Yii::$app->getAuthManager()->getRules();
 unset($rules[RouteRule::RULE_NAME]);
 $source = Json::htmlEncode(array_keys($rules));
