@@ -11,7 +11,7 @@ $('.btn-assign').click(function () {
     var target = $this.data('target');
     var items = $('select.list[data-target="' + target + '"]').val();
 
-    if (items.length) {
+    if (items && items.length) {
         $this.children('i.glyphicon-refresh-animate').show();
         $.post($this.attr('href'), {items: items}, function (r) {
             updateItems(r);

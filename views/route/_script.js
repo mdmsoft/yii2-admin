@@ -26,7 +26,7 @@ $('.btn-assign').click(function () {
     var target = $this.data('target');
     var routes = $('select.list[data-target="' + target + '"]').val();
 
-    if (routes.length) {
+    if (routes && routes.length) {
         $this.children('i.glyphicon-refresh-animate').show();
         $.post($this.attr('href'), {routes: routes}, function (r) {
             updateRoutes(r);
