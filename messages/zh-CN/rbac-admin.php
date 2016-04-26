@@ -57,7 +57,7 @@ return [
     'Reset' => '重置',
     'Update Menu' => '更新菜单',
     'Menus' => '菜单列表',
-    'Order' => '映射',
+    'Order' => '排序',
     'Class Name' => '类名',
     'Assignment' => '分配',
     'Role' => '角色',
