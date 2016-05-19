@@ -20,12 +20,17 @@ $this->registerJs($this->render('_script.js'));
 
 <div class="menu-form">
     <?php $form = ActiveForm::begin(); ?>
-    <?= Html::activeHiddenInput($model, 'parent', ['id' => 'parent_id']); ?>
+    
     <div class="row">
         <div class="col-sm-6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => 128]) ?>
 
-            <?= $form->field($model, 'parent_name')->textInput(['id' => 'parent_name']) ?>
+             <?php echo $form->field($model, 'parent')->dropdownList(
+                $model::find()->select(["CONCAT(id, ' - ',`name` ) as menuname", 'id'])
+	  ->indexBy('id')->column(),
+                 ['prompt'=>'select parent']
+                 );
+                  ?>
 
             <?= $form->field($model, 'route')->textInput(['id' => 'route']) ?>
         </div>
