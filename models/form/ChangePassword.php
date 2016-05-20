@@ -54,7 +54,7 @@ class ChangePassword extends Model
         if ($this->validate()) {
             /* @var $user User */
             $user = Yii::$app->user->identity;
-            $user->setPassword($this->oldPassword);
+            $user->setPassword($this->newPassword);
             $user->generateAuthKey();
             if ($user->save()) {
                 return true;
