@@ -49,6 +49,11 @@ class Module extends \yii\base\Module
      */
     public $mainLayout = '@mdm/admin/views/layouts/main.php';
     /**
+     * @var string 
+     * @see [[Aliases]]
+     */
+    public $viewPath = '@mdm/admin/views';
+    /**
      * @var array 
      * @see [[menus]]
      */
@@ -109,6 +114,15 @@ class Module extends \yii\base\Module
         if (class_exists('yii\jui\JuiAsset')) {
             Yii::$container->set('mdm\admin\AutocompleteAsset', 'yii\jui\JuiAsset');
         }
+    }
+
+    /**
+     * Get Aliases for views
+     * @return aliases for render
+     */
+    public function getViewPath()
+    {
+        return $this->viewPath;
     }
 
     /**
