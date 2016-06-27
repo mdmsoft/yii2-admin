@@ -17,6 +17,7 @@ use yii\filters\VerbFilter;
  */
 class AssignmentController extends Controller
 {
+    /** @type \yii\web\IdentityInterface  */
     public $userClassName;
     public $idField = 'id';
     public $usernameField = 'username';
@@ -46,7 +47,6 @@ class AssignmentController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'assign' => ['post'],
-                    'assign' => ['post'],
                     'revoke' => ['post'],
                 ],
             ],
@@ -59,7 +59,6 @@ class AssignmentController extends Controller
      */
     public function actionIndex()
     {
-
         if ($this->searchClass === null) {
             $searchModel = new AssignmentSearch;
             $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams(), $this->userClassName, $this->usernameField);
