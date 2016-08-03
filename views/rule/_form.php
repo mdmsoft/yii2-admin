@@ -3,11 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/**
- * @var yii\web\View $this
- * @var mdm\admin\models\AuthItem $model
- * @var yii\widgets\ActiveForm $form
- */
+/* @var $this  yii\web\View */
+/* @var $model mdm\admin\models\BizRule */
+/* @var $form ActiveForm */
 ?>
 
 <div class="auth-item-form">
@@ -25,5 +23,5 @@ use yii\widgets\ActiveForm;
         ?>
     </div>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 </div>

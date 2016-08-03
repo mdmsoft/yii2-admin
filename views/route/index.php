@@ -1,51 +1,71 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Json;
+use mdm\admin\AnimateAsset;
+use yii\web\YiiAsset;
 
-/**
- * @var yii\web\View $this
- */
+/* @var $this yii\web\View */
+/* @var $routes [] */
+
 $this->title = Yii::t('rbac-admin', 'Routes');
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<h1>Routes</h1>
-<p>
-    <?= Html::a(Yii::t('rbac-admin', 'Create route'), ['create'], ['class' => 'btn btn-success']) ?>
-</p>
 
-<div>
-    <div class="col-lg-5">
-        <?= Yii::t('rbac-admin', 'Avaliable') ?>:
-        <?php
-        echo Html::textInput('search_av', '', ['class' => 'role-search', 'data-target' => 'new']).' ';
-        echo Html::a('<span class="glyphicon glyphicon-refresh"></span>', '', ['id'=>'btn-refresh']);
-        echo '<br>';
-        echo Html::listBox('routes', '', $new, [
-            'id' => 'new',
-            'multiple' => true,
-            'size' => 20,
-            'style' => 'width:100%']);
-        ?>
-    </div>
-    <div class="col-lg-1">
-        &nbsp;<br><br>
-        <?php
-        echo Html::a('>>', '#', ['class' => 'btn btn-success', 'data-action' => 'assign']) . '<br>';
-        echo Html::a('<<', '#', ['class' => 'btn btn-success', 'data-action' => 'delete']) . '<br>';
-        ?>
-    </div>
-    <div class="col-lg-5">
-        <?= Yii::t('rbac-admin', 'Assigned') ?>:
-        <?php
-        echo Html::textInput('search_asgn', '', ['class' => 'role-search', 'data-target' => 'exists']) . '<br>';
-        echo Html::listBox('routes', '', $exists, [
-            'id' => 'exists',
-            'multiple' => true,
-            'size' => 20,
-            'style' => 'width:100%',
-            'options' => $existsOptions]);
-        ?>
+AnimateAsset::register($this);
+YiiAsset::register($this);
+$opts = Json::htmlEncode([
+    'routes' => $routes
+]);
+$this->registerJs("var _opts = {$opts};");
+$this->registerJs($this->render('_script.js'));
+$animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>';
+?>
+<h1><?= Html::encode($this->title) ?></h1>
+<div class="row">
+    <div class="col-sm-11">
+        <div class="input-group">
+            <input id="inp-route" type="text" class="form-control"
+                   placeholder="<?= Yii::t('rbac-admin', 'New route(s)') ?>">
+            <span class="input-group-btn">
+                <?= Html::a(Yii::t('rbac-admin', 'Add') . $animateIcon, ['create'], [
+                    'class' => 'btn btn-success',
+                    'id' => 'btn-new'
+                ]) ?>
+            </span>
+        </div>
     </div>
 </div>
-<?php
-$this->render('_script');
+<p>&nbsp;</p>
+<div class="row">
+    <div class="col-sm-5">
+        <div class="input-group">
+            <input class="form-control search" data-target="avaliable"
+                   placeholder="<?= Yii::t('rbac-admin', 'Search for avaliable') ?>">
+            <span class="input-group-btn">
+                <?= Html::a('<span class="glyphicon glyphicon-refresh"></span>', ['refresh'], [
+                    'class' => 'btn btn-default',
+                    'id' => 'btn-refresh'
+                ]) ?>
+            </span>
+        </div>
+        <select multiple size="20" class="form-control list" data-target="avaliable"></select>
+    </div>
+    <div class="col-sm-1">
+        <br><br>
+        <?= Html::a('&gt;&gt;' . $animateIcon, ['assign'], [
+            'class' => 'btn btn-success btn-assign',
+            'data-target' => 'avaliable',
+            'title' => Yii::t('rbac-admin', 'Assign')
+        ]) ?><br><br>
+        <?= Html::a('&lt;&lt;' . $animateIcon, ['remove'], [
+            'class' => 'btn btn-danger btn-assign',
+            'data-target' => 'assigned',
+            'title' => Yii::t('rbac-admin', 'Remove')
+        ]) ?>
+    </div>
+    <div class="col-sm-5">
+        <input class="form-control search" data-target="assigned"
+               placeholder="<?= Yii::t('rbac-admin', 'Search for assigned') ?>">
+        <select multiple size="20" class="form-control list" data-target="assigned"></select>
+    </div>
+</div>

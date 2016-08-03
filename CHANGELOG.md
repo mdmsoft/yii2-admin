@@ -1,7 +1,20 @@
 Yii2 Admin Change Log
 ==========================
 
-1.0.4 Under Development
+2.5
+-----
+
+- Enh: Add code testing (mdmunir).
+- Enh: Add more documentation (mdmunir).
+
+2.0
+---------------------
+
+- Chg: Remove dependenci to `yiisoft/yii2-jui` (mdmunir).
+- Chg: Add asset bundle for jui autocomplete (mdmunir).
+
+
+1.0.4
 -----------------------
 
 - Bug: #102: Unique validation of the permission and role (mdmunir).

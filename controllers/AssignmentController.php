@@ -8,10 +8,6 @@ use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Html;
-use mdm\admin\components\MenuHelper;
-use yii\web\Response;
-use yii\rbac\Item;
 
 /**
  * AssignmentController implements the CRUD actions for Assignment model.
@@ -24,7 +20,9 @@ class AssignmentController extends Controller
     public $userClassName;
     public $idField = 'id';
     public $usernameField = 'username';
+    public $fullnameField;
     public $searchClass;
+    public $extraColumns = [];
 
     /**
      * @inheritdoc
@@ -34,7 +32,7 @@ class AssignmentController extends Controller
         parent::init();
         if ($this->userClassName === null) {
             $this->userClassName = Yii::$app->getUser()->identityClass;
-            $this->userClassName = $this->userClassName ? : 'common\models\User';
+            $this->userClassName = $this->userClassName ? : 'mdm\admin\models\User';
         }
     }
 
@@ -48,6 +46,8 @@ class AssignmentController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'assign' => ['post'],
+                    'assign' => ['post'],
+                    'revoke' => ['post'],
                 ],
             ],
         ];
@@ -62,18 +62,19 @@ class AssignmentController extends Controller
 
         if ($this->searchClass === null) {
             $searchModel = new AssignmentSearch;
+            $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams(), $this->userClassName, $this->usernameField);
         } else {
             $class = $this->searchClass;
             $searchModel = new $class;
+            $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
         }
-
-        $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
 
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
                 'idField' => $this->idField,
                 'usernameField' => $this->usernameField,
+                'extraColumns' => $this->extraColumns,
         ]);
     }
 
@@ -85,118 +86,41 @@ class AssignmentController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $authManager = Yii::$app->authManager;
-        $avaliable = [];
-        $assigned = [];
-        foreach ($authManager->getRolesByUser($id) as $role) {
-            $type = $role->type;
-            $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
-        }
-        foreach ($authManager->getRoles() as $role) {
-            if (!isset($assigned['Roles'][$role->name])) {
-                $avaliable['Roles'][$role->name] = $role->name;
-            }
-        }
-        foreach ($authManager->getPermissions() as $role) {
-            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
-                $avaliable['Permissions'][$role->name] = $role->name;
-            }
-        }
 
         return $this->render('view', [
                 'model' => $model,
-                'avaliable' => $avaliable,
-                'assigned' => $assigned,
                 'idField' => $this->idField,
                 'usernameField' => $this->usernameField,
+                'fullnameField' => $this->fullnameField,
         ]);
     }
 
     /**
-     * Assign or revoke assignment to user
-     * @param  integer $id
-     * @param  string  $action
-     * @return mixed
+     * Assign items
+     * @param string $id
+     * @return array
      */
-    public function actionAssign($id, $action)
+    public function actionAssign($id)
     {
-        $post = Yii::$app->request->post();
-        $roles = $post['roles'];
-        $manager = Yii::$app->authManager;
-        $error = [];
-        if ($action == 'assign') {
-            foreach ($roles as $name) {
-                try {
-                    $item = $manager->getRole($name);
-                    $item = $item ? : $manager->getPermission($name);
-                    $manager->assign($item, $id);
-                } catch (\Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
-            }
-        } else {
-            foreach ($roles as $name) {
-                try {
-                    $item = $manager->getRole($name);
-                    $item = $item ? : $manager->getPermission($name);
-                    $manager->revoke($item, $id);
-                } catch (\Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
-            }
-        }
-        MenuHelper::invalidate();
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        return [$this->actionRoleSearch($id, 'avaliable', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
-            $error];
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = new Assignment($id);
+        $success = $model->assign($items);
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($model->getItems(), ['success' => $success]);
     }
 
     /**
-     * Search roles of user
-     * @param  integer $id
-     * @param  string  $target
-     * @param  string  $term
-     * @return string
+     * Assign items
+     * @param string $id
+     * @return array
      */
-    public function actionRoleSearch($id, $target, $term = '')
+    public function actionRevoke($id)
     {
-        $authManager = Yii::$app->authManager;
-        $avaliable = [];
-        $assigned = [];
-        foreach ($authManager->getRolesByUser($id) as $role) {
-            $type = $role->type;
-            $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
-        }
-        foreach ($authManager->getRoles() as $role) {
-            if (!isset($assigned['Roles'][$role->name])) {
-                $avaliable['Roles'][$role->name] = $role->name;
-            }
-        }
-        foreach ($authManager->getPermissions() as $role) {
-            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
-                $avaliable['Permissions'][$role->name] = $role->name;
-            }
-        }
-
-        $result = [];
-        $var = ${$target};
-        if (!empty($term)) {
-            foreach (['Roles', 'Permissions'] as $type) {
-                if (isset($var[$type])) {
-                    foreach ($var[$type] as $role) {
-                        if (strpos($role, $term) !== false) {
-                            $result[$type][$role] = $role;
-                        }
-                    }
-                }
-            }
-        } else {
-            $result = $var;
-        }
-
-        return Html::renderSelectOptions('', $result);
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = new Assignment($id);
+        $success = $model->revoke($items);
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($model->getItems(), ['success' => $success]);
     }
 
     /**
@@ -209,8 +133,8 @@ class AssignmentController extends Controller
     protected function findModel($id)
     {
         $class = $this->userClassName;
-        if (($model = $class::findIdentity($id)) !== null) {
-            return $model;
+        if (($user = $class::findIdentity($id)) !== null) {
+            return new Assignment($id, $user);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

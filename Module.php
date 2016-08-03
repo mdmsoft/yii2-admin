@@ -4,6 +4,7 @@ namespace mdm\admin;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii\helpers\ArrayHelper;
 
 /**
  * GUI manager for RBAC.
@@ -11,7 +12,7 @@ use yii\helpers\Inflector;
  * Use [[\yii\base\Module::$controllerMap]] to change property of controller. 
  * To change listed menu, use property [[$menus]].
  * 
- * ~~~
+ * ```
  * 'layout' => 'left-menu', // default to null mean use application layout.
  * 'controllerMap' => [
  *     'assignment' => [
@@ -26,7 +27,7 @@ use yii\helpers\Inflector;
  *     ],
  *     'route' => null, // disable menu
  * ],
- * ~~~
+ * ```
  * 
  * @property string $mainLayout Main layout using for module. Default to layout of parent module.
  * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.
@@ -39,21 +40,25 @@ use yii\helpers\Inflector;
 class Module extends \yii\base\Module
 {
     /**
-     * @inheritdoc
+     * @var array Nav bar items.
      */
-    public $defaultRoute = 'assignment';
-
+    public $navbar;
+    /**
+     * @var string Main layout using for module. Default to layout of parent module.
+     * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.
+     */
+    public $mainLayout = '@mdm/admin/views/layouts/main.php';
     /**
      * @var array 
-     * @see [[items]]
+     * @see [[menus]]
      */
     private $_menus = [];
-
     /**
      * @var array 
-     * @see [[items]]
+     * @see [[menus]]
      */
     private $_coreItems = [
+        'user' => 'Users',
         'assignment' => 'Assignments',
         'role' => 'Roles',
         'permission' => 'Permissions',
@@ -61,7 +66,6 @@ class Module extends \yii\base\Module
         'rule' => 'Rules',
         'menu' => 'Menus',
     ];
-
     /**
      * @var array 
      * @see [[items]]
@@ -69,16 +73,14 @@ class Module extends \yii\base\Module
     private $_normalizeMenus;
 
     /**
-     * Nav bar items
-     * @var array  
+     * @var string Default url for breadcrumb
      */
-    public $navbar;
+    public $defaultUrl;
 
     /**
-     * @var string Main layout using for module. Default to layout of parent module.
-     * Its used when `layout` set to 'left-menu', 'right-menu' or 'top-menu'.
+     * @var string Default url label for breadcrumb
      */
-    public $mainLayout = '@mdm/admin/views/layouts/main.php';
+    public $defaultUrlLabel;
 
     /**
      * @inheritdoc
@@ -86,17 +88,26 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        Yii::$app->i18n->translations['rbac-admin'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en',
-            'basePath' => '@mdm/admin/messages'
-        ];
+        if (!isset(Yii::$app->i18n->translations['rbac-admin'])) {
+            Yii::$app->i18n->translations['rbac-admin'] = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' => 'en',
+                'basePath' => '@mdm/admin/messages'
+            ];
+        }
+        $userClass = ArrayHelper::getValue(Yii::$app->components, 'user.identityClass');
+        if ($this->defaultRoute == 'default' && $userClass && is_subclass_of($userClass, 'yii\db\BaseActiveRecord')) {
+            $this->defaultRoute = 'assignment';
+        }
         //user did not define the Navbar?
-        if ($this->navbar === null) {
+        if ($this->navbar === null && Yii::$app instanceof \yii\web\Application) {
             $this->navbar = [
-                ['label' => Yii::t('rbac-admin', 'Help'), 'url' => 'https://github.com/mdmsoft/yii2-admin/blob/master/docs/guide/basic-usage.md'],
+                ['label' => Yii::t('rbac-admin', 'Help'), 'url' => ['default/index']],
                 ['label' => Yii::t('rbac-admin', 'Application'), 'url' => Yii::$app->homeUrl]
             ];
+        }
+        if (class_exists('yii\jui\JuiAsset')) {
+            Yii::$container->set('mdm\admin\AutocompleteAsset', 'yii\jui\JuiAsset');
         }
     }
 
@@ -110,9 +121,15 @@ class Module extends \yii\base\Module
             $mid = '/' . $this->getUniqueId() . '/';
             // resolve core menus
             $this->_normalizeMenus = [];
+
             $config = components\Configs::instance();
+            $conditions = [
+                'user' => $config->db && $config->db->schema->getTableSchema($config->userTable),
+                'assignment' => ($userClass = Yii::$app->getUser()->identityClass) && is_subclass_of($userClass, 'yii\db\BaseActiveRecord'),
+                'menu' => $config->db && $config->db->schema->getTableSchema($config->menuTable),
+            ];
             foreach ($this->_coreItems as $id => $lable) {
-                if ($id !== 'menu' || ($config->db !== null && $config->db->schema->getTableSchema($config->menuTable) !== null)) {
+                if (!isset($conditions[$id]) || $conditions[$id]) {
                     $this->_normalizeMenus[$id] = ['label' => Yii::t('rbac-admin', $lable), 'url' => [$mid . $id]];
                 }
             }
@@ -124,16 +141,15 @@ class Module extends \yii\base\Module
             foreach ($this->_menus as $id => $value) {
                 if (empty($value)) {
                     unset($this->_normalizeMenus[$id]);
-                } else {
-                    if (is_string($value)) {
-                        $value = [
-                            'label' => $value,
-                        ];
-                    }
-                    $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value) : $value;
-                    if (!isset($this->_normalizeMenus[$id]['url'])) {
-                        $this->_normalizeMenus[$id]['url'] = [$mid . $id];
-                    }
+                    continue;
+                }
+                if (is_string($value)) {
+                    $value = ['label' => $value];
+                }
+                $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value)
+                        : $value;
+                if (!isset($this->_normalizeMenus[$id]['url'])) {
+                    $this->_normalizeMenus[$id]['url'] = [$mid . $id];
                 }
             }
         }
@@ -148,5 +164,23 @@ class Module extends \yii\base\Module
     {
         $this->_menus = array_merge($this->_menus, $menus);
         $this->_normalizeMenus = null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            /* @var $action \yii\base\Action */
+            $view = $action->controller->getView();
+
+            $view->params['breadcrumbs'][] = [
+                'label' => ($this->defaultUrlLabel ?: Yii::t('rbac-admin', 'Admin')),
+                'url' => ['/' . ($this->defaultUrl ?: $this->uniqueId)]
+            ];
+            return true;
+        }
+        return false;
     }
 }
