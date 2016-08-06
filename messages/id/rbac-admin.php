@@ -19,7 +19,7 @@
 return [
     'Activate' => 'Mengaktifkan',
     'Add' => 'Tambah',
-    'Assignments' => 'Tugas',
+    'Assignments' => 'Penugasan',
     'Users' => 'Pengguna',
     'User' => 'Pemakai',
     'Change' => 'Ganti',
