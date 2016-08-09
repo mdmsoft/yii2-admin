@@ -5,6 +5,7 @@ namespace mdm\admin\models\searchs;
 use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
+use mdm\admin\components\Configs;
 use yii\rbac\Item;
 
 /**
@@ -57,7 +58,7 @@ class AuthItem extends Model
     public function search($params)
     {
         /* @var \yii\rbac\Manager $authManager */
-        $authManager = Yii::$app->getAuthManager();
+        $authManager = Configs::authManager();
         if ($this->type == Item::TYPE_ROLE) {
             $items = $authManager->getRoles();
         } else {

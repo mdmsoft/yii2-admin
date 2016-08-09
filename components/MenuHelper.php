@@ -67,7 +67,7 @@ class MenuHelper
         $config = Configs::instance();
 
         /* @var $manager \yii\rbac\BaseManager */
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $menus = Menu::find()->asArray()->indexBy('id')->all();
         $key = [__METHOD__, $userId, $manager->defaultRoles];
         $cache = $config->cache;

@@ -27,7 +27,7 @@ class Route extends \yii\base\Object
      */
     public function addNew($routes)
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         foreach ($routes as $route) {
             try {
                 $r = explode('&', $route);
@@ -64,7 +64,7 @@ class Route extends \yii\base\Object
      */
     public function remove($routes)
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         foreach ($routes as $route) {
             try {
                 $item = $manager->createPermission('/' . trim($route, '/'));
@@ -82,7 +82,7 @@ class Route extends \yii\base\Object
      */
     public function getRoutes()
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $routes = $this->getAppRoutes();
         $exists = [];
         foreach (array_keys($manager->getPermissions()) as $name) {
@@ -260,8 +260,8 @@ class Route extends \yii\base\Object
      */
     protected function setDefaultRule()
     {
-        if (Yii::$app->getAuthManager()->getRule(RouteRule::RULE_NAME) === null) {
-            Yii::$app->getAuthManager()->add(new RouteRule());
+        if (Configs::authManager()->getRule(RouteRule::RULE_NAME) === null) {
+            Configs::authManager()->add(new RouteRule());
         }
     }
 }

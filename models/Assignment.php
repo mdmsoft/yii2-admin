@@ -5,6 +5,7 @@ namespace mdm\admin\models;
 use Yii;
 use yii\base\Object;
 use mdm\admin\components\Helper;
+use mdm\admin\components\Configs;
 
 /**
  * Description of Assignment
@@ -40,7 +41,7 @@ class Assignment extends Object
      */
     public function assign($items)
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $success = 0;
         foreach ($items as $name) {
             try {
@@ -63,7 +64,7 @@ class Assignment extends Object
      */
     public function revoke($items)
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $success = 0;
         foreach ($items as $name) {
             try {
@@ -85,7 +86,7 @@ class Assignment extends Object
      */
     public function getItems()
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $avaliable = [];
         foreach (array_keys($manager->getRoles()) as $name) {
             $avaliable[$name] = 'role';

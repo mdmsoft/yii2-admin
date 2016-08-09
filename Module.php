@@ -40,6 +40,10 @@ use yii\helpers\ArrayHelper;
 class Module extends \yii\base\Module
 {
     /**
+     * @inheritdoc
+     */
+    public $defaultRoute = 'assignment';
+    /**
      * @var array Nav bar items.
      */
     public $navbar;
@@ -95,10 +99,7 @@ class Module extends \yii\base\Module
                 'basePath' => '@mdm/admin/messages'
             ];
         }
-        $userClass = ArrayHelper::getValue(Yii::$app->components, 'user.identityClass');
-        if ($this->defaultRoute == 'default' && $userClass && is_subclass_of($userClass, 'yii\db\BaseActiveRecord')) {
-            $this->defaultRoute = 'assignment';
-        }
+        
         //user did not define the Navbar?
         if ($this->navbar === null && Yii::$app instanceof \yii\web\Application) {
             $this->navbar = [

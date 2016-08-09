@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use mdm\admin\components\RouteRule;
+use mdm\admin\components\Configs;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,7 +15,7 @@ $labels = $context->labels();
 $this->title = Yii::t('rbac-admin', $labels['Items']);
 $this->params['breadcrumbs'][] = $this->title;
 
-$rules = array_keys(Yii::$app->getAuthManager()->getRules());
+$rules = array_keys(Configs::authManager()->getRules());
 $rules = array_combine($rules, $rules);
 unset($rules[RouteRule::RULE_NAME]);
 ?>

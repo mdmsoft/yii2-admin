@@ -108,7 +108,7 @@ class ItemController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->getAuthManager()->remove($model->item);
+        Configs::authManager()->remove($model->item);
         Helper::invalidate();
 
         return $this->redirect(['index']);
@@ -179,7 +179,7 @@ class ItemController extends Controller
      */
     protected function findModel($id)
     {
-        $auth = Yii::$app->getAuthManager();
+        $auth = Configs::authManager();
         $item = $this->type === Item::TYPE_ROLE ? $auth->getRole($id) : $auth->getPermission($id);
         if ($item) {
             return new AuthItem($item);

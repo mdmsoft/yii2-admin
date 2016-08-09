@@ -7,6 +7,7 @@ use yii\rbac\Item;
 use yii\helpers\Json;
 use yii\base\Model;
 use mdm\admin\components\Helper;
+use mdm\admin\components\Configs;
 
 /**
  * This is the model class for table "tbl_auth_item".
@@ -74,7 +75,7 @@ class AuthItem extends Model
      */
     public function unique()
     {
-        $authManager = Yii::$app->authManager;
+        $authManager = Configs::authManager();
         $value = $this->name;
         if ($authManager->getRole($value) !== null || $authManager->getPermission($value) !== null) {
             $message = Yii::t('yii', '{attribute} "{value}" has already been taken.');
@@ -92,12 +93,12 @@ class AuthItem extends Model
     public function checkRule()
     {
         $name = $this->ruleName;
-        if (!Yii::$app->getAuthManager()->getRule($name)) {
+        if (!Configs::authManager()->getRule($name)) {
             try {
                 $rule = Yii::createObject($name);
                 if ($rule instanceof \yii\rbac\Rule) {
                     $rule->name = $name;
-                    Yii::$app->getAuthManager()->add($rule);
+                    Configs::authManager()->add($rule);
                 } else {
                     $this->addError('ruleName', Yii::t('rbac-admin', 'Invalid rule "{value}"', ['value' => $name]));
                 }
@@ -137,7 +138,7 @@ class AuthItem extends Model
      */
     public static function find($id)
     {
-        $item = Yii::$app->authManager->getRole($id);
+        $item = Configs::authManager()->getRole($id);
         if ($item !== null) {
             return new self($item);
         }
@@ -152,7 +153,7 @@ class AuthItem extends Model
     public function save()
     {
         if ($this->validate()) {
-            $manager = Yii::$app->authManager;
+            $manager = Configs::authManager();
             if ($this->_item === null) {
                 if ($this->type == Item::TYPE_ROLE) {
                     $this->_item = $manager->createRole($this->name);
@@ -187,7 +188,7 @@ class AuthItem extends Model
      */
     public function addChildren($items)
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $success = 0;
         if ($this->_item) {
             foreach ($items as $name) {
@@ -216,7 +217,7 @@ class AuthItem extends Model
      */
     public function removeChildren($items)
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $success = 0;
         if ($this->_item !== null) {
             foreach ($items as $name) {
@@ -244,7 +245,7 @@ class AuthItem extends Model
      */
     public function getItems()
     {
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $avaliable = [];
         if ($this->type == Item::TYPE_ROLE) {
             foreach (array_keys($manager->getRoles()) as $name) {

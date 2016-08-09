@@ -23,7 +23,7 @@ class Helper
     {
         if (self::$_routes === null) {
             self::$_routes = [];
-            $manager = Yii::$app->getAuthManager();
+            $manager = Configs::authManager();
             foreach ($manager->getPermissions() as $item) {
                 if ($item->name[0] === '/') {
                     self::$_routes[$item->name] = $item->name;
@@ -40,7 +40,7 @@ class Helper
     protected static function getDefaultRoutes()
     {
         if (self::$_defaultRoutes === null) {
-            $manager = Yii::$app->getAuthManager();
+            $manager = Configs::authManager();
             $roles = $manager->defaultRoles;
             $cache = Configs::cache();
             if ($cache && ($routes = $cache->get($roles)) !== false) {
@@ -78,7 +78,7 @@ class Helper
                 self::$_userRoutes[$userId] = $routes;
             } else {
                 $routes = static::getDefaultRoutes();
-                $manager = Yii::$app->getAuthManager();
+                $manager = Configs::authManager();
                 foreach ($manager->getPermissionsByUser($userId) as $item) {
                     if ($item->name[0] === '/') {
                         $routes[$item->name] = true;

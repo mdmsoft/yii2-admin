@@ -5,6 +5,7 @@ namespace mdm\admin\components;
 use Yii;
 use yii\db\Connection;
 use yii\caching\Cache;
+use yii\rbac\ManagerInterface;
 use yii\helpers\ArrayHelper;
 use yii\di\Instance;
 
@@ -43,48 +44,69 @@ class Configs extends \yii\base\Object
     const CACHE_TAG = 'mdm.admin';
 
     /**
+     * @var ManagerInterface .
+     */
+    public $authManager = 'authManager';
+
+    /**
      * @var Connection Database connection.
      */
     public $db = 'db';
+
+    /**
+     * @var Connection Database connection.
+     */
+    public $userDb = 'db';
+
     /**
      * @var Cache Cache component.
      */
     public $cache = 'cache';
+
     /**
      * @var integer Cache duration. Default to a hour.
      */
     public $cacheDuration = 3600;
+
     /**
      * @var string Menu table name.
      */
     public $menuTable = '{{%menu}}';
+
     /**
      * @var string Menu table name.
      */
     public $userTable = '{{%user}}';
+
     /**
      * @var integer Default status user signup. 10 mean active.
      */
     public $defaultUserStatus = 10;
+
     /**
      * @var boolean If true then AccessControl only check if route are registered.
      */
     public $onlyRegisteredRoute = false;
+
     /**
      * @var boolean If false then AccessControl will check without Rule.
      */
     public $strict = true;
+
     /**
      * @var array 
      */
     public $options;
+
     /**
      * @var self Instance of self
      */
     private static $_instance;
     private static $_classes = [
         'db' => 'yii\db\Connection',
+        'userDb' => 'yii\db\Connection',
         'cache' => 'yii\caching\Cache',
+        'authManager' => 'yii\rbac\ManagerInterface'
     ];
 
     /**
@@ -143,6 +165,14 @@ class Configs extends \yii\base\Object
     }
 
     /**
+     * @return Connection
+     */
+    public static function userDb()
+    {
+        return static::instance()->userDb;
+    }
+
+    /**
      * @return Cache
      */
     public static function cache()
@@ -150,6 +180,13 @@ class Configs extends \yii\base\Object
         return static::instance()->cache;
     }
 
+    /**
+     * @return ManagerInterface
+     */
+    public static function authManager()
+    {
+        return static::instance()->authManager;
+    }
     /**
      * @return integer
      */
