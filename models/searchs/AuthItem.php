@@ -68,19 +68,13 @@ class AuthItem extends Model
         }
         $this->load($params);
         if ($this->validate()) {
-            
-            $strtolower = "strtolower";
-            $strpos = "strpos";
-            if (extension_loaded('mbstring')) {
-                $strtolower = "mb_strtolower";
-                $strpos = "mb_strpos";
-            }
-            $search = $strtolower(trim($this->name));
-            $desc = $strtolower(trim($this->description));
+
+            $search = mb_strtolower(trim($this->name));
+            $desc = mb_strtolower(trim($this->description));
             $ruleName = $this->ruleName;
             foreach ($items as $name => $item) {
-                $f = (empty($search) || $strpos($strtolower($item->name), $search) !== false) &&
-                    (empty($desc) || $strpos($strtolower($item->description), $desc) !== false) &&
+                $f = (empty($search) || mb_strpos(mb_strtolower($item->name), $search) !== false) &&
+                    (empty($desc) || mb_strpos(mb_strtolower($item->description), $desc) !== false) &&
                     (empty($ruleName) || $item->ruleName == $ruleName);
                 if (!$f) {
                     unset($items[$name]);
