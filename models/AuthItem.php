@@ -248,17 +248,30 @@ class AuthItem extends Model
         $manager = Configs::authManager();
         $avaliable = [];
         if ($this->type == Item::TYPE_ROLE) {
-            foreach (array_keys($manager->getRoles()) as $name) {
-                $avaliable[$name] = 'role';
+            foreach ($manager->getRoles() as $item) {
+                $avaliable[$item->name] = [
+                    'type' => 'role',
+                    'desc' => $item->description,
+                ];
             }
         }
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            $avaliable[$name] = $name[0] == '/' ? 'route' : 'permission';
+
+        foreach ($manager->getPermissions() as $item) {
+            $avaliable[$item->name] = [
+                'type' => $item->name[0] == '/' ? 'route' : 'permission'
+            ];
+            if ($item->name[0] != '/') {
+                $avaliable[$item->name]['desc'] = $item->description;
+            }
+
         }
 
         $assigned = [];
         foreach ($manager->getChildren($this->_item->name) as $item) {
-            $assigned[$item->name] = $item->type == 1 ? 'role' : ($item->name[0] == '/' ? 'route' : 'permission');
+            $assigned[$item->name] = [
+                'type' => $item->type == 1 ? 'role' : ($item->name[0] == '/' ? 'route' : 'permission'),
+                'desc' => $item->description,
+            ];
             unset($avaliable[$item->name]);
         }
         unset($avaliable[$this->name]);

@@ -32,13 +32,18 @@ function search(target) {
     var q = $('.search[data-target="' + target + '"]').val();
 
     var groups = {
-        role: [$('<optgroup label="Roles">'), false],
-        permission: [$('<optgroup label="Permission">'), false],
+        role: [$('<optgroup label="'+_labels['Roles']+'">'), false],
+        permission: [$('<optgroup label="'+_labels['Permissions']+'">'), false],
     };
+
     $.each(_opts.items[target], function (name, group) {
         if (name.indexOf(q) >= 0) {
-            $('<option>').text(name).val(name).appendTo(groups[group][0]);
-            groups[group][1] = true;
+            var text = name;
+            if (group['desc']!=null) {
+                text += ' ('+group['desc']+')';
+            }
+            $('<option>').text(text).val(name).appendTo(groups[group['type']][0]);
+            groups[group['type']][1] = true;
         }
     });
     $.each(groups, function () {

@@ -88,13 +88,19 @@ class Assignment extends Object
     {
         $manager = Configs::authManager();
         $avaliable = [];
-        foreach (array_keys($manager->getRoles()) as $name) {
-            $avaliable[$name] = 'role';
+        foreach ($manager->getRoles() as $item) {
+            $avaliable[$item->name] = [
+                'type' => 'role',
+                'desc' => $item->description,
+            ];
         }
 
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            if ($name[0] != '/') {
-                $avaliable[$name] = 'permission';
+        foreach ($manager->getPermissions() as $item) {
+            if ($item->name[0] != '/') {
+                $avaliable[$item->name] = [
+                    'type' => 'permission',
+                    'desc' => $item->description,
+                ];
             }
         }
 
