@@ -19,7 +19,7 @@ return [
     'Assignments' => '分配',
     'Users' => '用户列表',
     'User' => '用户',
-    'Avaliable' => '可用',
+    'Available' => '可用',
     'Assigned' => '分配',
     'Create' => '新增',
     'Update' => '更新',

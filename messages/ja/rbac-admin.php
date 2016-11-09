@@ -23,7 +23,7 @@ return [
     'Assigned' => '割当て済み',
     'Assignment' => '権限の割当て',
     'Assignments' => '権限の割当て',
-    'Avaliable' => '割当て可能',
+    'Available' => '割当て可能',
     'Class Name' => 'クラス名',
     'Create' => '作成',
     'Create Menu' => 'メニューを作成',

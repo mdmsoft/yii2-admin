@@ -23,7 +23,7 @@ return [
     'Are you sure to delete this item?' => 'Bạn có chắc chắn xóa mục này?',
     'Assigned' => 'Giao',
     'Assignments' => 'Cấp quyền',
-    'Avaliable' => 'Có sẵn',
+    'Available' => 'Có sẵn',
     'Class Name' => 'Tên lớp',
     'Create' => 'Tạo mới',
     'Create Menu' => 'tạo menu',

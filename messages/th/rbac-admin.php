@@ -19,7 +19,7 @@ return [
     'Assignments' => 'การกำหนด',
     'Users' => 'ผู้ใช้งาน',
     'User' => 'ผู้ใช้งาน',
-    'Avaliable' => 'ที่มีอยู่',
+    'Available' => 'ที่มีอยู่',
     'Assigned' => 'ที่กำหนดให้',
     'Create' => 'สร้าง',
     'Update' => 'ปรับปรุง',

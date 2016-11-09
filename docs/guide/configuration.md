@@ -108,24 +108,24 @@ To do that, change them via `controllerMap` property. For example:
 ```
 
 - Required properties
-    - **userClassName** Fully qualified class name of your User model  
+    - **userClassName** Fully qualified class name of your User model
         Usually you don't need to specify it explicitly, since the module will detect it automatically
-    - **idField** ID field of your User model  
-        The field that corresponds to Yii::$app->user->id.  
+    - **idField** ID field of your User model
+        The field that corresponds to Yii::$app->user->id.
         The default value is 'id'.
-    - **usernameField** User name field of your User model  
+    - **usernameField** User name field of your User model
         The default value is 'username'.
 - Optional properties
-    - **fullnameField** The field that specifies the full name of the user used in "view" page.  
-        This can either be a field of the user model or of a related model (e.g. profile model).  
-        When the field is of a related model, the name should be specified with a dot-separated notation (e.g. 'profile.full_name').  
+    - **fullnameField** The field that specifies the full name of the user used in "view" page.
+        This can either be a field of the user model or of a related model (e.g. profile model).
+        When the field is of a related model, the name should be specified with a dot-separated notation (e.g. 'profile.full_name').
         The default value is null.
-    - **extraColumns** The definition of the extra columns used in the "index" page  
-        This should be an array of the definitions of the grid view columns.  
-        You may include the attributes of the related models as you see in the example above.  
+    - **extraColumns** The definition of the extra columns used in the "index" page
+        This should be an array of the definitions of the grid view columns.
+        You may include the attributes of the related models as you see in the example above.
         The default value is an empty array.
-    - **searchClass** Fully qualified class name of your model for searching the user model  
-        You have to supply the proper search model in order to enable the filtering and the sorting by the extra columns.  
+    - **searchClass** Fully qualified class name of your model for searching the user model
+        You have to supply the proper search model in order to enable the filtering and the sorting by the extra columns.
         The default value is null.
 
 
@@ -143,7 +143,7 @@ By specifying the `layout` property, you can use one of the built-in layouts of 
         'admin' => [
             ...
             'layout' => 'left-menu', // defaults to null, using the application's layout without the menu
-                                     // other avaliable values are 'right-menu' and 'top-menu'
+                                     // other available values are 'right-menu' and 'top-menu'
         ],
         ...
     ],

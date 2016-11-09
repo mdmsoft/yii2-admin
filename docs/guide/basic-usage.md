@@ -1,7 +1,7 @@
 Admin Module
 ------------
 - `layout` default to 'left-menu'. Set to null if you want use your current layout.
-- `menus` Change listed menu avaliable for module.
+- `menus` Change listed menu available for module.
 
 Using module in configuration
 
@@ -25,7 +25,7 @@ Using module in configuration
             'assignment' => [
                 'label' => 'Grand Access' // change label
             ],
-            'route' => null, // disable menu route 
+            'route' => null, // disable menu route
         ]
 	],
 ],
@@ -33,8 +33,8 @@ Using module in configuration
 
 Access Control Filter
 ---------------------
-Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some simple access control. 
-As its name indicates, ACF is an action filter that can be attached to a controller or a module as a behavior. 
+Access Control Filter (ACF) is a simple authorization method that is best used by applications that only need some simple access control.
+As its name indicates, ACF is an action filter that can be attached to a controller or a module as a behavior.
 ACF will check a set of access rules to make sure the current user can access the requested action.
 
 The code below shows how to use ACF which is implemented as `mdm\admin\components\AccessControl`:
@@ -43,7 +43,7 @@ The code below shows how to use ACF which is implemented as `mdm\admin\component
 'as access' => [
     'class' => 'mdm\admin\components\AccessControl',
     'allowActions' => [
-        'site/login', 
+        'site/login',
         'site/error',
     ]
 ]
