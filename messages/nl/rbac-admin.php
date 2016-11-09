@@ -20,7 +20,7 @@ return [
     'Assignments' => 'Toekenning',
     'Users' => 'Gebruikers',
     'User' => 'Gebruiker',
-    'Avaliable' => 'Beschikbaar',
+    'Available' => 'Beschikbaar',
     'Assigned' => 'Toegekend',
     'Create' => 'Aanmaken',
     'Update' => 'Opslaan',

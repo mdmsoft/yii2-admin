@@ -20,7 +20,7 @@ return [
     'Assignments' => 'Dodjeljivanje prava',
     'Users' => 'Korisnici',
     'User' => 'Korisnik',
-    'Avaliable' => 'Dostupno',
+    'Available' => 'Dostupno',
     'Assigned' => 'Dodjeljeno',
     'Create' => 'Kreiraj',
     'Update' => 'Ažuriraj',

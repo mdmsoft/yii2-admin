@@ -1,3 +1,7 @@
+# sublime project files
+*.sublime-project
+*.sublime-workspace
+
 # phpstorm project files
 .idea
 

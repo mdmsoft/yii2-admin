@@ -20,7 +20,7 @@ return [
     'Assignments' => 'Назначения',
     'Users' => 'Пользователи',
     'User' => 'Пользователь',
-    'Avaliable' => 'Доступно',
+    'Available' => 'Доступно',
     'Assigned' => 'Назначено',
     'Create' => 'Создать',
     'Update' => 'Обновить',
@@ -65,11 +65,11 @@ return [
     'Menu' => 'Меню',
     'Help' => 'Помощь',
     'Application' => 'Приложение',
-    'Search for avaliable' => 'Поиск по доступным',
+    'Search for available' => 'Поиск по доступным',
     'Search for assigned' => 'Поиск по присвоенным',
     'New route(s)' => 'Новый маршрут',
     'Add' => 'Добавить',
     'Assign' => 'Назначить',
     'Remove' => 'Удалить',
-    ' --select rule' => ' --выберите правило'
+    ' --select rule' => ' --выберите правило',
 ];
