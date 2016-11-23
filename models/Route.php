@@ -145,9 +145,10 @@ class Route extends \yii\base\Object
                 foreach ($r as $route) {
                     $routes[$id . $route] = $id . $route;
                 }
-                // Switch back to original app.
-                Yii::$app = $yiiApp;
             }
+            // Switch back to original app.
+            Yii::$app = $yiiApp;
+            unset($yiiApp);
         } else {
             // Use basic route scheme.
             // Set basic route prefix
