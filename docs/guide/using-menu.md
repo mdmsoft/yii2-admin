@@ -47,7 +47,9 @@ return format of `mdm\admin\components\MenuHelper::getAssignedMenu()` by provide
 The callback must have format `function($menu){}`. E.g:
 
 You can add html options attribute to Your menu, for example "title". When You create a menu, in field data (textarea) fill this :
-``` return ['title'=>'Title of Your Link Here']; ```
+```
+return ['title'=>'Title of Your Link Here'];
+```
 
 and then in Your view:
 
@@ -115,7 +117,7 @@ Filtering Menu
 --------------
 If you have `NavBar` menu items and want to filtering according user login. You can use Helper class
 ```php
-<?php
+
 user mdm\admin\components\Helper;
 
 $menuItems = [
@@ -171,6 +173,7 @@ use mdm\admin\components\Helper;
     ]
 ]
 ```
+
 It will check authorization access of button and show or hide it.
 
 More...
