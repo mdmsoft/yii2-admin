@@ -200,7 +200,7 @@ class Helper
                 }
                 $item['items'] = $subItems;
             }
-            if ($allow) {
+            if ($allow && !($url == '#' && empty($item['items']))) {
                 $result[$i] = $item;
             }
         }
