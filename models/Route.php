@@ -136,6 +136,7 @@ class Route extends \yii\base\Object
                     $config = yii\helpers\ArrayHelper::merge($config, require (Yii::getAlias($configPath)));
                 }
                 // Create new app using the config array.
+                unset($config['bootstrap']);
                 $app = new yii\web\Application($config);
                 // Get all the routes of the newly created app.
                 $r = $this->getAppRoutes($app);
