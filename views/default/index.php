@@ -24,7 +24,7 @@ if ($page == 'README.md') {
     }
     $body = str_replace(':smile:.', ".\n\n" . implode('  ', $links) . "\n", file_get_contents(Url::to('@mdm/admin/README.md')));
 } else {
-    $body = file_get_contents(Url::to('@mdm/admin/{$page}'));
+    $body = file_get_contents(Url::to("@mdm/admin/{$page}"));
 }
 
 $body = preg_replace_callback('/\]\((.*?)\)/', function($matches) use($baseDir) {
