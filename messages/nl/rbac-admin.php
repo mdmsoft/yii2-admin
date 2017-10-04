@@ -23,7 +23,7 @@ return [
     'Available' => 'Beschikbaar',
     'Assigned' => 'Toegekend',
     'Create' => 'Aanmaken',
-    'Update' => 'Opslaan',
+    'Update' => 'Bijwerken',
     'Roles' => 'Gebruikers rollen',
     'Create Role' => 'Nieuwe rol',
     'Name' => 'Naam',
