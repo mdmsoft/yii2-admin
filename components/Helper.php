@@ -2,10 +2,11 @@
 
 namespace mdm\admin\components;
 
+use mdm\admin\models\Route;
 use Yii;
-use yii\web\User;
-use yii\helpers\ArrayHelper;
 use yii\caching\TagDependency;
+use yii\helpers\ArrayHelper;
+use yii\web\User;
 
 /**
  * Description of Helper
@@ -57,7 +58,7 @@ class Helper
                 }
                 if ($cache) {
                     $cache->set($roles, self::$_defaultRoutes, Configs::cacheDuration(), new TagDependency([
-                        'tags' => Configs::CACHE_TAG
+                        'tags' => Configs::CACHE_TAG,
                     ]));
                 }
             }
@@ -87,7 +88,7 @@ class Helper
                 self::$_userRoutes[$userId] = $routes;
                 if ($cache) {
                     $cache->set([__METHOD__, $userId], $routes, Configs::cacheDuration(), new TagDependency([
-                        'tags' => Configs::CACHE_TAG
+                        'tags' => Configs::CACHE_TAG,
                     ]));
                 }
             }
@@ -104,7 +105,7 @@ class Helper
     public static function checkRoute($route, $params = [], $user = null)
     {
         $config = Configs::instance();
-        $r = static::normalizeRoute($route);
+        $r = static::normalizeRoute($route, $config->advanced);
         if ($config->onlyRegisteredRoute && !isset(static::getRegisteredRoutes()[$r])) {
             return true;
         }
@@ -140,18 +141,30 @@ class Helper
         }
     }
 
-    protected static function normalizeRoute($route)
+    /**
+     * Normalize route
+     * @param  string  $route    Plain route string
+     * @param  boolean|array $advanced Array containing the advanced configuration. Defaults to false.
+     * @return string            Normalized route string
+     */
+    protected static function normalizeRoute($route, $advanced = false)
     {
         if ($route === '') {
-            return '/' . Yii::$app->controller->getRoute();
+            $normalized = '/' . Yii::$app->controller->getRoute();
         } elseif (strncmp($route, '/', 1) === 0) {
-            return $route;
+            $normalized = $route;
         } elseif (strpos($route, '/') === false) {
-            return '/' . Yii::$app->controller->getUniqueId() . '/' . $route;
+            $normalized = '/' . Yii::$app->controller->getUniqueId() . '/' . $route;
         } elseif (($mid = Yii::$app->controller->module->getUniqueId()) !== '') {
-            return '/' . $mid . '/' . $route;
+            $normalized = '/' . $mid . '/' . $route;
+        } else {
+            $normalized = '/' . $route;
         }
-        return '/' . $route;
+        // Prefix @app-id to route.
+        if ($advanced) {
+            $normalized = Route::PREFIX_ADVANCED . Yii::$app->id . $normalized;
+        }
+        return $normalized;
     }
 
     /**
@@ -187,7 +200,7 @@ class Helper
                 }
                 $item['items'] = $subItems;
             }
-            if ($allow) {
+            if ($allow && !($url == '#' && empty($item['items']))) {
                 $result[$i] = $item;
             }
         }
