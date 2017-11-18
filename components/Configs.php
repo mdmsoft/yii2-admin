@@ -39,7 +39,8 @@ use yii\rbac\ManagerInterface;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class Configs extends \yii\base\Object
+
+class Configs extends \mdm\admin\BaseObject
 {
     const CACHE_TAG = 'mdm.admin';
 
