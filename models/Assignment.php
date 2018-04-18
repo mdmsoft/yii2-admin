@@ -5,7 +5,7 @@ namespace mdm\admin\models;
 use mdm\admin\components\Configs;
 use mdm\admin\components\Helper;
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * Description of Assignment
@@ -13,7 +13,7 @@ use yii\base\Object;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 2.5
  */
-class Assignment extends Object
+class Assignment extends BaseObject
 {
     /**
      * @var integer User id

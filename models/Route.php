@@ -16,7 +16,7 @@ use yii\helpers\VarDumper;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class Route extends \yii\base\Object
+class Route extends \yii\base\BaseObject
 {
     const CACHE_TAG = 'mdm.admin.route';
 
