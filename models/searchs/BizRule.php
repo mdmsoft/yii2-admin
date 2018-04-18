@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use mdm\admin\models\BizRule as MBizRule;
 use mdm\admin\components\RouteRule;
+use mdm\admin\components\Configs;
 
 /**
  * Description of BizRule
@@ -46,7 +47,7 @@ class BizRule extends Model
     public function search($params)
     {
         /* @var \yii\rbac\Manager $authManager */
-        $authManager = Yii::$app->authManager;
+        $authManager = Configs::authManager();
         $models = [];
         $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
         foreach ($authManager->getRules() as $name => $item) {

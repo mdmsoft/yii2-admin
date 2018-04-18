@@ -16,12 +16,12 @@ use yii\di\Instance;
  * To use AccessControl, declare it in the application config as behavior.
  * For example.
  *
- * ~~~
+ * ```
  * 'as access' => [
  *     'class' => 'mdm\admin\components\AccessControl',
  *     'allowActions' => ['site/login', 'site/error']
  * ]
- * ~~~
+ * ```
  *
  * @property User $user
  * 
@@ -34,7 +34,6 @@ class AccessControl extends \yii\base\ActionFilter
      * @var User User for check access.
      */
     private $_user = 'user';
-
     /**
      * @var array List of action that not need to check access.
      */
@@ -68,16 +67,9 @@ class AccessControl extends \yii\base\ActionFilter
     {
         $actionId = $action->getUniqueId();
         $user = $this->getUser();
-        if ($user->can('/' . $actionId)) {
+        if (Helper::checkRoute('/' . $actionId, Yii::$app->getRequest()->get(), $user)) {
             return true;
         }
-        $obj = $action->controller;
-        do {
-            if ($user->can('/' . ltrim($obj->getUniqueId() . '/*', '/'))) {
-                return true;
-            }
-            $obj = $obj->module;
-        } while ($obj !== null);
         $this->denyAccess($user);
     }
 
@@ -85,8 +77,8 @@ class AccessControl extends \yii\base\ActionFilter
      * Denies the access of the user.
      * The default implementation will redirect the user to the login page if he is a guest;
      * if the user is already logged, a 403 HTTP exception will be thrown.
-     * @param  yii\web\User $user the current user
-     * @throws yii\web\ForbiddenHttpException if the user is already logged in.
+     * @param  User $user the current user
+     * @throws ForbiddenHttpException if the user is already logged in.
      */
     protected function denyAccess($user)
     {
@@ -108,8 +100,18 @@ class AccessControl extends \yii\base\ActionFilter
         }
 
         $user = $this->getUser();
-        if ($user->getIsGuest() && is_array($user->loginUrl) && isset($user->loginUrl[0]) && $uniqueId === trim($user->loginUrl[0], '/')) {
-            return false;
+        if($user->getIsGuest())
+        {
+            $loginUrl = null;
+            if(is_array($user->loginUrl) && isset($user->loginUrl[0])){
+                $loginUrl = $user->loginUrl[0];
+                }else if(is_string($user->loginUrl)){
+                    $loginUrl = $user->loginUrl;
+                }
+                if(!is_null($loginUrl) && trim($loginUrl,'/') === $uniqueId)
+                {
+                    return false;
+                }
         }
 
         if ($this->owner instanceof Module) {

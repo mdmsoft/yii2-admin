@@ -1,73 +1,71 @@
 <?php
 
+use mdm\admin\AnimateAsset;
 use yii\helpers\Html;
-use mdm\admin\AdminAsset;
 use yii\helpers\Json;
-use yii\helpers\Url;
+use yii\web\YiiAsset;
 
-/**
- * @var yii\web\View $this
- */
+/* @var $this yii\web\View */
+/* @var $routes [] */
+
 $this->title = Yii::t('rbac-admin', 'Routes');
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<h1><?= Html::encode($this->title) ?></h1>
-<p>
-    <?= Html::a(Yii::t('rbac-admin', 'Create route'), ['create'], ['class' => 'btn btn-success']) ?>
-</p>
 
-<div>
-    <div class="row">
-        <div class="col-lg-5">
-            <?= Yii::t('rbac-admin', 'Avaliable') ?>:
-            <input id="search-avaliable">
-            <a href="#" id="btn-refresh"><span class="glyphicon glyphicon-refresh"></span></a><br>
-            <select id="list-avaliable" multiple size="20" style="width: 100%">
-            </select>
-        </div>
-        <div class="col-lg-1">
-            <br><br>
-            <a href="#" id="btn-add" class="btn btn-success">&gt;&gt;</a><br>
-            <a href="#" id="btn-remove" class="btn btn-danger">&lt;&lt;</a>
-        </div>
-        <div class="col-lg-5">
-            <?= Yii::t('rbac-admin', 'Assigned') ?>:
-            <input id="search-assigned"><br>
-            <select id="list-assigned" multiple size="20" style="width: 100%">
-            </select>
+AnimateAsset::register($this);
+YiiAsset::register($this);
+$opts = Json::htmlEncode([
+    'routes' => $routes,
+]);
+$this->registerJs("var _opts = {$opts};");
+$this->registerJs($this->render('_script.js'));
+$animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>';
+?>
+<h1><?=Html::encode($this->title);?></h1>
+<div class="row">
+    <div class="col-sm-11">
+        <div class="input-group">
+            <input id="inp-route" type="text" class="form-control"
+                   placeholder="<?=Yii::t('rbac-admin', 'New route(s)');?>">
+            <span class="input-group-btn">
+                <?=Html::a(Yii::t('rbac-admin', 'Add') . $animateIcon, ['create'], [
+    'class' => 'btn btn-success',
+    'id' => 'btn-new',
+]);?>
+            </span>
         </div>
     </div>
 </div>
-<?php
-AdminAsset::register($this);
-$properties = Json::htmlEncode([
-        'assignUrl' => Url::to(['assign']),
-        'searchUrl' => Url::to(['search']),
-    ]);
-$js = <<<JS
-yii.admin.initProperties({$properties});
-
-$('#search-avaliable').keydown(function () {
-    yii.admin.searchRoute('avaliable');
-});
-$('#search-assigned').keydown(function () {
-    yii.admin.searchRoute('assigned');
-});
-$('#btn-add').click(function () {
-    yii.admin.assignRoute('assign');
-    return false;
-});
-$('#btn-remove').click(function () {
-    yii.admin.assignRoute('remove');
-    return false;
-});
-$('#btn-refresh').click(function () {
-    yii.admin.searchRoute('avaliable',1);
-    return false;
-});
-
-yii.admin.searchRoute('avaliable', 0, true);
-yii.admin.searchRoute('assigned', 0, true);
-JS;
-$this->registerJs($js);
-
+<p>&nbsp;</p>
+<div class="row">
+    <div class="col-sm-5">
+        <div class="input-group">
+            <input class="form-control search" data-target="available"
+                   placeholder="<?=Yii::t('rbac-admin', 'Search for available');?>">
+            <span class="input-group-btn">
+                <?=Html::a('<span class="glyphicon glyphicon-refresh"></span>', ['refresh'], [
+    'class' => 'btn btn-default',
+    'id' => 'btn-refresh',
+]);?>
+            </span>
+        </div>
+        <select multiple size="20" class="form-control list" data-target="available"></select>
+    </div>
+    <div class="col-sm-1">
+        <br><br>
+        <?=Html::a('&gt;&gt;' . $animateIcon, ['assign'], [
+    'class' => 'btn btn-success btn-assign',
+    'data-target' => 'available',
+    'title' => Yii::t('rbac-admin', 'Assign'),
+]);?><br><br>
+        <?=Html::a('&lt;&lt;' . $animateIcon, ['remove'], [
+    'class' => 'btn btn-danger btn-assign',
+    'data-target' => 'assigned',
+    'title' => Yii::t('rbac-admin', 'Remove'),
+]);?>
+    </div>
+    <div class="col-sm-5">
+        <input class="form-control search" data-target="assigned"
+               placeholder="<?=Yii::t('rbac-admin', 'Search for assigned');?>">
+        <select multiple size="20" class="form-control list" data-target="assigned"></select>
+    </div>
+</div>

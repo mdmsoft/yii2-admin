@@ -10,18 +10,18 @@ use mdm\admin\models\Menu;
  * MenuHelper used to generate menu depend of user role.
  * Usage
  * 
- * ~~~
+ * ```
  * use mdm\admin\components\MenuHelper;
  * use yii\bootstrap\Nav;
  *
  * echo Nav::widget([
  *    'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
  * ]);
- * ~~~
+ * ```
  * 
  * To reformat returned, provide callback to method.
  * 
- * ~~~
+ * ```
  * $callback = function ($menu) {
  *    $data = eval($menu['data']);
  *    return [
@@ -34,15 +34,13 @@ use mdm\admin\models\Menu;
  * }
  *
  * $items = MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
- * ~~~
+ * ```
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
 class MenuHelper
 {
-    const CACHE_TAG = 'mdm.admin.menu';
-
     /**
      * Use to get assigned menu of user.
      * @param mixed $userId
@@ -50,7 +48,7 @@ class MenuHelper
      * @param \Closure $callback use to reformat output.
      * callback should have format like
      * 
-     * ~~~
+     * ```
      * function ($menu) {
      *    return [
      *        'label' => $menu['name'],
@@ -60,7 +58,7 @@ class MenuHelper
      *        ]
      *    ]
      * }
-     * ~~~
+     * ```
      * @param boolean  $refresh
      * @return array
      */
@@ -69,7 +67,7 @@ class MenuHelper
         $config = Configs::instance();
 
         /* @var $manager \yii\rbac\BaseManager */
-        $manager = Yii::$app->getAuthManager();
+        $manager = Configs::authManager();
         $menus = Menu::find()->asArray()->indexBy('id')->all();
         $key = [__METHOD__, $userId, $manager->defaultRoles];
         $cache = $config->cache;
@@ -123,7 +121,7 @@ class MenuHelper
             $assigned = static::requiredParent($assigned, $menus);
             if ($cache !== null) {
                 $cache->set($key, $assigned, $config->cacheDuration, new TagDependency([
-                    'tags' => self::CACHE_TAG
+                    'tags' => Configs::CACHE_TAG
                 ]));
             }
         }
@@ -133,7 +131,7 @@ class MenuHelper
             $result = static::normalizeMenu($assigned, $menus, $callback, $root);
             if ($cache !== null && $callback === null) {
                 $cache->set($key, $result, $config->cacheDuration, new TagDependency([
-                    'tags' => self::CACHE_TAG
+                    'tags' => Configs::CACHE_TAG
                 ]));
             }
         }
@@ -204,7 +202,7 @@ class MenuHelper
                     $item = call_user_func($callback, $menu);
                 } else {
                     $item = [
-                        'label' => $menu['name'],
+                        'label' => Yii::t('rbac-admin',$menu['name']),
                         'url' => static::parseRoute($menu['route']),
                     ];
                     if ($menu['children'] != []) {
@@ -220,15 +218,5 @@ class MenuHelper
         }
 
         return $result;
-    }
-
-    /**
-     * Use to invalidate cache.
-     */
-    public static function invalidate()
-    {
-        if (Configs::instance()->cache !== null) {
-            TagDependency::invalidate(Configs::instance()->cache, self::CACHE_TAG);
-        }
     }
 }

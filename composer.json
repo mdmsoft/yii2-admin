@@ -14,8 +14,12 @@
             "email": "misbahuldmunir@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "yiisoft/yii2": "~2.0.4"
+        "yiisoft/yii2": "~2.0.7"
+    },
+    "require-dev": {
+        "yiisoft/yii2-codeception": "~2.0"
     },
     "suggest": {
         "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
@@ -29,6 +33,10 @@
         "branch-alias": {
             "dev-1.0.master": "1.0.x-dev",
             "dev-master": "2.x-dev"
+        },
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
         }
     }
 }

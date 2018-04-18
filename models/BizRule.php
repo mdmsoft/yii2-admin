@@ -2,8 +2,9 @@
 
 namespace mdm\admin\models;
 
-use yii\rbac\Rule;
 use Yii;
+use yii\rbac\Rule;
+use mdm\admin\components\Configs;
 
 /**
  * BizRule
@@ -70,8 +71,15 @@ class BizRule extends \yii\base\Model
      */
     public function classExists()
     {
-        if (!class_exists($this->className) || !is_subclass_of($this->className, Rule::className())) {
-            $this->addError('className', "Unknown Class: {$this->className}");
+        if (!class_exists($this->className)) {
+            $message = Yii::t('rbac-admin', "Unknown class '{class}'", ['class' => $this->className]);
+            $this->addError('className', $message);
+            return;
+        }
+        if (!is_subclass_of($this->className, Rule::className())) {
+            $message = Yii::t('rbac-admin', "'{class}' must extend from 'yii\rbac\Rule' or its child class", [
+                    'class' => $this->className]);
+            $this->addError('className', $message);
         }
     }
 
@@ -102,7 +110,7 @@ class BizRule extends \yii\base\Model
      */
     public static function find($id)
     {
-        $item = Yii::$app->authManager->getRule($id);
+        $item = Configs::authManager()->getRule($id);
         if ($item !== null) {
             return new static($item);
         }
@@ -117,7 +125,7 @@ class BizRule extends \yii\base\Model
     public function save()
     {
         if ($this->validate()) {
-            $manager = Yii::$app->authManager;
+            $manager = Configs::authManager();
             $class = $this->className;
             if ($this->_item === null) {
                 $this->_item = new $class();

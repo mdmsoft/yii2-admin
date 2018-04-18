@@ -20,7 +20,7 @@ return [
     'Assignments' => 'اختصاص داده شده ها',
     'Users' => 'کاربران',
     'User' => 'کاربر',
-    'Avaliable' => 'در دسترس',
+    'Available' => 'در دسترس',
     'Assigned' => 'اختصاص یافته',
     'Create' => 'ایجاد',
     'Update' => 'بروز رسانی',
@@ -64,5 +64,6 @@ return [
     'Rule' => 'Rule',
     'Menu' => 'منو',
     'Help' => 'راهنمایی',
-    'Application' => 'Application',
+    'Application' => 'برنامه',
+    'Admin' => 'مدیریت دسترسی ها',
 ];

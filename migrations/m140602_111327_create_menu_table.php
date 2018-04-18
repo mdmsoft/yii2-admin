@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use mdm\admin\components\Configs;
 
 /**
@@ -15,7 +14,7 @@ class m140602_111327_create_menu_table extends \yii\db\Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function up()
     {
         $menuTable = Configs::instance()->menuTable;
         $tableOptions = null;
@@ -24,20 +23,20 @@ class m140602_111327_create_menu_table extends \yii\db\Migration
         }
 
         $this->createTable($menuTable, [
-            'id' => Schema::TYPE_PK,
-            'name' => Schema::TYPE_STRING . '(128) NOT NULL',
-            'parent' => Schema::TYPE_INTEGER. ' NULL',
-            'route' => Schema::TYPE_STRING . '(256)',
-            'order' => Schema::TYPE_INTEGER,
-            'data' => Schema::TYPE_TEXT,
-            "FOREIGN KEY (parent) REFERENCES {$menuTable}(id) ON DELETE SET NULL ON UPDATE CASCADE",
+            'id' => $this->primaryKey(),
+            'name' => $this->string(128)->notNull(),
+            'parent' => $this->integer(),
+            'route' => $this->string(),
+            'order' => $this->integer(),
+            'data' => $this->binary(),
+            "FOREIGN KEY ([[parent]]) REFERENCES {$menuTable}([[id]]) ON DELETE SET NULL ON UPDATE CASCADE",
         ], $tableOptions);
     }
 
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function down()
     {
         $this->dropTable(Configs::instance()->menuTable);
     }

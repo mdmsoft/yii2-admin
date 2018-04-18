@@ -1,67 +1,63 @@
 <?php
 
+use mdm\admin\AnimateAsset;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use mdm\admin\AdminAsset;
 use yii\helpers\Json;
-use yii\helpers\Url;
+use yii\web\YiiAsset;
 
 /* @var $this yii\web\View */
-/* @var $model yii\web\IdentityInterface */
+/* @var $model mdm\admin\models\Assignment */
+/* @var $fullnameField string */
 
-$this->title = Yii::t('rbac-admin', 'Assignments');
-$this->params['breadcrumbs'][] = $this->title;
+$userName = $model->{$usernameField};
+if (!empty($fullnameField)) {
+    $userName .= ' (' . ArrayHelper::getValue($model, $fullnameField) . ')';
+}
+$userName = Html::encode($userName);
+
+$this->title = Yii::t('rbac-admin', 'Assignment') . ' : ' . $userName;
+
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Assignments'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $userName;
+
+AnimateAsset::register($this);
+YiiAsset::register($this);
+$opts = Json::htmlEncode([
+    'items' => $model->getItems(),
+]);
+$this->registerJs("var _opts = {$opts};");
+$this->registerJs($this->render('_script.js'));
+$animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>';
 ?>
 <div class="assignment-index">
-    <?= Html::a(Yii::t('rbac-admin', 'Users'), ['index'], ['class' => 'btn btn-success']) ?>
-    <h1><?= Yii::t('rbac-admin', 'User') ?>: <?= Html::encode($model->{$usernameField}) ?></h1>
+    <h1><?=$this->title;?></h1>
 
     <div class="row">
-        <div class="col-lg-5">
-            <?= Yii::t('rbac-admin', 'Avaliable') ?>:
-            <input id="search-avaliable"><br>
-            <select id="list-avaliable" multiple size="20" style="width: 100%">
+        <div class="col-sm-5">
+            <input class="form-control search" data-target="available"
+                   placeholder="<?=Yii::t('rbac-admin', 'Search for available');?>">
+            <select multiple size="20" class="form-control list" data-target="available">
             </select>
         </div>
-        <div class="col-lg-1">
+        <div class="col-sm-1">
             <br><br>
-            <a href="#" id="btn-assign" class="btn btn-success">&gt;&gt;</a><br>
-            <a href="#" id="btn-revoke" class="btn btn-danger">&lt;&lt;</a>
+            <?=Html::a('&gt;&gt;' . $animateIcon, ['assign', 'id' => (string) $model->id], [
+    'class' => 'btn btn-success btn-assign',
+    'data-target' => 'available',
+    'title' => Yii::t('rbac-admin', 'Assign'),
+]);?><br><br>
+            <?=Html::a('&lt;&lt;' . $animateIcon, ['revoke', 'id' => (string) $model->id], [
+    'class' => 'btn btn-danger btn-assign',
+    'data-target' => 'assigned',
+    'title' => Yii::t('rbac-admin', 'Remove'),
+]);?>
         </div>
-        <div class="col-lg-5">
-            <?= Yii::t('rbac-admin', 'Assigned') ?>:
-            <input id="search-assigned"><br>
-            <select id="list-assigned" multiple size="20" style="width: 100%">
+        <div class="col-sm-5">
+            <input class="form-control search" data-target="assigned"
+                   placeholder="<?=Yii::t('rbac-admin', 'Search for assigned');?>">
+            <select multiple size="20" class="form-control list" data-target="assigned">
             </select>
         </div>
     </div>
 </div>
-<?php
-AdminAsset::register($this);
-$properties = Json::htmlEncode([
-        'userId' => $model->{$idField},
-        'assignUrl' => Url::to(['assign']),
-        'searchUrl' => Url::to(['search']),
-    ]);
-$js = <<<JS
-yii.admin.initProperties({$properties});
-
-$('#search-avaliable').keydown(function () {
-    yii.admin.searchAssignmet('avaliable');
-});
-$('#search-assigned').keydown(function () {
-    yii.admin.searchAssignmet('assigned');
-});
-$('#btn-assign').click(function () {
-    yii.admin.assign('assign');
-    return false;
-});
-$('#btn-revoke').click(function () {
-    yii.admin.assign('revoke');
-    return false;
-});
-
-yii.admin.searchAssignmet('avaliable', true);
-yii.admin.searchAssignmet('assigned', true);
-JS;
-$this->registerJs($js);
-

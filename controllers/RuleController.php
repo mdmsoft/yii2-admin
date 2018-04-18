@@ -8,7 +8,8 @@ use yii\web\Controller;
 use mdm\admin\models\searchs\BizRule as BizRuleSearch;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
-use mdm\admin\components\MenuHelper;
+use mdm\admin\components\Helper;
+use mdm\admin\components\Configs;
 
 /**
  * Description of RuleController
@@ -70,7 +71,7 @@ class RuleController extends Controller
     {
         $model = new BizRule(null);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            MenuHelper::invalidate();
+            Helper::invalidate();
 
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
@@ -88,7 +89,7 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            MenuHelper::invalidate();
+            Helper::invalidate();
 
             return $this->redirect(['view', 'id' => $model->name]);
         }
@@ -105,8 +106,8 @@ class RuleController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->authManager->remove($model->item);
-        MenuHelper::invalidate();
+        Configs::authManager()->remove($model->item);
+        Helper::invalidate();
 
         return $this->redirect(['index']);
     }
@@ -120,7 +121,7 @@ class RuleController extends Controller
      */
     protected function findModel($id)
     {
-        $item = Yii::$app->authManager->getRule($id);
+        $item = Configs::authManager()->getRule($id);
         if ($item) {
             return new BizRule($item);
         } else {

@@ -13,7 +13,7 @@ $this->params['top-menu'] = true;
 ?>
 <?php $this->beginContent($controller->module->mainLayout) ?>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-sm-12">
         <?= $content ?>
     </div>
 </div>
