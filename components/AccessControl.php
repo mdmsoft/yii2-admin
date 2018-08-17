@@ -67,7 +67,15 @@ class AccessControl extends \yii\base\ActionFilter
     {
         $actionId = $action->getUniqueId();
         $user = $this->getUser();
-        if (Helper::checkRoute('/' . $actionId, Yii::$app->getRequest()->get(), $user)) {
+
+        $request = Yii::$app->getRequest();
+        if($request->getIsPost()){
+            $params = $request->post();
+        }else{
+            $params = $request->get();
+        }
+
+        if (Helper::checkRoute('/' . $actionId, $params, $user)) {
             return true;
         }
         $this->denyAccess($user);
