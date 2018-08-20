@@ -12,9 +12,9 @@ create table [menu]
 (
     [id] int IDENTITY PRIMARY KEY,
     [name] varchar(128),
-    [parent] int(11),
+    [parent] int,
     [route] varchar(256),
-    [order] int(11),
+    [order] int,
     [data]   text,
     foreign key (parent) references [menu]([id])  ON DELETE SET NULL ON UPDATE CASCADE
 );
