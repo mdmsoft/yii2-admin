@@ -71,7 +71,8 @@ class Login extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $class = Yii::$app->getUser()->identityClass ? : 'mdm\admin\models\User';
+            $this->_user = $class::findByUsername($this->username);
         }
 
         return $this->_user;
