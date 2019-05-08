@@ -2,10 +2,12 @@
 
 namespace mdm\admin\models\form;
 
-use Yii;
+use mdm\admin\components\UserStatus;
 use mdm\admin\models\User;
+use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * Password reset form
@@ -13,6 +15,7 @@ use yii\base\Model;
 class ResetPassword extends Model
 {
     public $password;
+    public $retypePassword;
     /**
      * @var User
      */
@@ -23,14 +26,21 @@ class ResetPassword extends Model
      *
      * @param  string $token
      * @param  array $config name-value pairs that will be used to initialize the object properties
-     * @throws \yii\base\InvalidParamException if token is empty or not valid
+     * @throws InvalidParamException if token is empty or not valid
      */
     public function __construct($token, $config = [])
     {
         if (empty($token) || !is_string($token)) {
             throw new InvalidParamException('Password reset token cannot be blank.');
         }
-        $this->_user = User::findByPasswordResetToken($token);
+        // check token
+        $class = Yii::$app->getUser()->identityClass ?: 'mdm\admin\models\User';
+        if (static::isPasswordResetTokenValid($token)) {
+            $this->_user = $class::findOne([
+                    'password_reset_token' => $token,
+                    'status' => UserStatus::ACTIVE
+            ]);
+        }
         if (!$this->_user) {
             throw new InvalidParamException('Wrong password reset token.');
         }
@@ -43,8 +53,9 @@ class ResetPassword extends Model
     public function rules()
     {
         return [
-            ['password', 'required'],
+            [['password', 'retypePassword'], 'required'],
             ['password', 'string', 'min' => 6],
+            ['retypePassword', 'compare', 'compareAttribute' => 'password']
         ];
     }
 
@@ -60,5 +71,22 @@ class ResetPassword extends Model
         $user->removePasswordResetToken();
 
         return $user->save(false);
+    }
+
+    /**
+     * Finds out if password reset token is valid
+     *
+     * @param string $token password reset token
+     * @return boolean
+     */
+    public static function isPasswordResetTokenValid($token)
+    {
+        if (empty($token)) {
+            return false;
+        }
+        $expire = ArrayHelper::getValue(Yii::$app->params, 'user.passwordResetTokenExpire', 24 * 3600);
+        $parts = explode('_', $token);
+        $timestamp = (int) end($parts);
+        return $timestamp + $expire >= time();
     }
 }

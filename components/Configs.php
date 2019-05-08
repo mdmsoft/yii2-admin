@@ -100,7 +100,23 @@ class Configs extends \mdm\admin\BaseObject
     public $options;
 
     /**
-     * @var array|false
+     * @var array|false Used for multiple application
+     * ```php
+     * [
+     *     'frontend' => [
+     *         '@common/config/main.php',
+     *         '@common/config/main-local.php',
+     *         '@frontend/config/main.php',
+     *         '@frontend/config/main-local.php',
+     *     ],
+     *     'backend' => [
+     *         '@common/config/main.php',
+     *         '@common/config/main-local.php',
+     *         '@backend/config/main.php',
+     *         '@backend/config/main-local.php',
+     *     ],
+     * ]
+     * ```     *
      */
     public $advanced;
 

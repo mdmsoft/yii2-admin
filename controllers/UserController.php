@@ -2,21 +2,22 @@
 
 namespace mdm\admin\controllers;
 
-use Yii;
+use mdm\admin\components\UserStatus;
+use mdm\admin\models\form\ChangePassword;
 use mdm\admin\models\form\Login;
 use mdm\admin\models\form\PasswordResetRequest;
 use mdm\admin\models\form\ResetPassword;
 use mdm\admin\models\form\Signup;
-use mdm\admin\models\form\ChangePassword;
-use mdm\admin\models\User;
 use mdm\admin\models\searchs\User as UserSearch;
+use mdm\admin\models\User;
+use Yii;
 use yii\base\InvalidParamException;
+use yii\base\UserException;
+use yii\filters\VerbFilter;
+use yii\mail\BaseMailer;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
-use yii\base\UserException;
-use yii\mail\BaseMailer;
 
 /**
  * User controller
@@ -230,8 +231,8 @@ class UserController extends Controller
     {
         /* @var $user User */
         $user = $this->findModel($id);
-        if ($user->status == User::STATUS_INACTIVE) {
-            $user->status = User::STATUS_ACTIVE;
+        if ($user->status == UserStatus::INACTIVE) {
+            $user->status = UserStatus::ACTIVE;
             if ($user->save()) {
                 return $this->goHome();
             } else {
