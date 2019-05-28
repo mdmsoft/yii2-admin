@@ -22,6 +22,14 @@ $opts = Json::htmlEncode([
     'items' => $model->getItems(),
 ]);
 $this->registerJs("var _opts = {$opts};");
+
+$labels = Json::htmlEncode([
+    'Roles' => Yii::t('rbac-admin', 'Roles'),
+    'Permissions' => Yii::t('rbac-admin', 'Permissions'),
+    'Routes' => Yii::t('rbac-admin', 'Routes'),
+]);
+$this->registerJs("var _labels = {$labels};");
+
 $this->registerJs($this->render('_script.js'));
 $animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>';
 ?>

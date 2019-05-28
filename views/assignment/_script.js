@@ -31,10 +31,13 @@ function search(target) {
     $list.html('');
     var q = $('.search[data-target="' + target + '"]').val();
 
+
     var groups = {
-        role: [$('<optgroup label="Roles">'), false],
-        permission: [$('<optgroup label="Permission">'), false],
+        role: [$('<optgroup label="' + _labels['Roles'] + '">'), false],
+        permission: [$('<optgroup label="' + _labels['Permissions'] + '">'), false],
     };
+
+
     $.each(_opts.items[target], function (name, group) {
         if (name.indexOf(q) >= 0) {
 
