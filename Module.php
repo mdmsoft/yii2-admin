@@ -2,6 +2,7 @@
 
 namespace mdm\admin;
 
+use mdm\admin\components\Configs;
 use Yii;
 use yii\helpers\Inflector;
 
@@ -61,13 +62,13 @@ class Module extends \yii\base\Module
      * @see [[menus]]
      */
     private $_coreItems = [
-        'user' => 'Users',
-        'assignment' => 'Assignments',
-        'role' => 'Roles',
-        'permission' => 'Permissions',
-        'route' => 'Routes',
-        'rule' => 'Rules',
-        'menu' => 'Menus',
+        'user/index' => 'Users',
+        'assignment/index' => 'Assignments',
+        'role/index' => 'Roles',
+        'permission/index' => 'Permissions',
+        'route/index' => 'Routes',
+        'rule/index' => 'Rules',
+        'menu/index' => 'Menus',
     ];
     /**
      * @var array
@@ -122,19 +123,17 @@ class Module extends \yii\base\Module
             // resolve core menus
             $this->_normalizeMenus = [];
 
-            $config = components\Configs::instance();
+            $config = Configs::instance();
             $conditions = [
-                'user' => $config->db && $config->db->schema->getTableSchema($config->userTable),
-                'assignment' => ($userClass = Yii::$app->getUser()->identityClass) && is_subclass_of($userClass, 'yii\db\BaseActiveRecord'),
-                'menu' => $config->db && $config->db->schema->getTableSchema($config->menuTable),
+                'user/index' => $config->db && $config->db->schema->getTableSchema($config->userTable),
+                'assignment/index' => ($userClass = Yii::$app->getUser()->identityClass) && is_subclass_of($userClass, 'yii\db\BaseActiveRecord'),
+                'menu/index' => $config->db && $config->db->schema->getTableSchema($config->menuTable),
             ];
+
             foreach ($this->_coreItems as $id => $lable) {
                 if (!isset($conditions[$id]) || $conditions[$id]) {
                     $this->_normalizeMenus[$id] = ['label' => Yii::t('rbac-admin', $lable), 'url' => [$mid . $id]];
                 }
-            }
-            foreach (array_keys($this->controllerMap) as $id) {
-                $this->_normalizeMenus[$id] = ['label' => Yii::t('rbac-admin', Inflector::humanize($id)), 'url' => [$mid . $id]];
             }
 
             // user configure menus
@@ -147,7 +146,7 @@ class Module extends \yii\base\Module
                     $value = ['label' => $value];
                 }
                 $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value)
-                : $value;
+                    : $value;
                 if (!isset($this->_normalizeMenus[$id]['url'])) {
                     $this->_normalizeMenus[$id]['url'] = [$mid . $id];
                 }

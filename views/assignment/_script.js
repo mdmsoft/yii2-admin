@@ -37,8 +37,16 @@ function search(target) {
     };
     $.each(_opts.items[target], function (name, group) {
         if (name.indexOf(q) >= 0) {
-            $('<option>').text(name).val(name).appendTo(groups[group][0]);
-            groups[group][1] = true;
+
+            var text;
+            if(group[1] == null)
+            {
+                text = name;
+            }else {
+                text = group[1] + " ( " + name + ")";
+            }
+            $('<option>').text( text ).val(name).appendTo(groups[group[0]][0]);
+            groups[group[0]][1] = true;
         }
     });
     $.each(groups, function () {
