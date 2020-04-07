@@ -10,6 +10,9 @@ php:
 # faster builds on new travis setup not using sudo
 sudo: false
 
+services:
+  - mysql
+
 # cache vendor dirs
 cache:
   directories:
@@ -28,12 +31,12 @@ install:
     codecept build
     cd ..
 
-before_script:
+before_install:
   - mysql --version
 
   # initialize databases
-  - mysql -e 'CREATE DATABASE mdm_admin_test;';
-  
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS mdm_admin_test;'
+
 script:
   - |
     cd tests/web
