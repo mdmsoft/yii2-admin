@@ -6,6 +6,7 @@ use Yii;
 use mdm\admin\models\Route;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use mdm\admin\components\AccessControl;
 
 /**
  * Description of RuleController
@@ -26,6 +27,9 @@ class RouteController extends Controller
                     'remove' => ['post'],
                     'refresh' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
             ],
         ];
     }

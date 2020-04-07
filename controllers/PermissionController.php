@@ -4,6 +4,7 @@ namespace mdm\admin\controllers;
 
 use mdm\admin\components\ItemController;
 use yii\rbac\Item;
+use mdm\admin\components\AccessControl;
 
 /**
  * PermissionController implements the CRUD actions for AuthItem model.
@@ -13,6 +14,18 @@ use yii\rbac\Item;
  */
 class PermissionController extends ItemController
 {
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc

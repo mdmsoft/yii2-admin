@@ -8,6 +8,7 @@ use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use mdm\admin\components\AccessControl;
 
 /**
  * AssignmentController implements the CRUD actions for Assignment model.
@@ -48,6 +49,9 @@ class AssignmentController extends Controller
                     'assign' => ['post'],
                     'revoke' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
             ],
         ];
     }

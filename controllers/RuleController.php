@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use mdm\admin\components\Helper;
 use mdm\admin\components\Configs;
+use mdm\admin\components\AccessControl;
 
 /**
  * Description of RuleController
@@ -31,6 +32,9 @@ class RuleController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
             ],
         ];
     }

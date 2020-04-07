@@ -18,6 +18,7 @@ use yii\mail\BaseMailer;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use mdm\admin\components\AccessControl;
 
 /**
  * User controller
@@ -39,6 +40,9 @@ class UserController extends Controller
                     'logout' => ['post'],
                     'activate' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
             ],
         ];
     }
