@@ -120,7 +120,7 @@ class MenuHelper
                 }
                 $assigned = array_merge($assigned, ...$filtered);
             }
-            $assigned = static::requiredParent($assigned, $menus);
+            static::requiredParent($assigned, $menus);
             if ($cache !== null) {
                 $cache->set($key, $assigned, $config->cacheDuration, new TagDependency([
                     'tags' => Configs::CACHE_TAG
