@@ -113,10 +113,12 @@ class MenuHelper
                 $assigned = $query->where(['route' => $filter2])->column();
             }
             if (count($filter1)) {
+                $filtered = [];
                 $query->where('route like :filter');
                 foreach ($filter1 as $filter) {
-                    $assigned = array_merge($assigned, $query->params([':filter' => $filter])->column());
+                    $filtered[] = $query->params([':filter' => $filter])->column();
                 }
+                $assigned = array_merge($assigned, ...$filtered);
             }
             $assigned = static::requiredParent($assigned, $menus);
             if ($cache !== null) {
@@ -143,20 +145,17 @@ class MenuHelper
      * Ensure all item menu has parent.
      * @param  array $assigned
      * @param  array $menus
-     * @return array
+     * @return void
      */
-    private static function requiredParent($assigned, &$menus)
+    private static function requiredParent(&$assigned, &$menus)
     {
-        $l = count($assigned);
-        for ($i = 0; $i < $l; $i++) {
-            $id = $assigned[$i];
-            $parent_id = $menus[$id]['parent'];
+        foreach ($assigned as $item) {
+            $parent_id = $menus[$item]['parent'];
             if ($parent_id !== null && !in_array($parent_id, $assigned)) {
-                $assigned[$l++] = $parent_id;
+                $assigned[] = $parent_id;
+                self::requiredParent($assigned, $menus);
             }
         }
-
-        return $assigned;
     }
 
     /**
