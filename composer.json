@@ -16,7 +16,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "yiisoft/yii2": "~2.0.7"
+        "yiisoft/yii2": "~2.0.13"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "~2.0"
