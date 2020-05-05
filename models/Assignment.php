@@ -26,7 +26,7 @@ class Assignment extends \mdm\admin\BaseObject
     /**
      * @inheritdoc
      */
-    public function __construct($id, $user = null, $config = array())
+    public function __construct($id, $user = null, $config = [])
     {
         $this->id = $id;
         $this->user = $user;
@@ -87,13 +87,19 @@ class Assignment extends \mdm\admin\BaseObject
     {
         $manager = Configs::authManager();
         $available = [];
-        foreach (array_keys($manager->getRoles()) as $name) {
-            $available[$name] = 'role';
+        foreach ($manager->getRoles() as $item) {
+            $avaliable[$item->name] = [
+                'type' => 'role',
+                'desc' => $item->description,
+            ];
         }
 
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            if ($name[0] != '/') {
-                $available[$name] = 'permission';
+        foreach ($manager->getPermissions() as $item) {
+            if ($item->name[0] != '/') {
+                $avaliable[$item->name] = [
+                    'type' => 'permission',
+                    'desc' => $item->description,
+                ];
             }
         }
 

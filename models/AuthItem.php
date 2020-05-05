@@ -37,7 +37,7 @@ class AuthItem extends Model
 
     /**
      * Initialize object
-     * @param Item  $item
+     * @param Item $item
      * @param array $config
      */
     public function __construct($item = null, $config = [])
@@ -248,17 +248,28 @@ class AuthItem extends Model
         $manager = Configs::authManager();
         $available = [];
         if ($this->type == Item::TYPE_ROLE) {
-            foreach (array_keys($manager->getRoles()) as $name) {
-                $available[$name] = 'role';
+            foreach ($manager->getRoles() as $item) {
+                $avaliable[$item->name] = [
+                    'type' => 'role',
+                    'desc' => $item->description,
+                ];
             }
         }
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            $available[$name] = $name[0] == '/' ? 'route' : 'permission';
+        foreach ($manager->getPermissions() as $item) {
+            $avaliable[$item->name] = [
+                'type' => $item->name[0] == '/' ? 'route' : 'permission',
+            ];
+            if ($item->name[0] != '/') {
+                $avaliable[$item->name]['desc'] = $item->description;
+            }
         }
 
         $assigned = [];
         foreach ($manager->getChildren($this->_item->name) as $item) {
-            $assigned[$item->name] = $item->type == 1 ? 'role' : ($item->name[0] == '/' ? 'route' : 'permission');
+            $assigned[$item->name] = [
+                'type' => $item->type == 1 ? 'role' : ($item->name[0] == '/' ? 'route' : 'permission'),
+                'desc' => $item->description,
+            ];
             unset($available[$item->name]);
         }
         unset($available[$this->name]);
