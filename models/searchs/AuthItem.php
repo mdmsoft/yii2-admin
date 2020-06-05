@@ -59,11 +59,18 @@ class AuthItem extends Model
     {
         /* @var \yii\rbac\Manager $authManager */
         $authManager = Configs::authManager();
+        $advanced = Configs::instance()->advanced;
         if ($this->type == Item::TYPE_ROLE) {
             $items = $authManager->getRoles();
         } else {
-            $items = array_filter($authManager->getPermissions(), function($item) {
-                return $this->type == Item::TYPE_PERMISSION xor strncmp($item->name, '/', 1) === 0;
+            $items = array_filter($authManager->getPermissions(), function($item) use ($advanced){
+              $isPermission = $this->type == Item::TYPE_PERMISSION;
+              if ($advanced) {
+                return $isPermission xor (strncmp($item->name, '/', 1) === 0 or strncmp($item->name, '@', 1) === 0);
+              }
+              else {
+                return $isPermission xor strncmp($item->name, '/', 1) === 0;
+              }
             });
         }
         $this->load($params);
