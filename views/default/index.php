@@ -23,8 +23,10 @@ if ($page == 'README.md') {
         $links[] = "[**{$menu['label']}**]({$url})";
     }
     $body = str_replace(':smile:.', ".\n\n" . implode('  ', $links) . "\n", file_get_contents(Url::to('@mdm/admin/README.md')));
-} else {
+} elseif(preg_match('/^docs\/guide\/[\w-]+\.md$/', $page)) {
     $body = file_get_contents(Url::to("@mdm/admin/{$page}"));
+} else{
+    $body = '';
 }
 
 $body = preg_replace_callback('/\]\((.*?)\)/', function($matches) use($baseDir) {
