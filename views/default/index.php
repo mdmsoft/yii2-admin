@@ -14,7 +14,7 @@ if (($pos = strrpos($page, '/')) === false) {
     $this->title = substr($page, $pos + 1, strrpos($page, '.') - $pos - 1);
 }
 
-if ($page == 'README.md') {
+if ($page == 'README.md' || $page == 'CHANGELOG.md') {
     $this->params['breadcrumbs'][] = 'Readme';
     $menus = $this->context->module->getMenus();
     $links = [];
@@ -22,7 +22,7 @@ if ($page == 'README.md') {
         $url = Url::to($menu['url'], true);
         $links[] = "[**{$menu['label']}**]({$url})";
     }
-    $body = str_replace(':smile:.', ".\n\n" . implode('  ', $links) . "\n", file_get_contents(Url::to('@mdm/admin/README.md')));
+    $body = str_replace(':smile:.', ".\n\n" . implode('  ', $links) . "\n", file_get_contents(Url::to('@mdm/admin/'.$page)));
 } elseif(preg_match('/^docs\/guide\/[\w-]+\.md$/', $page)) {
     $body = file_get_contents(Url::to("@mdm/admin/{$page}"));
 } else{
