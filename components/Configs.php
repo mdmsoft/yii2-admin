@@ -85,6 +85,11 @@ class Configs extends \mdm\admin\BaseObject
     public $defaultUserStatus = 10;
 
     /**
+     * @var integer Number of user role.
+     */
+    public $userRolePageSize = 100;
+
+    /**
      * @var boolean If true then AccessControl only check if route are registered.
      */
     public $onlyRegisteredRoute = false;
@@ -255,5 +260,13 @@ class Configs extends \mdm\admin\BaseObject
     public static function strict()
     {
         return static::instance()->strict;
+    }
+
+    /**
+     * @return int
+     */
+    public static function userRolePageSize()
+    {
+        return static::instance()->userRolePageSize;
     }
 }

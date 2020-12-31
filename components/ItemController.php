@@ -130,6 +130,20 @@ class ItemController extends Controller
     }
 
     /**
+     * Assign items
+     * @param string $id
+     * @return array
+     */
+    public function actionGetUsers($id)
+    {
+        $page = Yii::$app->getRequest()->get('page', 0);
+        $model = $this->findModel($id);
+        Yii::$app->getResponse()->format = 'json';
+
+        return array_merge($model->getUsers($page));
+    }
+
+    /**
      * Assign or remove items
      * @param string $id
      * @return array

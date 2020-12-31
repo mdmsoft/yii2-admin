@@ -5,6 +5,23 @@ function updateItems(r) {
     search('available');
     search('assigned');
 }
+function updateUsers(r) {
+    _opts.users = r;
+    listUsers();
+}
+
+$('#list-users').on('click', 'a[data-target]', function () {
+    var $this = $(this);
+    var target = $this.data('target');
+    var page = _opts.users[target];
+    if (page !== undefined) {
+        $.get(_opts.getUserUrl, {page: page}, function (r) {
+            updateUsers(r);
+        });
+    }
+
+    return false;
+});
 
 $('.btn-assign').click(function () {
     var $this = $(this);
@@ -49,6 +66,22 @@ function search(target) {
     });
 }
 
+function listUsers() {
+    var $list = $('#list-users');
+    var users = _opts.users.users.map(function (user) {
+        return `<span class="label label-info"><a href="${user.link}">${user.username}</a></span>`;
+    });
+    users.push('<br>');
+    if (_opts.users.prev) {
+        users.push(`<span class="label label-primary"><a href="#" data-target="${_opts.users.prev}">&laquo;</a></span>`);
+    }
+    if (_opts.users.next) {
+        users.push(`<span class="label label-primary"><a href="#" data-target="${_opts.users.next}">&raquo;</a></span>`);
+    }
+    $list.html(users.join(' '));
+}
+
 // initial
 search('available');
 search('assigned');
+listUsers();

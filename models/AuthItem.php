@@ -4,10 +4,14 @@ namespace mdm\admin\models;
 
 use mdm\admin\components\Configs;
 use mdm\admin\components\Helper;
+use mdm\admin\controllers\AssignmentController;
+use mdm\admin\Module;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\rbac\Item;
+use yii\rbac\Rule;
 
 /**
  * This is the model class for table "tbl_auth_item".
@@ -30,6 +34,7 @@ class AuthItem extends Model
     public $description;
     public $ruleName;
     public $data;
+
     /**
      * @var Item
      */
@@ -62,8 +67,8 @@ class AuthItem extends Model
             [['ruleName'], 'checkRule'],
             [['name', 'type'], 'required'],
             [['name'], 'checkUnique', 'when' => function () {
-                return $this->isNewRecord || ($this->_item->name != $this->name);
-            }],
+                    return $this->isNewRecord || ($this->_item->name != $this->name);
+                }],
             [['type'], 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
             [['name'], 'string', 'max' => 64],
@@ -96,7 +101,7 @@ class AuthItem extends Model
         if (!Configs::authManager()->getRule($name)) {
             try {
                 $rule = Yii::createObject($name);
-                if ($rule instanceof \yii\rbac\Rule) {
+                if ($rule instanceof Rule) {
                     $rule->name = $name;
                     Configs::authManager()->add($rule);
                 } else {
@@ -259,14 +264,66 @@ class AuthItem extends Model
 
         $assigned = [];
         foreach ($manager->getChildren($this->_item->name) as $item) {
-            $assigned[$item->name] = $item->type == 1 ? 'role' : ($item->name[0] == '/' || $advanced && $item->name[0] == '@' ? 'route' : 'permission');
+            $assigned[$item->name] = $item->type == 1 ? 'role' : ($item->name[0] == '/' || $advanced && $item->name[0] == '@'
+                    ? 'route' : 'permission');
             unset($available[$item->name]);
         }
         unset($available[$this->name]);
+        ksort($available);
+        ksort($assigned);
         return [
             'available' => $available,
             'assigned' => $assigned,
         ];
+    }
+
+    public function getUsers()
+    {
+        $module = Yii::$app->controller->module;
+        if (!$module || !$module instanceof Module) {
+            return [];
+        }
+        $ctrl = $module->createController('assignment');
+        $result = [];
+        if ($ctrl && $ctrl[0] instanceof AssignmentController) {
+            $ctrl = $ctrl[0];
+            $class = $ctrl->userClassName;
+            $idField = $ctrl->idField;
+            $usernameField = $ctrl->usernameField;
+
+            $manager = Configs::authManager();
+            $ids = $manager->getUserIdsByRole($this->name);
+
+            $provider = new \yii\data\ArrayDataProvider([
+                'allModels' => $ids,
+                'pagination' => [
+                    'pageSize' => Configs::userRolePageSize(),
+                ]
+            ]);
+            $users = $class::find()
+                    ->select(['id' => $idField, 'username' => $usernameField])
+                    ->where([$idField => $provider->getModels()])
+                    ->asArray()->all();
+
+            $route = '/' . $ctrl->uniqueId . '/view';
+            foreach ($users as &$row) {
+                $row['link'] = Url::to([$route, 'id' => $row['id']]);
+            }
+            $result['users'] = $users;
+            $currentPage = $provider->pagination->getPage();
+            $pageCount = $provider->pagination->getPageCount();
+            if ($pageCount > 0) {
+                $result['first'] = 0;
+                $result['last'] = $pageCount - 1;
+                if ($currentPage > 0) {
+                    $result['prev'] = $currentPage - 1;
+                }
+                if ($currentPage < $pageCount - 1) {
+                    $result['next'] = $currentPage + 1;
+                }
+            }
+        }
+        return $result;
     }
 
     /**
