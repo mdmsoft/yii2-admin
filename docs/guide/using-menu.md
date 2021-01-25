@@ -118,7 +118,7 @@ Filtering Menu
 If you have `NavBar` menu items and want to filtering according user login. You can use Helper class
 ```php
 
-user mdm\admin\components\Helper;
+use mdm\admin\components\Helper;
 
 $menuItems = [
     ['label' => 'Home', 'url' => ['/site/index']],

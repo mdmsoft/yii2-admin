@@ -142,6 +142,8 @@ class Assignment extends \mdm\admin\BaseObject
             }
         }
 
+        ksort($available);
+        ksort($assigned);
         return [
             'available' => $available,
             'assigned'  => $assigned,
