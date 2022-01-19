@@ -33,7 +33,7 @@ return [
     'Data' => 'Daten',
     'Update Role' => 'Rolle aktualisieren',
     'Delete' => 'Löschen',
-    'Are you sure to delete this item?' => 'Wollen Sie dieses Eintrag wirklich löschen?',
+    'Are you sure to delete this item?' => 'Wollen Sie diesen Eintrag wirklich löschen?',
     'ID' => 'ID',
     'Parent' => 'Elternteil',
     'Parent Name' => 'Elternname',
