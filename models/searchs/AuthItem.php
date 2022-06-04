@@ -75,9 +75,11 @@ class AuthItem extends Model
         }
         $this->load($params);
         if ($this->validate()) {
+            $itemName = $this->name == null ? '': $this->name;
+            $itemDescription = $this->description == null ? '':
 
-            $search = mb_strtolower(trim($this->name));
-            $desc = mb_strtolower(trim($this->description));
+            $search = mb_strtolower(trim($itemName));
+            $desc = mb_strtolower(trim($itemDescription));
             $ruleName = $this->ruleName;
             foreach ($items as $name => $item) {
                 $f = (empty($search) || mb_strpos(mb_strtolower($item->name), $search) !== false) &&
