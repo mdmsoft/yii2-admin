@@ -30,6 +30,7 @@ class AuthItem extends Model
     public function rules()
     {
         return [
+            [['name', 'ruleName', 'description'], 'trim'],
             [['name', 'ruleName', 'description'], 'safe'],
             [['type'], 'integer'],
         ];
