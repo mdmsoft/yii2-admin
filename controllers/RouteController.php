@@ -48,7 +48,7 @@ class RouteController extends Controller
     {
         Yii::$app->getResponse()->format = 'json';
         $routes = Yii::$app->getRequest()->post('route', '');
-        $routes = preg_split('/\s*,\s*/', trim($routes), -1, PREG_SPLIT_NO_EMPTY);
+        $routes = preg_split('/\s*,\s*/', trim((string)$routes), -1, PREG_SPLIT_NO_EMPTY);
         $model = new Route();
         $model->addNew($routes);
         return $model->getRoutes();

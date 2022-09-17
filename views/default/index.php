@@ -33,7 +33,7 @@ $body = preg_replace_callback('/\]\((.*?)\)/', function($matches) use($baseDir) 
     $link = $matches[1];
     if (strpos($link, '://') === false) {
         if ($link[0] == '/') {
-            $link = Url::current(['page' => ltrim($link, '/')], true);
+            $link = Url::current(['page' => ltrim((string)$link, '/')], true);
         } else {
             $link = Url::current(['page' => $baseDir . $link], true);
         }

@@ -49,7 +49,7 @@ class BizRule extends Model
         /* @var \yii\rbac\Manager $authManager */
         $authManager = Configs::authManager();
         $models = [];
-        $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
+        $included = !($this->load($params) && $this->validate() && trim((string)$this->name) !== '');
         foreach ($authManager->getRules() as $name => $item) {
             if ($name != RouteRule::RULE_NAME && ($included || stripos($item->name, $this->name) !== false)) {
                 $models[$name] = new MBizRule($item);

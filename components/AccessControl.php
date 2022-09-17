@@ -108,7 +108,7 @@ class AccessControl extends \yii\base\ActionFilter
                 }else if(is_string($user->loginUrl)){
                     $loginUrl = $user->loginUrl;
                 }
-                if(!is_null($loginUrl) && trim($loginUrl,'/') === $uniqueId)
+                if(!is_null($loginUrl) && trim((string)$loginUrl,'/') === $uniqueId)
                 {
                     return false;
                 }
@@ -127,7 +127,7 @@ class AccessControl extends \yii\base\ActionFilter
 
         foreach ($this->allowActions as $route) {
             if (substr($route, -1) === '*') {
-                $route = rtrim($route, "*");
+                $route = rtrim(string)$route, "*");
                 if ($route === '' || strpos($id, $route) === 0) {
                     return false;
                 }
