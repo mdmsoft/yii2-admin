@@ -38,7 +38,7 @@ class Route extends \mdm\admin\BaseObject
                 $r = explode('&', $route);
                 $item = $manager->createPermission($this->getPermissionName($route));
                 if (count($r) > 1) {
-                    $action = '/' . trim($r[0], '/');
+                    $action = '/' . trim((string)$r[0], '/');
                     if (($itemAction = $manager->getPermission($action)) === null) {
                         $itemAction = $manager->createPermission($action);
                         $manager->add($itemAction);
@@ -101,9 +101,9 @@ class Route extends \mdm\admin\BaseObject
     public function getPermissionName($route)
     {
         if (self::PREFIX_BASIC == $this->routePrefix) {
-            return self::PREFIX_BASIC . trim($route, self::PREFIX_BASIC);
+            return self::PREFIX_BASIC . trim((string)$route, self::PREFIX_BASIC);
         } else {
-            return self::PREFIX_ADVANCED . ltrim(trim($route, self::PREFIX_BASIC), self::PREFIX_ADVANCED);
+            return self::PREFIX_ADVANCED . ltrim((string)trim((string)$route, self::PREFIX_BASIC), self::PREFIX_ADVANCED);
         }
     }
 
@@ -127,7 +127,7 @@ class Route extends \mdm\admin\BaseObject
             // Step through each configured application
             foreach ($advanced as $id => $configPaths) {
                 // Force correct id string.
-                $id = $this->routePrefix . ltrim(trim($id), $this->routePrefix);
+                $id = $this->routePrefix . ltrim((string)trim((string)$id), $this->routePrefix);
                 // Create empty config array.
                 $config = [];
                 // Assemble configuration for current app.
@@ -217,9 +217,9 @@ class Route extends \mdm\admin\BaseObject
                 $this->getControllerActions($type, $id, $module, $result);
             }
 
-            $namespace = trim($module->controllerNamespace, '\\') . '\\';
+            $namespace = trim((string)$module->controllerNamespace, '\\') . '\\';
             $this->getControllerFiles($module, $namespace, '', $result);
-            $all = '/' . ltrim($module->uniqueId . '/*', '/');
+            $all = '/' . ltrim((string)$module->uniqueId . '/*', '/');
             $result[$all] = $all;
         } catch (\Exception $exc) {
             Yii::error($exc->getMessage(), __METHOD__);
@@ -253,7 +253,7 @@ class Route extends \mdm\admin\BaseObject
                 } elseif (strcmp(substr($file, -14), 'Controller.php') === 0) {
                     $baseName = substr(basename($file), 0, -14);
                     $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $baseName));
-                    $id = ltrim(str_replace(' ', '-', $name), '-');
+                    $id = ltrim((string)str_replace(' ', '-', $name), '-');
                     $className = $namespace . $baseName . 'Controller';
                     if (strpos($className, '-') === false && class_exists($className) && is_subclass_of($className, 'yii\base\Controller')) {
                         $this->getControllerActions($className, $prefix . $id, $module, $result);
@@ -308,7 +308,7 @@ class Route extends \mdm\admin\BaseObject
                 $name = $method->getName();
                 if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
                     $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', substr($name, 6)));
-                    $id = $prefix . ltrim(str_replace(' ', '-', $name), '-');
+                    $id = $prefix . ltrim((string)str_replace(' ', '-', $name), '-');
                     $result[$id] = $id;
                 }
             }
