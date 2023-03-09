@@ -1,4 +1,5 @@
 $('i.glyphicon-refresh-animate').hide();
+
 function updateItems(r) {
     _opts.items.available = r.available;
     _opts.items.assigned = r.assigned;
@@ -34,9 +35,13 @@ function search(target) {
     var groups = {
         role: [$('<optgroup label="Roles">'), false],
         permission: [$('<optgroup label="Permission">'), false],
+        lost: [$('<optgroup style="color: brown" label="LostItems">'), false],
     };
     $.each(_opts.items[target], function (name, group) {
         if (name.indexOf(q) >= 0) {
+            if (!group) {
+                group = 'lost';
+            }
             $('<option>').text(name).val(name).appendTo(groups[group][0]);
             groups[group][1] = true;
         }
