@@ -191,6 +191,7 @@ class Helper
         $result = [];
         foreach ($items as $i => $item) {
             $url = ArrayHelper::getValue($item, 'url', '#');
+            $class = ArrayHelper::getValue($item, 'options.class', 'header');
             $allow = is_array($url) ? static::checkRoute($url[0], array_slice($url, 1), $user) : true;
 
             if (isset($item['items']) && is_array($item['items'])) {
@@ -201,6 +202,9 @@ class Helper
                 $item['items'] = $subItems;
             }
             if ($allow && !($url == '#' && empty($item['items']))) {
+                $result[$i] = $item;
+            }
+            if ($allow && ($class == 'header')) {
                 $result[$i] = $item;
             }
         }
