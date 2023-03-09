@@ -254,18 +254,23 @@ class AuthItem extends Model
         $advanced = Configs::instance()->advanced;
         $available = [];
         if ($this->type == Item::TYPE_ROLE) {
-            foreach (array_keys($manager->getRoles()) as $name) {
-                $available[$name] = 'role';
+            foreach ($manager->getRoles() as $item) {
+                $name = $item->name;
+                $available[$name][0] = 'role';
+                $available[$name][1] = $item->description;
             }
         }
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            $available[$name] = $name[0] == '/' || $advanced && $name[0] == '@' ? 'route' : 'permission';
+        foreach ($manager->getPermissions() as $item) {
+            $name = $item->name;
+            $available[$name][0] = $name[0] == '/' || $advanced && $name[0] == '@' ? 'route' : 'permission';
+            $available[$name][1] = $item->description;
         }
 
         $assigned = [];
         foreach ($manager->getChildren($this->_item->name) as $item) {
-            $assigned[$item->name] = $item->type == 1 ? 'role' : ($item->name[0] == '/' || $advanced && $item->name[0] == '@'
+            $assigned[$item->name][0] = $item->type == 1 ? 'role' : ($item->name[0] == '/' || $advanced && $item->name[0] == '@'
                     ? 'route' : 'permission');
+            $assigned[$item->name][1] = $item->description;
             unset($available[$item->name]);
         }
         unset($available[$this->name]);

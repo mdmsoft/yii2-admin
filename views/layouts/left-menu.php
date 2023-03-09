@@ -4,10 +4,13 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/* @var $controller \yii\web\Controller string */
+
 
 $controller = $this->context;
 $menus = $controller->module->menus;
 $route = $controller->route;
+$user = Yii::$app->getUser();
 foreach ($menus as $i => $menu) {
     $menus[$i]['active'] = strpos($route, trim((string)$menu['url'][0], '/')) === 0;
 }
@@ -19,12 +22,15 @@ $this->params['nav-items'] = $menus;
         <div id="manager-menu" class="list-group">
             <?php
             foreach ($menus as $menu) {
-                $label = Html::tag('i', '', ['class' => 'glyphicon glyphicon-chevron-right pull-right']) .
-                    Html::tag('span', Html::encode($menu['label']), []);
-                $active = $menu['active'] ? ' active' : '';
-                echo Html::a($label, $menu['url'], [
-                    'class' => 'list-group-item' . $active,
-                ]);
+                $r = \mdm\admin\components\Helper::checkRoute($menu['url'][0]);
+                if($r) {
+                    $label = Html::tag('i', '', ['class' => 'glyphicon glyphicon-chevron-right pull-right']) .
+                        Html::tag('span', Html::encode($menu['label']), []);
+                    $active = $menu['active'] ? ' active' : '';
+                    echo Html::a($label, $menu['url'], [
+                        'class' => 'list-group-item' . $active,
+                    ]);
+                }
             }
             ?>
         </div>

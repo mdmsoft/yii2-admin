@@ -252,7 +252,8 @@ class UserController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        $class = Yii::$app->getUser()->identityClass ? : mdm\admin\models\User::class;
+        if (($model = $class::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

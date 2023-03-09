@@ -42,12 +42,22 @@ class Assignment extends \mdm\admin\BaseObject
     {
         $manager = Configs::authManager();
         $success = 0;
+
+        $current_user_id = Yii::$app->getUser()->getId();
+
         foreach ($items as $name) {
             try {
-                $item = $manager->getRole($name);
-                $item = $item ?: $manager->getPermission($name);
-                $manager->assign($item, $this->id);
-                $success++;
+                $verify_result = $manager->checkAccess($current_user_id, $name);
+
+                Yii::debug("verify role|permission: $name, result: "
+                    . ($verify_result ? "Y" : "N"));
+
+                if ($verify_result) {
+                    $item = $manager->getRole($name);
+                    $item = $item ?: $manager->getPermission($name);
+                    $manager->assign($item, $this->id);
+                    $success++;
+                }
             } catch (\Exception $exc) {
                 Yii::error($exc->getMessage(), __METHOD__);
             }
@@ -63,14 +73,22 @@ class Assignment extends \mdm\admin\BaseObject
      */
     public function revoke($items)
     {
+        $current_user_id = Yii::$app->getUser()->getId();
         $manager = Configs::authManager();
         $success = 0;
         foreach ($items as $name) {
             try {
-                $item = $manager->getRole($name);
-                $item = $item ?: $manager->getPermission($name);
-                $manager->revoke($item, $this->id);
-                $success++;
+                $verify_result = $manager->checkAccess($current_user_id, $name);
+
+                Yii::debug("verify role|permission: $name, result: "
+                    . ($verify_result ? "Y" : "N"));
+
+                if ($verify_result) {
+                    $item = $manager->getRole($name);
+                    $item = $item ?: $manager->getPermission($name);
+                    $manager->revoke($item, $this->id);
+                    $success++;
+                }
             } catch (\Exception $exc) {
                 Yii::error($exc->getMessage(), __METHOD__);
             }
@@ -85,29 +103,50 @@ class Assignment extends \mdm\admin\BaseObject
      */
     public function getItems()
     {
+        $current_user_id = Yii::$app->getUser()->getId();
         $manager = Configs::authManager();
         $available = [];
-        foreach (array_keys($manager->getRoles()) as $name) {
-            $available[$name] = 'role';
+
+        $roles = $manager->getRolesByUser($current_user_id);
+
+        foreach ($roles as $role) {
+            $name = $role->name;
+            $available[$name][0] = 'role';
+            $available[$name][1] = $role->description;
+
+            $child_roles = $manager->getChildRoles($name);
+            foreach ($child_roles as $childRole)
+            {
+                $name = $childRole->name;
+                $available[$name][0] = 'role';
+                $available[$name][1] = $childRole->description;
+            }
         }
 
-        foreach (array_keys($manager->getPermissions()) as $name) {
+
+        $permissions = $manager->getPermissionsByUser($current_user_id);
+
+        foreach ($permissions as $permission) {
+            $name = $permission->name;
             if ($name[0] != '/') {
-                $available[$name] = 'permission';
+                $available[$name][0] = 'permission';
+                $available[$name][1] = $permission->description;
             }
         }
 
         $assigned = [];
         foreach ($manager->getAssignments($this->id) as $item) {
-            $assigned[$item->roleName] = $available[$item->roleName];
-            unset($available[$item->roleName]);
+            if(isset($available[$item->roleName])) {
+                $assigned[$item->roleName] = $available[$item->roleName];
+                unset($available[$item->roleName]);
+            }
         }
 
         ksort($available);
         ksort($assigned);
         return [
             'available' => $available,
-            'assigned' => $assigned,
+            'assigned'  => $assigned,
         ];
     }
 

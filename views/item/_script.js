@@ -45,18 +45,28 @@ $('.search[data-target]').keyup(function () {
 
 function search(target) {
     var $list = $('select.list[data-target="' + target + '"]');
+
     $list.html('');
     var q = $('.search[data-target="' + target + '"]').val();
 
     var groups = {
-        role: [$('<optgroup label="Roles">'), false],
-        permission: [$('<optgroup label="Permission">'), false],
-        route: [$('<optgroup label="Routes">'), false],
+        role: [$('<optgroup label="' + _labels['Roles'] + '">'), false],
+        permission: [$('<optgroup label="' + _labels['Permissions'] + '">'), false],
+        route: [$('<optgroup label="' + _labels['Routes'] + '">'), false],
     };
+
     $.each(_opts.items[target], function (name, group) {
         if (name.indexOf(q) >= 0) {
-            $('<option>').text(name).val(name).appendTo(groups[group][0]);
-            groups[group][1] = true;
+
+            var text;
+            if(group[1] == null)
+            {
+                text = name;
+            }else {
+                text = group[1] + " ( " + name + ")";
+            }
+            $('<option>').text( text ).val(name).appendTo(groups[group[0]][0]);
+            groups[group[0]][1] = true;
         }
     });
     $.each(groups, function () {
