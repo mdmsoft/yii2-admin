@@ -76,7 +76,7 @@ class MenuHelper
             $routes = $filter1 = $filter2 = [];
             if ($userId !== null) {
                 foreach ($manager->getPermissionsByUser($userId) as $name => $value) {
-                    if ($name[0] === '/') {
+		    if ($name[0] === Route::PREFIX_BASIC || $name[0] == Route::PREFIX_ADVANCED) {
                         if (substr($name, -2) === '/*') {
                             $name = substr($name, 0, -1);
                         }
@@ -86,7 +86,7 @@ class MenuHelper
             }
             foreach ($manager->defaultRoles as $role) {
                 foreach ($manager->getPermissionsByRole($role) as $name => $value) {
-                    if ($name[0] === '/') {
+		    if ($name[0] === Route::PREFIX_BASIC || $name[0] == Route::PREFIX_ADVANCED) {
                         if (substr($name, -2) === '/*') {
                             $name = substr($name, 0, -1);
                         }
