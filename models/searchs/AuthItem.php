@@ -18,9 +18,9 @@ class AuthItem extends Model
 {
     const TYPE_ROUTE = 101;
 
-    public $name;
+    public $name = '';
     public $type;
-    public $description;
+    public $description = '';
     public $ruleName;
     public $data;
 
