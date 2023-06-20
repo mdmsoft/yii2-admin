@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin;
+namespace reza2ebt\admin;
 
 use Yii;
 use yii\helpers\Inflector;

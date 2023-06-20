@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\components;
+namespace reza2ebt\admin\components;
 
 use Yii;
 use yii\caching\Cache;

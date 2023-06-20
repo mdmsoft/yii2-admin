@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\models\searchs;
+namespace reza2ebt\admin\models\searchs;
 
 use Yii;
 use yii\base\Model;
@@ -18,9 +18,9 @@ class AuthItem extends Model
 {
     const TYPE_ROUTE = 101;
 
-    public $name;
+    public $name = '';
     public $type;
-    public $description;
+    public $description = '';
     public $ruleName;
     public $data;
 
@@ -76,8 +76,15 @@ class AuthItem extends Model
         $this->load($params);
         if ($this->validate()) {
 
-            $search = mb_strtolower(trim((string)$this->name));
-            $desc = mb_strtolower(trim((string)$this->description));
+            $search = $desc = null;
+
+            if (null !== $this->name && trim($this->name) != '') {
+                $search = mb_strtolower(trim($this->name));
+            }
+            if (null !== $this->description && trim($this->description) != '') {
+                $desc = mb_strtolower(trim($this->description));
+            }
+
             $ruleName = $this->ruleName;
             foreach ($items as $name => $item) {
                 $f = (empty($search) || mb_strpos(mb_strtolower($item->name), $search) !== false) &&
