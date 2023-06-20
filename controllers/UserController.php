@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\controllers;
+namespace reza2ebt\admin\controllers;
 
 use mdm\admin\components\UserStatus;
 use mdm\admin\models\form\ChangePassword;

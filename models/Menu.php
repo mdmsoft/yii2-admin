@@ -1,6 +1,6 @@
 <?php
 
-namespace mdm\admin\models;
+namespace reza2ebt\admin\models;
 
 use Yii;
 use mdm\admin\components\Configs;
