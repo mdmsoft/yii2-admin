@@ -6,7 +6,7 @@ use Yii;
 use yii\db\Connection;
 use yii\caching\Cache;
 use yii\helpers\ArrayHelper;
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * Configs
@@ -34,7 +34,7 @@ use yii\base\Object;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class Configs extends Object
+class Configs extends BaseObject
 {
     /**
      * @var array
